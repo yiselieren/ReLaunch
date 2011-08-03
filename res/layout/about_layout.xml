@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="ReLaunch" android:layout_height="wrap_content" android:id="@+id/textView1" android:gravity="center" android:layout_width="fill_parent"></TextView>
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:gravity="center_vertical" android:editable="false" android:focusable="false" android:id="@+id/about_txt">
+        <requestFocus></requestFocus>
+    </EditText>
+    <Button android:text="OK" android:gravity="center_horizontal" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/about_ok"></Button>
+    
+</LinearLayout>
