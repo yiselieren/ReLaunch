@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class ReLaunch extends Activity {
 	Stack<Integer>                positions = new Stack<Integer>();
     SimpleAdapter                 adapter;
     PackageManager                pm;
+    HashMap<String, Drawable>     icons = new HashMap<String, Drawable>();
     
     class FLSimpleAdapter extends SimpleAdapter {
     	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
@@ -64,10 +66,19 @@ public class ReLaunch extends Activity {
             	{
             		if (item.get("type").equals("dir"))
             			iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
-            		else if (item.get("lauchable").equals("yes"))
-            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
             		else
-            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            		{
+            			String rdrName = item.get("reader");
+            			if (rdrName.equals("Nope"))
+            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            			else
+            			{
+            				if (icons.containsKey(rdrName))
+            					iv.setImageDrawable(icons.get(rdrName));
+            				else
+            					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+            			}
+            		}
             	}
             }
             return v;
@@ -107,33 +118,17 @@ public class ReLaunch extends Activity {
     	}
     }
 
-    public String isLauchable(String file)
+    public String readerName(String file)
     {
     	for (HashMap<String, String> r : readers)
     	{
     		for (String key : r.keySet())
     		{
     			if (file.endsWith(key))
-    				return "yes";
+    				return r.get(key);
     		} 		
     	}
-    	return "no";
-    }
-
-    private void launchReader(String file)
-    {
-    	for (HashMap<String, String> r : readers)
-    	{
-    		for (String key : r.keySet())
-    		{
-    			if (file.endsWith(key))
-    			{
-    				launchReader(r.get(key), file);
-    				return;
-    			}
-    		} 		
-    	}
-    	Toast.makeText(this, "File \"" + file + "\" - reader not found!", Toast.LENGTH_SHORT).show();
+    	return "Nope";
     }
 
     private void drawDirectory(String root, Integer startPosition)
@@ -171,7 +166,7 @@ public class ReLaunch extends Activity {
     		else
     			item.put("fname", dir.getAbsolutePath() + "/" + f);
     		item.put("type", "dir");
-    		item.put("lauchable", "no");
+    		item.put("reader", "Nope");
     		itemsArray.add(item);
     	}
     	for (String f : files)
@@ -181,7 +176,7 @@ public class ReLaunch extends Activity {
     		item.put("dname", dir.getAbsolutePath());
     		item.put("fname", dir.getAbsolutePath() + "/" + f);
     		item.put("type", "file");
-    		item.put("lauchable", isLauchable(f));
+    		item.put("reader", readerName(f));
     		itemsArray.add(item);
     	}
     	
@@ -196,13 +191,7 @@ public class ReLaunch extends Activity {
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 
-             	HashMap<String, String> item = itemsArray.get(position);
-           
-             	//// DEBUG
-            	//Log.d(TAG, "name      :" + item.get("name") + ":");
-            	//Log.d(TAG, "fname     :" + item.get("fname") + ":");      
-            	//Log.d(TAG, "type      :" + item.get("type") + ":");         
-            	//Log.d(TAG, "lauchable :" + item.get("lauchable") + ":");
+             	HashMap<String, String> item = itemsArray.get(position);      
                 
             	if (item.get("name").equals(".."))
             	{
@@ -223,10 +212,11 @@ public class ReLaunch extends Activity {
         			positions.push(position);
             		drawDirectory(item.get("fname"), -1);
             	}
-            	else if (item.get("lauchable").equals("yes"))
+            	else if (!item.get("reader").equals("Nope"))
             	{
             		// Launch reader
-        			launchReader(item.get("fname"));
+        			//launchReader(item.get("fname"));
+            		launchReader(item.get("reader"), item.get("fname"));
             	}
             }});
     }
@@ -242,9 +232,23 @@ public class ReLaunch extends Activity {
         readers = new ArrayList<HashMap<String,String>>();
         HashMap<String, String> r = new HashMap<String, String>();
         r.put(".fb2.zip", "Nomad Reader");
+        r.put(".fb2", "Nomad Reader");
+        r.put(".zip", "Nomad Reader");
         r.put(".epub", "Nomad Reader");
         readers.add(r);
 
+        // Create application icons map
+        for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
+        {
+        	Drawable d = null;
+    		try {
+    			d = pm.getApplicationIcon(packageInfo.packageName);
+    		} catch(PackageManager.NameNotFoundException e) { }
+        
+    		if (d != null)
+    			icons.put((String)pm.getApplicationLabel(packageInfo), d);
+        }
+        
         // Create applications label list
         for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
         {
