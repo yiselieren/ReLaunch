@@ -1,10 +1,10 @@
 Nook Touch reader launcher
 
-It looks like very simple Android filemanager which performs only one action -
-it starts predefined application with this file passed vis setData().
+It looks like very simple Android filemanager which is able to performs only one
+action - it starts predefined application with selected file passed vis setData().
 
 It may be usable for Nook Touch when the predefined application is reader (like
 FBReader, NomadReader, etc.).
 
-I build it in debug mode using eclipse. Do not forget to copy debug.keystore
-to ~/.android in order to be compatible with old version
+Note 1: I build it in debug mode using eclipse. Do not forget to copy
+debug.keystore to ~/.android in order to be compatible with old version
