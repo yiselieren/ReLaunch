@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <ListView android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/types_lv"></ListView>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_weight="0.02" android:baselineAligned="false">
+        <Button android:id="@+id/types_ok" android:layout_gravity="center" android:text="OK" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
+        <Button android:layout_weight="1" android:id="@+id/types_new" android:layout_gravity="center" android:layout_height="wrap_content" android:text="Add new" android:layout_width="0dp"></Button>
+        <Button android:layout_weight="1" android:layout_height="wrap_content" android:text="Cancel" android:layout_width="0dp" android:id="@+id/types_cancel" android:layout_gravity="center"></Button>
+    </LinearLayout>
+</LinearLayout>

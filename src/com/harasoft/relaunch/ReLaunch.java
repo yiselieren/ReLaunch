@@ -33,6 +33,10 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ReLaunch extends Activity {
 	
 	final String                  TAG = "ReLaunch";
+	final String                  defReaders = ".fb2,.fb2.zip,.zip,.epub:Nomad Reader|.fb2:FBReader";
+	final int                     TYPES_ACT = 1;
+	String                        currentRoot = "/sdcard";
+	Integer                       currentPosition = -1;
 	List<String>                  apps = new ArrayList<String>();
     List<HashMap<String, String>> readers;
 	List<HashMap<String, String>> itemsArray;
@@ -84,6 +88,45 @@ public class ReLaunch extends Activity {
             return v;
     	}
     }
+
+    public static List<HashMap<String, String>> parseReadersString(String readerList)
+    {
+    	List<HashMap<String, String>> rc = new ArrayList<HashMap<String,String>>();
+        String[] rdrs = readerList.split("\\|");
+        for (int i=0; i<rdrs.length; i++)
+        {
+        	String[] re = rdrs[i].split(":");
+        	if (re.length != 2)
+        		continue;
+        	String rName = re[1];
+    		String[] exts = re[0].split(",");
+           	for (int j=0; j<exts.length; j++)
+        	{
+           		String ext = exts[j];
+        		HashMap<String, String> r = new HashMap<String, String>();
+        		r.put(ext, rName);
+        		rc.add(r);
+        	}
+        }
+        return rc;
+    }
+    
+    public static String createReadersString(List<HashMap<String, String>> rdrs)
+    {
+    	String rc = new String();
+    	
+       	for (HashMap<String, String> r : rdrs)
+    	{
+    		for (String key : r.keySet())
+    		{
+    			if (!rc.equals(""))
+    				rc += "|";
+    			rc += key + ":" + r.get(key);
+    		} 		
+    	}
+       	return rc;
+    }
+
 
     private Intent getIntentByLabel(String label)
     {
@@ -138,6 +181,9 @@ public class ReLaunch extends Activity {
     	List<String> files = new ArrayList<String>();
     	List<String> dirs = new ArrayList<String>();
 
+    	currentRoot = root;
+    	currentPosition = startPosition;
+    	
     	TextView  tv = (TextView)findViewById(R.id.title_txt);
     	tv.setText(dir.getAbsolutePath());
 
@@ -229,13 +275,8 @@ public class ReLaunch extends Activity {
         pm = getPackageManager();
 
         // Readers list
-        readers = new ArrayList<HashMap<String,String>>();
-        HashMap<String, String> r = new HashMap<String, String>();
-        r.put(".fb2.zip", "Nomad Reader");
-        r.put(".fb2", "Nomad Reader");
-        r.put(".zip", "Nomad Reader");
-        r.put(".epub", "Nomad Reader");
-        readers.add(r);
+        readers = parseReadersString(defReaders);
+        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
 
         // Create application icons map
         for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
@@ -276,12 +317,34 @@ public class ReLaunch extends Activity {
 			case R.id.setting:
             	Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
 				return true;
+			case R.id.mime_types:
+				Intent intent1 = new Intent(ReLaunch.this, TypesActivity.class);
+				intent1.putExtra("types", createReadersString(readers));
+		        startActivityForResult(intent1, TYPES_ACT);
+		        return true;
 			case R.id.about:
-				Intent intent = new Intent(ReLaunch.this, AboutActivity.class);
-		        startActivity(intent);
+				Intent intent2 = new Intent(ReLaunch.this, AboutActivity.class);
+		        startActivity(intent2);
 				return true;
 			default:
 				return true;
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (data == null  ||  data.getExtras() == null)
+			return;
+		if (resultCode != Activity.RESULT_OK)
+			return;
+		switch (requestCode)
+		{
+			case TYPES_ACT:
+				readers = parseReadersString(data.getExtras().getString("types"));
+				drawDirectory(currentRoot, currentPosition);
+				break;
+			default:
+				return;
 		}
 	}
 }

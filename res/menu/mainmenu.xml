@@ -3,6 +3,8 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/setting" android:title="Settings">
     </item>
+    <item android:id="@+id/mime_types" android:title="Mime Types">
+    </item>
     <item android:id="@+id/about" android:title="About">
     </item>
 </menu>

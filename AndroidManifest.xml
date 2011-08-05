@@ -13,7 +13,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-                <activity android:name="AboutActivity">
+        <activity android:name="AboutActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+        <activity android:name="TypesActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
