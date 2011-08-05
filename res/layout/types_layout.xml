@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="fill_parent"
 	android:layout_width="fill_parent" 
+	android:id="@+id/linearLayout1"
+    android:orientation="vertical">
+<TableLayout
+	android:layout_width="fill_parent" 
 	android:id="@+id/tableLayout1" 
-	android:stretchColumns="1" android:paddingBottom="10dp" android:paddingTop="10dp">
+	android:stretchColumns="1" android:paddingTop="10dp" android:paddingRight="10dp"
+	android:layout_weight="1" android:layout_height="wrap_content" android:paddingBottom="0dp">
     <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tableRow1">
         <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/textView1" android:text="File suffix:" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
         <EditText android:id="@+id/types_ext" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
@@ -15,12 +20,10 @@
             <ImageView android:layout_width="wrap_content" android:id="@+id/types_img" android:layout_height="wrap_content" android:src="@drawable/icon" android:layout_weight="0.2"></ImageView>
         </LinearLayout>
     </TableRow>
-    <TableRow android:layout_gravity="left" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tableRow3">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/textView3" android:background="#000000" android:textColor="#000000" android:text="Controls:" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center"></TextView>
-        <LinearLayout android:id="@+id/linearLayout2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="left">
-            <ImageButton android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:src="@android:drawable/arrow_up_float" android:id="@+id/types_up" android:layout_gravity="center"></ImageButton>
-            <ImageButton android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:src="@android:drawable/arrow_down_float" android:id="@+id/types_down" android:layout_gravity="center"></ImageButton>
-            <ImageButton android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:src="@android:drawable/ic_delete" android:id="@+id/types_delete" android:layout_gravity="center"></ImageButton>
-        </LinearLayout>
-    </TableRow>
 </TableLayout>
+<LinearLayout android:id="@+id/linearLayout2" android:layout_gravity="center_vertical" android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1" android:paddingBottom="10dp">
+    <ImageButton android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/arrow_up_float" android:id="@+id/types_up"></ImageButton>
+    <ImageButton android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/arrow_down_float" android:id="@+id/types_down"></ImageButton>
+    <ImageButton android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/ic_delete" android:id="@+id/types_delete"></ImageButton>
+</LinearLayout>
+</LinearLayout>
