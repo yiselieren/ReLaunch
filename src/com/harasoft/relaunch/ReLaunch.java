@@ -32,18 +32,17 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ReLaunch extends Activity {
 	
-	final String                  TAG = "ReLaunch";
+	final String                 TAG = "ReLaunch";
 	final String                  defReaders = ".fb2,.fb2.zip,.zip,.epub:Nomad Reader|.fb2:FBReader";
 	final int                     TYPES_ACT = 1;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
-	List<String>                  apps = new ArrayList<String>();
+	List<String>                  apps;
     List<HashMap<String, String>> readers;
 	List<HashMap<String, String>> itemsArray;
 	Stack<Integer>                positions = new Stack<Integer>();
     SimpleAdapter                 adapter;
-    PackageManager                pm;
-    HashMap<String, Drawable>     icons = new HashMap<String, Drawable>();
+    HashMap<String, Drawable>     icons;
     
     class FLSimpleAdapter extends SimpleAdapter {
     	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
@@ -130,6 +129,8 @@ public class ReLaunch extends Activity {
 
     private Intent getIntentByLabel(String label)
     {
+        PackageManager pm = getPackageManager();;
+
         for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
         {
         	if (label.equals(pm.getApplicationLabel(packageInfo)))
@@ -267,18 +268,10 @@ public class ReLaunch extends Activity {
             }});
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    public static HashMap<String, Drawable> createIconsList(PackageManager pm)
+    {
+        HashMap<String, Drawable> rc = new HashMap<String, Drawable>();
         
-        pm = getPackageManager();
-
-        // Readers list
-        readers = parseReadersString(defReaders);
-        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
-
-        // Create application icons map
         for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
         {
         	Drawable d = null;
@@ -287,19 +280,43 @@ public class ReLaunch extends Activity {
     		} catch(PackageManager.NameNotFoundException e) { }
         
     		if (d != null)
-    			icons.put((String)pm.getApplicationLabel(packageInfo), d);
+    			rc.put((String)pm.getApplicationLabel(packageInfo), d);
         }
-        
-        // Create applications label list
+        return rc;
+    }
+    
+    public static List<String> createAppList(PackageManager pm)
+    {
+    	List<String> rc = new ArrayList<String>();
+    	
         for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
         {
         	Intent aIntent = pm.getLaunchIntentForPackage(packageInfo.packageName);
         	String aLabel = (String)pm.getApplicationLabel(packageInfo);
         	if (aIntent != null  &&  aLabel != null)
         		//appSet.add(aLabel);
-        		apps.add(aLabel);
+        		rc.add(aLabel);
         }
-        Collections.sort(apps);
+        Collections.sort(rc);
+        return rc;
+    }
+ 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        
+        // Readers list
+        readers = parseReadersString(defReaders);
+        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
+
+        // Create application icons map
+        icons = createIconsList(getPackageManager());
+        
+        // Create applications label list
+        apps = createAppList(getPackageManager());
+        
+        // First directory to get to
         drawDirectory("/sdcard", -1);
     }
     
