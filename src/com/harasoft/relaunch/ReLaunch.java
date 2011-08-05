@@ -32,8 +32,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ReLaunch extends Activity {
 	
-	final String                 TAG = "ReLaunch";
-	final String                  defReaders = ".fb2,.fb2.zip,.zip,.epub:Nomad Reader|.fb2:FBReader";
+	final String                  TAG = "ReLaunch";
+	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
+	final static public String    defReader = "Nomad Reader";
 	final int                     TYPES_ACT = 1;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;

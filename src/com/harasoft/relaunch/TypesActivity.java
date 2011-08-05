@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -25,7 +26,7 @@ public class TypesActivity extends Activity {
     HashMap<String, Drawable>     icons;
     PackageManager                pm;
     List<HashMap<String, String>> readers;
-	ArrayList<HashMap<String,String>> itemsArray;
+	List<HashMap<String,String>>  itemsArray;
     TPSimpleAdapter               adapter;
 
     class TPSimpleAdapter extends SimpleAdapter {
@@ -35,7 +36,7 @@ public class TypesActivity extends Activity {
     	}
 
     	@Override
-    	public View getView(int position, View convertView, ViewGroup parent) {
+    	public View getView(final int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,10 +46,51 @@ public class TypesActivity extends Activity {
             if (item != null)
             {
             	ImageView iv = (ImageView) v.findViewById(R.id.types_img);
-            	Button    appBtn = (Button) v.findViewById(R.id.types_btn);
+            	
+            	// Setting up button
+            	ImageButton upBtn = (ImageButton) v.findViewById(R.id.types_up);
+            	upBtn.setEnabled(position != 0);
+            	upBtn.setOnClickListener(new View.OnClickListener() {
+            		public void onClick(View v)
+            		{
+            			HashMap<String,String> i = itemsArray.get(position);
+            			itemsArray.remove(position);
+            			itemsArray.add(position-1, i);
+            			adapter.notifyDataSetChanged();
+					}
+				});
+            	
+            	// Setting down button
+            	ImageButton downBtn = (ImageButton) v.findViewById(R.id.types_down);
+            	downBtn.setEnabled(position != (itemsArray.size()-1));
+            	downBtn.setOnClickListener(new View.OnClickListener() {
+            		public void onClick(View v)
+            		{
+            			HashMap<String,String> i = itemsArray.get(position);
+            			itemsArray.remove(position);
+            			itemsArray.add(position+1, i);
+            			adapter.notifyDataSetChanged();
+					}
+				});
+            	
+            	// Setting remove button
+            	ImageButton rmBtn = (ImageButton) v.findViewById(R.id.types_delete);
+            	rmBtn.setEnabled(itemsArray.size() > 1);
+            	rmBtn.setOnClickListener(new View.OnClickListener() {
+            		public void onClick(View v)
+            		{
+            			itemsArray.remove(position);
+            			adapter.notifyDataSetChanged();
+					}
+				});
+
+            	// Setting extension
             	EditText  editExt = (EditText)v.findViewById(R.id.types_ext);
-            	String    appName = item.get("rdr");
             	editExt.setText(item.get("ext"));
+            	
+            	// Setting application select button
+            	Button    appBtn = (Button) v.findViewById(R.id.types_btn);
+            	String    appName = item.get("rdr");
             	appBtn.setText(appName);
             	if(icons.containsKey(appName))
         			iv.setImageDrawable(icons.get(appName));
@@ -76,7 +118,7 @@ public class TypesActivity extends Activity {
         }
         readers = ReLaunch.parseReadersString(data.getExtras().getString("types"));
         
-        // Preliminary fill listview
+        // Fill listview with our info
     	String[] from = new String[] { "ext" };
     	int[]    to   = new int[] { R.id.types_ext };
     	ListView lv = (ListView) findViewById(R.id.types_lv);
@@ -95,5 +137,46 @@ public class TypesActivity extends Activity {
     	}
     	adapter = new TPSimpleAdapter(this, itemsArray, R.layout.types_layout, from, to);
         lv.setAdapter(adapter);
+        
+        // OK/Save button
+        Button    okBtn = (Button) findViewById(R.id.types_ok);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v)
+    		{
+    			readers.clear();
+    	    	for (HashMap<String, String> r : itemsArray)
+    	    	{
+    	    		HashMap<String, String> a = new HashMap<String, String>();
+    	    		a.put(r.get("ext"), r.get("rdr"));
+    	    		readers.add(a);
+    	    	}
+    			data.putExtra("types", ReLaunch.createReadersString(readers));
+              	setResult(Activity.RESULT_OK, data);
+            	finish();
+   			}
+		});
+        
+        // Add new button
+        Button    addBtn = (Button) findViewById(R.id.types_new);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v)
+    		{
+    			HashMap<String,String> i = new HashMap<String,String>();
+    			i.put("ext", ".");
+    			i.put("rdr", ReLaunch.defReader);
+    			itemsArray.add(i);
+    			adapter.notifyDataSetChanged();
+			}
+		});
+        
+        // Cancel button
+        Button    cancelBtn = (Button) findViewById(R.id.types_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v)
+    		{
+            	setResult(Activity.RESULT_CANCELED);
+            	finish();
+			}
+		});
 	}
 }
