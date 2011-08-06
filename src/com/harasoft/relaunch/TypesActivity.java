@@ -93,6 +93,10 @@ public class TypesActivity extends Activity {
 					}
 				});
 
+            	// Setting extension title
+            	TextView ext_title = (TextView) v.findViewById(R.id.types_ext_title);
+            	ext_title.setText("Suffix (" + (position+1) + "/" + (itemsArray.size()) + ")");
+
             	// Setting extension
             	Button  extName = (Button)v.findViewById(R.id.types_ext);
             	extName.setText(item.get("ext"));
