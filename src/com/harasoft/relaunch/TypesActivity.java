@@ -58,7 +58,16 @@ public class TypesActivity extends Activity {
             	
             	// Setting up button
             	ImageButton upBtn = (ImageButton) v.findViewById(R.id.types_up);
-            	upBtn.setEnabled(position != 0);
+            	if (position == 0)
+            	{
+            		upBtn.setImageDrawable(getResources().getDrawable(android.R.drawable.checkbox_off_background));
+            		upBtn.setEnabled(false);
+            	}
+            	else
+            	{
+            		upBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
+            		upBtn.setEnabled(true);
+            	}
             	upBtn.setOnClickListener(new View.OnClickListener() {
             		public void onClick(View v)
             		{
@@ -71,7 +80,17 @@ public class TypesActivity extends Activity {
             	
             	// Setting down button
             	ImageButton downBtn = (ImageButton) v.findViewById(R.id.types_down);
-            	downBtn.setEnabled(position != (itemsArray.size()-1));
+            	if (position == (itemsArray.size()-1))
+            	{
+            		downBtn.setImageDrawable(getResources().getDrawable(android.R.drawable.checkbox_off_background));
+            		downBtn.setEnabled(false);
+            	}
+            	else
+            	{
+            		downBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
+            		downBtn.setEnabled(true);
+            	}
+
             	downBtn.setOnClickListener(new View.OnClickListener() {
             		public void onClick(View v)
             		{
