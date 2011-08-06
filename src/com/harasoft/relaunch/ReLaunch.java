@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Stack;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -45,6 +49,7 @@ public class ReLaunch extends Activity {
 	Stack<Integer>                positions = new Stack<Integer>();
     SimpleAdapter                 adapter;
     HashMap<String, Drawable>     icons;
+    SharedPreferences             prefs;
     
     class FLSimpleAdapter extends SimpleAdapter {
     	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
@@ -308,8 +313,13 @@ public class ReLaunch extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        // Preferences
+        prefs = getPreferences(MODE_PRIVATE);
+        String typesString = prefs.getString("types", defReaders);
+        Log.d(TAG, "Types string: \"" + typesString + "\"");
+
         // Readers list
-        readers = parseReadersString(defReaders);
+        readers = parseReadersString(typesString);
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
 
         // Create application icons map
@@ -342,8 +352,17 @@ public class ReLaunch extends Activity {
 		        startActivityForResult(intent1, TYPES_ACT);
 		        return true;
 			case R.id.about:
-				Intent intent2 = new Intent(ReLaunch.this, AboutActivity.class);
-		        startActivity(intent2);
+				//Intent intent2 = new Intent(ReLaunch.this, AboutActivity.class);
+		        //startActivity(intent2);
+				String vers = getResources().getString(R.string.app_version);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("ReLaunch");
+				builder.setMessage("Reader launcher\nVersion: " + vers);
+				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.dismiss();
+					}});
+				builder.show();
 				return true;
 			default:
 				return true;
@@ -359,7 +378,14 @@ public class ReLaunch extends Activity {
 		switch (requestCode)
 		{
 			case TYPES_ACT:
-				readers = parseReadersString(data.getExtras().getString("types"));
+				String newTypes = data.getExtras().getString("types");
+		        Log.d(TAG, "New types string: \"" + newTypes + "\"");
+
+		        SharedPreferences.Editor editor = prefs.edit();
+		        editor.putString("types", newTypes);
+		        editor.commit();
+
+				readers = parseReadersString(newTypes);
 				drawDirectory(currentRoot, currentPosition);
 				break;
 			default:
