@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,7 @@ public class ReLaunch extends Activity {
     SimpleAdapter                 adapter;
     HashMap<String, Drawable>     icons;
     SharedPreferences             prefs;
+    boolean                       askIfAmbiguous = false;
     
     class FLSimpleAdapter extends SimpleAdapter {
     	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
@@ -182,6 +184,20 @@ public class ReLaunch extends Activity {
     	return "Nope";
     }
 
+    public List<String> readerNames(String file)
+    {
+    	List<String> rc = new ArrayList<String>();
+    	for (HashMap<String, String> r : readers)
+    	{
+    		for (String key : r.keySet())
+    		{
+    			if (file.endsWith(key))
+    				rc.add(r.get(key));
+    		} 		
+    	}
+    	return rc;
+    }
+
     private void drawDirectory(String root, Integer startPosition)
     {
     	File         dir = new File(root);
@@ -191,6 +207,9 @@ public class ReLaunch extends Activity {
 
     	currentRoot = root;
     	currentPosition = startPosition;
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("lastdir", currentRoot);
+        editor.commit();
     	
     	TextView  tv = (TextView)findViewById(R.id.title_txt);
     	tv.setText(dir.getAbsolutePath());
@@ -270,7 +289,32 @@ public class ReLaunch extends Activity {
             	{
             		// Launch reader
         			//launchReader(item.get("fname"));
-            		launchReader(item.get("reader"), item.get("fname"));
+            		if (askIfAmbiguous)
+            		{
+            			List<String> rdrs = readerNames(item.get("fname"));
+            			if (rdrs.size() < 1)
+            				return;
+            			else if (rdrs.size() == 1)
+            				launchReader(rdrs.get(0), item.get("fname"));
+            			else
+            			{
+            			   	final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
+            			   	final String rdr1 = item.get("fname");
+    						AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+    						builder.setTitle("Select application");
+    						builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+    						    public void onClick(DialogInterface dialog, int i) {
+    						    	launchReader((String)applications[i], rdr1);
+    		            			dialog.dismiss();
+    						    }
+    						});
+    						AlertDialog alert = builder.create();
+    						alert.show();
+
+            			}
+            		}
+            		else
+            			launchReader(item.get("reader"), item.get("fname"));
             	}
             }});
     }
@@ -312,15 +356,6 @@ public class ReLaunch extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        // Preferences
-        prefs = getPreferences(MODE_PRIVATE);
-        String typesString = prefs.getString("types", defReaders);
-        Log.d(TAG, "Types string: \"" + typesString + "\"");
-
-        // Readers list
-        readers = parseReadersString(typesString);
-        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
 
         // Create application icons map
         icons = createIconsList(getPackageManager());
@@ -328,11 +363,39 @@ public class ReLaunch extends Activity {
         // Create applications label list
         apps = createAppList(getPackageManager());
         
+		// Preferences
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String typesString = prefs.getString("types", defReaders);
+        Log.d(TAG, "Types string: \"" + typesString + "\"");
+
+        // Readers list
+        readers = parseReadersString(typesString);
+        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
+
         // First directory to get to
-        drawDirectory("/sdcard", -1);
+        if (prefs.getBoolean("saveDir", false))
+        	drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
+        else
+        	drawDirectory(prefs.getString("startDir", "/sdcard"), -1);
     }
     
     @Override
+	protected void onStart() {
+		super.onStart();
+
+		// Reread preferences
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String typesString = prefs.getString("types", defReaders);
+        Log.d(TAG, "Types string: \"" + typesString + "\"");
+
+        // Recreate readers list
+        readers = parseReadersString(typesString);
+        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
+        
+        askIfAmbiguous = prefs.getBoolean("askAmbig", false);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {;
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.mainmenu, menu);
@@ -343,9 +406,6 @@ public class ReLaunch extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId())
 		{
-			case R.id.setting:
-            	Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
-				return true;
 			case R.id.mime_types:
 				Intent intent1 = new Intent(ReLaunch.this, TypesActivity.class);
 				intent1.putExtra("types", createReadersString(readers));
@@ -363,6 +423,10 @@ public class ReLaunch extends Activity {
 						dialog.dismiss();
 					}});
 				builder.show();
+				return true;
+			case R.id.setting:
+				Intent intent3 = new Intent(ReLaunch.this, PrefsActivity.class);
+		        startActivity(intent3);
 				return true;
 			default:
 				return true;
