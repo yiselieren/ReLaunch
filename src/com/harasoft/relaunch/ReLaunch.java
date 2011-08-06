@@ -35,7 +35,8 @@ public class ReLaunch extends Activity {
 	final String                  TAG = "ReLaunch";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
-	final int                     TYPES_ACT = 1;
+	final static public int       TYPES_ACT = 1;
+	final static public int       EDIT_ACT = 1;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
 	List<String>                  apps;

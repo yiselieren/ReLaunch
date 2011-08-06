@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/setting" android:title="Settings">
+    <item android:id="@+id/setting" android:title="Settings" android:icon="@android:drawable/ic_menu_preferences">
     </item>
-    <item android:id="@+id/mime_types" android:title="Mime Types">
+    <item android:id="@+id/mime_types" android:title="Associations" android:icon="@android:drawable/ic_menu_view">
     </item>
-    <item android:id="@+id/about" android:title="About">
+    <item android:id="@+id/about" android:title="About" android:icon="@android:drawable/ic_menu_info_details">
     </item>
 </menu>
