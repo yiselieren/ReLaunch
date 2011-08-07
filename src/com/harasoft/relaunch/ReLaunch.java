@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -191,7 +192,7 @@ public class ReLaunch extends Activity {
     	{
     		for (String key : r.keySet())
     		{
-    			if (file.endsWith(key))
+    			if (file.endsWith(key)  &&  !rc.contains(r.get(key)))
     				rc.add(r.get(key));
     		} 		
     	}
@@ -355,7 +356,6 @@ public class ReLaunch extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
 
         // Create application icons map
         icons = createIconsList(getPackageManager());
@@ -371,6 +371,22 @@ public class ReLaunch extends Activity {
         // Readers list
         readers = parseReadersString(typesString);
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
+
+        // Main layout
+        if (prefs.getBoolean("showButtons", true))
+        {
+        	setContentView(R.layout.main);
+        	((Button)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuSettings(); }});
+        	((Button)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuTypes(); }});
+        	((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuSearch(); }});
+        	((Button)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuAbout(); }});
+        }
+        else
+        	setContentView(R.layout.main_nobuttons);
 
         // First directory to get to
         if (prefs.getBoolean("saveDir", false))
@@ -406,27 +422,17 @@ public class ReLaunch extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId())
 		{
+			case R.id.search:
+				menuSearch();
+				return true;
 			case R.id.mime_types:
-				Intent intent1 = new Intent(ReLaunch.this, TypesActivity.class);
-				intent1.putExtra("types", createReadersString(readers));
-		        startActivityForResult(intent1, TYPES_ACT);
+				menuTypes();
 		        return true;
 			case R.id.about:
-				//Intent intent2 = new Intent(ReLaunch.this, AboutActivity.class);
-		        //startActivity(intent2);
-				String vers = getResources().getString(R.string.app_version);
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle("ReLaunch");
-				builder.setMessage("Reader launcher\nVersion: " + vers);
-				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						dialog.dismiss();
-					}});
-				builder.show();
+				menuAbout();
 				return true;
 			case R.id.setting:
-				Intent intent3 = new Intent(ReLaunch.this, PrefsActivity.class);
-		        startActivity(intent3);
+				menuSettings();
 				return true;
 			default:
 				return true;
@@ -455,5 +461,32 @@ public class ReLaunch extends Activity {
 			default:
 				return;
 		}
+	}
+	
+	private void menuSearch() {
+    	Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+	}
+	
+	private void menuTypes() {
+		Intent intent2 = new Intent(ReLaunch.this, TypesActivity.class);
+		intent2.putExtra("types", createReadersString(readers));
+        startActivityForResult(intent2, TYPES_ACT);
+	}
+	
+	private void menuSettings() {
+		Intent intent3 = new Intent(ReLaunch.this, PrefsActivity.class);
+        startActivity(intent3);
+	}
+	
+	private void menuAbout() {
+		String vers = getResources().getString(R.string.app_version);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("ReLaunch");
+		builder.setMessage("Reader launcher\nVersion: " + vers);
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				dialog.dismiss();
+			}});
+		builder.show();
 	}
 }
