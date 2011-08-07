@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -376,13 +377,13 @@ public class ReLaunch extends Activity {
         if (prefs.getBoolean("showButtons", true))
         {
         	setContentView(R.layout.main);
-        	((Button)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
+        	((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuSettings(); }});
-        	((Button)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
+        	((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuTypes(); }});
-        	((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
+        	((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuSearch(); }});
-        	((Button)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
+        	((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuAbout(); }});
         }
         else
