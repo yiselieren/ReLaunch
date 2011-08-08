@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_gravity="center">
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:text="Case sensitive" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp"></TextView>
+        <CheckBox android:text="" android:layout_height="wrap_content" android:id="@+id/search_case" android:layout_width="0dp" android:layout_weight="0.15"></CheckBox>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="Search as" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_as"></Spinner>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_width="fill_parent">
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView3" android:text="Search root" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <EditText android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_root">
+            <requestFocus></requestFocus>
+        </EditText>
+    </LinearLayout>
+    <TextView android:layout_height="wrap_content" android:text="Separator" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#000000" android:background="#000000" android:id="@+id/textView4" android:layout_width="fill_parent"></TextView>
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4">
+        <EditText android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/search_txt" android:layout_width="fill_parent"></EditText>
+        <ImageButton android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@android:drawable/ic_delete" android:id="@+id/searc_txt_delete"></ImageButton>
+    </LinearLayout>
+    <Button android:layout_height="wrap_content" android:layout_gravity="center" android:text="Search" android:layout_width="wrap_content" android:id="@+id/search_btn"></Button>
+    
+</LinearLayout>

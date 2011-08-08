@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_as_values">
+        <item>Substring</item>
+        <item>Regexp</item>
+    </string-array>
+</resources>

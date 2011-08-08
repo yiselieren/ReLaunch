@@ -465,18 +465,19 @@ public class ReLaunch extends Activity {
 	}
 	
 	private void menuSearch() {
-    	Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+		Intent intent = new Intent(ReLaunch.this, SearchActivity.class);
+        startActivity(intent);
 	}
 	
 	private void menuTypes() {
-		Intent intent2 = new Intent(ReLaunch.this, TypesActivity.class);
-		intent2.putExtra("types", createReadersString(readers));
-        startActivityForResult(intent2, TYPES_ACT);
+		Intent intent = new Intent(ReLaunch.this, TypesActivity.class);
+		intent.putExtra("types", createReadersString(readers));
+        startActivityForResult(intent, TYPES_ACT);
 	}
 	
 	private void menuSettings() {
-		Intent intent3 = new Intent(ReLaunch.this, PrefsActivity.class);
-        startActivity(intent3);
+		Intent intent = new Intent(ReLaunch.this, PrefsActivity.class);
+        startActivity(intent);
 	}
 	
 	private void menuAbout() {
