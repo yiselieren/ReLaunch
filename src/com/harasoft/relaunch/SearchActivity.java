@@ -1,35 +1,99 @@
 package com.harasoft.relaunch;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class SearchActivity extends Activity {
+	final String             TAG = "Search";
     SharedPreferences        prefs;
     Spinner                  searchAs;
     CheckBox                 searchCase;
     EditText                 searchRoot;
     EditText                 searchTxt;
     Button                   searchButton;
+    InputMethodManager       imm;
+
+    private void addEntries(String root, List<String> searchResults, Boolean case_sens, Boolean regexp, String pattern)
+    {
+    	File         dir = new File(root);
+       	File[]       allEntries = dir.listFiles();
+    	for (File entry : allEntries)
+    	{
+    		String entryFullName = root + "/" + entry.getName();
+    		
+			if (entry.isDirectory())
+				addEntries(entryFullName, searchResults, case_sens, regexp, pattern);
+			else
+			{
+				if (regexp)
+				{
+					// Regular expression
+					if (entry.getName().matches(pattern))
+						searchResults.add(entryFullName); 
+				}
+				else
+				{
+					// String
+					if (case_sens)
+					{
+						if (entry.getName().contains(pattern))
+							searchResults.add(entryFullName); 
+					}
+					else
+					{
+						if (entry.getName().toLowerCase().contains(pattern.toLowerCase()))
+							searchResults.add(entryFullName); 
+					}
+				}
+			}
+    	}
+    }
 
     private void executeSearch()
     {
+    	List<String> searchResults = new ArrayList<String>();
+    	Boolean      case_sens = searchCase.isChecked();
+    	Boolean      regexp = searchAs.getSelectedItemPosition() == 1;
+    	String       root = searchRoot.getText().toString();
+    	String       pattern = searchTxt.getText().toString();
+
     	// Save all search settings
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("searchCase", searchCase.isChecked());
+        editor.putBoolean("searchCase", case_sens);
         editor.putInt("searchAs", searchAs.getSelectedItemPosition());
-        editor.putString("searchRoot", searchRoot.getText().toString());
-        editor.putString("searchPrev", searchTxt.getText().toString());
+        editor.putString("searchRoot", root);
+        editor.putString("searchPrev", pattern);
         editor.commit();
-    }
+        
+        // Search itself
+    	File         dir = new File(root);
+    	if (!dir.isDirectory())
+    		return;
+    	addEntries(root, searchResults, case_sens, regexp, pattern);
+    	
+    	// DEBUG
+    	for (String r : searchResults)
+    		Log.d(TAG, "Found: \"" + r + "\"");
+     }
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +101,20 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.search);
         
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         searchCase = (CheckBox)findViewById(R.id.search_case);
         searchAs = (Spinner)findViewById(R.id.search_as);
         searchRoot = (EditText)findViewById(R.id.search_root);
         searchTxt = (EditText)findViewById(R.id.search_txt);
+        searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+	               if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+	            	   imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	                   executeSearch();
+	                   return true;
+	                }
+				return false;
+			}});
 	}
 
 	@Override
