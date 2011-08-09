@@ -152,7 +152,7 @@ public class SearchActivity extends Activity {
 		searchTxt.setText(prefs.getString("searchPrev", ""));
 		
 		// Set clean search text button
-		((ImageButton)findViewById(R.id.searc_txt_delete)).setOnClickListener(new View.OnClickListener() {
+		((ImageButton)findViewById(R.id.search_txt_delete)).setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) { searchTxt.setText(""); }});
 		
 		// Set main search button

@@ -16,7 +16,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -41,7 +40,6 @@ public class ReLaunch extends Activity {
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
-	final static public int       EDIT_ACT = 1;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
 	List<HashMap<String, String>> itemsArray;
@@ -383,8 +381,7 @@ public class ReLaunch extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (data == null  ||  data.getExtras() == null)
-			return;
+		Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
 		if (resultCode != Activity.RESULT_OK)
 			return;
 		switch (requestCode)

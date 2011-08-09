@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -232,6 +231,7 @@ public class TypesActivity extends Activity {
     	    		readers.add(a);
     	    	}
     	    	app.setReaders(readers);
+            	setResult(Activity.RESULT_OK);
             	finish();
    			}
 		});
@@ -259,24 +259,4 @@ public class TypesActivity extends Activity {
 			}
 		});
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (data == null  ||  data.getExtras() == null)
-			return;
-		if (resultCode != Activity.RESULT_OK)
-			return;
-		switch (requestCode)
-		{
-			case ReLaunch.EDIT_ACT:
-				int pos = data.getExtras().getInt("position");
-				itemsArray.get(pos).put("ext", data.getExtras().getString("ext"));
-				itemsArray.get(pos).put("rdr", data.getExtras().getString("app"));
-    			adapter.notifyDataSetChanged();
-				break;
-			default:
-				return;
-		}
-	}
-
 }

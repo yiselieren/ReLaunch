@@ -20,8 +20,6 @@ public class ReLaunchApp extends Application {
     private List<HashMap<String, String>>   readers;
     private List<String>                    apps;
 
-
-
 	// Miscellaneous public flags
 	public Boolean                          askIfAmbiguous;
 
@@ -90,7 +88,7 @@ public class ReLaunchApp extends Application {
         return null;
     }
     
-    // common utility - launch reader by reader name and full file name
+    // common utility - return intent to launch reader by reader name and full file name. Null if not found
     public Intent launchReader(String name, String file)
     {
     	if (name.equals("Nomad Reader"))
