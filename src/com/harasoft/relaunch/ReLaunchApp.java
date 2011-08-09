@@ -13,6 +13,9 @@ public class ReLaunchApp extends Application {
 	private HashMap<String, List<String[]>> m = new HashMap<String, List<String[]>>();
 	private HashMap<String, Drawable>       icons;
 
+	// Miscellaneous public flags
+	public Boolean                          askIfAmbiguous;
+
 	// General lists
 	public List<String[]> getList(String name) {
 		if (m.containsKey(name))

@@ -323,7 +323,7 @@ public class ReLaunch extends Activity {
             }});
     }
 
-    public static HashMap<String, Drawable> createIconsList(PackageManager pm)
+    private HashMap<String, Drawable> createIconsList(PackageManager pm)
     {
         HashMap<String, Drawable> rc = new HashMap<String, Drawable>();
         
@@ -360,19 +360,21 @@ public class ReLaunch extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Create application icons map
+		// Preferences
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String typesString = prefs.getString("types", defReaders);
+        Log.d(TAG, "Types string: \"" + typesString + "\"");
+
+       // Create application icons map
         icons = createIconsList(getPackageManager());
+        
+        // Fill global storage with values
         app = (ReLaunchApp)getApplicationContext();
         app.setIcons(icons);
         
         // Create applications label list
         apps = createAppList(getPackageManager());
         
-		// Preferences
-        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        String typesString = prefs.getString("types", defReaders);
-        Log.d(TAG, "Types string: \"" + typesString + "\"");
-
         // Readers list
         readers = parseReadersString(typesString);
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
@@ -414,6 +416,7 @@ public class ReLaunch extends Activity {
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
         
         askIfAmbiguous = prefs.getBoolean("askAmbig", false);
+        app.askIfAmbiguous = askIfAmbiguous;
 	}
 
 	@Override

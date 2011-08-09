@@ -34,6 +34,7 @@ public class TypesActivity extends Activity {
    	CharSequence[]                applications;
 	List<HashMap<String,String>>  itemsArray;
     TPSimpleAdapter               adapter;
+	ReLaunchApp                   app;
 
     class TPSimpleAdapter extends SimpleAdapter {
     	final Context cntx;
@@ -191,8 +192,9 @@ public class TypesActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.types_view);
  
-        // Create application icons map
-        icons = ReLaunch.createIconsList(getPackageManager());
+        // Global storage
+    	app = ((ReLaunchApp)getApplicationContext());
+    	icons = app.getIcons();
 
         // Recreate readers list
         final Intent data = getIntent();
