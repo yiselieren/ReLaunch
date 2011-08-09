@@ -21,8 +21,11 @@
     <TextView android:layout_height="wrap_content" android:text="Separator" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#000000" android:background="#000000" android:id="@+id/textView4" android:layout_width="fill_parent"></TextView>
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4">
         <EditText android:layout_weight="1" android:imeOptions="actionSearch" android:layout_height="wrap_content" android:id="@+id/search_txt" android:layout_width="fill_parent"></EditText>
-        <ImageButton android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@android:drawable/ic_delete" android:id="@+id/searc_txt_delete"></ImageButton>
+        <ImageButton android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@android:drawable/ic_input_delete" android:id="@+id/searc_txt_delete"></ImageButton>
     </LinearLayout>
-    <Button android:layout_height="wrap_content" android:layout_gravity="center" android:text="Search" android:layout_width="wrap_content" android:id="@+id/search_btn"></Button>
+    <LinearLayout android:id="@+id/linearLayout5" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <Button android:text="Search" android:layout_height="wrap_content" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp"></Button>
+        <Button android:text="Cancel" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel"></Button>
+    </LinearLayout>
     
 </LinearLayout>

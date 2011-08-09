@@ -148,16 +148,21 @@ public class SearchActivity extends Activity {
 		// set search root
 		searchRoot.setText(prefs.getString("searchRoot", "/sdcard"));
 		
-		// set search text
+		// Set search text
 		searchTxt.setText(prefs.getString("searchPrev", ""));
 		
-		// set clean search text button
+		// Set clean search text button
 		((ImageButton)findViewById(R.id.searc_txt_delete)).setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) { searchTxt.setText(""); }});
 		
-		// set main search button
+		// Set main search button
 		((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {executeSearch(); }});		
+			public void onClick(View v) { executeSearch(); }});	
+		
+		// Cancel button
+    	((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) { finish(); }});
+
 	}
 
 }

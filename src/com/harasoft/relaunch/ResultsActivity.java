@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -84,7 +85,7 @@ public class ResultsActivity extends Activity {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-    	setContentView(R.layout.main_nobuttons);
+    	setContentView(R.layout.results_layout);
     	app = ((ReLaunchApp)getApplicationContext());
     	icons = app.getIcons();
     	
@@ -98,10 +99,13 @@ public class ResultsActivity extends Activity {
         String listName = data.getExtras().getString("list");
         String title = data.getExtras().getString("title");
 
+    	((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) { finish(); }});
+
     	String[] from = new String[] { "fname", "dname" };
     	int[]    to   = new int[] { R.id.res_fname, R.id.res_dname };
-    	ListView lv = (ListView) findViewById(R.id.fl_list);
-    	((TextView)findViewById(R.id.title_txt)).setText(title);
+    	ListView lv = (ListView) findViewById(R.id.results_list);
+    	((TextView)findViewById(R.id.results_title)).setText(title);
 
     	for (String[] n : app.getList(listName))
     	{
