@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,8 +32,10 @@ public class SearchActivity extends Activity {
     EditText                 searchTxt;
     Button                   searchButton;
     InputMethodManager       imm;
+	ReLaunchApp              app;
 
-    private void addEntries(String root, List<String> searchResults, Boolean case_sens, Boolean regexp, String pattern)
+
+    private void addEntries(String root, List<String[]> searchResults, Boolean case_sens, Boolean regexp, String pattern)
     {
     	File         dir = new File(root);
        	File[]       allEntries = dir.listFiles();
@@ -44,11 +47,15 @@ public class SearchActivity extends Activity {
 				addEntries(entryFullName, searchResults, case_sens, regexp, pattern);
 			else
 			{
+				String[] n = new String[2];
+				n[0] = root;
+				n[1] = entry.getName();
+
 				if (regexp)
 				{
 					// Regular expression
 					if (entry.getName().matches(pattern))
-						searchResults.add(entryFullName); 
+						searchResults.add(n); 
 				}
 				else
 				{
@@ -56,12 +63,12 @@ public class SearchActivity extends Activity {
 					if (case_sens)
 					{
 						if (entry.getName().contains(pattern))
-							searchResults.add(entryFullName); 
+							searchResults.add(n); 
 					}
 					else
 					{
 						if (entry.getName().toLowerCase().contains(pattern.toLowerCase()))
-							searchResults.add(entryFullName); 
+							searchResults.add(n); 
 					}
 				}
 			}
@@ -70,11 +77,11 @@ public class SearchActivity extends Activity {
 
     private void executeSearch()
     {
-    	List<String> searchResults = new ArrayList<String>();
-    	Boolean      case_sens = searchCase.isChecked();
-    	Boolean      regexp = searchAs.getSelectedItemPosition() == 1;
-    	String       root = searchRoot.getText().toString();
-    	String       pattern = searchTxt.getText().toString();
+    	List<String[]> searchResults = new ArrayList<String[]>();
+    	Boolean        case_sens = searchCase.isChecked();
+    	Boolean        regexp = searchAs.getSelectedItemPosition() == 1;
+    	String         root = searchRoot.getText().toString();
+    	String         pattern = searchTxt.getText().toString();
 
     	// Save all search settings
         SharedPreferences.Editor editor = prefs.edit();
@@ -84,21 +91,28 @@ public class SearchActivity extends Activity {
         editor.putString("searchPrev", pattern);
         editor.commit();
         
-        // Search itself
+        // Search
     	File         dir = new File(root);
     	if (!dir.isDirectory())
     		return;
     	addEntries(root, searchResults, case_sens, regexp, pattern);
     	
-    	// DEBUG
-    	for (String r : searchResults)
-    		Log.d(TAG, "Found: \"" + r + "\"");
+    	//// DEBUG
+    	for (String[] r : searchResults)
+    		Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
+    	app.setList("searchResults", searchResults);
+		Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
+		intent.putExtra("list", "searchResults");
+		intent.putExtra("title", "Search results");
+        startActivity(intent);
      }
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
+
+        app = ((ReLaunchApp)getApplicationContext());
         
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

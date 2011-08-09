@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,15 +48,16 @@ public class ReLaunch extends Activity {
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
 	List<String>                  apps;
-    List<HashMap<String, String>> readers;
+    static List<HashMap<String, String>> readers;
 	List<HashMap<String, String>> itemsArray;
 	Stack<Integer>                positions = new Stack<Integer>();
     SimpleAdapter                 adapter;
     HashMap<String, Drawable>     icons;
     SharedPreferences             prefs;
     boolean                       askIfAmbiguous = false;
-    
-    class FLSimpleAdapter extends SimpleAdapter {
+	ReLaunchApp                   app;
+
+	class FLSimpleAdapter extends SimpleAdapter {
     	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
     	{
     		super(context, data, resource, from, to);
@@ -173,7 +175,7 @@ public class ReLaunch extends Activity {
     	}
     }
 
-    public String readerName(String file)
+    public static String readerName(String file)
     {
     	for (HashMap<String, String> r : readers)
     	{
@@ -186,7 +188,7 @@ public class ReLaunch extends Activity {
     	return "Nope";
     }
 
-    public List<String> readerNames(String file)
+    public static List<String> readerNames(String file)
     {
     	List<String> rc = new ArrayList<String>();
     	for (HashMap<String, String> r : readers)
@@ -360,6 +362,8 @@ public class ReLaunch extends Activity {
 
         // Create application icons map
         icons = createIconsList(getPackageManager());
+        app = (ReLaunchApp)getApplicationContext();
+        app.setIcons(icons);
         
         // Create applications label list
         apps = createAppList(getPackageManager());
