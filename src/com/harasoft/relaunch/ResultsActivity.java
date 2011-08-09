@@ -59,7 +59,7 @@ public class ResultsActivity extends Activity {
             		tv2.setText(fname);
             	if (iv != null)
             	{
-            		String rdrName = ReLaunch.readerName(fname);
+            		String rdrName = app.readerName(fname);
             		if (rdrName.equals("Nope"))
             			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
             		else
@@ -75,42 +75,13 @@ public class ResultsActivity extends Activity {
     	}
     }
 
-    private Intent getIntentByLabel(String label)
+    private void start(Intent i)
     {
-        PackageManager pm = getPackageManager();;
-
-        for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
-        {
-        	if (label.equals(pm.getApplicationLabel(packageInfo)))
-        		return pm.getLaunchIntentForPackage(packageInfo.packageName);
-        }
-        return null;
-    }
-    
-    private void launchReader(String name, String file)
-    {
-    	if (name.equals("Nomad Reader"))
-    	{
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_VIEW); 
-            i.setDataAndType(Uri.parse("file://" + file), "application/fb2"); 
-            startActivity(i);
-    	}
-    	else
-    	{
-            Intent i = getIntentByLabel(name);
-            if (i == null)
-            	Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
-            else
-            {
-            	i.setAction(Intent.ACTION_VIEW); 
-            	i.setData(Uri.parse("file://" + file));
-            	startActivity(i);
-            }
-    	}
+    	if (i != null)
+    		startActivity(i);
     }
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
     	setContentView(R.layout.main_nobuttons);
@@ -149,16 +120,16 @@ public class ResultsActivity extends Activity {
  
              	String fullName = item.get("dname") + "/" + item.get("fname");
              	String fileName = item.get("fname");
-             	if (!ReLaunch.readerName(fileName).equals("Nope"))
+             	if (!app.readerName(fileName).equals("Nope"))
             	{
             		// Launch reader
             		if (app.askIfAmbiguous)
             		{
-            			List<String> rdrs = ReLaunch.readerNames(item.get("fname"));
+            			List<String> rdrs = app.readerNames(item.get("fname"));
             			if (rdrs.size() < 1)
             				return;
             			else if (rdrs.size() == 1)
-            				launchReader(rdrs.get(0), fullName);
+            				start(app.launchReader(rdrs.get(0), fullName));
             			else
             			{
             			   	final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
@@ -167,7 +138,7 @@ public class ResultsActivity extends Activity {
     						builder.setTitle("Select application");
     						builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
     						    public void onClick(DialogInterface dialog, int i) {
-    						    	launchReader((String)applications[i], rdr1);
+    						    	start(app.launchReader((String)applications[i], rdr1));
     		            			dialog.dismiss();
     						    }
     						});
@@ -177,7 +148,7 @@ public class ResultsActivity extends Activity {
             			}
             		}
             		else
-            			launchReader(ReLaunch.readerName(fileName), fullName);
+            			start(app.launchReader(app.readerName(fileName), fullName));
             	}
  			}});
 	}

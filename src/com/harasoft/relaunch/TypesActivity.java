@@ -29,7 +29,6 @@ public class TypesActivity extends Activity {
 	final String                  TAG = "Types";
     HashMap<String, Drawable>     icons;
     PackageManager                pm;
-    List<HashMap<String, String>> readers;
     List<String>                  applicationsArray;
    	CharSequence[]                applications;
 	List<HashMap<String,String>>  itemsArray;
@@ -196,15 +195,7 @@ public class TypesActivity extends Activity {
     	app = ((ReLaunchApp)getApplicationContext());
     	icons = app.getIcons();
 
-        // Recreate readers list
-        final Intent data = getIntent();
-        if (data.getExtras() == null)
-        {
-        	setResult(Activity.RESULT_CANCELED);
-        	finish();
-        }
-        readers = ReLaunch.parseReadersString(data.getExtras().getString("types"));
-        applicationsArray = ReLaunch.createAppList(getPackageManager());
+        applicationsArray = app.getApps();
         applications = applicationsArray.toArray(new CharSequence[applicationsArray.size()]);
 
 
@@ -214,7 +205,7 @@ public class TypesActivity extends Activity {
     	ListView lv = (ListView) findViewById(R.id.types_lv);
 
     	itemsArray = new ArrayList<HashMap<String,String>>();
-    	for (HashMap<String, String> r : readers)
+    	for (HashMap<String, String> r : app.getReaders())
     	{
     		for (String k : r.keySet())
     		{
@@ -233,15 +224,14 @@ public class TypesActivity extends Activity {
         okBtn.setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v)
     		{
-    			readers.clear();
+    			List<HashMap<String, String>> readers = new ArrayList<HashMap<String, String>>();
     	    	for (HashMap<String, String> r : itemsArray)
     	    	{
     	    		HashMap<String, String> a = new HashMap<String, String>();
     	    		a.put(r.get("ext"), r.get("rdr"));
     	    		readers.add(a);
     	    	}
-    			data.putExtra("types", ReLaunch.createReadersString(readers));
-              	setResult(Activity.RESULT_OK, data);
+    	    	app.setReaders(readers);
             	finish();
    			}
 		});

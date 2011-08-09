@@ -9,7 +9,6 @@ import java.util.Stack;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,8 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -47,14 +44,10 @@ public class ReLaunch extends Activity {
 	final static public int       EDIT_ACT = 1;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
-	List<String>                  apps;
-    static List<HashMap<String, String>> readers;
 	List<HashMap<String, String>> itemsArray;
 	Stack<Integer>                positions = new Stack<Integer>();
     SimpleAdapter                 adapter;
-    HashMap<String, Drawable>     icons;
     SharedPreferences             prefs;
-    boolean                       askIfAmbiguous = false;
 	ReLaunchApp                   app;
 
 	class FLSimpleAdapter extends SimpleAdapter {
@@ -89,8 +82,8 @@ public class ReLaunch extends Activity {
             				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
             			else
             			{
-            				if (icons.containsKey(rdrName))
-            					iv.setImageDrawable(icons.get(rdrName));
+            				if (app.getIcons().containsKey(rdrName))
+            					iv.setImageDrawable(app.getIcons().get(rdrName));
             				else
             					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
             			}
@@ -139,68 +132,6 @@ public class ReLaunch extends Activity {
        	return rc;
     }
 
-
-    private Intent getIntentByLabel(String label)
-    {
-        PackageManager pm = getPackageManager();;
-
-        for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
-        {
-        	if (label.equals(pm.getApplicationLabel(packageInfo)))
-        		return pm.getLaunchIntentForPackage(packageInfo.packageName);
-        }
-        return null;
-    }
-    
-    private void launchReader(String name, String file)
-    {
-    	if (name.equals("Nomad Reader"))
-    	{
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_VIEW); 
-            i.setDataAndType(Uri.parse("file://" + file), "application/fb2"); 
-            startActivity(i);
-    	}
-    	else
-    	{
-            Intent i = getIntentByLabel(name);
-            if (i == null)
-            	Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
-            else
-            {
-            	i.setAction(Intent.ACTION_VIEW); 
-            	i.setData(Uri.parse("file://" + file));
-            	startActivity(i);
-            }
-    	}
-    }
-
-    public static String readerName(String file)
-    {
-    	for (HashMap<String, String> r : readers)
-    	{
-    		for (String key : r.keySet())
-    		{
-    			if (file.endsWith(key))
-    				return r.get(key);
-    		} 		
-    	}
-    	return "Nope";
-    }
-
-    public static List<String> readerNames(String file)
-    {
-    	List<String> rc = new ArrayList<String>();
-    	for (HashMap<String, String> r : readers)
-    	{
-    		for (String key : r.keySet())
-    		{
-    			if (file.endsWith(key)  &&  !rc.contains(r.get(key)))
-    				rc.add(r.get(key));
-    		} 		
-    	}
-    	return rc;
-    }
 
     private void drawDirectory(String root, Integer startPosition)
     {
@@ -253,7 +184,7 @@ public class ReLaunch extends Activity {
     		item.put("dname", dir.getAbsolutePath());
     		item.put("fname", dir.getAbsolutePath() + "/" + f);
     		item.put("type", "file");
-    		item.put("reader", readerName(f));
+    		item.put("reader", app.readerName(f));
     		itemsArray.add(item);
     	}
     	
@@ -292,14 +223,13 @@ public class ReLaunch extends Activity {
             	else if (!item.get("reader").equals("Nope"))
             	{
             		// Launch reader
-        			//launchReader(item.get("fname"));
-            		if (askIfAmbiguous)
+            		if (app.askIfAmbiguous)
             		{
-            			List<String> rdrs = readerNames(item.get("fname"));
+            			List<String> rdrs = app.readerNames(item.get("fname"));
             			if (rdrs.size() < 1)
             				return;
             			else if (rdrs.size() == 1)
-            				launchReader(rdrs.get(0), item.get("fname"));
+            				start(app.launchReader(rdrs.get(0), item.get("fname")));
             			else
             			{
             			   	final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
@@ -308,7 +238,7 @@ public class ReLaunch extends Activity {
     						builder.setTitle("Select application");
     						builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
     						    public void onClick(DialogInterface dialog, int i) {
-    						    	launchReader((String)applications[i], rdr1);
+    						    	start(app.launchReader((String)applications[i], rdr1));
     		            			dialog.dismiss();
     						    }
     						});
@@ -318,7 +248,7 @@ public class ReLaunch extends Activity {
             			}
             		}
             		else
-            			launchReader(item.get("reader"), item.get("fname"));
+            			start(app.launchReader(item.get("reader"), item.get("fname")));
             	}
             }});
     }
@@ -340,7 +270,7 @@ public class ReLaunch extends Activity {
         return rc;
     }
     
-    public static List<String> createAppList(PackageManager pm)
+    private List<String> createAppList(PackageManager pm)
     {
     	List<String> rc = new ArrayList<String>();
     	
@@ -356,9 +286,18 @@ public class ReLaunch extends Activity {
         return rc;
     }
  
+    private void start(Intent i)
+    {
+    	if (i != null)
+    		startActivity(i);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Create global storage with values
+        app = (ReLaunchApp)getApplicationContext();
 
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -366,18 +305,14 @@ public class ReLaunch extends Activity {
         Log.d(TAG, "Types string: \"" + typesString + "\"");
 
        // Create application icons map
-        icons = createIconsList(getPackageManager());
-        
-        // Fill global storage with values
-        app = (ReLaunchApp)getApplicationContext();
-        app.setIcons(icons);
+        app.setIcons(createIconsList(getPackageManager()));
         
         // Create applications label list
-        apps = createAppList(getPackageManager());
+        app.setApps(createAppList(getPackageManager()));
         
         // Readers list
-        readers = parseReadersString(typesString);
-        //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
+        app.setReaders(parseReadersString(typesString));
+        //Log.d(TAG, "Readers string: \"" + createReadersString(app.getReaders()) + "\"");
 
         // Main layout
         if (prefs.getBoolean("showButtons", true))
@@ -412,11 +347,10 @@ public class ReLaunch extends Activity {
         Log.d(TAG, "Types string: \"" + typesString + "\"");
 
         // Recreate readers list
-        readers = parseReadersString(typesString);
+        app.setReaders(parseReadersString(typesString));
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
         
-        askIfAmbiguous = prefs.getBoolean("askAmbig", false);
-        app.askIfAmbiguous = askIfAmbiguous;
+        app.askIfAmbiguous = prefs.getBoolean("askAmbig", false);
 	}
 
 	@Override
@@ -456,14 +390,13 @@ public class ReLaunch extends Activity {
 		switch (requestCode)
 		{
 			case TYPES_ACT:
-				String newTypes = data.getExtras().getString("types");
+				String newTypes = createReadersString(app.getReaders());
 		        Log.d(TAG, "New types string: \"" + newTypes + "\"");
 
 		        SharedPreferences.Editor editor = prefs.edit();
 		        editor.putString("types", newTypes);
 		        editor.commit();
 
-				readers = parseReadersString(newTypes);
 				drawDirectory(currentRoot, currentPosition);
 				break;
 			default:
@@ -478,7 +411,6 @@ public class ReLaunch extends Activity {
 	
 	private void menuTypes() {
 		Intent intent = new Intent(ReLaunch.this, TypesActivity.class);
-		intent.putExtra("types", createReadersString(readers));
         startActivityForResult(intent, TYPES_ACT);
 	}
 	
