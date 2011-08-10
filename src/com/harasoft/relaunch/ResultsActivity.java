@@ -105,7 +105,7 @@ public class ResultsActivity extends Activity {
     	String[] from = new String[] { "fname", "dname" };
     	int[]    to   = new int[] { R.id.res_fname, R.id.res_dname };
     	ListView lv = (ListView) findViewById(R.id.results_list);
-    	((TextView)findViewById(R.id.results_title)).setText(title);
+    	((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
 
     	for (String[] n : app.getList(listName))
     	{

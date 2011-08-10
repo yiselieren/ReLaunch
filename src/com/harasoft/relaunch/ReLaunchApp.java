@@ -20,6 +20,7 @@ public class ReLaunchApp extends Application {
     private List<HashMap<String, String>>   readers;
     private List<String>                    apps;
 
+
 	// Miscellaneous public flags
 	public Boolean                          askIfAmbiguous;
 
@@ -70,6 +71,16 @@ public class ReLaunchApp extends Application {
     		for (String key : r.keySet()) {
     			if (file.endsWith(key)  &&  !rc.contains(r.get(key)))
     				rc.add(r.get(key));
+    		} 		
+    	}
+    	return rc;
+    }
+    public List<String> extNames() {
+    	List<String> rc = new ArrayList<String>();
+    	for (HashMap<String, String> r : readers) {
+    		for (String key : r.keySet()) {
+    			if (!rc.contains(key))
+    				rc.add(key);
     		} 		
     	}
     	return rc;

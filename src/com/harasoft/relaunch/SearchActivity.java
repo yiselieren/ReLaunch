@@ -28,6 +28,7 @@ public class SearchActivity extends Activity {
     SharedPreferences        prefs;
     Spinner                  searchAs;
     CheckBox                 searchCase;
+    CheckBox                 searchKnown;
     EditText                 searchRoot;
     EditText                 searchTxt;
     Button                   searchButton;
@@ -35,7 +36,8 @@ public class SearchActivity extends Activity {
 	ReLaunchApp              app;
 
 
-    private void addEntries(String root, List<String[]> searchResults, Boolean case_sens, Boolean regexp, String pattern)
+    private void addEntries(String root, List<String[]> searchResults, Boolean case_sens,
+    		Boolean known_only, Boolean regexp, String pattern)
     {
     	File         dir = new File(root);
        	File[]       allEntries = dir.listFiles();
@@ -44,13 +46,15 @@ public class SearchActivity extends Activity {
     		String entryFullName = root + "/" + entry.getName();
     		
 			if (entry.isDirectory())
-				addEntries(entryFullName, searchResults, case_sens, regexp, pattern);
+				addEntries(entryFullName, searchResults, case_sens, known_only, regexp, pattern);
 			else
 			{
 				String[] n = new String[2];
 				n[0] = root;
 				n[1] = entry.getName();
 
+				if (known_only  &&  app.readerName(n[1]).equals("Nope"))
+					continue;
 				if (regexp)
 				{
 					// Regular expression
@@ -79,6 +83,7 @@ public class SearchActivity extends Activity {
     {
     	List<String[]> searchResults = new ArrayList<String[]>();
     	Boolean        case_sens = searchCase.isChecked();
+    	Boolean        known_only = searchKnown.isChecked();
     	Boolean        regexp = searchAs.getSelectedItemPosition() == 1;
     	String         root = searchRoot.getText().toString();
     	String         pattern = searchTxt.getText().toString();
@@ -86,6 +91,7 @@ public class SearchActivity extends Activity {
     	// Save all search settings
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("searchCase", case_sens);
+        editor.putBoolean("searchKnown", known_only);
         editor.putInt("searchAs", searchAs.getSelectedItemPosition());
         editor.putString("searchRoot", root);
         editor.putString("searchPrev", pattern);
@@ -95,7 +101,7 @@ public class SearchActivity extends Activity {
     	File         dir = new File(root);
     	if (!dir.isDirectory())
     		return;
-    	addEntries(root, searchResults, case_sens, regexp, pattern);
+    	addEntries(root, searchResults, case_sens, known_only, regexp, pattern);
     	
     	//// DEBUG
     	for (String[] r : searchResults)
@@ -117,6 +123,7 @@ public class SearchActivity extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         searchCase = (CheckBox)findViewById(R.id.search_case);
+        searchKnown = (CheckBox)findViewById(R.id.search_books_only);
         searchAs = (Spinner)findViewById(R.id.search_as);
         searchRoot = (EditText)findViewById(R.id.search_root);
         searchTxt = (EditText)findViewById(R.id.search_txt);
@@ -129,6 +136,18 @@ public class SearchActivity extends Activity {
 	                }
 				return false;
 			}});
+
+        // Set clean search text button
+		((ImageButton)findViewById(R.id.search_txt_delete)).setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) { searchTxt.setText(""); }});
+		
+		// Set main search button
+		((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) { executeSearch(); }});	
+		
+		// Cancel button
+    	((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) { finish(); }});
 	}
 
 	@Override
@@ -137,6 +156,9 @@ public class SearchActivity extends Activity {
 		
 		// Set case sensitive checkbox
 		searchCase.setChecked(prefs.getBoolean("searchCase", true));
+		
+		// Set search known extensions only checkbox
+		searchKnown.setChecked(prefs.getBoolean("searchKnown", true));
 		
 		// Set search as spinner
 	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -151,18 +173,6 @@ public class SearchActivity extends Activity {
 		// Set search text
 		searchTxt.setText(prefs.getString("searchPrev", ""));
 		
-		// Set clean search text button
-		((ImageButton)findViewById(R.id.search_txt_delete)).setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v) { searchTxt.setText(""); }});
-		
-		// Set main search button
-		((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { executeSearch(); }});	
-		
-		// Cancel button
-    	((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v) { finish(); }});
-
 	}
 
 }
