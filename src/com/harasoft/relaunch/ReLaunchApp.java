@@ -1,5 +1,6 @@
 package com.harasoft.relaunch;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ public class ReLaunchApp extends Application {
 	private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
     private List<String>                    apps;
+    private List<String[]>                  lastOpened;
 
 
 	// Miscellaneous public flags
@@ -86,6 +88,25 @@ public class ReLaunchApp extends Application {
     	return rc;
     }
 
+    // Last opened list
+    public List<String[]> getLastopened()       { return lastOpened; }
+    public void setLastopened(List<String[]> l) { lastOpened = l;    }
+    public void addToLastOpened(String fullName, Boolean addToEnd)
+    {
+    	File f = new File(fullName);
+    	
+    	if (!f.exists())
+    		return;
+    	String dr = f.getParent();
+    	String fn = f.getName();
+    	String [] entry = new String[] {dr, fn};
+    	lastOpened.remove(entry);
+    	if (addToEnd)
+    		lastOpened.add(entry);
+    	else
+    		lastOpened.add(0, entry);
+    }
+
     // common utility - get intent by label, null if not found
     private Intent getIntentByLabel(String label)
     {
@@ -107,6 +128,7 @@ public class ReLaunchApp extends Application {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW); 
             i.setDataAndType(Uri.parse("file://" + file), "application/fb2"); 
+            addToLastOpened(file, false);
             return i;
     	}
     	else
@@ -118,6 +140,7 @@ public class ReLaunchApp extends Application {
             {
             	i.setAction(Intent.ACTION_VIEW); 
             	i.setData(Uri.parse("file://" + file));
+                addToLastOpened(file, false);
             	return i;
             }
     	}

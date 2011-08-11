@@ -1,6 +1,10 @@
 package com.harasoft.relaunch;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,6 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ReLaunch extends Activity {
 	
 	final String                  TAG = "ReLaunch";
+	final String                  LRU_FILE = "LruFile.txt";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
@@ -312,6 +317,46 @@ public class ReLaunch extends Activity {
         app.setReaders(parseReadersString(typesString));
         //Log.d(TAG, "Readers string: \"" + createReadersString(app.getReaders()) + "\"");
 
+        // Last opened list
+        app.setLastopened(new ArrayList<String[]>());
+		FileInputStream fis = null;
+		try {
+			fis = openFileInput(LRU_FILE);
+		} catch (FileNotFoundException e) { }
+		if (fis != null)
+		{
+			String l = new String();
+
+			while (true)
+			{				
+				int rc;
+				try {
+					 rc = (char)fis.read();
+				} catch (IOException e) {
+					break;
+				}
+				byte ch = (byte)rc;
+				if (ch == '\n'  ||  ch == -1)
+				{
+					if (!l.equals(""))
+					{
+						Log.d(TAG, "ADD \"" + l + "\"");
+						app.addToLastOpened(l, true);
+						l = new String();
+					}
+					if (ch == -1)
+						break;
+				}
+				else
+					l = l + (char)ch;
+			}
+
+			try {
+				fis.close();
+			} catch (IOException e) { }
+		}
+
+
         // Main layout
         if (prefs.getBoolean("showButtons", true))
         {
@@ -322,6 +367,10 @@ public class ReLaunch extends Activity {
         		public void onClick(View v) { menuTypes(); }});
         	((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuSearch(); }});
+        	((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuLastopened(); }});
+        	((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuFavorites(); }});
         	((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuAbout(); }});
         }
@@ -374,6 +423,12 @@ public class ReLaunch extends Activity {
 			case R.id.setting:
 				menuSettings();
 				return true;
+			case R.id.lastopened:
+				menuLastopened();
+				return true;
+			case R.id.favorites:
+				menuFavorites();
+				return true;
 			default:
 				return true;
 		}
@@ -400,7 +455,40 @@ public class ReLaunch extends Activity {
 				return;
 		}
 	}
-	
+
+	@Override
+	protected void onStop() {
+		int lruMax = 30;
+		try {
+			lruMax = Integer.parseInt(prefs.getString("lruSize", "30"));
+		} catch(NumberFormatException e) { }
+
+		List<String[]> lru = app.getLastopened();
+		Log.d(TAG, "lruMax = " + lruMax);
+		int rmAmount = lru.size() - lruMax;
+		for (int i=0; i<rmAmount; i++)
+			lru.remove(lru.size()-1);
+		
+		FileOutputStream fos = null;
+		try {
+			fos = openFileOutput(LRU_FILE, Context.MODE_PRIVATE);
+		} catch (FileNotFoundException e) {
+			return;
+		}
+		for (int i=0; i<lru.size(); i++)
+		{
+			String line = lru.get(i)[0] + "/" + lru.get(i)[1] + "\n";
+			try {
+				fos.write(line.getBytes());
+			} catch (IOException e) { }		
+		}
+		try {
+			fos.close();
+		} catch (IOException e) { }
+		
+		super.onStop();
+	}
+
 	private void menuSearch() {
 		Intent intent = new Intent(ReLaunch.this, SearchActivity.class);
         startActivity(intent);
@@ -414,6 +502,19 @@ public class ReLaunch extends Activity {
 	private void menuSettings() {
 		Intent intent = new Intent(ReLaunch.this, PrefsActivity.class);
         startActivity(intent);
+	}
+	
+	private void menuLastopened() {
+    	app.setList("LastOpened", app.getLastopened());
+		Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
+		intent.putExtra("list", "LastOpened");
+		intent.putExtra("title", "Last opened");
+        startActivity(intent);
+
+	}
+	
+	private void menuFavorites() {
+		Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
 	}
 	
 	private void menuAbout() {

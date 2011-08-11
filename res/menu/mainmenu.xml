@@ -7,6 +7,10 @@
     </item>
     <item android:id="@+id/search" android:title="Search" android:icon="@android:drawable/ic_menu_search">
     </item>
+    <item android:id="@+id/lastopened" android:title="Last opened" android:icon="@android:drawable/ic_menu_myplaces">
+    </item>
+    <item android:id="@+id/favorites" android:title="Favorites" android:icon="@android:drawable/btn_star">
+    </item>
     <item android:id="@+id/about" android:title="About" android:icon="@android:drawable/ic_menu_info_details">
     </item>
 </menu>
