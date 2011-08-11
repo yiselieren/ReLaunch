@@ -31,6 +31,10 @@ public class ResultsActivity extends Activity {
 	final String                  TAG = "Results";
 	ReLaunchApp                   app;
     HashMap<String, Drawable>     icons;
+    String                        listName;
+    String                        title;
+    Boolean                       rereadOnStart = false;
+    SimpleAdapter                 adapter;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 
     class FLSimpleAdapter extends SimpleAdapter {
@@ -96,8 +100,9 @@ public class ResultsActivity extends Activity {
         	setResult(Activity.RESULT_CANCELED);
         	finish();
         }
-        String listName = data.getExtras().getString("list");
-        String title = data.getExtras().getString("title");
+        listName = data.getExtras().getString("list");
+        title = data.getExtras().getString("title");
+        rereadOnStart = data.getExtras().getBoolean("rereadOnStart");        
 
     	((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) { finish(); }});
@@ -115,7 +120,7 @@ public class ResultsActivity extends Activity {
     		Log.d(TAG, n[0] + ":" + n[1]);
     		itemsArray.add(item);
     	}
-    	SimpleAdapter adapter = new FLSimpleAdapter(this, itemsArray, R.layout.results_item, from, to);
+    	adapter = new FLSimpleAdapter(this, itemsArray, R.layout.results_item, from, to);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -157,4 +162,21 @@ public class ResultsActivity extends Activity {
  			}});
 	}
 
+	@Override
+	protected void onStart() {
+		if (rereadOnStart)
+		{
+			itemsArray = new ArrayList<HashMap<String, String>>();
+			for (String[] n : app.getList(listName))
+			{
+				HashMap<String, String> item = new HashMap<String, String>();
+				item.put("dname", n[0]);
+				item.put("fname", n[1]);
+				Log.d(TAG, n[0] + ":" + n[1]);
+				itemsArray.add(item);
+			}
+			adapter.notifyDataSetChanged();
+		}
+		super.onStart();
+	}
 }

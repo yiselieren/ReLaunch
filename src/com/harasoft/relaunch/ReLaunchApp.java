@@ -100,7 +100,14 @@ public class ReLaunchApp extends Application {
     	String dr = f.getParent();
     	String fn = f.getName();
     	String [] entry = new String[] {dr, fn};
-    	lastOpened.remove(entry);
+    	for (int i=0; i<lastOpened.size(); i++)
+    	{
+    		if (lastOpened.get(i)[0].equals(dr)  &&  lastOpened.get(i)[1].equals(fn))
+    		{
+    			lastOpened.remove(i);
+    			break;
+    		}
+    	}
     	if (addToEnd)
     		lastOpened.add(entry);
     	else

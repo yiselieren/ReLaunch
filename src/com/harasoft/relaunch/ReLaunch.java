@@ -509,6 +509,7 @@ public class ReLaunch extends Activity {
 		Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
 		intent.putExtra("list", "LastOpened");
 		intent.putExtra("title", "Last opened");
+		intent.putExtra("rereadOnStart", true);
         startActivity(intent);
 
 	}

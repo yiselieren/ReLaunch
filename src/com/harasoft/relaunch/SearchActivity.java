@@ -110,6 +110,7 @@ public class SearchActivity extends Activity {
 		Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
 		intent.putExtra("list", "searchResults");
 		intent.putExtra("title", "Search results");
+		intent.putExtra("rereadOnStart", false);
         startActivity(intent);
      }
     
