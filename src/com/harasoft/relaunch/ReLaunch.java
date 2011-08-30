@@ -318,43 +318,7 @@ public class ReLaunch extends Activity {
         //Log.d(TAG, "Readers string: \"" + createReadersString(app.getReaders()) + "\"");
 
         // Last opened list
-        app.setLastopened(new ArrayList<String[]>());
-		FileInputStream fis = null;
-		try {
-			fis = openFileInput(LRU_FILE);
-		} catch (FileNotFoundException e) { }
-		if (fis != null)
-		{
-			String l = new String();
-
-			while (true)
-			{				
-				int rc;
-				try {
-					 rc = (char)fis.read();
-				} catch (IOException e) {
-					break;
-				}
-				byte ch = (byte)rc;
-				if (ch == '\n'  ||  ch == -1)
-				{
-					if (!l.equals(""))
-					{
-						Log.d(TAG, "ADD \"" + l + "\"");
-						app.addToLastOpened(l, true);
-						l = new String();
-					}
-					if (ch == -1)
-						break;
-				}
-				else
-					l = l + (char)ch;
-			}
-
-			try {
-				fis.close();
-			} catch (IOException e) { }
-		}
+        app.readFile("lastOpened", LRU_FILE, true);
 
 
         // Main layout
@@ -462,30 +426,8 @@ public class ReLaunch extends Activity {
 		try {
 			lruMax = Integer.parseInt(prefs.getString("lruSize", "30"));
 		} catch(NumberFormatException e) { }
+		app.writeFile("lastOpened", LRU_FILE, lruMax);
 
-		List<String[]> lru = app.getLastopened();
-		Log.d(TAG, "lruMax = " + lruMax);
-		int rmAmount = lru.size() - lruMax;
-		for (int i=0; i<rmAmount; i++)
-			lru.remove(lru.size()-1);
-		
-		FileOutputStream fos = null;
-		try {
-			fos = openFileOutput(LRU_FILE, Context.MODE_PRIVATE);
-		} catch (FileNotFoundException e) {
-			return;
-		}
-		for (int i=0; i<lru.size(); i++)
-		{
-			String line = lru.get(i)[0] + "/" + lru.get(i)[1] + "\n";
-			try {
-				fos.write(line.getBytes());
-			} catch (IOException e) { }		
-		}
-		try {
-			fos.close();
-		} catch (IOException e) { }
-		
 		super.onStop();
 	}
 

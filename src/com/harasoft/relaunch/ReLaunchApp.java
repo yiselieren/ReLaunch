@@ -1,11 +1,16 @@
 package com.harasoft.relaunch;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -20,8 +25,8 @@ public class ReLaunchApp extends Application {
 	private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
     private List<String>                    apps;
-    private List<String[]>                  lastOpened;
-
+    private List<String[]>                  lastOpened = new ArrayList<String[]>();
+    private List<String[]>                  favorites = new ArrayList<String[]>();
 
 	// Miscellaneous public flags
 	public Boolean                          askIfAmbiguous;
@@ -90,28 +95,110 @@ public class ReLaunchApp extends Application {
 
     // Last opened list
     public List<String[]> getLastopened()       { return lastOpened; }
-    public void setLastopened(List<String[]> l) { lastOpened = l;    }
-    public void addToLastOpened(String fullName, Boolean addToEnd)
+    public void addToList(String listName, String fullName, Boolean addToEnd)
     {
-    	File f = new File(fullName);
-    	
+    	Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
+    	List<String[]> resultList;
+
+    	if (listName.equals("lastOpened"))
+    		resultList = lastOpened;
+    	else if (listName.equals("favorites"))
+    		resultList = favorites;
+    	else
+    		return;
+
+    	File f = new File(fullName); 	
     	if (!f.exists())
     		return;
+
     	String dr = f.getParent();
     	String fn = f.getName();
     	String [] entry = new String[] {dr, fn};
-    	for (int i=0; i<lastOpened.size(); i++)
+    	for (int i=0; i<resultList.size(); i++)
     	{
-    		if (lastOpened.get(i)[0].equals(dr)  &&  lastOpened.get(i)[1].equals(fn))
+    		if (resultList.get(i)[0].equals(dr)  &&  resultList.get(i)[1].equals(fn))
     		{
-    			lastOpened.remove(i);
+    			resultList.remove(i);
     			break;
     		}
     	}
     	if (addToEnd)
-    		lastOpened.add(entry);
+    		resultList.add(entry);
     	else
-    		lastOpened.add(0, entry);
+    		resultList.add(0, entry);
+    }
+
+    
+    // Read misc. lists
+    public void readFile(String listName, String fileName, Boolean reverseOrder)
+    {
+    	FileInputStream fis = null;
+    	try {
+    		fis = openFileInput(fileName);
+    	} catch (FileNotFoundException e) { }
+    	if (fis != null)
+    	{
+    		String l = new String();
+
+    		while (true)
+    		{				
+    			int rch;
+    			try {
+    				rch = (char)fis.read();
+    			} catch (IOException e) {
+    				break;
+    			}
+    			byte ch = (byte)rch;
+    			if (ch == '\n'  ||  ch == -1)
+    			{
+    				if (!l.equals(""))
+    				{
+    					Log.d(TAG, "ADD \"" + l + "\"");
+    					addToList(listName, l, reverseOrder);
+    					l = new String();
+    				}
+    				if (ch == -1)
+    					break;
+    			}
+    			else
+    				l = l + (char)ch;
+    		}
+
+    		try {
+    			fis.close();
+    		} catch (IOException e) { }
+    	}
+    }
+    
+    // Save to file miscellaneous lists
+    public void writeFile(String listName, String fileName, int maxEntries)
+    {
+    	List<String[]> resultList;
+    	if (listName.equals("lastOpened"))
+    		resultList = lastOpened;
+    	else if (listName.equals("favorites"))
+    		resultList = favorites;
+    	else
+    		return;
+
+    	FileOutputStream fos = null;
+		try {
+			fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+		} catch (FileNotFoundException e) {
+			return;
+		}
+		for (int i=0; i<resultList.size(); i++)
+		{
+			if (i >= maxEntries)
+				break;
+			String line = resultList.get(i)[0] + "/" + resultList.get(i)[1] + "\n";
+			try {
+				fos.write(line.getBytes());
+			} catch (IOException e) { }		
+		}
+		try {
+			fos.close();
+		} catch (IOException e) { }
     }
 
     // common utility - get intent by label, null if not found
@@ -135,7 +222,7 @@ public class ReLaunchApp extends Application {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW); 
             i.setDataAndType(Uri.parse("file://" + file), "application/fb2"); 
-            addToLastOpened(file, false);
+            addToList("lastOpened", file, false);
             return i;
     	}
     	else
@@ -147,7 +234,7 @@ public class ReLaunchApp extends Application {
             {
             	i.setAction(Intent.ACTION_VIEW); 
             	i.setData(Uri.parse("file://" + file));
-                addToLastOpened(file, false);
+                addToList("lastOpened", file, false);
             	return i;
             }
     	}
