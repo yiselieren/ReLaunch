@@ -2,13 +2,21 @@
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="General">
-      <CheckBoxPreference android:summaryOff="Do not show buttons on main screen" android:summaryOn="Show buttons on main screen" android:key="showButtons" android:title="Show buttons on main screen" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-      <EditTextPreference android:enabled="true" android:title="Start directory" android:selectable="true" android:key="startDir" android:persistent="true" android:defaultValue="/sdcard" android:summary="Start here or last visited (see next)"></EditTextPreference>
-      <CheckBoxPreference android:summaryOff="Always start from start directory" android:summaryOn="Start from last visited directory" android:key="saveDir" android:title="Save last visited directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-      <CheckBoxPreference android:summaryOff="Run first association" android:summaryOn="Ask if association is ambiguous" android:key="askAmbig" android:title="Ambiguous associations" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
-      <EditTextPreference android:enabled="true" android:title="Last opened list size" android:selectable="true" android:key="lruSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened list" android:numeric="integer"></EditTextPreference>
+       <CheckBoxPreference android:summaryOff="Do not show buttons on main screen" android:summaryOn="Show buttons on main screen" android:key="showButtons" android:title="Show buttons on main screen" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <EditTextPreference android:enabled="true" android:title="Start directory" android:selectable="true" android:key="startDir" android:persistent="true" android:defaultValue="/sdcard" android:summary="Start here or last visited (see next)"></EditTextPreference>
+       <CheckBoxPreference android:summaryOff="Always start from start directory" android:summaryOn="Start from last visited directory" android:key="saveDir" android:title="Save last visited directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="Run first association" android:summaryOn="Ask if association is ambiguous" android:key="askAmbig" android:title="Ambiguous associations" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
+       <EditTextPreference android:enabled="true" android:title="Last opened list size" android:selectable="true" android:key="lruSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened list" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Favorites list size" android:selectable="true" android:key="favSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of favorites list" android:numeric="integer"></EditTextPreference>
      </PreferenceCategory>
+
+	 <PreferenceCategory android:title="Confirmations">
+       <CheckBoxPreference android:summaryOff="Delete file without confirmation" android:summaryOn="Ask confirmation for file deletion" android:key="confirmFileDelete" android:title="Confirm file deletion" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="Delete directories without confirmation" android:summaryOn="Ask confirmation for directory deletion" android:key="confirmDirDelete" android:title="Confirm deletion of every directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="Recoursive delete non empty directories without confirmation (dangerous!)" android:summaryOn="Ask confirmation for recoursive directory deletion" android:key="confirmNonEmptyDirDelete" android:title="Confirm deletion of non empty directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+     </PreferenceCategory>
+     
     <PreferenceCategory android:title="Search">
-      <EditTextPreference android:enabled="true" android:title="Root search directory" android:selectable="true" android:key="searchRoot" android:persistent="true" android:defaultValue="/sdcard" android:summary="Search always start here"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Root search directory" android:selectable="true" android:key="searchRoot" android:persistent="true" android:defaultValue="/sdcard" android:summary="Search always start here"></EditTextPreference>
     </PreferenceCategory>
 </PreferenceScreen>

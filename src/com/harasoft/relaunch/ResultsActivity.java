@@ -9,15 +9,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,15 +31,20 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ResultsActivity extends Activity {
 	final String                  TAG = "Results";
+	final int                     CNTXT_MENU_RMFAV = 1;
+	final int                     CNTXT_MENU_RMFILE = 2;
+	final int                     CNTXT_MENU_CANCEL = 3;
 	ReLaunchApp                   app;
     HashMap<String, Drawable>     icons;
     String                        listName;
     String                        title;
     Boolean                       rereadOnStart = false;
+    SharedPreferences             prefs;
     SimpleAdapter                 adapter;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 
@@ -90,6 +101,7 @@ public class ResultsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
     	setContentView(R.layout.results_layout);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	app = ((ReLaunchApp)getApplicationContext());
     	icons = app.getIcons();
     	
@@ -112,6 +124,7 @@ public class ResultsActivity extends Activity {
     	ListView lv = (ListView) findViewById(R.id.results_list);
     	((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
 
+    	Log.d(TAG, "listname=" + listName + " title=" + title);
     	for (String[] n : app.getList(listName))
     	{
        		HashMap<String, String> item = new HashMap<String, String>();
@@ -122,6 +135,7 @@ public class ResultsActivity extends Activity {
     	}
     	adapter = new FLSimpleAdapter(this, itemsArray, R.layout.results_item, from, to);
         lv.setAdapter(adapter);
+        registerForContextMenu(lv);
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 
@@ -178,5 +192,70 @@ public class ResultsActivity extends Activity {
 			adapter.notifyDataSetChanged();
 		}
 		super.onStart();
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
+	{
+		if (listName.equals("favorites"))
+		{
+    		menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
+    		menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
+    		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+		}
+		else if (listName.equals("lastOpened"))
+		{
+    		menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
+    		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");			
+		}
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		if (item.getItemId() == CNTXT_MENU_CANCEL)
+			return true;
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final int pos = info.position;
+		HashMap<String, String> i = itemsArray.get(pos);
+		final String dname = i.get("dname");
+		final String fname = i.get("fname");
+
+		switch (item.getItemId())
+		{
+		case CNTXT_MENU_RMFAV:
+		    app.removeFromList("favorites", dname, fname);
+			itemsArray.remove(pos);
+			adapter.notifyDataSetChanged();
+			break;
+		case CNTXT_MENU_RMFILE:
+			if (prefs.getBoolean("confirmFileDelete", true))
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("Are you sure to delete file \"" + fname + "\"?");
+				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+							dialog.dismiss();
+							if (app.removeFile(dname, fname))
+							{
+								itemsArray.remove(pos);
+								adapter.notifyDataSetChanged();
+							}
+						}});
+				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+            			dialog.dismiss();
+					}});
+				builder.show();
+			}
+			else if (app.removeFile(dname, fname))
+			{
+				itemsArray.remove(pos);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		}
+		return true;
 	}
 }

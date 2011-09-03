@@ -25,32 +25,9 @@ public class ReLaunchApp extends Application {
 	private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
     private List<String>                    apps;
-    private List<String[]>                  lastOpened = new ArrayList<String[]>();
-    private List<String[]>                  favorites = new ArrayList<String[]>();
 
 	// Miscellaneous public flags
 	public Boolean                          askIfAmbiguous;
-
-	// General lists
-	public List<String[]> getList(String name) {
-		if (m.containsKey(name))
-			return m.get(name);
-		else
-			return new ArrayList<String[]>();
-	}
-	public void setList(String name, List<String[]> l) {
-		m.put(name, l);
-	}
-	public void dumpLists()
-	{
-		for (String k : m.keySet())
-		{
-			Log.d(TAG, "LIST: \"" + k + "\"");
-			for (String[] n : m.get(k))
-				Log.d(TAG, "    \"" + n[0] + "\"; \"" + n[1] + "\"");
-		}
-		
-	}
 	
 	// Icons
     public HashMap<String, Drawable> getIcons()       { return icons; }
@@ -93,26 +70,59 @@ public class ReLaunchApp extends Application {
     	return rc;
     }
 
-    // Last opened list
-    public List<String[]> getLastopened()       { return lastOpened; }
+    /*
+     * Misc lists management (list is identified by name)
+     * --------------------------------------------------
+     */
+
+    // get list by name
+	public List<String[]> getList(String name) {
+		if (m.containsKey(name))
+			return m.get(name);
+		else
+			return new ArrayList<String[]>();
+	}
+
+	// set list by name
+	public void setList(String name, List<String[]> l) {
+		m.put(name, l);
+	}
+
+	// dump all lists to log (debug)
+	public void dumpLists()
+	{
+		for (String k : m.keySet())
+		{
+			Log.d(TAG, "LIST: \"" + k + "\"");
+			for (String[] n : m.get(k))
+				Log.d(TAG, "    \"" + n[0] + "\"; \"" + n[1] + "\"");
+		}
+		
+	}
+
+    // Add to list
+    public void addToList(String listName, String dr, String fn, Boolean addToEnd)
+    {
+    	Log.d(TAG, "addToList(" + listName + ", " + dr + ":" + fn + ", " + addToEnd + ")");
+    	addToList_internal(listName, dr, fn, addToEnd);
+    }
     public void addToList(String listName, String fullName, Boolean addToEnd)
     {
     	Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
-    	List<String[]> resultList;
-
-    	if (listName.equals("lastOpened"))
-    		resultList = lastOpened;
-    	else if (listName.equals("favorites"))
-    		resultList = favorites;
-    	else
-    		return;
-
     	File f = new File(fullName); 	
     	if (!f.exists())
     		return;
+    	addToList_internal(listName, f.getParent(), f.getName(), addToEnd);
 
-    	String dr = f.getParent();
-    	String fn = f.getName();
+    }
+    public void addToList_internal(String listName, String dr, String fn, Boolean addToEnd)
+    {
+    	Log.d(TAG, "addToList_internal(" + listName + ", " + dr + ":" + fn  + ", " + addToEnd + ")");
+
+		if (!m.containsKey(listName))
+			m.put(listName, new ArrayList<String[]>());
+		List<String[]> resultList = m.get(listName);
+
     	String [] entry = new String[] {dr, fn};
     	for (int i=0; i<resultList.size(); i++)
     	{
@@ -128,6 +138,52 @@ public class ReLaunchApp extends Application {
     		resultList.add(0, entry);
     }
 
+    // Remove from list
+    public void removeFromList(String listName, String dr, String fn)
+    {
+    	Log.d(TAG, "removeFromList(" + listName + ", " + dr + ":" + fn + ")");
+    	removeFromList_internal(listName, dr, fn);
+    }
+    public void removeFromList(String listName, String fullName)
+    {
+    	Log.d(TAG, "removeFromList(" + listName + ", " + fullName + ")");
+    	File f = new File(fullName); 	
+    	if (!f.exists())
+    		return;
+    	removeFromList_internal(listName, f.getParent(), f.getName());
+
+    }
+    public void removeFromList_internal(String listName, String dr, String fn)
+    {
+    	Log.d(TAG, "removeFromList_internal(" + listName + ", " + dr + ":" + fn  + ")");
+
+		if (!m.containsKey(listName))
+			return;
+		List<String[]>  resultList = m.get(listName);
+    	for (int i=0; i<resultList.size(); i++)
+    	{
+    		if (resultList.get(i)[0].equals(dr)  &&  resultList.get(i)[1].equals(fn))
+    		{
+    			resultList.remove(i);
+    			return;
+    		}
+    	}
+    }
+
+    // If list contains
+    public boolean contains(String listName, String dr, String fn)
+    {
+		if (!m.containsKey(listName))
+			return false;
+		List<String[]> resultList = m.get(listName);
+
+    	for (int i=0; i<resultList.size(); i++)
+    	{
+    		if (resultList.get(i)[0].equals(dr)  &&  resultList.get(i)[1].equals(fn))
+	    		return true;
+    	}
+    	return false;
+    }
     
     // Read misc. lists
     public void readFile(String listName, String fileName, Boolean reverseOrder)
@@ -173,14 +229,10 @@ public class ReLaunchApp extends Application {
     // Save to file miscellaneous lists
     public void writeFile(String listName, String fileName, int maxEntries)
     {
-    	List<String[]> resultList;
-    	if (listName.equals("lastOpened"))
-    		resultList = lastOpened;
-    	else if (listName.equals("favorites"))
-    		resultList = favorites;
-    	else
-    		return;
+		if (!m.containsKey(listName))
+			return;
 
+		List<String[]> resultList = m.get(listName);
     	FileOutputStream fos = null;
 		try {
 			fos = openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -199,6 +251,55 @@ public class ReLaunchApp extends Application {
 		try {
 			fos.close();
 		} catch (IOException e) { }
+    }
+
+    // Remove file
+    public boolean removeFile(String fullname)
+    {
+    	File f = new File(fullname);
+    	return removeFile(f.getParent(), f.getName());
+    }
+    public boolean removeFile(String dr, String fn)
+    {
+    	boolean rc = false;
+    	removeFromList("lastOpened", dr, fn);
+    	removeFromList("favorites", dr, fn);
+    	File f = new File(dr + "/" + fn);
+    	if (f.exists())
+    	{
+    		try {
+    			rc = f.delete();
+    		} catch (SecurityException e) { }		
+    	}
+    	return rc;
+    }
+    
+    // Remove directory
+    public boolean removeDirectory(String dr, String fn)
+    {
+    	boolean rc = false;
+    	String dname = dr + "/" + fn;
+    	File   d = new File(dname);
+    	File[] allEntries = d.listFiles();
+    	for (File f : allEntries)
+    	{
+    		if (f.isDirectory())
+    		{
+    			Log.d(TAG, "removeDirectory(" + dname + ", " + f.getName() + ")");
+    		    if (!removeDirectory(dname, f.getName()))
+    		    	return false;
+    		}
+    		else
+    		{
+    			Log.d(TAG, "removeFile(" + dname + ", " + f.getName() + ")");
+    			if (!removeFile(dname, f.getName()))
+    				return false;
+    		}
+    	}
+		try {
+			rc = d.delete();
+		} catch (SecurityException e) { }
+    	return rc;
     }
 
     // common utility - get intent by label, null if not found
@@ -224,6 +325,14 @@ public class ReLaunchApp extends Application {
             i.setDataAndType(Uri.parse("file://" + file), "application/fb2"); 
             addToList("lastOpened", file, false);
             return i;
+    	}
+    	else if (name.equals("EBookDroid"))
+    	{ 
+    		Intent i = new Intent();
+    		i.setAction(Intent.ACTION_VIEW);
+    		i.setDataAndType(Uri.parse("file://" + file), "application/djvu");
+            addToList("lastOpened", file, false);
+    		return i; 
     	}
     	else
     	{

@@ -1,10 +1,6 @@
 package com.harasoft.relaunch;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,21 +27,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ReLaunch extends Activity {
 	
 	final String                  TAG = "ReLaunch";
 	final String                  LRU_FILE = "LruFile.txt";
+	final String                  FAV_FILE = "Favorites.txt";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
+	final static int              CNTXT_MENU_DELETE_F=1;
+	final static int              CNTXT_MENU_DELETE_D_EMPTY=2;
+	final static int              CNTXT_MENU_DELETE_D_NON_EMPTY=3;
+	final static int              CNTXT_MENU_ADD=4;
+	final static int              CNTXT_MENU_CANCEL=5;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
 	List<HashMap<String, String>> itemsArray;
@@ -197,6 +203,7 @@ public class ReLaunch extends Activity {
 
         adapter = new FLSimpleAdapter(this, itemsArray, R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
+        registerForContextMenu(lv);
         if (startPosition != -1)
         	lv.setSelection(startPosition);
         lv.setOnItemClickListener(new OnItemClickListener() {
@@ -256,7 +263,7 @@ public class ReLaunch extends Activity {
             }});
     }
 
-    private HashMap<String, Drawable> createIconsList(PackageManager pm)
+	private HashMap<String, Drawable> createIconsList(PackageManager pm)
     {
         HashMap<String, Drawable> rc = new HashMap<String, Drawable>();
         
@@ -319,6 +326,7 @@ public class ReLaunch extends Activity {
 
         // Last opened list
         app.readFile("lastOpened", LRU_FILE, true);
+        app.readFile("favorites", FAV_FILE, false);
 
 
         // Main layout
@@ -342,7 +350,7 @@ public class ReLaunch extends Activity {
         	setContentView(R.layout.main_nobuttons);
 
         // First directory to get to
-        if (prefs.getBoolean("saveDir", false))
+        if (prefs.getBoolean("saveDir", true))
         	drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
         else
         	drawDirectory(prefs.getString("startDir", "/sdcard"), -1);
@@ -421,12 +429,139 @@ public class ReLaunch extends Activity {
 	}
 
 	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	    AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
+		HashMap<String, String> i = itemsArray.get(info.position);
+		String fn = i.get("name");
+		String dr = i.get("dname");
+		String tp  = i.get("type");
+
+		if (tp.equals("file"))
+		{
+			if (!app.contains("favorites", dr, fn))
+				menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
+			menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, "Delete");
+		}
+		else
+		{
+	    	File   d = new File(dr + "/" + fn);
+	    	String[] allEntries = d.list();
+	    	if (allEntries.length > 0)
+	    		menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, "Delete NON-EMPTY directory!");
+	    	else
+	    		menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, "Delete empty directory");
+		}
+		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getItemId() == CNTXT_MENU_CANCEL)
+			return true;
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final int pos = info.position;
+		HashMap<String, String> i = itemsArray.get(pos);
+		final String fname = i.get("name");
+		final String dname = i.get("dname");
+
+		switch (item.getItemId())
+		{
+		case CNTXT_MENU_ADD:
+			app.addToList("favorites", dname, fname, false);
+			break;
+		case CNTXT_MENU_DELETE_F:
+			if (prefs.getBoolean("confirmFileDelete", true))
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("Are you sure to delete file \"" + fname + "\"?");
+				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+							dialog.dismiss();
+							if (app.removeFile(dname, fname))
+							{
+								itemsArray.remove(pos);
+								adapter.notifyDataSetChanged();
+							}
+						}});
+				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+            			dialog.dismiss();
+					}});
+				builder.show();
+			}
+			else if (app.removeFile(dname, fname))
+			{
+				itemsArray.remove(pos);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		case CNTXT_MENU_DELETE_D_EMPTY:
+			if (prefs.getBoolean("confirmDirDelete", true))
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("Are you sure to delete empty directory \"" + fname + "\"?");
+				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+							dialog.dismiss();
+							if (app.removeFile(dname, fname))
+							{
+								itemsArray.remove(pos);
+								adapter.notifyDataSetChanged();
+							}
+						}});
+				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+            			dialog.dismiss();
+					}});
+				builder.show();
+			}
+			else if (app.removeFile(dname, fname))
+			{
+				itemsArray.remove(pos);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		case CNTXT_MENU_DELETE_D_NON_EMPTY:
+			if (prefs.getBoolean("confirmNonEmptyDirDelete", true))
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
+				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+							dialog.dismiss();
+							if (app.removeDirectory(dname, fname))
+							{
+								itemsArray.remove(pos);
+								adapter.notifyDataSetChanged();
+							}
+						}});
+				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+            			dialog.dismiss();
+					}});
+				builder.show();
+			}
+			else if (app.removeDirectory(dname, fname))
+			{
+				itemsArray.remove(pos);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		}
+		return true;
+	}
+
+	@Override
 	protected void onStop() {
 		int lruMax = 30;
+		int favMax = 30;
 		try {
 			lruMax = Integer.parseInt(prefs.getString("lruSize", "30"));
+			favMax = Integer.parseInt(prefs.getString("favSize", "30"));
 		} catch(NumberFormatException e) { }
 		app.writeFile("lastOpened", LRU_FILE, lruMax);
+		app.writeFile("favorites",  FAV_FILE, favMax);
 
 		super.onStop();
 	}
@@ -447,9 +582,8 @@ public class ReLaunch extends Activity {
 	}
 	
 	private void menuLastopened() {
-    	app.setList("LastOpened", app.getLastopened());
 		Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
-		intent.putExtra("list", "LastOpened");
+		intent.putExtra("list", "lastOpened");
 		intent.putExtra("title", "Last opened");
 		intent.putExtra("rereadOnStart", true);
         startActivity(intent);
@@ -457,7 +591,11 @@ public class ReLaunch extends Activity {
 	}
 	
 	private void menuFavorites() {
-		Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
+		intent.putExtra("list", "favorites");
+		intent.putExtra("title", "Favorites");
+		intent.putExtra("rereadOnStart", true);
+        startActivity(intent);
 	}
 	
 	private void menuAbout() {
