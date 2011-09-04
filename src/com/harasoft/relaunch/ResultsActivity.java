@@ -10,10 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -25,10 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -45,13 +42,14 @@ public class ResultsActivity extends Activity {
     String                        title;
     Boolean                       rereadOnStart = false;
     SharedPreferences             prefs;
-    SimpleAdapter                 adapter;
+    FLSimpleAdapter               adapter;
+    ListView                      lv;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 
-    class FLSimpleAdapter extends SimpleAdapter {
-    	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
+	class FLSimpleAdapter extends ArrayAdapter<HashMap<String, String>> {
+    	FLSimpleAdapter(Context context, int resource, List<HashMap<String, String>> data)
     	{
-    		super(context, data, resource, from, to);
+    		super(context, resource, data);
     	}
 
     	@Override
@@ -62,6 +60,7 @@ public class ResultsActivity extends Activity {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.results_item, null);
             }
+
             HashMap<String, String> item = itemsArray.get(position);
             if (item != null) {
             	TextView  tv1 = (TextView) v.findViewById(R.id.res_dname);
@@ -119,9 +118,7 @@ public class ResultsActivity extends Activity {
     	((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) { finish(); }});
 
-    	String[] from = new String[] { "fname", "dname" };
-    	int[]    to   = new int[] { R.id.res_fname, R.id.res_dname };
-    	ListView lv = (ListView) findViewById(R.id.results_list);
+    	lv = (ListView) findViewById(R.id.results_list);
     	((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
 
     	Log.d(TAG, "listname=" + listName + " title=" + title);
@@ -133,7 +130,7 @@ public class ResultsActivity extends Activity {
     		Log.d(TAG, n[0] + ":" + n[1]);
     		itemsArray.add(item);
     	}
-    	adapter = new FLSimpleAdapter(this, itemsArray, R.layout.results_item, from, to);
+    	adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
         lv.setOnItemClickListener(new OnItemClickListener() {
