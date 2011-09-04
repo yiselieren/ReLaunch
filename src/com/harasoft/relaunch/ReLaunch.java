@@ -468,7 +468,7 @@ public class ReLaunch extends Activity {
 		switch (item.getItemId())
 		{
 		case CNTXT_MENU_ADD:
-			app.addToList("favorites", dname, fname, false);
+			app.addToList("favorites", dname, fname, true);
 			break;
 		case CNTXT_MENU_DELETE_F:
 			if (prefs.getBoolean("confirmFileDelete", true))

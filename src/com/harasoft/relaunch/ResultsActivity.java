@@ -36,6 +36,8 @@ public class ResultsActivity extends Activity {
 	final int                     CNTXT_MENU_RMFAV = 1;
 	final int                     CNTXT_MENU_RMFILE = 2;
 	final int                     CNTXT_MENU_CANCEL = 3;
+	final int                     CNTXT_MENU_MOVEUP = 4;
+	final int                     CNTXT_MENU_MOVEDOWN = 5;
 	ReLaunchApp                   app;
     HashMap<String, Drawable>     icons;
     String                        listName;
@@ -54,18 +56,26 @@ public class ResultsActivity extends Activity {
 
     	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {
-    		//return super.getView(position, convertView, parent);
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.results_item, null);
             }
 
+        	TextView  tv1 = (TextView) v.findViewById(R.id.res_dname);
+        	TextView  tv2 = (TextView) v.findViewById(R.id.res_fname);
+        	ImageView iv = (ImageView) v.findViewById(R.id.res_icon);
+
+            if (position >= itemsArray.size())
+            {
+            	v.setVisibility(View.INVISIBLE);
+            	tv1.setVisibility(View.INVISIBLE);
+            	tv2.setVisibility(View.INVISIBLE);
+            	iv.setVisibility(View.INVISIBLE);
+            	return v;
+            }
             HashMap<String, String> item = itemsArray.get(position);
             if (item != null) {
-            	TextView  tv1 = (TextView) v.findViewById(R.id.res_dname);
-            	TextView  tv2 = (TextView) v.findViewById(R.id.res_fname);
-            	ImageView iv = (ImageView) v.findViewById(R.id.res_icon);
             	String    fname = item.get("fname");
             	String    dname = item.get("dname");
             	if (tv1 != null)
@@ -194,8 +204,15 @@ public class ResultsActivity extends Activity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
+	    AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
+		int pos = info.position;
+
 		if (listName.equals("favorites"))
 		{
+			if (pos > 0)
+				menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+			if (pos < (itemsArray.size()-1))
+				menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
     		menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
     		menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
     		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
@@ -222,9 +239,28 @@ public class ResultsActivity extends Activity {
 		switch (item.getItemId())
 		{
 		case CNTXT_MENU_RMFAV:
-		    app.removeFromList("favorites", dname, fname);
+			app.removeFromList("favorites", dname, fname);
 			itemsArray.remove(pos);
-			adapter.notifyDataSetChanged();
+			adapter.notifyDataSetChanged();   
+			lv.invalidate();
+			break;
+		case CNTXT_MENU_MOVEUP:
+			if (pos > 0)
+			{
+				HashMap<String, String> it = itemsArray.get(pos);
+				itemsArray.remove(pos);
+				itemsArray.add(pos-1, it);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+		case CNTXT_MENU_MOVEDOWN:
+			if (pos < (itemsArray.size()-1))
+			{
+				HashMap<String, String> it = itemsArray.get(pos);
+				itemsArray.remove(pos);
+				itemsArray.add(pos+1, it);
+				adapter.notifyDataSetChanged();				
+			}
 			break;
 		case CNTXT_MENU_RMFILE:
 			if (prefs.getBoolean("confirmFileDelete", true))
