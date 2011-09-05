@@ -5,12 +5,12 @@
     android:layout_height="fill_parent"
     >
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_gravity="center" android:layout_height="0dp" android:layout_weight="0.1">
-        <ImageButton android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_preferences" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/settings_btn"></ImageButton>
-        <ImageButton android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_view" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/types_btn"></ImageButton>
-        <ImageButton android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_search" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/search_btn"></ImageButton>
-        <ImageButton android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="0dp" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/lru_btn"></ImageButton>
-        <ImageButton android:layout_width="0dp" android:id="@+id/favor_btn" android:layout_weight="1" android:src="@android:drawable/btn_star" android:layout_height="wrap_content"></ImageButton>
-        <ImageButton android:layout_height="wrap_content" android:src="@android:drawable/ic_menu_info_details" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/about_btn"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_preferences" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/settings_btn" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_view" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/types_btn" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_search" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/search_btn" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/lru_btn" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:layout_width="0dp" android:id="@+id/favor_btn" android:layout_weight="1" android:src="@android:drawable/btn_star" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_info_details" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/about_btn" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
     </LinearLayout>
     <TextView android:text="TextView" android:id="@+id/title_txt" android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="3" android:layout_height="0dp" android:layout_width="fill_parent" android:layout_weight="0.06" android:layout_gravity="center"></TextView>
     <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_weight="1" android:layout_height="0dp"></ListView>

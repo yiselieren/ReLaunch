@@ -104,8 +104,8 @@ public class SearchActivity extends Activity {
     	addEntries(root, searchResults, case_sens, known_only, regexp, pattern);
     	
     	//// DEBUG
-    	for (String[] r : searchResults)
-    		Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
+    	//for (String[] r : searchResults)
+    	//	Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
     	app.setList("searchResults", searchResults);
 		Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
 		intent.putExtra("list", "searchResults");

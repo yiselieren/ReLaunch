@@ -131,13 +131,13 @@ public class ResultsActivity extends Activity {
     	lv = (ListView) findViewById(R.id.results_list);
     	((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
 
-    	Log.d(TAG, "listname=" + listName + " title=" + title);
+    	//Log.d(TAG, "listname=" + listName + " title=" + title);
     	for (String[] n : app.getList(listName))
     	{
        		HashMap<String, String> item = new HashMap<String, String>();
     		item.put("dname", n[0]);
     		item.put("fname", n[1]);
-    		Log.d(TAG, n[0] + ":" + n[1]);
+    		//Log.d(TAG, n[0] + ":" + n[1]);
     		itemsArray.add(item);
     	}
     	adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
@@ -193,7 +193,7 @@ public class ResultsActivity extends Activity {
 				HashMap<String, String> item = new HashMap<String, String>();
 				item.put("dname", n[0]);
 				item.put("fname", n[1]);
-				Log.d(TAG, n[0] + ":" + n[1]);
+				//Log.d(TAG, n[0] + ":" + n[1]);
 				itemsArray.add(item);
 			}
 			adapter.notifyDataSetChanged();
@@ -242,23 +242,43 @@ public class ResultsActivity extends Activity {
 			app.removeFromList("favorites", dname, fname);
 			itemsArray.remove(pos);
 			adapter.notifyDataSetChanged();   
-			lv.invalidate();
 			break;
 		case CNTXT_MENU_MOVEUP:
 			if (pos > 0)
 			{
+				List<String[]>          f = app.getList("favorites");
 				HashMap<String, String> it = itemsArray.get(pos);
+				String[]                fit = f.get(pos);
+
 				itemsArray.remove(pos);
+				f.remove(pos);
 				itemsArray.add(pos-1, it);
+				f.add(pos-1, fit);
+				app.setList("favorites", f);
 				adapter.notifyDataSetChanged();
 			}
 			break;
 		case CNTXT_MENU_MOVEDOWN:
 			if (pos < (itemsArray.size()-1))
 			{
+				List<String[]>          f = app.getList("favorites");
 				HashMap<String, String> it = itemsArray.get(pos);
+				String[]                fit = f.get(pos);
+
+				int size = itemsArray.size();
 				itemsArray.remove(pos);
-				itemsArray.add(pos+1, it);
+				f.remove(pos);
+				if (pos+1 >= size-1)
+				{
+					itemsArray.add(it);
+					f.add(fit);
+				}
+				else
+				{
+					itemsArray.add(pos+1, it);
+					f.add(pos+1, fit);
+				};
+				app.setList("favorites", f);
 				adapter.notifyDataSetChanged();				
 			}
 			break;

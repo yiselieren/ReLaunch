@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 public class ReLaunchApp extends Application {
 	final String                            TAG = "ReLaunchApp";
+	final int                               FileBufferSize = 1024;
 	private HashMap<String, List<String[]>> m = new HashMap<String, List<String[]>>();
 	private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
@@ -103,12 +104,14 @@ public class ReLaunchApp extends Application {
     // Add to list
     public void addToList(String listName, String dr, String fn, Boolean addToEnd)
     {
-    	Log.d(TAG, "addToList(" + listName + ", " + dr + ":" + fn + ", " + addToEnd + ")");
+    	//Log.d(TAG, "addToList(" + listName + ", " + dr + ":" + fn + ", " + addToEnd + ")");
+ 
     	addToList_internal(listName, dr, fn, addToEnd);
     }
     public void addToList(String listName, String fullName, Boolean addToEnd)
     {
-    	Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
+    	//Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
+
     	File f = new File(fullName); 	
     	if (!f.exists())
     		return;
@@ -117,7 +120,7 @@ public class ReLaunchApp extends Application {
     }
     public void addToList_internal(String listName, String dr, String fn, Boolean addToEnd)
     {
-    	Log.d(TAG, "addToList_internal(" + listName + ", " + dr + ":" + fn  + ", " + addToEnd + ")");
+    	//Log.d(TAG, "addToList_internal(" + listName + ", " + dr + ":" + fn  + ", " + addToEnd + ")");
 
 		if (!m.containsKey(listName))
 			m.put(listName, new ArrayList<String[]>());
@@ -141,12 +144,14 @@ public class ReLaunchApp extends Application {
     // Remove from list
     public void removeFromList(String listName, String dr, String fn)
     {
-    	Log.d(TAG, "removeFromList(" + listName + ", " + dr + ":" + fn + ")");
+    	//Log.d(TAG, "removeFromList(" + listName + ", " + dr + ":" + fn + ")");
+
     	removeFromList_internal(listName, dr, fn);
     }
     public void removeFromList(String listName, String fullName)
     {
-    	Log.d(TAG, "removeFromList(" + listName + ", " + fullName + ")");
+    	//Log.d(TAG, "removeFromList(" + listName + ", " + fullName + ")");
+ 
     	File f = new File(fullName); 	
     	if (!f.exists())
     		return;
@@ -155,7 +160,7 @@ public class ReLaunchApp extends Application {
     }
     public void removeFromList_internal(String listName, String dr, String fn)
     {
-    	Log.d(TAG, "removeFromList_internal(" + listName + ", " + dr + ":" + fn  + ")");
+    	//Log.d(TAG, "removeFromList_internal(" + listName + ", " + dr + ":" + fn  + ")");
 
 		if (!m.containsKey(listName))
 			return;
@@ -186,7 +191,7 @@ public class ReLaunchApp extends Application {
     }
     
     // Read misc. lists
-    public void readFile(String listName, String fileName, Boolean reverseOrder)
+    public void readFile(String listName, String fileName)
     {
     	FileInputStream fis = null;
     	try {
@@ -197,27 +202,41 @@ public class ReLaunchApp extends Application {
     		String l = new String();
 
     		while (true)
-    		{				
-    			int rch;
+    		{
+    			byte[] buf = new byte[FileBufferSize];
+    			int rc = -1;
     			try {
-    				rch = (char)fis.read();
-    			} catch (IOException e) {
-    				break;
+    				rc = fis.read(buf, 0, FileBufferSize);
+    			} catch (IOException e)
+    			{
+    				rc = -1;
     			}
-    			byte ch = (byte)rch;
-    			if (ch == '\n'  ||  ch == -1)
+ 
+    			if (rc < 0)
     			{
     				if (!l.equals(""))
     				{
-    					Log.d(TAG, "ADD \"" + l + "\"");
-    					addToList(listName, l, reverseOrder);
-    					l = new String();
+    					//Log.d(TAG, "ADD (last) \"" + l + "\"");
+    					addToList(listName, l, true);
     				}
-    				if (ch == -1)
-    					break;
+					break;
     			}
-    			else
-    				l = l + (char)ch;
+
+    			for (int i=0; i<rc; i++)
+    			{				
+    				byte ch = buf[i];
+    				if (ch == '\n')
+    				{
+    					if (!l.equals(""))
+    					{
+    						//Log.d(TAG, "ADD \"" + l + "\"");
+    						addToList(listName, l, true);
+    						l = new String();
+    					}
+    				}
+    				else
+    					l = l + (char)ch;
+    			}
     		}
 
     		try {
@@ -285,13 +304,13 @@ public class ReLaunchApp extends Application {
     	{
     		if (f.isDirectory())
     		{
-    			Log.d(TAG, "removeDirectory(" + dname + ", " + f.getName() + ")");
+    			//Log.d(TAG, "removeDirectory(" + dname + ", " + f.getName() + ")");
     		    if (!removeDirectory(dname, f.getName()))
     		    	return false;
     		}
     		else
     		{
-    			Log.d(TAG, "removeFile(" + dname + ", " + f.getName() + ")");
+    			//Log.d(TAG, "removeFile(" + dname + ", " + f.getName() + ")");
     			if (!removeFile(dname, f.getName()))
     				return false;
     		}

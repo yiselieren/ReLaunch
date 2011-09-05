@@ -312,7 +312,7 @@ public class ReLaunch extends Activity {
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
-        Log.d(TAG, "Types string: \"" + typesString + "\"");
+        //Log.d(TAG, "Types string: \"" + typesString + "\"");
 
        // Create application icons map
         app.setIcons(createIconsList(getPackageManager()));
@@ -325,8 +325,8 @@ public class ReLaunch extends Activity {
         //Log.d(TAG, "Readers string: \"" + createReadersString(app.getReaders()) + "\"");
 
         // Last opened list
-        app.readFile("lastOpened", LRU_FILE, true);
-        app.readFile("favorites", FAV_FILE, false);
+        app.readFile("lastOpened", LRU_FILE);
+        app.readFile("favorites", FAV_FILE);
 
 
         // Main layout
@@ -363,7 +363,7 @@ public class ReLaunch extends Activity {
 		// Reread preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
-        Log.d(TAG, "Types string: \"" + typesString + "\"");
+        //Log.d(TAG, "Types string: \"" + typesString + "\"");
 
         // Recreate readers list
         app.setReaders(parseReadersString(typesString));
@@ -408,14 +408,14 @@ public class ReLaunch extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
+		//Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
 		if (resultCode != Activity.RESULT_OK)
 			return;
 		switch (requestCode)
 		{
 			case TYPES_ACT:
 				String newTypes = createReadersString(app.getReaders());
-		        Log.d(TAG, "New types string: \"" + newTypes + "\"");
+		        //Log.d(TAG, "New types string: \"" + newTypes + "\"");
 
 		        SharedPreferences.Editor editor = prefs.edit();
 		        editor.putString("types", newTypes);
