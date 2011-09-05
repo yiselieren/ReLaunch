@@ -362,34 +362,26 @@ public class ReLaunchApp extends Application {
     // common utility - return intent to launch reader by reader name and full file name. Null if not found
     public Intent launchReader(String name, String file)
     {
-    	if (name.equals("Nomad Reader"))
+    	for (String[] r : getList("startReaders"))
     	{
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_VIEW); 
-            i.setDataAndType(Uri.parse("file://" + file), "application/fb2"); 
-            addToList("lastOpened", file, false);
-            return i;
+    		if (r[0].equals(name))
+    		{
+    			Intent i = new Intent();
+    			i.setAction(Intent.ACTION_VIEW);
+    			i.setDataAndType(Uri.parse("file://" + file), r[1]);
+    			addToList("lastOpened", file, false);
+    			return i;
+    		}
     	}
-    	else if (name.equals("EBookDroid"))
-    	{ 
-    		Intent i = new Intent();
-    		i.setAction(Intent.ACTION_VIEW);
-    		i.setDataAndType(Uri.parse("file://" + file), "application/djvu");
-            addToList("lastOpened", file, false);
-    		return i; 
-    	}
+    	Intent i = getIntentByLabel(name);
+    	if (i == null)
+    		Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
     	else
     	{
-            Intent i = getIntentByLabel(name);
-            if (i == null)
-            	Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
-            else
-            {
-            	i.setAction(Intent.ACTION_VIEW); 
-            	i.setData(Uri.parse("file://" + file));
-                addToList("lastOpened", file, false);
-            	return i;
-            }
+    		i.setAction(Intent.ACTION_VIEW); 
+    		i.setData(Uri.parse("file://" + file));
+    		addToList("lastOpened", file, false);
+    		return i;
     	}
     	return null;
     }

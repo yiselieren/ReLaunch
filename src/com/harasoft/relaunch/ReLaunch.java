@@ -43,7 +43,7 @@ public class ReLaunch extends Activity {
 	final String                  TAG = "ReLaunch";
 	final String                  LRU_FILE = "LruFile.txt";
 	final String                  FAV_FILE = "Favorites.txt";
-	final String                  RDR_FILE = "Readers.txt";
+	static public final String    RDR_FILE = "Readers.txt";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
@@ -576,7 +576,6 @@ public class ReLaunch extends Activity {
 		} catch(NumberFormatException e) { }
 		app.writeFile("lastOpened", LRU_FILE, lruMax);
 		app.writeFile("favorites",  FAV_FILE, favMax);
-        app.writeFile("startReaders", RDR_FILE, 0, ":");
 		super.onStop();
 	}
 
@@ -613,7 +612,8 @@ public class ReLaunch extends Activity {
 	}
 	
 	private void menuReaders() {
-		Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(ReLaunch.this, ReadersActivity.class);
+        startActivity(intent);
 	}
 	
 	private void menuAbout() {

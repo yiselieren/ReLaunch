@@ -5,8 +5,7 @@
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
     <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/editText1" android:inputType="textMultiLine" android:editable="false"
-      android:text="We will try to start these readers using setDataAndType() with file name and specified type. All other readers we will start using setData() with file name.">
-      <requestFocus></requestFocus>
+      android:text="We will try to start readers listed below using general intent and setDataAndType() with file name and specified type. All other readers we will start explicitly and we will use setData() to set the  file name." android:focusable="false">
     </EditText>
     <ListView android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/readers_lv"></ListView>
     <LinearLayout android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_weight="0.02" android:baselineAligned="false">
