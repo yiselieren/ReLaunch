@@ -11,6 +11,8 @@
     </item>
     <item android:id="@+id/favorites" android:title="Favorites" android:icon="@android:drawable/btn_star">
     </item>
+    <item android:id="@+id/readers" android:title="Readers" android:icon="@android:drawable/ic_media_play">
+    </item>
     <item android:id="@+id/about" android:title="About" android:icon="@android:drawable/ic_menu_info_details">
     </item>
 </menu>

@@ -43,6 +43,7 @@ public class ReLaunch extends Activity {
 	final String                  TAG = "ReLaunch";
 	final String                  LRU_FILE = "LruFile.txt";
 	final String                  FAV_FILE = "Favorites.txt";
+	final String                  RDR_FILE = "Readers.txt";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
@@ -324,10 +325,18 @@ public class ReLaunch extends Activity {
         app.setReaders(parseReadersString(typesString));
         //Log.d(TAG, "Readers string: \"" + createReadersString(app.getReaders()) + "\"");
 
-        // Last opened list
+        // Miscellaneous lists list
         app.readFile("lastOpened", LRU_FILE);
         app.readFile("favorites", FAV_FILE);
-
+        app.readFile("startReaders", RDR_FILE, ":");
+        if (app.getList("startReaders").size() < 1)
+        {
+        	// Default list for start readers
+        	List<String[]> nl = new ArrayList<String[]>();
+        	nl.add(new String[] {"Nomad Reader", "application/fb2"});
+        	nl.add(new String[] {"EBookDroid",   "application/djvu"});
+        	app.setList("startReaders", nl);
+        }
 
         // Main layout
         if (prefs.getBoolean("showButtons", true))
@@ -343,6 +352,8 @@ public class ReLaunch extends Activity {
         		public void onClick(View v) { menuLastopened(); }});
         	((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuFavorites(); }});
+        	((ImageButton)findViewById(R.id.readers_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { menuReaders(); }});
         	((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuAbout(); }});
         }
@@ -391,6 +402,9 @@ public class ReLaunch extends Activity {
 		        return true;
 			case R.id.about:
 				menuAbout();
+				return true;
+			case R.id.readers:
+				menuReaders();
 				return true;
 			case R.id.setting:
 				menuSettings();
@@ -562,7 +576,7 @@ public class ReLaunch extends Activity {
 		} catch(NumberFormatException e) { }
 		app.writeFile("lastOpened", LRU_FILE, lruMax);
 		app.writeFile("favorites",  FAV_FILE, favMax);
-
+        app.writeFile("startReaders", RDR_FILE, 0, ":");
 		super.onStop();
 	}
 
@@ -596,6 +610,10 @@ public class ReLaunch extends Activity {
 		intent.putExtra("title", "Favorites");
 		intent.putExtra("rereadOnStart", true);
         startActivity(intent);
+	}
+	
+	private void menuReaders() {
+		Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
 	}
 	
 	private void menuAbout() {

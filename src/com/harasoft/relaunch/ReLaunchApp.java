@@ -110,12 +110,28 @@ public class ReLaunchApp extends Application {
     }
     public void addToList(String listName, String fullName, Boolean addToEnd)
     {
+    	addToList(listName, fullName, addToEnd, "/");
+    }
+    public void addToList(String listName, String fullName, Boolean addToEnd, String delimiter)
+    {
     	//Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
 
-    	File f = new File(fullName); 	
-    	if (!f.exists())
-    		return;
-    	addToList_internal(listName, f.getParent(), f.getName(), addToEnd);
+    	if (delimiter.equals("/"))
+    	{
+    		File f = new File(fullName); 	
+    		if (!f.exists())
+    			return;
+    		addToList_internal(listName, f.getParent(), f.getName(), addToEnd);
+    	}
+    	else
+    	{
+    		int ind = fullName.indexOf(delimiter);
+    		if (ind < 0)
+    			return;
+    		if (ind+delimiter.length() >= fullName.length())
+    			return;
+    		addToList_internal(listName, fullName.substring(0, ind), fullName.substring(ind+delimiter.length()), addToEnd);
+    	}
 
     }
     public void addToList_internal(String listName, String dr, String fn, Boolean addToEnd)
@@ -193,6 +209,11 @@ public class ReLaunchApp extends Application {
     // Read misc. lists
     public void readFile(String listName, String fileName)
     {
+    	readFile(listName, fileName, "/");
+    }
+
+    public void readFile(String listName, String fileName, String delimiter)
+    {
     	FileInputStream fis = null;
     	try {
     		fis = openFileInput(fileName);
@@ -248,6 +269,10 @@ public class ReLaunchApp extends Application {
     // Save to file miscellaneous lists
     public void writeFile(String listName, String fileName, int maxEntries)
     {
+    	writeFile(listName, fileName, maxEntries, "/");
+    }
+    public void writeFile(String listName, String fileName, int maxEntries, String delimiter)
+    {
 		if (!m.containsKey(listName))
 			return;
 
@@ -260,9 +285,9 @@ public class ReLaunchApp extends Application {
 		}
 		for (int i=0; i<resultList.size(); i++)
 		{
-			if (i >= maxEntries)
+			if (maxEntries != 0  &&  i >= maxEntries)
 				break;
-			String line = resultList.get(i)[0] + "/" + resultList.get(i)[1] + "\n";
+			String line = resultList.get(i)[0] + delimiter + resultList.get(i)[1] + "\n";
 			try {
 				fos.write(line.getBytes());
 			} catch (IOException e) { }		
