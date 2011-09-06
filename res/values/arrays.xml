@@ -4,4 +4,12 @@
         <item>Substring</item>
         <item>Regexp</item>
     </string-array>
+    <string-array name="filter_values">
+        <item>Filename starts with</item>
+        <item>Filename ends with</item>
+        <item>Filename contains</item>
+        <item>Filename matches regexp</item>
+        <item>New books</item>
+        <item>New books and books you are reading now</item>
+    </string-array>
 </resources>

@@ -12,7 +12,7 @@
     <LinearLayout android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_weight="0.02" android:baselineAligned="false">
         <Button android:id="@+id/readers_ok" android:layout_gravity="center" android:text="OK" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
         <Button android:id="@+id/readers_new" android:layout_gravity="center" android:text="Add new" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
-        <Button android:text="Revert to defaults" android:layout_width="0dp" android:id="@+id/readers_revert" android:layout_height="fill_parent" android:layout_weight="1"></Button>
-        <Button android:text="Cancel" android:layout_width="0dp" android:id="@+id/readers_cancel" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="1"></Button>
+        <Button android:id="@+id/readers_revert" android:text="Revert to defaults" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
+        <Button android:id="@+id/readers_cancel" android:text="Cancel" android:layout_width="0dp" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="1"></Button>
     </LinearLayout>
 </LinearLayout>
