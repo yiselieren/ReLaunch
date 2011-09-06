@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +36,11 @@ public class ReadersActivity extends Activity {
     	}
 
     	@Override
+		public int getCount() {
+    		return itemsArray.size();
+		}
+
+		@Override
     	public View getView(final int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
@@ -42,100 +48,101 @@ public class ReadersActivity extends Activity {
                 v = vi.inflate(R.layout.readers_item, null);
             }
 
+        	Button  rdrName = (Button) v.findViewById(R.id.readers_name);
+        	Button  typeName = (Button) v.findViewById(R.id.readers_type);
+        	ImageButton rmBtn = (ImageButton) v.findViewById(R.id.readers_delete);
+
+
+            if (position >= itemsArray.size())
+            {
+            	rdrName.setVisibility(View.INVISIBLE);
+            	typeName.setVisibility(View.INVISIBLE);
+            	rmBtn.setVisibility(View.INVISIBLE);
+            	return v;
+            }
+
             final HashMap<String, String> item = itemsArray.get(position);
             if (item != null)
             {
             	// Setting reader name button
-            	Button  rdrName = (Button) v.findViewById(R.id.readers_name);
-            	if (rdrName != null)
-            	{
-            		rdrName.setText(item.get("rdr"));
-            		rdrName.setOnClickListener(new View.OnClickListener() {
+            	rdrName.setText(item.get("rdr"));
+            	rdrName.setOnClickListener(new View.OnClickListener() {
 
-            			public void onClick(View v) {
-            				AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-            				builder.setTitle("Reader name");
-            				final EditText input = new EditText(cntx);
-            				input.setText(item.get("rdr"));
-            				builder.setView(input);
+            		public void onClick(View v) {
+            			AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+            			builder.setTitle("Reader name");
+            			final EditText input = new EditText(cntx);
+            			input.setText(item.get("rdr"));
+            			builder.setView(input);
 
-            				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            					public void onClick(DialogInterface dialog, int whichButton) {
-            						String value = input.getText().toString();
-            						if (value.equals(""))
-            							Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
-            						else
-            						{
-            							itemsArray.get(position).put("rdr", value);
-            							adapter.notifyDataSetChanged();
-            							dialog.dismiss();
-            						}
-            					}
-            				});
-
-            				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            					public void onClick(DialogInterface dialog, int whichButton) {
+            			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            				public void onClick(DialogInterface dialog, int whichButton) {
+            					String value = input.getText().toString();
+            					if (value.equals(""))
+            						Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+            					else
+            					{
+            						itemsArray.get(position).put("rdr", value);
+            						adapter.notifyDataSetChanged();
             						dialog.dismiss();
             					}
-            				});
+            				}
+            			});
+
+            			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            				public void onClick(DialogInterface dialog, int whichButton) {
+            					dialog.dismiss();
+            				}
+            			});
             				
-            				builder.show();
-            			}
-            		});
-            	}
+            			builder.show();
+            		}
+            	});
 
             	// Setting reader name button
-            	Button  typeName = (Button) v.findViewById(R.id.readers_type);
-            	if (typeName != null)
-            	{
-            		typeName.setText(item.get("type"));
-            		typeName.setOnClickListener(new View.OnClickListener() {
+            	typeName.setText(item.get("type"));
+            	typeName.setOnClickListener(new View.OnClickListener() {
 
-            			public void onClick(View v) {
-            				AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-            				builder.setTitle("Application type");
-            				final EditText input = new EditText(cntx);
-            				input.setText(item.get("type"));
-            				builder.setView(input);
+            		public void onClick(View v) {
+            			AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+            			builder.setTitle("Application type");
+            			final EditText input = new EditText(cntx);
+            			input.setText(item.get("type"));
+            			builder.setView(input);
 
-            				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            					public void onClick(DialogInterface dialog, int whichButton) {
-            						String value = input.getText().toString();
-            						if (value.equals(""))
-            							Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
-            						else
-            						{
-            							itemsArray.get(position).put("type", value);
-            							adapter.notifyDataSetChanged();
-            							dialog.dismiss();
-            						}
-            					}
-            				});
-
-            				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            					public void onClick(DialogInterface dialog, int whichButton) {
+            			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            				public void onClick(DialogInterface dialog, int whichButton) {
+            					String value = input.getText().toString();
+            					if (value.equals(""))
+            						Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+            					else
+            					{
+            						itemsArray.get(position).put("type", value);
+            						adapter.notifyDataSetChanged();
             						dialog.dismiss();
             					}
-            				});
+            				}
+            			});
 
-            				builder.show();
-            			}
-            		});
-            	}
+            			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            				public void onClick(DialogInterface dialog, int whichButton) {
+            					dialog.dismiss();
+            				}
+            			});
+
+            			builder.show();
+            		}
+            	});
 
             	// Setting remove button
-            	ImageButton rmBtn = (ImageButton) v.findViewById(R.id.readers_delete);
-            	if (rmBtn != null)
-            	{
-            		rmBtn.setEnabled(itemsArray.size() > 1);
-            		rmBtn.setOnClickListener(new View.OnClickListener() {
-            			public void onClick(View v)
-            			{
-            				itemsArray.remove(position);
-            				adapter.notifyDataSetChanged();
-            			}
-            		});
-            	}
+            	rmBtn.setOnClickListener(new View.OnClickListener() {
+            		public void onClick(View v)
+            		{
+            			itemsArray.remove(position);
+            			//adapter.notifyDataSetChanged();
+            			((BaseAdapter)lv.getAdapter()).notifyDataSetChanged();
+            		}
+            	});
             }
             return v;
     	}
@@ -193,6 +200,25 @@ public class ReadersActivity extends Activity {
 			}
 		});
         
+        // Revert to defaults button
+        Button revertBtn = (Button) findViewById(R.id.readers_revert);
+        revertBtn.setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v)
+    		{
+            	app.setDefault("startReaders");
+            	itemsArray = new ArrayList<HashMap<String,String>>();
+            	for (String[] r : app.getList("startReaders"))
+            	{
+            		HashMap<String,String> i = new HashMap<String,String>();
+
+            		i.put("rdr", r[0]);
+            		i.put("type", r[1]);
+            		itemsArray.add(i);
+            	}
+    			adapter.notifyDataSetChanged();
+			}
+		});
+
         // Cancel button
         Button    cancelBtn = (Button) findViewById(R.id.readers_cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {

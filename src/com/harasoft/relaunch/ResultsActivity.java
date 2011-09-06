@@ -53,6 +53,11 @@ public class ResultsActivity extends Activity {
     	{
     		super(context, resource, data);
     	}
+    	
+    	@Override
+		public int getCount() {
+    		return itemsArray.size();
+		}
 
     	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {

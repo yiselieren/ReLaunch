@@ -89,6 +89,25 @@ public class ReLaunchApp extends Application {
 		m.put(name, l);
 	}
 
+	public void setDefault(String name)
+    {
+    	// Set list default
+    	List<String[]> nl = new ArrayList<String[]>();
+    	if (name.equals("lastOpened"))
+    	{
+    	}
+    	else if (name.equals("favorites"))
+    	{
+    	}
+    	else if (name.equals("startReaders"))
+    	{
+    		nl.add(new String[] {"Nomad Reader", "application/fb2"});
+    		nl.add(new String[] {"EBookDroid",   "application/djvu"});
+    	}
+
+    	m.put(name, nl);
+    }
+
 	// dump all lists to log (debug)
 	public void dumpLists()
 	{
@@ -207,18 +226,21 @@ public class ReLaunchApp extends Application {
     }
     
     // Read misc. lists
-    public void readFile(String listName, String fileName)
+    public boolean readFile(String listName, String fileName)
     {
-    	readFile(listName, fileName, "/");
+    	return readFile(listName, fileName, "/");
     }
 
-    public void readFile(String listName, String fileName, String delimiter)
+    public boolean readFile(String listName, String fileName, String delimiter)
     {
+    	Log.d(TAG, "readFile " + listName);
     	FileInputStream fis = null;
     	try {
     		fis = openFileInput(fileName);
     	} catch (FileNotFoundException e) { }
-    	if (fis != null)
+    	if (fis == null)
+    		return false;
+    	else
     	{
     		String l = new String();
 
@@ -264,6 +286,7 @@ public class ReLaunchApp extends Application {
     			fis.close();
     		} catch (IOException e) { }
     	}
+    	return true;
     }
     
     // Save to file miscellaneous lists

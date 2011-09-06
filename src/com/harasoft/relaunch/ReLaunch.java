@@ -67,6 +67,11 @@ public class ReLaunch extends Activity {
     	}
 
     	@Override
+		public int getCount() {
+    		return itemsArray.size();
+		}
+
+    	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {
     		//return super.getView(position, convertView, parent);
             View v = convertView;
@@ -328,15 +333,8 @@ public class ReLaunch extends Activity {
         // Miscellaneous lists list
         app.readFile("lastOpened", LRU_FILE);
         app.readFile("favorites", FAV_FILE);
-        app.readFile("startReaders", RDR_FILE, ":");
-        if (app.getList("startReaders").size() < 1)
-        {
-        	// Default list for start readers
-        	List<String[]> nl = new ArrayList<String[]>();
-        	nl.add(new String[] {"Nomad Reader", "application/fb2"});
-        	nl.add(new String[] {"EBookDroid",   "application/djvu"});
-        	app.setList("startReaders", nl);
-        }
+        if (!app.readFile("startReaders", RDR_FILE, ":"))
+			app.setDefault("startReaders");
 
         // Main layout
         if (prefs.getBoolean("showButtons", true))
