@@ -2,6 +2,7 @@ package com.harasoft.relaunch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -29,6 +30,7 @@ public class SearchActivity extends Activity {
     Spinner                  searchAs;
     CheckBox                 searchCase;
     CheckBox                 searchKnown;
+    CheckBox                 searchSort;
     EditText                 searchRoot;
     EditText                 searchTxt;
     Button                   searchButton;
@@ -83,6 +85,12 @@ public class SearchActivity extends Activity {
     {
 		List<String[]> searchResults = new ArrayList<String[]>();
 
+		// Save all other search settings
+		Boolean        search_sort = searchSort.isChecked();
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("searchSort", search_sort);
+		editor.commit();
+
 		if (all)
     	{
     		String         root = searchRoot.getText().toString();
@@ -99,8 +107,7 @@ public class SearchActivity extends Activity {
     		String         root = searchRoot.getText().toString();
     		String         pattern = searchTxt.getText().toString();
 
-    		// Save all search settings
-    		SharedPreferences.Editor editor = prefs.edit();
+    		// Save all other search settings
     		editor.putBoolean("searchCase", case_sens);
     		editor.putBoolean("searchKnown", known_only);
     		editor.putInt("searchAs", searchAs.getSelectedItemPosition());
@@ -118,6 +125,8 @@ public class SearchActivity extends Activity {
     	//// DEBUG
     	//for (String[] r : searchResults)
     	//	Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
+		if (search_sort)
+			Collections.sort(searchResults, app.getO1Comparator());
     	app.setList("searchResults", searchResults);
 		Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
 		intent.putExtra("list", "searchResults");
@@ -137,6 +146,7 @@ public class SearchActivity extends Activity {
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         searchCase = (CheckBox)findViewById(R.id.search_case);
         searchKnown = (CheckBox)findViewById(R.id.search_books_only);
+        searchSort = (CheckBox)findViewById(R.id.search_sort);
         searchAs = (Spinner)findViewById(R.id.search_as);
         searchRoot = (EditText)findViewById(R.id.search_root);
         searchTxt = (EditText)findViewById(R.id.search_txt);
@@ -176,6 +186,9 @@ public class SearchActivity extends Activity {
 		
 		// Set search known extensions only checkbox
 		searchKnown.setChecked(prefs.getBoolean("searchKnown", true));
+		
+		// Set search sort checkbox
+		searchSort.setChecked(prefs.getBoolean("searchSort", true));
 		
 		// Set search as spinner
 	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(

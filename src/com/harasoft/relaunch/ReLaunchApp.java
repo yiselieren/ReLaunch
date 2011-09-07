@@ -138,7 +138,7 @@ public class ReLaunchApp extends Application {
     {
     	//Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
 
-    	if (delimiter.equals("/"))
+    	if (delimiter.equals("/")  ||  listName.equals("history"))
     	{
     		File f = new File(fullName); 	
     		if (!f.exists())
@@ -236,7 +236,6 @@ public class ReLaunchApp extends Application {
 
     public boolean readFile(String listName, String fileName, String delimiter)
     {
-    	Log.d(TAG, "readFile " + listName);
     	FileInputStream fis = null;
     	try {
     		fis = openFileInput(fileName);
@@ -418,4 +417,18 @@ public class ReLaunchApp extends Application {
     	}
     	return null;
     }
+    
+    // compare by second element of String[]
+    public class o1Comparator implements java.util.Comparator<String[]>
+    {
+    	public int compare(String[] o1, String[] o2)
+    	{
+    		int rc = o1[1].compareTo(o2[1]);
+    		if (rc == 0)
+    			return o1[0].compareTo(o2[0]);
+    		else
+    			return rc;
+    	}
+    }
+    public o1Comparator getO1Comparator() { return new o1Comparator(); }
 }

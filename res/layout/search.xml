@@ -12,6 +12,10 @@
         <TextView android:layout_height="wrap_content" android:id="@+id/textView6" android:text="Seacrh known extensions only" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
         <CheckBox android:id="@+id/search_books_only" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
     </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout8">
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView8" android:text="Sort search results" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <CheckBox android:id="@+id/search_sort" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
+    </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
         <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="Search as" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
         <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_as"></Spinner>
