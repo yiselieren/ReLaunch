@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.harasoft.relaunch.ReLaunch.ViewHolder;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -38,6 +43,9 @@ public class ResultsActivity extends Activity {
 	final int                     CNTXT_MENU_CANCEL = 3;
 	final int                     CNTXT_MENU_MOVEUP = 4;
 	final int                     CNTXT_MENU_MOVEDOWN = 5;
+	final int                     CNTXT_MENU_MARK_FINISHED = 6;
+	final int                     CNTXT_MENU_MARK_READING = 7;
+	final int                     CNTXT_MENU_MARK_FORGET = 8;
 	ReLaunchApp                   app;
     HashMap<String, Drawable>     icons;
     String                        listName;
@@ -48,6 +56,11 @@ public class ResultsActivity extends Activity {
     ListView                      lv;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 
+    static class ViewHolder {
+        TextView  tv1;
+        TextView  tv2;
+        ImageView iv;
+    }
 	class FLSimpleAdapter extends ArrayAdapter<HashMap<String, String>> {
     	FLSimpleAdapter(Context context, int resource, List<HashMap<String, String>> data)
     	{
@@ -61,15 +74,23 @@ public class ResultsActivity extends Activity {
 
     	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
+    		ViewHolder holder;
+            View       v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.results_item, null);
+                holder = new ViewHolder();
+                holder.tv1 = (TextView) v.findViewById(R.id.res_dname);
+                holder.tv2 = (TextView) v.findViewById(R.id.res_fname);
+                holder.iv  = (ImageView) v.findViewById(R.id.res_icon);
+                v.setTag(holder);
             }
+            else
+            	holder = (ViewHolder) v.getTag();
 
-        	TextView  tv1 = (TextView) v.findViewById(R.id.res_dname);
-        	TextView  tv2 = (TextView) v.findViewById(R.id.res_fname);
-        	ImageView iv = (ImageView) v.findViewById(R.id.res_icon);
+        	TextView  tv1 = holder.tv1;
+        	TextView  tv2 = holder.tv2;
+        	ImageView iv = holder.iv;
 
             if (position >= itemsArray.size())
             {
@@ -83,23 +104,74 @@ public class ResultsActivity extends Activity {
             if (item != null) {
             	String    fname = item.get("fname");
             	String    dname = item.get("dname");
-            	if (tv1 != null)
-            		tv1.setText(dname);
-            	if (tv2 != null)
-            		tv2.setText(fname);
-            	if (iv != null)
+            	String    fullName = dname + "/" + fname;
+            	boolean   setBold = false;
+            	boolean   useFaces  = prefs.getBoolean("showNew", true);
+
+        		if (useFaces)
+        		{
+        			if (app.history.containsKey(fullName))
+        			{
+        				if (app.history.get(fullName) == app.READING)
+        				{
+        					tv1.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+        					tv1.setTextColor(getResources().getColor(R.color.file_reading_fg));				
+        					tv2.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+        					tv2.setTextColor(getResources().getColor(R.color.file_reading_fg));				
+        				}
+        				else if (app.history.get(fullName) == app.FINISHED)
+        				{
+        					tv1.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+        					tv1.setTextColor(getResources().getColor(R.color.file_finished_fg));	
+        					tv2.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+        					tv2.setTextColor(getResources().getColor(R.color.file_finished_fg));	
+        				}
+        				else
+        				{
+        					tv1.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+        					tv1.setTextColor(getResources().getColor(R.color.file_unknown_fg));	
+           					tv2.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+        					tv2.setTextColor(getResources().getColor(R.color.file_unknown_fg));	
+        				}
+        			}
+        			else
+        			{
+        				tv1.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+        				tv1.setTextColor(getResources().getColor(R.color.file_new_fg));
+        				tv2.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+        				tv2.setTextColor(getResources().getColor(R.color.file_new_fg));
+        				if (getResources().getBoolean(R.bool.show_new_as_bold))
+        					setBold = true;
+        			}
+        		}
+
+            	String rdrName = app.readerName(fname);
+            	if (rdrName.equals("Nope"))
+            		iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            	else
             	{
-            		String rdrName = app.readerName(fname);
-            		if (rdrName.equals("Nope"))
-            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            		if (icons.containsKey(rdrName))
+            			iv.setImageDrawable(icons.get(rdrName));
             		else
-            		{
-            			if (icons.containsKey(rdrName))
-            				iv.setImageDrawable(icons.get(rdrName));
-            			else
-            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-            		}
+            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
             	}
+            	
+        		if (useFaces)
+        		{
+        			SpannableString s = new SpannableString(fname);
+        			s.setSpan(new StyleSpan(setBold ? Typeface.BOLD : Typeface.NORMAL), 0, fname.length(), 0);
+        			tv1.setText(dname);
+        			tv2.setText(s);
+        		}
+        		else
+        		{
+    				tv1.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+    				tv1.setTextColor(getResources().getColor(R.color.normal_fg));
+    				tv2.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+    				tv2.setTextColor(getResources().getColor(R.color.normal_fg));
+    				tv1.setText(dname);
+        			tv2.setText(fname);
+        		}
             }
             return v;
     	}
@@ -201,8 +273,8 @@ public class ResultsActivity extends Activity {
 				//Log.d(TAG, n[0] + ":" + n[1]);
 				itemsArray.add(item);
 			}
-			adapter.notifyDataSetChanged();
 		}
+		adapter.notifyDataSetChanged();
 		super.onStart();
 	}
 
@@ -211,6 +283,10 @@ public class ResultsActivity extends Activity {
 	{
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
 		int pos = info.position;
+		HashMap<String, String> i = itemsArray.get(pos);
+		final String dr = i.get("dname");
+		final String fn = i.get("fname");
+		String fullName = dr + "/" + fn;
 
 		if (listName.equals("favorites"))
 		{
@@ -224,6 +300,36 @@ public class ResultsActivity extends Activity {
 		}
 		else if (listName.equals("lastOpened"))
 		{
+			if (app.history.containsKey(fullName))
+			{
+				if (app.history.get(fullName) == app.READING)
+					menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+				else if (app.history.get(fullName) == app.FINISHED)
+					menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
+				menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+			}
+			else
+				menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+			menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
+    		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");			
+		}
+		else if (listName.equals("searchResults"))
+		{
+			if (pos > 0)
+				menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+			if (pos < (itemsArray.size()-1))
+				menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+			if (app.history.containsKey(fullName))
+			{
+				if (app.history.get(fullName) == app.READING)
+					menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+				else if (app.history.get(fullName) == app.FINISHED)
+					menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
+				menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+			}
+			else
+				menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+
     		menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
     		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");			
 		}
@@ -240,9 +346,22 @@ public class ResultsActivity extends Activity {
 		HashMap<String, String> i = itemsArray.get(pos);
 		final String dname = i.get("dname");
 		final String fname = i.get("fname");
+		String fullName = dname + "/" + fname;
 
 		switch (item.getItemId())
 		{
+		case CNTXT_MENU_MARK_READING:
+			app.history.put(fullName, app.READING);
+			adapter.notifyDataSetChanged();
+			break;
+		case CNTXT_MENU_MARK_FINISHED:
+			app.history.put(fullName, app.FINISHED);
+			adapter.notifyDataSetChanged();
+			break;
+		case CNTXT_MENU_MARK_FORGET:
+			app.history.remove(fullName);
+			adapter.notifyDataSetChanged();
+			break;
 		case CNTXT_MENU_RMFAV:
 			app.removeFromList("favorites", dname, fname);
 			itemsArray.remove(pos);
@@ -251,7 +370,7 @@ public class ResultsActivity extends Activity {
 		case CNTXT_MENU_MOVEUP:
 			if (pos > 0)
 			{
-				List<String[]>          f = app.getList("favorites");
+				List<String[]>          f = app.getList(listName);
 				HashMap<String, String> it = itemsArray.get(pos);
 				String[]                fit = f.get(pos);
 
@@ -259,14 +378,14 @@ public class ResultsActivity extends Activity {
 				f.remove(pos);
 				itemsArray.add(pos-1, it);
 				f.add(pos-1, fit);
-				app.setList("favorites", f);
+				app.setList(listName, f);
 				adapter.notifyDataSetChanged();
 			}
 			break;
 		case CNTXT_MENU_MOVEDOWN:
 			if (pos < (itemsArray.size()-1))
 			{
-				List<String[]>          f = app.getList("favorites");
+				List<String[]>          f = app.getList(listName);
 				HashMap<String, String> it = itemsArray.get(pos);
 				String[]                fit = f.get(pos);
 
@@ -283,7 +402,7 @@ public class ResultsActivity extends Activity {
 					itemsArray.add(pos+1, it);
 					f.add(pos+1, fit);
 				};
-				app.setList("favorites", f);
+				app.setList(listName, f);
 				adapter.notifyDataSetChanged();				
 			}
 			break;

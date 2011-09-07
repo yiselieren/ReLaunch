@@ -15,9 +15,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -44,6 +47,7 @@ public class ReLaunch extends Activity {
 	final String                  LRU_FILE = "LruFile.txt";
 	final String                  FAV_FILE = "Favorites.txt";
 	static public final String    RDR_FILE = "Readers.txt";
+	static public final String    HIST_FILE = "History.txt";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
@@ -52,6 +56,9 @@ public class ReLaunch extends Activity {
 	final static int              CNTXT_MENU_DELETE_D_NON_EMPTY=3;
 	final static int              CNTXT_MENU_ADD=4;
 	final static int              CNTXT_MENU_CANCEL=5;
+	final static int              CNTXT_MENU_MARK_READING = 6;
+	final static int              CNTXT_MENU_MARK_FINISHED = 7;
+	final static int              CNTXT_MENU_MARK_FORGET = 8;
 	String                        currentRoot = "/sdcard";
 	Integer                       currentPosition = -1;
 	List<HashMap<String, String>> itemsArray;
@@ -60,7 +67,12 @@ public class ReLaunch extends Activity {
     SharedPreferences             prefs;
 	ReLaunchApp                   app;
 
+    static class ViewHolder {
+        TextView  tv;
+        ImageView iv;
+    }
 	class FLSimpleAdapter extends SimpleAdapter {
+         
     	FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
     	{
     		super(context, data, resource, from, to);
@@ -73,37 +85,92 @@ public class ReLaunch extends Activity {
 
     	@Override
     	public View getView(int position, View convertView, ViewGroup parent) {
-    		//return super.getView(position, convertView, parent);
-            View v = convertView;
+    		ViewHolder holder;
+            View       v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.flist_layout, null);
+                holder = new ViewHolder();
+                holder.tv = (TextView) v.findViewById(R.id.fl_text);
+                holder.iv  = (ImageView) v.findViewById(R.id.fl_icon);
+                v.setTag(holder);
             }
+            else
+            	holder = (ViewHolder) v.getTag();
+
             HashMap<String, String> item = itemsArray.get(position);
             if (item != null) {
-            	TextView  tv = (TextView) v.findViewById(R.id.fl_text);
-            	ImageView iv = (ImageView) v.findViewById(R.id.fl_icon);
+            	TextView  tv = holder.tv;
+            	ImageView iv = holder.iv;
             	String    sname = item.get("name");
-            	if (tv != null)
-            		tv.setText(sname);
-            	if(iv != null)
+            	String    fname = item.get("fname");
+            	boolean   setBold = false;
+            	boolean   useFaces  = prefs.getBoolean("showNew", true);
+
+
+            	if (item.get("type").equals("dir"))
             	{
-            		if (item.get("type").equals("dir"))
-            			iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
-            		else
+            		if (useFaces)
             		{
-            			String rdrName = item.get("reader");
-            			if (rdrName.equals("Nope"))
-            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            			tv.setBackgroundColor(getResources().getColor(R.color.dir_bg));
+            			tv.setTextColor(getResources().getColor(R.color.dir_fg));
+            		}
+            		iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
+            	}
+            	else
+            	{
+            		if (useFaces)
+            		{
+            			if (app.history.containsKey(fname))
+            			{
+            				if (app.history.get(fname) == app.READING)
+            				{
+            					tv.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+            					tv.setTextColor(getResources().getColor(R.color.file_reading_fg));				
+            				}
+            				else if (app.history.get(fname) == app.FINISHED)
+            				{
+            					tv.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+            					tv.setTextColor(getResources().getColor(R.color.file_finished_fg));	
+            				}
+            				else
+            				{
+            					tv.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+            					tv.setTextColor(getResources().getColor(R.color.file_unknown_fg));	
+            				}
+            			}
             			else
             			{
-            				if (app.getIcons().containsKey(rdrName))
-            					iv.setImageDrawable(app.getIcons().get(rdrName));
-            				else
-            					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+            				tv.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+            				tv.setTextColor(getResources().getColor(R.color.file_new_fg));
+            				if (getResources().getBoolean(R.bool.show_new_as_bold))
+            					setBold = true;
             			}
             		}
+            		String rdrName = item.get("reader");
+            		if (rdrName.equals("Nope"))
+            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            		else
+            		{
+            			if (app.getIcons().containsKey(rdrName))
+            				iv.setImageDrawable(app.getIcons().get(rdrName));
+            			else
+            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+            		}
             	}
+            	
+        		if (useFaces)
+        		{
+        			SpannableString s = new SpannableString(sname);
+        			s.setSpan(new StyleSpan(setBold ? Typeface.BOLD : Typeface.NORMAL), 0, sname.length(), 0);
+        			tv.setText(s);
+        		}
+        		else
+        		{
+    				tv.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+    				tv.setTextColor(getResources().getColor(R.color.normal_fg));
+        			tv.setText(sname);
+        		}
             }
             return v;
     	}
@@ -335,6 +402,15 @@ public class ReLaunch extends Activity {
         app.readFile("favorites", FAV_FILE);
         if (!app.readFile("startReaders", RDR_FILE, ":"))
 			app.setDefault("startReaders");
+        app.readFile("history", HIST_FILE, ":");
+        app.history.clear();
+        for (String[] r : app.getList("history"))
+        {
+        	if (r[1].equals("READING"))
+        		app.history.put(r[0], app.READING);
+        	else if (r[1].equals("FINISHED"))
+        		app.history.put(r[0], app.FINISHED);
+        }
 
         // Main layout
         if (prefs.getBoolean("showButtons", true))
@@ -379,6 +455,8 @@ public class ReLaunch extends Activity {
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
         
         app.askIfAmbiguous = prefs.getBoolean("askAmbig", false);
+        
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -447,16 +525,27 @@ public class ReLaunch extends Activity {
 		String fn = i.get("name");
 		String dr = i.get("dname");
 		String tp  = i.get("type");
+		String fullName = dr + "/" + fn;
 
 		if (tp.equals("file"))
 		{
 			if (!app.contains("favorites", dr, fn))
 				menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
+			if (app.history.containsKey(fullName))
+			{
+				if (app.history.get(fullName) == app.READING)
+					menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+				else if (app.history.get(fullName) == app.FINISHED)
+					menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
+				menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+			}
+			else
+				menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
 			menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, "Delete");
 		}
 		else
 		{
-	    	File   d = new File(dr + "/" + fn);
+	    	File   d = new File(fullName);
 	    	String[] allEntries = d.list();
 	    	if (allEntries.length > 0)
 	    		menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, "Delete NON-EMPTY directory!");
@@ -476,11 +565,24 @@ public class ReLaunch extends Activity {
 		HashMap<String, String> i = itemsArray.get(pos);
 		final String fname = i.get("name");
 		final String dname = i.get("dname");
+		final String fullName = dname + "/" + fname;
 
 		switch (item.getItemId())
 		{
 		case CNTXT_MENU_ADD:
 			app.addToList("favorites", dname, fname, true);
+			break;
+		case CNTXT_MENU_MARK_READING:
+			app.history.put(fullName, app.READING);
+			adapter.notifyDataSetChanged();
+			break;
+		case CNTXT_MENU_MARK_FINISHED:
+			app.history.put(fullName, app.FINISHED);
+			adapter.notifyDataSetChanged();
+			break;
+		case CNTXT_MENU_MARK_FORGET:
+			app.history.remove(fullName);
+			adapter.notifyDataSetChanged();
 			break;
 		case CNTXT_MENU_DELETE_F:
 			if (prefs.getBoolean("confirmFileDelete", true))
@@ -574,6 +676,16 @@ public class ReLaunch extends Activity {
 		} catch(NumberFormatException e) { }
 		app.writeFile("lastOpened", LRU_FILE, lruMax);
 		app.writeFile("favorites",  FAV_FILE, favMax);
+		List<String[]> h = new ArrayList<String[]>();
+		for (String k : app.history.keySet())
+		{
+			if (app.history.get(k) == app.READING)
+				h.add(new String[] {k, "READING"});
+			else if (app.history.get(k) == app.FINISHED)
+				h.add(new String[] {k, "FINISHED"});
+		}
+		app.setList("history", h);
+		app.writeFile("history", HIST_FILE, 0, ":");
 		super.onStop();
 	}
 

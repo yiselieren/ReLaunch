@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>      
+    <color name="normal_bg">#FFFFFFFF</color>
+    <color name="normal_fg">#FF000000</color>
+    <color name="dir_bg">#FFFFFFFF</color>
+    <color name="dir_fg">#FF000000</color>
+    <color name="file_new_bg">#FFFFFFFF</color>
+    <color name="file_new_fg">#FF000000</color>
+    <color name="file_reading_bg">#FFFFFFFF</color>
+    <color name="file_reading_fg">#FF000000</color>
+    <color name="file_finished_bg">#FFA0A0A0</color>
+    <color name="file_finished_fg">#FF000000</color>
+    <color name="file_unknown_bg">#FF000000</color>
+    <color name="file_unknown_fg">#FF808080</color>
+</resources>

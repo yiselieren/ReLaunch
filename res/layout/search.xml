@@ -32,5 +32,6 @@
         <Button android:text="Search" android:layout_height="wrap_content" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp"></Button>
         <Button android:text="Cancel" android:layout_height="wrap_content" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel"></Button>
     </LinearLayout>
+    <Button android:text="Show all books (known extensions) from root" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_marginTop="20dp" android:id="@+id/search_all"></Button>
     
 </LinearLayout>

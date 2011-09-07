@@ -22,6 +22,9 @@ import android.widget.Toast;
 public class ReLaunchApp extends Application {
 	final String                            TAG = "ReLaunchApp";
 	final int                               FileBufferSize = 1024;
+	final int                               READING=1;
+	final int                               FINISHED=2;
+	public  HashMap<String, Integer>        history = new HashMap<String, Integer>();
 	private HashMap<String, List<String[]>> m = new HashMap<String, List<String[]>>();
 	private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
@@ -393,6 +396,8 @@ public class ReLaunchApp extends Application {
     			i.setAction(Intent.ACTION_VIEW);
     			i.setDataAndType(Uri.parse("file://" + file), r[1]);
     			addToList("lastOpened", file, false);
+        		if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
+        			history.put(file, READING);
     			return i;
     		}
     	}
@@ -404,6 +409,8 @@ public class ReLaunchApp extends Application {
     		i.setAction(Intent.ACTION_VIEW); 
     		i.setData(Uri.parse("file://" + file));
     		addToList("lastOpened", file, false);
+    		if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
+    			history.put(file, READING);
     		return i;
     	}
     	return null;

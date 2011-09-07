@@ -79,29 +79,41 @@ public class SearchActivity extends Activity {
     	}
     }
 
-    private void executeSearch()
+    private void executeSearch(boolean all)
     {
-    	List<String[]> searchResults = new ArrayList<String[]>();
-    	Boolean        case_sens = searchCase.isChecked();
-    	Boolean        known_only = searchKnown.isChecked();
-    	Boolean        regexp = searchAs.getSelectedItemPosition() == 1;
-    	String         root = searchRoot.getText().toString();
-    	String         pattern = searchTxt.getText().toString();
+		List<String[]> searchResults = new ArrayList<String[]>();
 
-    	// Save all search settings
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("searchCase", case_sens);
-        editor.putBoolean("searchKnown", known_only);
-        editor.putInt("searchAs", searchAs.getSelectedItemPosition());
-        editor.putString("searchRoot", root);
-        editor.putString("searchPrev", pattern);
-        editor.commit();
+		if (all)
+    	{
+    		String         root = searchRoot.getText().toString();
+    		File         dir = new File(root);
+    		if (!dir.isDirectory())
+    			return;
+    		addEntries(root, searchResults, false, true, true, ".*");    		
+    	}
+    	else
+    	{
+    		Boolean        case_sens = searchCase.isChecked();
+    		Boolean        known_only = searchKnown.isChecked();
+    		Boolean        regexp = searchAs.getSelectedItemPosition() == 1;
+    		String         root = searchRoot.getText().toString();
+    		String         pattern = searchTxt.getText().toString();
+
+    		// Save all search settings
+    		SharedPreferences.Editor editor = prefs.edit();
+    		editor.putBoolean("searchCase", case_sens);
+    		editor.putBoolean("searchKnown", known_only);
+    		editor.putInt("searchAs", searchAs.getSelectedItemPosition());
+    		editor.putString("searchRoot", root);
+    		editor.putString("searchPrev", pattern);
+    		editor.commit();
         
-        // Search
-    	File         dir = new File(root);
-    	if (!dir.isDirectory())
-    		return;
-    	addEntries(root, searchResults, case_sens, known_only, regexp, pattern);
+    		// Search
+    		File         dir = new File(root);
+    		if (!dir.isDirectory())
+    			return;
+    		addEntries(root, searchResults, case_sens, known_only, regexp, pattern);
+    	}
     	
     	//// DEBUG
     	//for (String[] r : searchResults)
@@ -132,7 +144,7 @@ public class SearchActivity extends Activity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 	               if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 	            	   imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-	                   executeSearch();
+	                   executeSearch(false);
 	                   return true;
 	                }
 				return false;
@@ -144,7 +156,11 @@ public class SearchActivity extends Activity {
 		
 		// Set main search button
 		((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { executeSearch(); }});	
+			public void onClick(View v) { executeSearch(false); }});	
+		
+		// Search all button
+		((Button)findViewById(R.id.search_all)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) { executeSearch(true); }});	
 		
 		// Cancel button
     	((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
