@@ -332,9 +332,12 @@ public class ReLaunchApp extends Application {
     public boolean removeFile(String dr, String fn)
     {
     	boolean rc = false;
+    	String fullName = dr + "/" + fn;
     	removeFromList("lastOpened", dr, fn);
     	removeFromList("favorites", dr, fn);
-    	File f = new File(dr + "/" + fn);
+    	removeFromList("history", dr, fn);
+    	history.remove(fullName);
+    	File f = new File(fullName);
     	if (f.exists())
     	{
     		try {
