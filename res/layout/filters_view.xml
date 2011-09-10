@@ -8,7 +8,7 @@
     <LinearLayout android:id="@+id/linearLayout1" android:background="#ffffff" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="0.02" android:baselineAligned="false">
         <Button android:id="@+id/filters_ok" android:layout_gravity="center" android:text="OK" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
         <Button android:id="@+id/filters_new" android:layout_gravity="center" android:text="Add new" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
-        <Button android:id="@+id/filters_andor" android:text="OR" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
+        <Button android:id="@+id/filters_andor" android:text="AND" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
         <Button android:id="@+id/filters_cancel" android:text="Cancel" android:layout_width="0dp" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="1"></Button>
     </LinearLayout>
 </LinearLayout>

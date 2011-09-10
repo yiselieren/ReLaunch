@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 public class ReadersActivity extends Activity {
 	ReLaunchApp                   app;
-    RDArrayAdapter               adapter;
+    RDArrayAdapter                adapter;
     ListView                      lv;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 

@@ -4,7 +4,17 @@
         <item>Substring</item>
         <item>Regexp</item>
     </string-array>
+
+    <integer name="FLT_SELECT">          0 </integer>
+    <integer name="FLT_STARTS">          1 </integer>
+    <integer name="FLT_ENDS">            2 </integer>
+    <integer name="FLT_CONTAINS">        3 </integer>
+    <integer name="FLT_MATCHES">         4 </integer>
+    <integer name="FLT_NEW">             5 </integer>
+    <integer name="FLT_NEW_AND_READING"> 6 </integer>
+    
     <string-array name="filter_values">
+        <item>Select filter method</item>
         <item>Filename starts with</item>
         <item>Filename ends with</item>
         <item>Filename contains</item>

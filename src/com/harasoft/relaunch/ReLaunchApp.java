@@ -22,8 +22,21 @@ import android.widget.Toast;
 public class ReLaunchApp extends Application {
 	final String                            TAG = "ReLaunchApp";
 	final int                               FileBufferSize = 1024;
+	
+	// Book status
 	final int                               READING=1;
 	final int                               FINISHED=2;
+	
+	// Filter values
+	public int                        FLT_SELECT;
+	public int                        FLT_STARTS;
+	public int                        FLT_ENDS;
+	public int                        FLT_CONTAINS;
+	public int                        FLT_MATCHES;
+	public int                        FLT_NEW;
+	public int                        FLT_NEW_AND_READING;
+	public boolean                    filters_and;
+
 	public  HashMap<String, Integer>        history = new HashMap<String, Integer>();
 	private HashMap<String, List<String[]>> m = new HashMap<String, List<String[]>>();
 	private HashMap<String, Drawable>       icons;
@@ -121,6 +134,22 @@ public class ReLaunchApp extends Application {
 				Log.d(TAG, "    \"" + n[0] + "\"; \"" + n[1] + "\"");
 		}
 		
+	}
+
+	// dump specified lists to log (debug)
+	public void dumpList(String name)
+	{
+		Log.d(TAG, "LIST: \"" + name + "\"");
+		for (String[] n : m.get(name))
+			Log.d(TAG, "    \"" + n[0] + "\"; \"" + n[1] + "\"");		
+	}
+
+	// dump lists to log (debug)
+	public void dumpList(String name, List<String[]> l)
+	{
+		Log.d(TAG, "LIST: \"" + name + "\"");
+		for (String[] n : l)
+			Log.d(TAG, "    \"" + n[0] + "\"; \"" + n[1] + "\"");		
 	}
 
     // Add to list

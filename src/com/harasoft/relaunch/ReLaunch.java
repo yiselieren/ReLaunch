@@ -31,13 +31,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -48,6 +46,7 @@ public class ReLaunch extends Activity {
 	final String                  FAV_FILE = "Favorites.txt";
 	static public final String    RDR_FILE = "Readers.txt";
 	static public final String    HIST_FILE = "History.txt";
+	static public final String    FILT_FILE = "Filters.txt";
 	final String                  defReaders = ".fb2,.fb2.zip,.epub:Nomad Reader|.zip:FBReader";
 	final static public String    defReader = "Nomad Reader";
 	final static public int       TYPES_ACT = 1;
@@ -382,6 +381,15 @@ public class ReLaunch extends Activity {
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
 
+    	app.FLT_SELECT = getResources().getInteger(R.integer.FLT_SELECT);
+    	app.FLT_STARTS = getResources().getInteger(R.integer.FLT_STARTS);
+    	app.FLT_ENDS = getResources().getInteger(R.integer.FLT_ENDS);
+    	app.FLT_CONTAINS = getResources().getInteger(R.integer.FLT_CONTAINS);
+    	app.FLT_MATCHES = getResources().getInteger(R.integer.FLT_MATCHES);
+    	app.FLT_NEW = getResources().getInteger(R.integer.FLT_NEW);
+    	app.FLT_NEW_AND_READING = getResources().getInteger(R.integer.FLT_NEW_AND_READING);
+    	app.filters_and = true;
+
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
@@ -400,6 +408,7 @@ public class ReLaunch extends Activity {
         // Miscellaneous lists list
         app.readFile("lastOpened", LRU_FILE);
         app.readFile("favorites", FAV_FILE);
+        app.readFile("filters", FILT_FILE, ":");
         if (!app.readFile("startReaders", RDR_FILE, ":"))
 			app.setDefault("startReaders");
         app.readFile("history", HIST_FILE, ":");
