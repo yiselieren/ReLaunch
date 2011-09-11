@@ -239,7 +239,7 @@ public class ReLaunch extends Activity {
     		{
     			if (entry.isDirectory())
     				dirs.add(entry.getName());
-    			else
+    			else if (app.filterFile(entry.getName()))
     				files.add(entry.getName()); 
     		}
     	}

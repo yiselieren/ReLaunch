@@ -211,11 +211,14 @@ public class ResultsActivity extends Activity {
     	//Log.d(TAG, "listname=" + listName + " title=" + title);
     	for (String[] n : app.getList(listName))
     	{
-       		HashMap<String, String> item = new HashMap<String, String>();
-    		item.put("dname", n[0]);
-    		item.put("fname", n[1]);
-    		//Log.d(TAG, n[0] + ":" + n[1]);
-    		itemsArray.add(item);
+    		if (app.filterFile(n[1]))
+    		{
+    			HashMap<String, String> item = new HashMap<String, String>();
+	    		item.put("dname", n[0]);
+	    		item.put("fname", n[1]);
+	    		//Log.d(TAG, n[0] + ":" + n[1]);
+	    		itemsArray.add(item);
+    		}
     	}
     	adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
@@ -267,11 +270,14 @@ public class ResultsActivity extends Activity {
 			itemsArray = new ArrayList<HashMap<String, String>>();
 			for (String[] n : app.getList(listName))
 			{
-				HashMap<String, String> item = new HashMap<String, String>();
-				item.put("dname", n[0]);
-				item.put("fname", n[1]);
-				//Log.d(TAG, n[0] + ":" + n[1]);
-				itemsArray.add(item);
+	    		if (app.filterFile(n[1]))
+	    		{
+	    			HashMap<String, String> item = new HashMap<String, String>();
+	    			item.put("dname", n[0]);
+	    			item.put("fname", n[1]);
+	    			//Log.d(TAG, n[0] + ":" + n[1]);
+	    			itemsArray.add(item);
+	    		}
 			}
 		}
 		adapter.notifyDataSetChanged();

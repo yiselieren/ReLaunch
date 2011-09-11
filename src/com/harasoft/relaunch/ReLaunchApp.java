@@ -460,4 +460,11 @@ public class ReLaunchApp extends Application {
     	}
     }
     public o1Comparator getO1Comparator() { return new o1Comparator(); }
+    
+    // FILTER
+	public boolean filterFile(String name)
+	{
+		return true;
+	}
+
 }

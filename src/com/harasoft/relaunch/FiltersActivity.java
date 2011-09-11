@@ -25,34 +25,24 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class FiltersActivity  extends Activity {
-	final String                  TAG = "Filters";
-	ReLaunchApp                   app;
-    FTArrayAdapter                adapter;
-    ListView                      lv;
-	List<String[]>                itemsArray = new ArrayList<String[]>();
-
+	final String                   TAG = "Filters";
+	ReLaunchApp                    app;
+    FTArrayAdapter                 adapter;
+    ListView                       lv;
+	List<String[]>                 itemsArray = new ArrayList<String[]>();
 	
     public class myOnItemSelectedListener implements OnItemSelectedListener {
-    	private boolean isFirst = true;
     	final int     position;
-    	final int     spos;
-    	myOnItemSelectedListener(int p, int s)
+    	myOnItemSelectedListener(int pos)
     	{
-    		position = p;
-    		spos = s;
+    		position = pos;
     	}
 
 		public void onItemSelected(AdapterView<?> parent, View v1, int pos, long row) {
-			if (isFirst)
-				isFirst = false;
-			else
+			if (position >=0  &&  position < itemsArray.size())
 			{
-				Log.d(TAG, "position=" + position + " pos=" + pos + " spos=" + spos + " row=" + row);
-				if (position >=0  &&  position < itemsArray.size())
-				{
-					itemsArray.set(position, new String[] { Integer.toString(pos), itemsArray.get(position)[1]});
-					adapter.notifyDataSetChanged();
-				}
+				itemsArray.set(position, new String[] { Integer.toString(pos), itemsArray.get(position)[1]});
+				adapter.notifyDataSetChanged();
 			}
 		}
 
@@ -60,12 +50,6 @@ public class FiltersActivity  extends Activity {
 		}
     }
 
-    static class ViewHolder {
-        Spinner        method;
-        ImageButton    rm;
-        Button         val;
-        TextView       cond;
-    }
 	class FTArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
     	final Context cntx;
 
@@ -82,25 +66,17 @@ public class FiltersActivity  extends Activity {
 
 		@Override
     	public View getView(final int position, View convertView, ViewGroup parent) {
-    		ViewHolder holder;
-            View       v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.filters_item, null);
-                holder = new ViewHolder();
-                holder.method = (Spinner) v.findViewById(R.id.filters_method);
-                holder.rm     = (ImageButton) v.findViewById(R.id.filters_delete);
-                holder.val    = (Button) v.findViewById(R.id.filters_type);
-                holder.cond   = (TextView)v.findViewById(R.id.filters_condition);
-                v.setTag(holder);
-            }
-            else
-            	holder = (ViewHolder) v.getTag();
+			// Do not reuse convertView and create new view each time !!!
+			// I know it is not so efficient, but I don't know how to prevent
+			// spinner's value for different position in list be mixed otherwise.
+			// Anyway filters list can't be big, so I hope its OK.
+    		LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    		View         v = vi.inflate(R.layout.filters_item, null);
 
-            Spinner      methodSpn = holder.method;
-            ImageButton  rmBtn = holder.rm;
-            Button       valBtn = holder.val;
-            TextView     condTxt = holder.cond;
+    		Spinner      methodSpn = (Spinner) v.findViewById(R.id.filters_method);
+    		ImageButton  rmBtn = (ImageButton) v.findViewById(R.id.filters_delete);
+    		Button       valBtn = (Button) v.findViewById(R.id.filters_type);
+    		TextView     condTxt = (TextView)v.findViewById(R.id.filters_condition);
             
             final String[] item = itemsArray.get(position);
             if (item == null)
@@ -116,11 +92,8 @@ public class FiltersActivity  extends Activity {
     	    		cntx, R.array.filter_values, android.R.layout.simple_spinner_item);
     	    sadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	    methodSpn.setAdapter(sadapter);
-    	    methodSpn.setSelection(spos);
-			Log.d(TAG, "-----------");
-			Log.d(TAG, " getView: size=" + itemsArray.size() + " position=" + position);
-			app.dumpList("itemsArray", itemsArray);
-			methodSpn.setOnItemSelectedListener(new myOnItemSelectedListener(position, spos));
+    	    methodSpn.setSelection(spos, false);
+			methodSpn.setOnItemSelectedListener(new myOnItemSelectedListener(position));
     	    
     	    // Set remove button
         	rmBtn.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +168,7 @@ public class FiltersActivity  extends Activity {
 
     	lv = (ListView) findViewById(R.id.filters_lv);
     	itemsArray = app.getList("filters");
-    	adapter = new FTArrayAdapter(this, R.layout.filters_item);
+     	adapter = new FTArrayAdapter(this, R.layout.filters_item);
         lv.setAdapter(adapter);
 
         // OK/Save button
