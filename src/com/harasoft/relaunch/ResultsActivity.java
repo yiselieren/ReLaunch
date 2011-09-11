@@ -177,7 +177,20 @@ public class ResultsActivity extends Activity {
     	}
     }
 
-    private void start(Intent i)
+	private void redrawList()
+	{
+		List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
+
+		for (HashMap<String, String> item : itemsArray)
+		{
+			if (app.filterFile(item.get("dname"), item.get("fname")))
+					newItemsArray.add(item);
+		}
+		itemsArray = newItemsArray;
+		adapter.notifyDataSetChanged();
+	}
+
+	private void start(Intent i)
     {
     	if (i != null)
     		startActivity(i);
@@ -211,7 +224,7 @@ public class ResultsActivity extends Activity {
     	//Log.d(TAG, "listname=" + listName + " title=" + title);
     	for (String[] n : app.getList(listName))
     	{
-    		if (app.filterFile(n[1]))
+    		if (app.filterFile(n[0], n[1]))
     		{
     			HashMap<String, String> item = new HashMap<String, String>();
 	    		item.put("dname", n[0]);
@@ -270,7 +283,7 @@ public class ResultsActivity extends Activity {
 			itemsArray = new ArrayList<HashMap<String, String>>();
 			for (String[] n : app.getList(listName))
 			{
-	    		if (app.filterFile(n[1]))
+	    		if (app.filterFile(n[0], n[1]))
 	    		{
 	    			HashMap<String, String> item = new HashMap<String, String>();
 	    			item.put("dname", n[0]);
@@ -280,7 +293,7 @@ public class ResultsActivity extends Activity {
 	    		}
 			}
 		}
-		adapter.notifyDataSetChanged();
+		redrawList();
 		super.onStart();
 	}
 
@@ -358,20 +371,20 @@ public class ResultsActivity extends Activity {
 		{
 		case CNTXT_MENU_MARK_READING:
 			app.history.put(fullName, app.READING);
-			adapter.notifyDataSetChanged();
+			redrawList();
 			break;
 		case CNTXT_MENU_MARK_FINISHED:
 			app.history.put(fullName, app.FINISHED);
-			adapter.notifyDataSetChanged();
+			redrawList();
 			break;
 		case CNTXT_MENU_MARK_FORGET:
 			app.history.remove(fullName);
-			adapter.notifyDataSetChanged();
+			redrawList();
 			break;
 		case CNTXT_MENU_RMFAV:
 			app.removeFromList("favorites", dname, fname);
 			itemsArray.remove(pos);
-			adapter.notifyDataSetChanged();   
+			redrawList();   
 			break;
 		case CNTXT_MENU_MOVEUP:
 			if (pos > 0)
@@ -385,7 +398,7 @@ public class ResultsActivity extends Activity {
 				itemsArray.add(pos-1, it);
 				f.add(pos-1, fit);
 				app.setList(listName, f);
-				adapter.notifyDataSetChanged();
+				redrawList();
 			}
 			break;
 		case CNTXT_MENU_MOVEDOWN:
@@ -409,7 +422,7 @@ public class ResultsActivity extends Activity {
 					f.add(pos+1, fit);
 				};
 				app.setList(listName, f);
-				adapter.notifyDataSetChanged();				
+				redrawList();				
 			}
 			break;
 		case CNTXT_MENU_RMFILE:
@@ -423,7 +436,7 @@ public class ResultsActivity extends Activity {
 							if (app.removeFile(dname, fname))
 							{
 								itemsArray.remove(pos);
-								adapter.notifyDataSetChanged();
+								redrawList();
 							}
 						}});
 				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -435,7 +448,7 @@ public class ResultsActivity extends Activity {
 			else if (app.removeFile(dname, fname))
 			{
 				itemsArray.remove(pos);
-				adapter.notifyDataSetChanged();
+				redrawList();
 			}
 			break;
 		}

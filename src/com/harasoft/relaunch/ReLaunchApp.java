@@ -12,6 +12,7 @@ import java.util.List;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -21,8 +22,10 @@ import android.widget.Toast;
 
 public class ReLaunchApp extends Application {
 	final String                            TAG = "ReLaunchApp";
+
 	final int                               FileBufferSize = 1024;
-	
+	public SharedPreferences                prefs;
+
 	// Book status
 	final int                               READING=1;
 	final int                               FINISHED=2;
@@ -165,9 +168,9 @@ public class ReLaunchApp extends Application {
     }
     public void addToList(String listName, String fullName, Boolean addToEnd, String delimiter)
     {
-    	//Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ")");
+    	//Log.d(TAG, "addToList(" + listName + ", " + fullName + ", " + addToEnd + ", " + delimiter + ")");
 
-    	if (delimiter.equals("/")  ||  listName.equals("history"))
+    	if (delimiter.equals("/"))
     	{
     		File f = new File(fullName); 	
     		if (!f.exists())
@@ -181,7 +184,19 @@ public class ReLaunchApp extends Application {
     			return;
     		if (ind+delimiter.length() >= fullName.length())
     			return;
-    		addToList_internal(listName, fullName.substring(0, ind), fullName.substring(ind+delimiter.length()), addToEnd);
+    		String dname = fullName.substring(0, ind);
+    		String fname = fullName.substring(ind+delimiter.length());
+    		if (listName.equals("history"))
+    		{	
+    			// Special case - delimiter is not "/" but we need to check file existence anyway.
+    			// directory name is a full file name in such case. filename is a READ/NEW mark
+    			File f = new File(dname);
+    	   		if (!f.exists())
+        			return;
+    			addToList_internal(listName, dname, fname, addToEnd);
+    		}
+    		else
+    			addToList_internal(listName, dname, fname, addToEnd);
     	}
 
     }
@@ -291,7 +306,7 @@ public class ReLaunchApp extends Application {
     				if (!l.equals(""))
     				{
     					//Log.d(TAG, "ADD (last) \"" + l + "\"");
-    					addToList(listName, l, true);
+    					addToList(listName, l, true, delimiter);
     				}
 					break;
     			}
@@ -304,7 +319,7 @@ public class ReLaunchApp extends Application {
     					if (!l.equals(""))
     					{
     						//Log.d(TAG, "ADD \"" + l + "\"");
-    						addToList(listName, l, true);
+    						addToList(listName, l, true, delimiter);
     						l = new String();
     					}
     				}
@@ -462,9 +477,73 @@ public class ReLaunchApp extends Application {
     public o1Comparator getO1Comparator() { return new o1Comparator(); }
     
     // FILTER
-	public boolean filterFile(String name)
+	//public boolean filterFile1(String dname, String fname, Integer method, String value)
+	//{
+	//	Log.d(TAG, "filterFile1(" + dname + ", " + fname + ", " +method + ", " + value + ")");
+	//	boolean rc = filterFile1_(dname, fname, method, value);
+	//	Log.d(TAG, "    rc=" + rc);
+	//	return rc;
+	//}
+	public boolean filterFile1(String dname, String fname, Integer method, String value)
 	{
-		return true;
+		if (method == FLT_STARTS)
+			return fname.startsWith(value);
+		else if (method ==  FLT_ENDS)
+			return fname.endsWith(value);
+		else if (method ==  FLT_CONTAINS)
+			return fname.contains(value);
+		else if (method ==  FLT_MATCHES)
+			return fname.matches(value);
+		else if (method ==  FLT_NEW)
+			return ! history.containsKey(dname + "/" + fname);
+		else if (method ==  FLT_NEW_AND_READING)
+		{
+			String fullName = dname + "/" + fname;
+			if (history.containsKey(fullName))
+			{
+				Log.d(TAG, "history.get(" + fullName + ")=" + history.get(fullName));
+				return history.get(fullName) != FINISHED;
+			}
+			else
+				return true;
+		}
+		else
+			return false;
+	}
+
+	public boolean filterFile(String dname, String fname)
+	{
+		if (prefs.getBoolean("filterResults", false))
+		{
+			List<String[]> filters = getList("filters");
+			if (filters.size() > 0)
+			{
+				for (String[] f : filters)
+				{
+					Integer filtMethod = 0;
+					try {
+						filtMethod = Integer.parseInt(f[0]);
+					} catch(NumberFormatException e) { }
+					if (filters_and)
+					{
+						// AND all filters
+						if (!filterFile1(dname, fname, filtMethod, f[1]))
+							return false;
+					}
+					else
+					{
+						// OR all filters
+						if (filterFile1(dname, fname, filtMethod, f[1]))
+							return true;
+					}
+				}
+				return filters_and ? true : false;
+			}
+			else
+				return true;
+		}
+		else
+			return true;
 	}
 
 }

@@ -8,7 +8,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -176,9 +178,17 @@ public class FiltersActivity  extends Activity {
         okBtn.setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v)
     		{
+    			// Save list
     	    	app.setList("filters", itemsArray);
     			app.writeFile("filters", ReLaunch.FILT_FILE, 0, ":");
-            	setResult(Activity.RESULT_OK);
+
+    			// Save and/or flag
+    			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    			SharedPreferences.Editor editor = prefs.edit();
+    			editor.putBoolean("filtersAnd", app.filters_and);
+    			editor.commit();
+
+    			setResult(Activity.RESULT_OK);
             	finish();
    			}
 		});

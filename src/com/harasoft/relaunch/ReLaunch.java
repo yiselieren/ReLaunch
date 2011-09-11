@@ -175,7 +175,19 @@ public class ReLaunch extends Activity {
     	}
     }
 
-    public static List<HashMap<String, String>> parseReadersString(String readerList)
+	private void redrawList()
+	{
+		List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
+
+		for (HashMap<String, String> item : itemsArray)
+		{
+			if (item.get("type").equals("dir")   ||  app.filterFile(item.get("dname"), item.get("name")))
+					newItemsArray.add(item);
+		}
+		itemsArray = newItemsArray;
+		adapter.notifyDataSetChanged();
+	}
+    private static List<HashMap<String, String>> parseReadersString(String readerList)
     {
     	List<HashMap<String, String>> rc = new ArrayList<HashMap<String,String>>();
         String[] rdrs = readerList.split("\\|");
@@ -197,7 +209,7 @@ public class ReLaunch extends Activity {
         return rc;
     }
     
-    public static String createReadersString(List<HashMap<String, String>> rdrs)
+    private static String createReadersString(List<HashMap<String, String>> rdrs)
     {
     	String rc = new String();
     	
@@ -239,7 +251,7 @@ public class ReLaunch extends Activity {
     		{
     			if (entry.isDirectory())
     				dirs.add(entry.getName());
-    			else if (app.filterFile(entry.getName()))
+    			else if (app.filterFile(dir.getAbsolutePath(), entry.getName()))
     				files.add(entry.getName()); 
     		}
     	}
@@ -388,12 +400,11 @@ public class ReLaunch extends Activity {
     	app.FLT_MATCHES = getResources().getInteger(R.integer.FLT_MATCHES);
     	app.FLT_NEW = getResources().getInteger(R.integer.FLT_NEW);
     	app.FLT_NEW_AND_READING = getResources().getInteger(R.integer.FLT_NEW_AND_READING);
-    	app.filters_and = true;
 
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
-        //Log.d(TAG, "Types string: \"" + typesString + "\"");
+        app.prefs = prefs;
 
        // Create application icons map
         app.setIcons(createIconsList(getPackageManager()));
@@ -409,6 +420,7 @@ public class ReLaunch extends Activity {
         app.readFile("lastOpened", LRU_FILE);
         app.readFile("favorites", FAV_FILE);
         app.readFile("filters", FILT_FILE, ":");
+        app.filters_and = prefs.getBoolean("filtersAnd", true);
         if (!app.readFile("startReaders", RDR_FILE, ":"))
 			app.setDefault("startReaders");
         app.readFile("history", HIST_FILE, ":");
@@ -420,6 +432,7 @@ public class ReLaunch extends Activity {
         	else if (r[1].equals("FINISHED"))
         		app.history.put(r[0], app.FINISHED);
         }
+        app.dumpLists();
 
         // Main layout
         if (prefs.getBoolean("showButtons", true))
@@ -464,8 +477,7 @@ public class ReLaunch extends Activity {
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
         
         app.askIfAmbiguous = prefs.getBoolean("askAmbig", false);
-        
-		adapter.notifyDataSetChanged();
+		drawDirectory(currentRoot, currentPosition);
 	}
 
 	@Override
@@ -583,15 +595,15 @@ public class ReLaunch extends Activity {
 			break;
 		case CNTXT_MENU_MARK_READING:
 			app.history.put(fullName, app.READING);
-			adapter.notifyDataSetChanged();
+			redrawList();
 			break;
 		case CNTXT_MENU_MARK_FINISHED:
 			app.history.put(fullName, app.FINISHED);
-			adapter.notifyDataSetChanged();
+			redrawList();
 			break;
 		case CNTXT_MENU_MARK_FORGET:
 			app.history.remove(fullName);
-			adapter.notifyDataSetChanged();
+			redrawList();
 			break;
 		case CNTXT_MENU_DELETE_F:
 			if (prefs.getBoolean("confirmFileDelete", true))
@@ -604,7 +616,7 @@ public class ReLaunch extends Activity {
 							if (app.removeFile(dname, fname))
 							{
 								itemsArray.remove(pos);
-								adapter.notifyDataSetChanged();
+								redrawList();
 							}
 						}});
 				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -616,7 +628,7 @@ public class ReLaunch extends Activity {
 			else if (app.removeFile(dname, fname))
 			{
 				itemsArray.remove(pos);
-				adapter.notifyDataSetChanged();
+				redrawList();
 			}
 			break;
 		case CNTXT_MENU_DELETE_D_EMPTY:
@@ -630,7 +642,7 @@ public class ReLaunch extends Activity {
 							if (app.removeFile(dname, fname))
 							{
 								itemsArray.remove(pos);
-								adapter.notifyDataSetChanged();
+								redrawList();
 							}
 						}});
 				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -642,7 +654,7 @@ public class ReLaunch extends Activity {
 			else if (app.removeFile(dname, fname))
 			{
 				itemsArray.remove(pos);
-				adapter.notifyDataSetChanged();
+				redrawList();
 			}
 			break;
 		case CNTXT_MENU_DELETE_D_NON_EMPTY:
@@ -656,7 +668,7 @@ public class ReLaunch extends Activity {
 							if (app.removeDirectory(dname, fname))
 							{
 								itemsArray.remove(pos);
-								adapter.notifyDataSetChanged();
+								redrawList();
 							}
 						}});
 				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -668,7 +680,7 @@ public class ReLaunch extends Activity {
 			else if (app.removeDirectory(dname, fname))
 			{
 				itemsArray.remove(pos);
-				adapter.notifyDataSetChanged();
+				redrawList();
 			}
 			break;
 		}
