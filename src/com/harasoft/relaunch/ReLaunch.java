@@ -177,14 +177,17 @@ public class ReLaunch extends Activity {
 
 	private void redrawList()
 	{
-		List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
-
-		for (HashMap<String, String> item : itemsArray)
+		if (prefs.getBoolean("filterResults", false))
 		{
-			if (item.get("type").equals("dir")   ||  app.filterFile(item.get("dname"), item.get("name")))
+			List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
+
+			for (HashMap<String, String> item : itemsArray)
+			{
+				if (item.get("type").equals("dir")   ||  app.filterFile(item.get("dname"), item.get("name")))
 					newItemsArray.add(item);
+			}
+			itemsArray = newItemsArray;
 		}
-		itemsArray = newItemsArray;
 		adapter.notifyDataSetChanged();
 	}
     private static List<HashMap<String, String>> parseReadersString(String readerList)
@@ -209,7 +212,7 @@ public class ReLaunch extends Activity {
         return rc;
     }
     
-    private static String createReadersString(List<HashMap<String, String>> rdrs)
+    public static String createReadersString(List<HashMap<String, String>> rdrs)
     {
     	String rc = new String();
     	
@@ -251,7 +254,7 @@ public class ReLaunch extends Activity {
     		{
     			if (entry.isDirectory())
     				dirs.add(entry.getName());
-    			else if (app.filterFile(dir.getAbsolutePath(), entry.getName()))
+    			else if (!prefs.getBoolean("filterResults", false)  ||  app.filterFile(dir.getAbsolutePath(), entry.getName()))
     				files.add(entry.getName()); 
     		}
     	}
@@ -404,7 +407,6 @@ public class ReLaunch extends Activity {
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
-        app.prefs = prefs;
 
        // Create application icons map
         app.setIcons(createIconsList(getPackageManager()));
@@ -432,7 +434,6 @@ public class ReLaunch extends Activity {
         	else if (r[1].equals("FINISHED"))
         		app.history.put(r[0], app.FINISHED);
         }
-        app.dumpLists();
 
         // Main layout
         if (prefs.getBoolean("showButtons", true))

@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,14 +180,17 @@ public class ResultsActivity extends Activity {
 
 	private void redrawList()
 	{
-		List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
-
-		for (HashMap<String, String> item : itemsArray)
+		if (prefs.getBoolean("filterResults", false))
 		{
-			if (app.filterFile(item.get("dname"), item.get("fname")))
+			List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
+
+			for (HashMap<String, String> item : itemsArray)
+			{
+				if (app.filterFile(item.get("dname"), item.get("fname")))
 					newItemsArray.add(item);
+			}
+			itemsArray = newItemsArray;
 		}
-		itemsArray = newItemsArray;
 		adapter.notifyDataSetChanged();
 	}
 
@@ -224,7 +228,7 @@ public class ResultsActivity extends Activity {
     	//Log.d(TAG, "listname=" + listName + " title=" + title);
     	for (String[] n : app.getList(listName))
     	{
-    		if (app.filterFile(n[0], n[1]))
+    		if (!prefs.getBoolean("filterResults", false)  ||  app.filterFile(n[0], n[1]))
     		{
     			HashMap<String, String> item = new HashMap<String, String>();
 	    		item.put("dname", n[0]);
@@ -283,7 +287,7 @@ public class ResultsActivity extends Activity {
 			itemsArray = new ArrayList<HashMap<String, String>>();
 			for (String[] n : app.getList(listName))
 			{
-	    		if (app.filterFile(n[0], n[1]))
+	    		if (!prefs.getBoolean("filterResults", false)  ||  app.filterFile(n[0], n[1]))
 	    		{
 	    			HashMap<String, String> item = new HashMap<String, String>();
 	    			item.put("dname", n[0]);
@@ -295,6 +299,66 @@ public class ResultsActivity extends Activity {
 		}
 		redrawList();
 		super.onStart();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.resultsmenu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId())
+		{
+			case R.id.mime_types:
+				Intent intent1 = new Intent(ResultsActivity.this, TypesActivity.class);
+		        startActivityForResult(intent1, ReLaunch.TYPES_ACT);
+		        return true;
+			case R.id.about:
+				String vers = getResources().getString(R.string.app_version);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("ReLaunch");
+				builder.setMessage("Reader launcher\nVersion: " + vers);
+				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.dismiss();
+					}});
+				builder.show();
+				return true;
+			case R.id.readers:
+				Intent intent2 = new Intent(ResultsActivity.this, ReadersActivity.class);
+		        startActivity(intent2);
+				return true;
+			case R.id.setting:
+				Intent intent3 = new Intent(ResultsActivity.this, PrefsActivity.class);
+		        startActivity(intent3);
+				return true;
+			default:
+				return true;
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
+		if (resultCode != Activity.RESULT_OK)
+			return;
+		switch (requestCode)
+		{
+			case ReLaunch.TYPES_ACT:
+				String newTypes = ReLaunch.createReadersString(app.getReaders());
+
+		        SharedPreferences.Editor editor = prefs.edit();
+		        editor.putString("types", newTypes);
+		        editor.commit();
+
+		        redrawList();
+				break;
+			default:
+				return;
+		}
 	}
 
 	@Override

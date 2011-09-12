@@ -24,7 +24,6 @@ public class ReLaunchApp extends Application {
 	final String                            TAG = "ReLaunchApp";
 
 	final int                               FileBufferSize = 1024;
-	public SharedPreferences                prefs;
 
 	// Book status
 	final int                               READING=1;
@@ -500,10 +499,7 @@ public class ReLaunchApp extends Application {
 		{
 			String fullName = dname + "/" + fname;
 			if (history.containsKey(fullName))
-			{
-				Log.d(TAG, "history.get(" + fullName + ")=" + history.get(fullName));
 				return history.get(fullName) != FINISHED;
-			}
 			else
 				return true;
 		}
@@ -513,37 +509,31 @@ public class ReLaunchApp extends Application {
 
 	public boolean filterFile(String dname, String fname)
 	{
-		if (prefs.getBoolean("filterResults", false))
+		List<String[]> filters = getList("filters");
+		if (filters.size() > 0)
 		{
-			List<String[]> filters = getList("filters");
-			if (filters.size() > 0)
+			for (String[] f : filters)
 			{
-				for (String[] f : filters)
+				Integer filtMethod = 0;
+				try {
+					filtMethod = Integer.parseInt(f[0]);
+				} catch(NumberFormatException e) { }
+				if (filters_and)
 				{
-					Integer filtMethod = 0;
-					try {
-						filtMethod = Integer.parseInt(f[0]);
-					} catch(NumberFormatException e) { }
-					if (filters_and)
-					{
-						// AND all filters
-						if (!filterFile1(dname, fname, filtMethod, f[1]))
-							return false;
-					}
-					else
-					{
-						// OR all filters
-						if (filterFile1(dname, fname, filtMethod, f[1]))
-							return true;
-					}
+					// AND all filters
+					if (!filterFile1(dname, fname, filtMethod, f[1]))
+						return false;
 				}
-				return filters_and ? true : false;
+				else
+				{
+					// OR all filters
+					if (filterFile1(dname, fname, filtMethod, f[1]))
+						return true;
+				}
 			}
-			else
-				return true;
+			return filters_and ? true : false;
 		}
 		else
 			return true;
 	}
-
 }
