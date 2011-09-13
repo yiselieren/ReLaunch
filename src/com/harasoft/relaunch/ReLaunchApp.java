@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +39,7 @@ public class ReLaunchApp extends Application {
 	public int                        FLT_NEW;
 	public int                        FLT_NEW_AND_READING;
 	public boolean                    filters_and;
-
+	
 	public  HashMap<String, Integer>        history = new HashMap<String, Integer>();
 	private HashMap<String, List<String[]>> m = new HashMap<String, List<String[]>>();
 	private HashMap<String, Drawable>       icons;

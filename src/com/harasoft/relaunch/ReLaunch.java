@@ -65,6 +65,8 @@ public class ReLaunch extends Activity {
     SimpleAdapter                 adapter;
     SharedPreferences             prefs;
 	ReLaunchApp                   app;
+    boolean                       useHome = false;
+
 
     static class ViewHolder {
         TextView  tv;
@@ -394,7 +396,6 @@ public class ReLaunch extends Activity {
         super.onCreate(savedInstanceState);
 
         // If we called from Home laucher?
-        boolean useHome = false;
         final Intent data = getIntent();
         if (data.getExtras() != null  &&  data.getBooleanExtra("home", false))
 	        useHome = true;
@@ -442,20 +443,9 @@ public class ReLaunch extends Activity {
         }
 
         // Main layout
-        if (useHome)
+        if (useHome  ||  prefs.getBoolean("showButtons", true))
         {
-        	setContentView(R.layout.main_launcher);
-        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v)
-        		{
-        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
-        			startActivity(intent);
-        		}
-        	});
-        }
-        else if (prefs.getBoolean("showButtons", true))
-        {
-        	setContentView(R.layout.main);
+        	setContentView(useHome ? R.layout.main_launcher : R.layout.main);
         	((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuSettings(); }});
         	((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
@@ -473,7 +463,17 @@ public class ReLaunch extends Activity {
         }
         else
         	setContentView(R.layout.main_nobuttons);
-
+       if (useHome)
+        {
+        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v)
+        		{
+        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+        			startActivity(intent);
+        		}
+        	});
+        }
+ 
         // First directory to get to
         if (prefs.getBoolean("saveDir", true))
         	drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
