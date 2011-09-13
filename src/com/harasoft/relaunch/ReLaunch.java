@@ -443,9 +443,21 @@ public class ReLaunch extends Activity {
         }
 
         // Main layout
-        if (useHome  ||  prefs.getBoolean("showButtons", true))
+        if (useHome)
         {
-        	setContentView(useHome ? R.layout.main_launcher : R.layout.main);
+        	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
+        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v)
+        		{
+        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+        			startActivity(intent);
+        		}
+        	});
+        }
+        else
+        	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main : R.layout.main_nobuttons);
+         if (prefs.getBoolean("showButtons", true))
+        {
         	((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuSettings(); }});
         	((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
@@ -461,19 +473,7 @@ public class ReLaunch extends Activity {
         	((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v) { menuAbout(); }});
         }
-        else
-        	setContentView(R.layout.main_nobuttons);
-       if (useHome)
-        {
-        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v)
-        		{
-        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
-        			startActivity(intent);
-        		}
-        	});
-        }
- 
+
         // First directory to get to
         if (prefs.getBoolean("saveDir", true))
         	drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
