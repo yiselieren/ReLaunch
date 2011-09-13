@@ -42,6 +42,8 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ReLaunch extends Activity {
 	
 	final String                  TAG = "ReLaunch";
+	final String                  APP_LRU_FILE = "AppLruFile.txt";
+	final String                  APP_FAV_FILE = "AppFavorites.txt";
 	final String                  LRU_FILE = "LruFile.txt";
 	final String                  FAV_FILE = "Favorites.txt";
 	static public final String    RDR_FILE = "Readers.txt";
@@ -445,11 +447,30 @@ public class ReLaunch extends Activity {
         // Main layout
         if (useHome)
         {
+            app.readFile("app_last", APP_LRU_FILE, ":");
+            app.readFile("app_favorites", APP_FAV_FILE, ":");
         	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
+        	((ImageButton)findViewById(R.id.app_last)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v)
+        		{
+        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+        			intent.putExtra("list", "app_last");
+        			startActivity(intent);
+        		}
+        	});
         	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
         		public void onClick(View v)
         		{
         			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+        			intent.putExtra("list", "app_all");
+        			startActivity(intent);
+        		}
+        	});
+        	((ImageButton)findViewById(R.id.app_favorites)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v)
+        		{
+        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+        			intent.putExtra("list", "app_favorites");
         			startActivity(intent);
         		}
         	});
@@ -709,12 +730,19 @@ public class ReLaunch extends Activity {
 	protected void onStop() {
 		int lruMax = 30;
 		int favMax = 30;
+		int appLruMax = 30;
+		int appFavMax = 30;
 		try {
 			lruMax = Integer.parseInt(prefs.getString("lruSize", "30"));
 			favMax = Integer.parseInt(prefs.getString("favSize", "30"));
+			appLruMax = Integer.parseInt(prefs.getString("appLruSize", "30"));
+			appFavMax = Integer.parseInt(prefs.getString("appFavSize", "30"));
 		} catch(NumberFormatException e) { }
 		app.writeFile("lastOpened", LRU_FILE, lruMax);
 		app.writeFile("favorites",  FAV_FILE, favMax);
+        app.writeFile("app_last", APP_LRU_FILE, appLruMax, ":");
+        app.writeFile("app_favorites", APP_FAV_FILE, appFavMax, ":");
+
 		List<String[]> h = new ArrayList<String[]>();
 		for (String k : app.history.keySet())
 		{

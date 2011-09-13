@@ -10,7 +10,9 @@
        <CheckBoxPreference android:summaryOff="Show all files in a normal way" android:summaryOn="Use color/bold fonts to show new and finished bools" android:key="showNew" android:title="Show new/read books" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <EditTextPreference android:enabled="true" android:title="Last opened list size" android:selectable="true" android:key="lruSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened list" android:numeric="integer"></EditTextPreference>
        <EditTextPreference android:enabled="true" android:title="Favorites list size" android:selectable="true" android:key="favSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of favorites list" android:numeric="integer"></EditTextPreference>
-     </PreferenceCategory>
+       <EditTextPreference android:enabled="true" android:title="Applications last opened list size" android:selectable="true" android:key="appLruSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened applications list" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Application favorites list size" android:selectable="true" android:key="appFavSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of applications favorites list" android:numeric="integer"></EditTextPreference>
+      </PreferenceCategory>
 
 	 <PreferenceCategory android:title="Confirmations">
        <CheckBoxPreference android:summaryOff="Delete file without confirmation" android:summaryOn="Ask confirmation for file deletion" android:key="confirmFileDelete" android:title="Confirm file deletion" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>

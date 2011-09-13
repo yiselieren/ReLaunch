@@ -15,5 +15,9 @@
     </LinearLayout>
     <TextView android:text="TextView" android:id="@+id/title_txt" android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="3" android:layout_height="0dp" android:layout_width="fill_parent" android:layout_weight="0.06" android:layout_gravity="center"></TextView>
     <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_weight="1" android:layout_height="0dp"></ListView>
-    <ImageButton android:src="@android:drawable/ic_dialog_dialer" android:text="All applications" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/all_applications_btn" android:layout_gravity="center"></ImageButton>
+    <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_gravity="center">
+        <ImageButton android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/app_last"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_dialog_dialer" android:text="All applications" android:id="@+id/all_applications_btn" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="0dp"></ImageButton>
+        <ImageButton android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/btn_star" android:layout_height="fill_parent" android:id="@+id/app_favorites"></ImageButton>
+    </LinearLayout>
 </LinearLayout>
