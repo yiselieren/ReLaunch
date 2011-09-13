@@ -418,7 +418,7 @@ public class ReLaunchApp extends Application {
     }
 
     // common utility - get intent by label, null if not found
-    private Intent getIntentByLabel(String label)
+    public Intent getIntentByLabel(String label)
     {
         PackageManager pm = getPackageManager();;
 

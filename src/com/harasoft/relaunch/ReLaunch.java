@@ -393,6 +393,12 @@ public class ReLaunch extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // If we called from Home laucher?
+        boolean useHome = false;
+        final Intent data = getIntent();
+        if (data.getExtras() != null  &&  data.getBooleanExtra("home", false))
+	        useHome = true;
+
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
 
@@ -436,7 +442,18 @@ public class ReLaunch extends Activity {
         }
 
         // Main layout
-        if (prefs.getBoolean("showButtons", true))
+        if (useHome)
+        {
+        	setContentView(R.layout.main_launcher);
+        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v)
+        		{
+        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+        			startActivity(intent);
+        		}
+        	});
+        }
+        else if (prefs.getBoolean("showButtons", true))
         {
         	setContentView(R.layout.main);
         	((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
