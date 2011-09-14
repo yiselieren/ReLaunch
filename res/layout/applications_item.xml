@@ -13,8 +13,8 @@
     android:layout_height="wrap_content"
     android:background="#000000" android:layout_gravity="center" android:layout_weight="1">
 
-    <TextView android:gravity="center_vertical" android:text="App.name" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#000000" android:background="#ffffff" android:id="@+id/app_name" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></TextView>
     <ImageView android:src="@drawable/dir_ok" android:background="#ffffff" android:id="@+id/app_icon" android:layout_width="0dp" android:layout_height="64dp" android:layout_weight="0.2"></ImageView>
+    <TextView android:gravity="center_vertical" android:text="App.name" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#000000" android:background="#ffffff" android:id="@+id/app_name" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></TextView>
     <TextView android:text="" android:background="#000000" android:textColor="#000000" android:layout_width="2dp" android:layout_height="fill_parent" android:textAppearance="?android:attr/textAppearanceSmall" android:id="@+id/textView1"></TextView>
   </LinearLayout>
   <TextView android:text="" android:background="#000000" android:textColor="#000000" android:layout_width="fill_parent" android:layout_height="2dp" android:textAppearance="?android:attr/textAppearanceSmall" android:id="@+id/textView2" android:layout_weight="1"></TextView>
