@@ -8,8 +8,14 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,7 +47,7 @@ public class AllApplications extends Activity {
     AppAdapter                    adapter;
     ListView                      lv;
     String                        listName;
-    //SharedPreferences             prefs;
+    SharedPreferences             prefs;
 
     static class ViewHolder {
         TextView  tv;
@@ -86,12 +92,30 @@ public class AllApplications extends Activity {
     	}
     }
 
+	private void saveLast()
+	{
+		int appLruMax = 30;
+		try {
+			appLruMax = Integer.parseInt(prefs.getString("appLruSize", "30"));
+		} catch(NumberFormatException e) { }
+        app.writeFile("app_last", ReLaunch.APP_LRU_FILE, appLruMax, ":");
+	}
+
+	private void saveFav()
+	{
+		int appFavMax = 30;
+		try {
+			appFavMax = Integer.parseInt(prefs.getString("appFavSize", "30"));
+		} catch(NumberFormatException e) { }
+        app.writeFile("app_favorites", ReLaunch.APP_FAV_FILE, appFavMax, ":");
+	}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_applications);
         
-        //prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	app = ((ReLaunchApp)getApplicationContext());
     	icons = app.getIcons();
     	
@@ -124,18 +148,21 @@ public class AllApplications extends Activity {
              	String item = itemsArray.get(position);
             	Intent i = app.getIntentByLabel(item);
             	if (i == null)
-            		Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_SHORT).show();
+            		Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
             	else
             	{
             		boolean ok = true;
             		try {
             			startActivity(i);
             		} catch (ActivityNotFoundException e) {
-            			Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_SHORT).show();
+            			Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
             			ok = false;
             		}
             		if (ok)
+            		{
             			app.addToList("app_last", item, "", false);
+            			saveLast();
+            		}
 
             	}
  			}});
@@ -185,20 +212,94 @@ public class AllApplications extends Activity {
 
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		final int pos = info.position;
-		String i = itemsArray.get(pos);
+		String it = itemsArray.get(pos);
 
 		switch (item.getItemId())
 		{
 		case CNTXT_MENU_MOVEUP:
+			if (pos > 0)
+			{
+				List<String[]>   f = app.getList(listName);
+				String[]         fit = f.get(pos);
+
+				itemsArray.remove(pos);
+				f.remove(pos);
+				itemsArray.add(pos-1, it);
+				f.add(pos-1, fit);
+				app.setList(listName, f);
+				saveFav();
+				adapter.notifyDataSetChanged();
+			}
 			break;
 		case CNTXT_MENU_MOVEDOWN:
+			if (pos < (itemsArray.size()-1))
+			{
+				List<String[]>          f = app.getList(listName);
+				String[]                fit = f.get(pos);
+
+				int size = itemsArray.size();
+				itemsArray.remove(pos);
+				f.remove(pos);
+				if (pos+1 >= size-1)
+				{
+					itemsArray.add(it);
+					f.add(fit);
+				}
+				else
+				{
+					itemsArray.add(pos+1, it);
+					f.add(pos+1, fit);
+				};
+				app.setList(listName, f);
+				saveFav();
+				adapter.notifyDataSetChanged();
+			}
 			break;
 		case CNTXT_MENU_RMFAV:
+			app.getList(listName).remove(pos);
+			itemsArray.remove(pos);
+			saveFav();
+			adapter.notifyDataSetChanged();
 			break;
 		case CNTXT_MENU_ADDFAV:
-			app.addToList("app_favorites", i, "", true);
+			app.addToList("app_favorites", it, "", true);
+			itemsArray.add(it);
+			saveFav();
 			break;
 		case CNTXT_MENU_UNINSTALL:
+			//Toast.makeText(AllApplications.this, "Uninstall is not implemented yet", Toast.LENGTH_LONG).show();
+			PackageManager pm = getPackageManager();
+			PackageInfo    pi = null;
+
+			//try {
+			//	pi = pm.getPackageInfo(it, PackageManager.GET_ACTIVITIES);
+			//} catch (PackageManager.NameNotFoundException e) {
+			//	pi = null;
+			//}
+			for (PackageInfo packageInfo : pm.getInstalledPackages(0))
+			{
+				if (it.equals(pm.getApplicationLabel(packageInfo.applicationInfo)))
+				{
+					pi = packageInfo;
+					break;
+				}
+			}
+
+			if (pi == null)
+				Toast.makeText(AllApplications.this, "PackageInfo not found for label \"" + it + "\"", Toast.LENGTH_LONG).show();
+			else
+			{
+				//Toast.makeText(AllApplications.this, "Package name is \"" + pi.packageName + "\" for label \"" + it + "\"", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_DELETE, Uri.fromParts("package", pi.packageName, null));
+				try {
+					startActivity(intent);
+				} catch (ActivityNotFoundException e) {
+					Toast.makeText(AllApplications.this, "Activity \"" + pi.packageName + "\" not found", Toast.LENGTH_LONG).show();
+					return true;
+				}
+				// REREAD application list, remove this app. from fav. and last lists
+			}
+
 			break;
 		}
 		return true;

@@ -42,10 +42,10 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ReLaunch extends Activity {
 	
 	final String                  TAG = "ReLaunch";
-	final String                  APP_LRU_FILE = "AppLruFile.txt";
-	final String                  APP_FAV_FILE = "AppFavorites.txt";
-	final String                  LRU_FILE = "LruFile.txt";
-	final String                  FAV_FILE = "Favorites.txt";
+	static public final String    APP_LRU_FILE = "AppLruFile.txt";
+	static public final String    APP_FAV_FILE = "AppFavorites.txt";
+	static public final String    LRU_FILE = "LruFile.txt";
+	static public final String    FAV_FILE = "Favorites.txt";
 	static public final String    RDR_FILE = "Readers.txt";
 	static public final String    HIST_FILE = "History.txt";
 	static public final String    FILT_FILE = "Filters.txt";
