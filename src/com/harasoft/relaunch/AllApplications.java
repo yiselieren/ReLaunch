@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -50,7 +51,8 @@ public class AllApplications extends Activity {
     Boolean                       rereadOnStart = false;
 	List<String>                  itemsArray = new ArrayList<String>();
     AppAdapter                    adapter;
-    ListView                      lv;
+    GridView                      lv;
+    //ListView                      lv;
     String                        listName;
     String                        title;
     SharedPreferences             prefs;
@@ -192,7 +194,8 @@ public class AllApplications extends Activity {
         ((TextView)findViewById(R.id.app_title)).setText(title + " (" + itemsArray.size() + ")");
 
     	adapter = new AppAdapter(this, R.layout.applications_item, itemsArray);
-    	lv = (ListView) findViewById(R.id.app_list);
+    	lv = (GridView) findViewById(R.id.app_grid);
+    	//lv = (ListView) findViewById(R.id.app_list);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
         lv.setOnItemClickListener(new OnItemClickListener() {
