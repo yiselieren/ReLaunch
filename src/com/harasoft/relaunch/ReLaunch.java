@@ -69,6 +69,8 @@ public class ReLaunch extends Activity {
     SharedPreferences             prefs;
 	ReLaunchApp                   app;
     boolean                       useHome = false;
+    static public boolean         filterMyself = true;
+    static public String          selfName = "ReLaunch";
 
 
     static class ViewHolder {
@@ -381,7 +383,10 @@ public class ReLaunch extends Activity {
         	Intent aIntent = pm.getLaunchIntentForPackage(packageInfo.packageName);
         	String aLabel = (String)pm.getApplicationLabel(packageInfo);
         	if (aIntent != null  &&  aLabel != null)
-        		rc.add(aLabel);
+        	{
+        		if (!filterMyself  ||  !aLabel.equals(selfName))
+        			rc.add(aLabel);
+        	}
         }
         Collections.sort(rc);
         return rc;
@@ -416,6 +421,7 @@ public class ReLaunch extends Activity {
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
+        filterMyself = prefs.getBoolean("filterSelf", true);
 
        // Create application icons map
         app.setIcons(createIconsList(getPackageManager()));
