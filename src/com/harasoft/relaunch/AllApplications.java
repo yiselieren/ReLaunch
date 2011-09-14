@@ -9,13 +9,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,10 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class AllApplications extends Activity {
+	final String                  TAG = "AllApps";
+
+	final int                     UNINSTALL_ACT = 1;
+
 	final int                     CNTXT_MENU_RMFAV = 1;
 	final int                     CNTXT_MENU_ADDFAV = 2;
 	final int                     CNTXT_MENU_UNINSTALL = 3;
@@ -47,6 +52,7 @@ public class AllApplications extends Activity {
     AppAdapter                    adapter;
     ListView                      lv;
     String                        listName;
+    String                        title;
     SharedPreferences             prefs;
 
     static class ViewHolder {
@@ -109,6 +115,48 @@ public class AllApplications extends Activity {
 		} catch(NumberFormatException e) { }
         app.writeFile("app_favorites", ReLaunch.APP_FAV_FILE, appFavMax, ":");
 	}
+	
+    private void checkListByName(String lName, List<String> master)
+    {
+    	List<String[]> rc = app.getList(lName);
+    	List<String[]> rc1 = new ArrayList<String[]>();
+
+    	for (String[] r : rc)
+    	{
+    		boolean inMaster = false;
+    		for (String m : master)
+    		{
+    			if (m.equals(r[0]))
+    			{
+    				inMaster = true;
+    				break;
+    			}
+    		}
+    		if (inMaster)
+    			rc1.add(r);
+    	}
+    	app.setList(lName, rc1);
+    	
+    }
+    private List<String> checkList(List<String> lst, List<String> master)
+    {
+    	List<String> rc = new ArrayList<String>();
+    	for (String s : lst)
+    	{
+    		boolean inMaster = false;
+    		for (String m : master)
+    		{
+    			if (m.equals(s))
+    			{
+    				inMaster = true;
+    				break;
+    			}
+    		}
+    		if (inMaster)
+    			rc.add(s);
+    	}
+    	return rc;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,6 +175,10 @@ public class AllApplications extends Activity {
         	finish();
         }
         listName = data.getExtras().getString("list");
+        title = data.getExtras().getString("title");
+
+    	((ImageButton)findViewById(R.id.app_btn)).setOnClickListener(new View.OnClickListener() {
+    		public void onClick(View v) { finish(); }});
 
         if (listName.equals("app_all"))
         	itemsArray = app.getApps();
@@ -137,7 +189,8 @@ public class AllApplications extends Activity {
         	for (String[] r : lit)
         		itemsArray.add(r[0]);
         }
-    	
+        ((TextView)findViewById(R.id.app_title)).setText(title + " (" + itemsArray.size() + ")");
+
     	adapter = new AppAdapter(this, R.layout.applications_item, itemsArray);
     	lv = (ListView) findViewById(R.id.app_list);
         lv.setAdapter(adapter);
@@ -160,7 +213,7 @@ public class AllApplications extends Activity {
             		}
             		if (ok)
             		{
-            			app.addToList("app_last", item, "", false);
+            			app.addToList("app_last", item, "X", false);
             			saveLast();
             		}
 
@@ -262,8 +315,7 @@ public class AllApplications extends Activity {
 			adapter.notifyDataSetChanged();
 			break;
 		case CNTXT_MENU_ADDFAV:
-			app.addToList("app_favorites", it, "", true);
-			itemsArray.add(it);
+			app.addToList("app_favorites", it, "X", true);
 			saveFav();
 			break;
 		case CNTXT_MENU_UNINSTALL:
@@ -292,16 +344,37 @@ public class AllApplications extends Activity {
 				//Toast.makeText(AllApplications.this, "Package name is \"" + pi.packageName + "\" for label \"" + it + "\"", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(Intent.ACTION_DELETE, Uri.fromParts("package", pi.packageName, null));
 				try {
-					startActivity(intent);
+					startActivityForResult(intent, UNINSTALL_ACT);
 				} catch (ActivityNotFoundException e) {
 					Toast.makeText(AllApplications.this, "Activity \"" + pi.packageName + "\" not found", Toast.LENGTH_LONG).show();
 					return true;
 				}
-				// REREAD application list, remove this app. from fav. and last lists
 			}
 
 			break;
 		}
 		return true;
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//Log.d(TAG, "onActivityResult, requestCode=" + requestCode + ",  resultCode=" + resultCode);
+		switch (requestCode)
+		{
+			case UNINSTALL_ACT:
+				// REREAD application list, check that  favorites and last lists don't contain extra applications
+				app.setApps(ReLaunch.createAppList(getPackageManager()));
+		        checkListByName("app_last", app.getApps());
+		        checkListByName("app_favorites", app.getApps());
+		        itemsArray = checkList(itemsArray, app.getApps());
+		        saveLast();
+				saveFav();
+				adapter.notifyDataSetChanged();
+				break;
+			default:
+				return;
+		}
+	}
+
+
 }

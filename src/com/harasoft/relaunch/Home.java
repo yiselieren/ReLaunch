@@ -15,6 +15,12 @@ public class Home extends Activity {
     	
 		Intent intent = new Intent(Home.this, ReLaunch.class);
 		intent.putExtra("home", true);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		finish();
+	}
+
 }

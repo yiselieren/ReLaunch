@@ -23,6 +23,7 @@ import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -371,7 +372,7 @@ public class ReLaunch extends Activity {
         return rc;
     }
     
-    private List<String> createAppList(PackageManager pm)
+    static public List<String> createAppList(PackageManager pm)
     {
     	List<String> rc = new ArrayList<String>();
     	
@@ -380,7 +381,6 @@ public class ReLaunch extends Activity {
         	Intent aIntent = pm.getLaunchIntentForPackage(packageInfo.packageName);
         	String aLabel = (String)pm.getApplicationLabel(packageInfo);
         	if (aIntent != null  &&  aLabel != null)
-        		//appSet.add(aLabel);
         		rc.add(aLabel);
         }
         Collections.sort(rc);
@@ -455,6 +455,7 @@ public class ReLaunch extends Activity {
         		{
         			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
         			intent.putExtra("list", "app_last");
+        			intent.putExtra("title", "Last recently used applications");
         			startActivity(intent);
         		}
         	});
@@ -463,6 +464,7 @@ public class ReLaunch extends Activity {
         		{
         			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
         			intent.putExtra("list", "app_all");
+        			intent.putExtra("title", "All applications");
         			startActivity(intent);
         		}
         	});
@@ -471,6 +473,7 @@ public class ReLaunch extends Activity {
         		{
         			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
         			intent.putExtra("list", "app_favorites");
+        			intent.putExtra("title", "Favorite applications");
         			startActivity(intent);
         		}
         	});
@@ -754,6 +757,35 @@ public class ReLaunch extends Activity {
 		app.setList("history", h);
 		app.writeFile("history", HIST_FILE, 0, ":");
 		super.onStop();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (!useHome)
+			return super.onKeyDown(keyCode, event);
+	    if(keyCode == KeyEvent.KEYCODE_HOME)
+	    	return true;
+	    if(keyCode == KeyEvent.KEYCODE_BACK) {
+	        //Ask the user if they want to quit
+	        new AlertDialog.Builder(this)
+	        .setIcon(android.R.drawable.ic_dialog_alert)
+	        .setTitle("This is a launcher!")
+	        .setMessage("Are you sure you want to quit ?")
+	        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	            	finish();    
+	            }
+
+	        })
+	        .setNegativeButton("NO", null)
+	        .show();
+
+	        return true;
+	    }
+	    else {
+	        return super.onKeyDown(keyCode, event);
+	    }
+
 	}
 
 	private void menuSearch() {
