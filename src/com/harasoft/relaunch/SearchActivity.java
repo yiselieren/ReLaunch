@@ -6,13 +6,21 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -36,110 +44,190 @@ public class SearchActivity extends Activity {
     Button                   searchButton;
     InputMethodManager       imm;
 	ReLaunchApp              app;
+	
+	ProgressDialog           pd;
+	boolean                  stop_search = false;
+	
+	// Seacrh parameters and result
+	List<String[]>           searchResults;
+	int                      filesCount;
 
+	private void resetSeacrh()
+	{
+		searchResults = new ArrayList<String[]>();
+		filesCount = 0;
+		stop_search = false;
 
-    private void addEntries(String root, List<String[]> searchResults, Boolean case_sens,
-    		Boolean known_only, Boolean regexp, String pattern)
-    {
-    	File         dir = new File(root);
-       	File[]       allEntries = dir.listFiles();
-    	for (File entry : allEntries)
-    	{
-    		String entryFullName = root + "/" + entry.getName();
-    		
-			if (entry.isDirectory())
-				addEntries(entryFullName, searchResults, case_sens, known_only, regexp, pattern);
-			else
+		pd = new ProgressDialog(this);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setMessage("Search in progress");
+        pd.setCancelable(true);
+        pd.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            	stop_search = true;
+            }});
+        pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			public void onDismiss(DialogInterface dialog) {
+				stop_search = true;
+			}
+		});
+		pd.show();
+	}
+	public AsyncTask<Boolean, Integer, String> createAsyncTask()
+	{
+
+		return new AsyncTask<Boolean, Integer, String>() {
+			Boolean case_sens;
+			Boolean known_only;
+			Boolean regexp;
+			String  pattern;
+			Boolean search_sort;
+			int     searchReport;
+			int     searchSize;
+
+			private void addEntries(String root)
 			{
-				String[] n = new String[2];
-				n[0] = root;
-				n[1] = entry.getName();
+				File         dir = new File(root);
+				File[]       allEntries = dir.listFiles();
+				for (File entry : allEntries)
+				{
+					filesCount++;	
+					String entryFullName = root + "/" + entry.getName();
+					SystemClock.sleep(100);
+					if ((filesCount % searchReport) == 0)
+						publishProgress(filesCount);
 
-				if (known_only  &&  app.readerName(n[1]).equals("Nope"))
-					continue;
-				if (regexp)
-				{
-					// Regular expression
-					if (entry.getName().matches(pattern))
-						searchResults.add(n); 
-				}
-				else
-				{
-					// String
-					if (case_sens)
-					{
-						if (entry.getName().contains(pattern))
-							searchResults.add(n); 
-					}
+					if (stop_search)
+						break;
+					if (searchResults.size() >= searchSize)
+						break;
+
+					if (entry.isDirectory())
+						addEntries(entryFullName);
 					else
 					{
-						if (entry.getName().toLowerCase().contains(pattern.toLowerCase()))
-							searchResults.add(n); 
+						String[] n = new String[2];
+						n[0] = root;
+						n[1] = entry.getName();
+		
+						if (known_only  &&  app.readerName(n[1]).equals("Nope"))
+							continue;
+						if (regexp)
+						{
+							// Regular expression
+							if (entry.getName().matches(pattern))
+								searchResults.add(n); 
+						}
+						else
+						{
+							// String
+							if (case_sens)
+							{
+								if (entry.getName().contains(pattern))
+									searchResults.add(n); 
+							}
+							else
+							{
+								if (entry.getName().toLowerCase().contains(pattern.toLowerCase()))
+									searchResults.add(n); 
+							}
+						}
 					}
 				}
 			}
-    	}
-    }
 
-    private void executeSearch(boolean all)
-    {
-		List<String[]> searchResults = new ArrayList<String[]>();
+			@Override
+			protected String doInBackground(Boolean... params) {
+				Boolean all = params[0];
 
-		// Save all other search settings
-		Boolean        search_sort = searchSort.isChecked();
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putBoolean("searchSort", search_sort);
-		editor.commit();
+				searchResults = new ArrayList<String[]>();
+				filesCount = 0;
+				try {
+					searchReport = Integer.parseInt(prefs.getString("searchReport", "10"));
+					searchSize = Integer.parseInt(prefs.getString("searchSize", "5000"));
+				} catch(NumberFormatException e) {
+					searchReport = 10;
+					searchSize = 5000;
+				}
+				stop_search = false;
+				
+				// Save all general search settings
+				String  root = searchRoot.getText().toString();
+				search_sort = searchSort.isChecked();
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putBoolean("searchSort", search_sort);
+	    		editor.putString("searchRoot", root);
+				editor.commit();
 
-		if (all)
-    	{
-    		String         root = searchRoot.getText().toString();
-    		File         dir = new File(root);
-    		if (!dir.isDirectory())
-    			return;
-    		addEntries(root, searchResults, false, true, true, ".*");    		
-    	}
-    	else
-    	{
-    		Boolean        case_sens = searchCase.isChecked();
-    		Boolean        known_only = searchKnown.isChecked();
-    		Boolean        regexp = searchAs.getSelectedItemPosition() == 1;
-    		String         root = searchRoot.getText().toString();
-    		String         pattern = searchTxt.getText().toString();
+				if (all)
+		    	{
+		    		File         dir = new File(root);
+		    		if (!dir.isDirectory())
+		    			return "OK";
+		    		case_sens = false;
+		    		known_only = true;
+		    		regexp = true;
+		    		pattern = ".*";
+		    		addEntries(root);    		
+		    	}
+		    	else
+		    	{
+		    		case_sens = searchCase.isChecked();
+		    		known_only = searchKnown.isChecked();
+		    		regexp = searchAs.getSelectedItemPosition() == 1;
+		    		pattern = searchTxt.getText().toString();
 
-    		// Save all other search settings
-    		editor.putBoolean("searchCase", case_sens);
-    		editor.putBoolean("searchKnown", known_only);
-    		editor.putInt("searchAs", searchAs.getSelectedItemPosition());
-    		editor.putString("searchRoot", root);
-    		editor.putString("searchPrev", pattern);
-    		editor.commit();
-        
-    		// Search
-    		File         dir = new File(root);
-    		if (!dir.isDirectory())
-    			return;
-    		addEntries(root, searchResults, case_sens, known_only, regexp, pattern);
-    	}
-    	
-    	//// DEBUG
-    	//for (String[] r : searchResults)
-    	//	Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
-		if (search_sort)
-			Collections.sort(searchResults, app.getO1Comparator());
-    	app.setList("searchResults", searchResults);
-		Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
-		intent.putExtra("list", "searchResults");
-		intent.putExtra("title", "Search results");
-		intent.putExtra("rereadOnStart", false);
-        startActivity(intent);
-     }
+		    		// Save all specific search settings
+		    		editor.putBoolean("searchCase", case_sens);
+		    		editor.putBoolean("searchKnown", known_only);
+		    		editor.putInt("searchAs", searchAs.getSelectedItemPosition());
+		    		editor.putString("searchRoot", root);
+		    		editor.putString("searchPrev", pattern);
+		    		editor.commit();
+		        
+		    		// Search
+		    		File         dir = new File(root);
+		    		if (!dir.isDirectory())
+		    			return "OK";
+		    		addEntries(root);
+		    	}
+		    	
+				return "OK";
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				super.onPostExecute(result);
+				pd.dismiss();
+				stop_search = false;
+		    	//// DEBUG
+		    	//for (String[] r : searchResults)
+		    	//	Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
+				if (search_sort)
+					Collections.sort(searchResults, app.getO1Comparator());
+		    	app.setList("searchResults", searchResults);
+				Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
+				intent.putExtra("list", "searchResults");
+				intent.putExtra("title", "Search results");
+				intent.putExtra("rereadOnStart", false);
+		        startActivity(intent);
+
+			}
+
+			@Override
+			protected void onProgressUpdate(Integer... values) {
+				super.onProgressUpdate(values);
+		        pd.setMessage("Files (found / total searched) " + searchResults.size() + "/" + filesCount);
+			}
+		};
+	}
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
+		stop_search = false;
         app = ((ReLaunchApp)getApplicationContext());
         
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -154,11 +242,13 @@ public class SearchActivity extends Activity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 	               if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 	            	   imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-	                   executeSearch(false);
+	            	   resetSeacrh();
+	            	   createAsyncTask().execute(false);
 	                   return true;
 	                }
 				return false;
 			}});
+        
 
         // Set clean search text button
 		((ImageButton)findViewById(R.id.search_txt_delete)).setOnClickListener(new View.OnClickListener() {
@@ -166,11 +256,11 @@ public class SearchActivity extends Activity {
 		
 		// Set main search button
 		((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { executeSearch(false); }});	
+			public void onClick(View v) { resetSeacrh(); createAsyncTask().execute(false); }});	
 		
 		// Search all button
 		((Button)findViewById(R.id.search_all)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { executeSearch(true); }});	
+			public void onClick(View v) { resetSeacrh(); createAsyncTask().execute(true); }});	
 		
 		// Cancel button
     	((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
@@ -204,5 +294,34 @@ public class SearchActivity extends Activity {
 		searchTxt.setText(prefs.getString("searchPrev", ""));
 		
 	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.searchmenu, menu);
+		return true;
+	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId())
+		{
+			case R.id.about:
+				String vers = getResources().getString(R.string.app_version);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("ReLaunch");
+				builder.setMessage("Reader launcher\nVersion: " + vers);
+				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.dismiss();
+					}});
+				builder.show();
+				return true;
+			case R.id.setting:
+				Intent intent = new Intent(SearchActivity.this, PrefsActivity.class);
+		        startActivity(intent);
+				return true;
+			default:
+				return true;
+		}
+	}
 }

@@ -5,6 +5,12 @@
         <item>Regexp</item>
     </string-array>
 
+    <string-array name="search_in_values">
+        <item>File name</item>
+        <item>Innermost directory name</item>
+        <item>Full path</item>
+    </string-array>
+
     <integer name="FLT_SELECT">          0 </integer>
     <integer name="FLT_STARTS">          1 </integer>
     <integer name="FLT_ENDS">            2 </integer>

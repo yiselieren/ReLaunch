@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.HOME"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        
+        <activity android:name=".Shop"
+        	      android:launchMode="singleInstance"
+                  android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="com.bn.intent.action.shop" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -2,5 +2,5 @@
 <resources>
     <string name="hello">Hello World, ReLaunch!</string>
     <string name="app_name">ReLaunch</string>
-    <string name="app_version">0.93</string>
+    <string name="app_version">0.94</string>
 </resources>

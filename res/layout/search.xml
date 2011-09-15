@@ -20,6 +20,10 @@
         <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="Search as" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
         <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_as"></Spinner>
     </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="Search in" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_in"></Spinner>
+    </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_width="fill_parent">
         <TextView android:layout_height="wrap_content" android:id="@+id/textView3" android:text="Search root" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
         <EditText android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_root">

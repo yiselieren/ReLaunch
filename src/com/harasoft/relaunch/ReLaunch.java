@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -69,6 +70,7 @@ public class ReLaunch extends Activity {
     SharedPreferences             prefs;
 	ReLaunchApp                   app;
     boolean                       useHome = false;
+    boolean                       useShop = false;
     static public boolean         filterMyself = true;
     static public String          selfName = "ReLaunch";
 
@@ -406,7 +408,9 @@ public class ReLaunch extends Activity {
         final Intent data = getIntent();
         if (data.getExtras() != null  &&  data.getBooleanExtra("home", false))
 	        useHome = true;
-
+        if (data.getExtras() != null  &&  data.getBooleanExtra("shop", false))
+	        useShop = true;
+        
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
 
@@ -422,6 +426,8 @@ public class ReLaunch extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
         filterMyself = prefs.getBoolean("filterSelf", true);
+        if (useShop  &&  prefs.getBoolean("shopMode", true))
+        	useHome = true;
 
        // Create application icons map
         app.setIcons(createIconsList(getPackageManager()));
