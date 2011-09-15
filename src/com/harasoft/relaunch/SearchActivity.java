@@ -34,8 +34,14 @@ import android.widget.TextView;
 
 public class SearchActivity extends Activity {
 	final String             TAG = "Search";
+	int                      SEARCH_FILE;
+	int                      SEARCH_DIR;
+	int                      SEARCH_PATH;
+
+	
     SharedPreferences        prefs;
     Spinner                  searchAs;
+    Spinner                  searchIn;
     CheckBox                 searchCase;
     CheckBox                 searchKnown;
     CheckBox                 searchSort;
@@ -52,7 +58,7 @@ public class SearchActivity extends Activity {
 	List<String[]>           searchResults;
 	int                      filesCount;
 
-	private void resetSeacrh()
+	private void resetSearch()
 	{
 		searchResults = new ArrayList<String[]>();
 		filesCount = 0;
@@ -82,6 +88,7 @@ public class SearchActivity extends Activity {
 			Boolean regexp;
 			String  pattern;
 			Boolean search_sort;
+			int     search_mode;
 			int     searchReport;
 			int     searchSize;
 
@@ -93,7 +100,7 @@ public class SearchActivity extends Activity {
 				{
 					filesCount++;	
 					String entryFullName = root + "/" + entry.getName();
-					SystemClock.sleep(100);
+					SystemClock.sleep(50);
 					if ((filesCount % searchReport) == 0)
 						publishProgress(filesCount);
 
@@ -112,10 +119,27 @@ public class SearchActivity extends Activity {
 		
 						if (known_only  &&  app.readerName(n[1]).equals("Nope"))
 							continue;
+						
+						String item; // Item for comparison
+						if (search_mode == SEARCH_FILE)
+							item = entry.getName();
+						else if (search_mode == SEARCH_DIR)
+						{
+							String i[] = root.split("/");
+							if (i.length > 0)
+								item = i[i.length - 1];
+							else
+								item = root;
+						}
+						else if (search_mode == SEARCH_PATH)
+							item = entryFullName;
+						else
+							item = entry.getName(); // Should not be here!!!
+
 						if (regexp)
 						{
 							// Regular expression
-							if (entry.getName().matches(pattern))
+							if (item.matches(pattern))
 								searchResults.add(n); 
 						}
 						else
@@ -123,12 +147,12 @@ public class SearchActivity extends Activity {
 							// String
 							if (case_sens)
 							{
-								if (entry.getName().contains(pattern))
+								if (item.contains(pattern))
 									searchResults.add(n); 
 							}
 							else
 							{
-								if (entry.getName().toLowerCase().contains(pattern.toLowerCase()))
+								if (item.toLowerCase().contains(pattern.toLowerCase()))
 									searchResults.add(n); 
 							}
 						}
@@ -176,11 +200,13 @@ public class SearchActivity extends Activity {
 		    		known_only = searchKnown.isChecked();
 		    		regexp = searchAs.getSelectedItemPosition() == 1;
 		    		pattern = searchTxt.getText().toString();
+		    		search_mode = searchIn.getSelectedItemPosition();
 
 		    		// Save all specific search settings
 		    		editor.putBoolean("searchCase", case_sens);
 		    		editor.putBoolean("searchKnown", known_only);
 		    		editor.putInt("searchAs", searchAs.getSelectedItemPosition());
+		    		editor.putInt("searchIn", searchIn.getSelectedItemPosition());
 		    		editor.putString("searchRoot", root);
 		    		editor.putString("searchPrev", pattern);
 		    		editor.commit();
@@ -227,6 +253,10 @@ public class SearchActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
+        SEARCH_FILE = getResources().getInteger(R.integer.SEARCH_FILE);
+        SEARCH_DIR  = getResources().getInteger(R.integer.SEARCH_DIR);
+        SEARCH_PATH = getResources().getInteger(R.integer.SEARCH_PATH);
+
 		stop_search = false;
         app = ((ReLaunchApp)getApplicationContext());
         
@@ -236,13 +266,14 @@ public class SearchActivity extends Activity {
         searchKnown = (CheckBox)findViewById(R.id.search_books_only);
         searchSort = (CheckBox)findViewById(R.id.search_sort);
         searchAs = (Spinner)findViewById(R.id.search_as);
+        searchIn = (Spinner)findViewById(R.id.search_in);
         searchRoot = (EditText)findViewById(R.id.search_root);
         searchTxt = (EditText)findViewById(R.id.search_txt);
         searchTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 	               if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 	            	   imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-	            	   resetSeacrh();
+	            	   resetSearch();
 	            	   createAsyncTask().execute(false);
 	                   return true;
 	                }
@@ -256,11 +287,11 @@ public class SearchActivity extends Activity {
 		
 		// Set main search button
 		((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { resetSeacrh(); createAsyncTask().execute(false); }});	
+			public void onClick(View v) { resetSearch(); createAsyncTask().execute(false); }});	
 		
 		// Search all button
 		((Button)findViewById(R.id.search_all)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) { resetSeacrh(); createAsyncTask().execute(true); }});	
+			public void onClick(View v) { resetSearch(); createAsyncTask().execute(true); }});	
 		
 		// Cancel button
     	((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
@@ -281,11 +312,18 @@ public class SearchActivity extends Activity {
 		searchSort.setChecked(prefs.getBoolean("searchSort", true));
 		
 		// Set search as spinner
-	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+	    ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(
 	            this, R.array.search_as_values, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    searchAs.setAdapter(adapter);
-	    searchAs.setSelection(prefs.getInt("searchAs", 0));
+	    adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    searchAs.setAdapter(adapter1);
+	    searchAs.setSelection(prefs.getInt("searchAs", 0), false);
+	    
+		// Set search in spinner
+	    ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+	            this, R.array.search_in_values, android.R.layout.simple_spinner_item);
+	    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    searchIn.setAdapter(adapter2);
+	    searchIn.setSelection(prefs.getInt("searchIn", 0), false);
 	    
 		// set search root
 		searchRoot.setText(prefs.getString("searchRoot", "/sdcard"));
@@ -294,6 +332,15 @@ public class SearchActivity extends Activity {
 		searchTxt.setText(prefs.getString("searchPrev", ""));
 		
 	}
+
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	    searchAs.setSelection(prefs.getInt("searchAs", 0), false);
+	    searchIn.setSelection(prefs.getInt("searchIn", 0), false);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {;
 		MenuInflater inflater = getMenuInflater();

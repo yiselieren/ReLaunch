@@ -5,6 +5,9 @@
         <item>Regexp</item>
     </string-array>
 
+    <integer name="SEARCH_FILE">  0 </integer>
+    <integer name="SEARCH_DIR">   1 </integer>
+    <integer name="SEARCH_PATH">  2 </integer>
     <string-array name="search_in_values">
         <item>File name</item>
         <item>Innermost directory name</item>
@@ -18,7 +21,6 @@
     <integer name="FLT_MATCHES">         4 </integer>
     <integer name="FLT_NEW">             5 </integer>
     <integer name="FLT_NEW_AND_READING"> 6 </integer>
-    
     <string-array name="filter_values">
         <item>Select filter method</item>
         <item>Filename starts with</item>
