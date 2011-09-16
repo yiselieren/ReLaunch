@@ -8,15 +8,20 @@ import java.util.List;
 import java.util.Stack;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.ActivityManager.MemoryInfo;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
@@ -739,6 +744,37 @@ public class ReLaunch extends Activity {
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		// Memory
+		MemoryInfo mi = new MemoryInfo();
+		ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		activityManager.getMemoryInfo(mi);
+        TextView tv = (TextView)findViewById(R.id.mem_level);
+		if (tv != null)
+        	tv.setText(mi.availMem / 1048576L + "M free");
+
+		// Battery
+        BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                context.unregisterReceiver(this);
+                int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                int level = -1;
+                if (rawlevel >= 0 && scale > 0) {
+                    level = (rawlevel * 100) / scale;
+                }
+                TextView tv = (TextView)findViewById(R.id.bat_level);
+                if (tv != null)
+                	tv.setText(level + "%");
+            }
+        };
+        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryLevelReceiver, batteryLevelFilter);
 	}
 
 	@Override

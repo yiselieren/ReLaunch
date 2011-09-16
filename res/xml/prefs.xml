@@ -17,7 +17,7 @@
 
       <PreferenceCategory android:title="Seacrh settings">
        <EditTextPreference android:enabled="true" android:title="Maximal amount of search results" android:selectable="true" android:key="searchSize" android:persistent="true" android:defaultValue="5000" android:summary="Maximal size of search results list" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:enabled="true" android:title="How often report search progress" android:selectable="true" android:key="searchReport" android:persistent="true" android:defaultValue="10" android:summary="Report search progress every ... times" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="How often report search progress" android:selectable="true" android:key="searchReport" android:persistent="true" android:defaultValue="100" android:summary="Report search progress every ... times" android:numeric="integer"></EditTextPreference>
       </PreferenceCategory>
 
       <PreferenceCategory android:title="Maximal size of misc. persistent lists">

@@ -100,7 +100,6 @@ public class SearchActivity extends Activity {
 				{
 					filesCount++;	
 					String entryFullName = root + "/" + entry.getName();
-					SystemClock.sleep(50);
 					if ((filesCount % searchReport) == 0)
 						publishProgress(filesCount);
 
@@ -167,10 +166,10 @@ public class SearchActivity extends Activity {
 				searchResults = new ArrayList<String[]>();
 				filesCount = 0;
 				try {
-					searchReport = Integer.parseInt(prefs.getString("searchReport", "10"));
+					searchReport = Integer.parseInt(prefs.getString("searchReport", "100"));
 					searchSize = Integer.parseInt(prefs.getString("searchSize", "5000"));
 				} catch(NumberFormatException e) {
-					searchReport = 10;
+					searchReport = 100;
 					searchSize = 5000;
 				}
 				stop_search = false;
