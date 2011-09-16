@@ -160,6 +160,18 @@ public class AllApplications extends Activity {
     	return rc;
     }
 
+	// REREAD application list, check that  favorites and last lists don't contain extra applications
+   private void rereadAppList()
+    {
+    	app.setApps(ReLaunch.createAppList(getPackageManager()));
+    	checkListByName("app_last", app.getApps());
+    	checkListByName("app_favorites", app.getApps());
+    	itemsArray = checkList(itemsArray, app.getApps());
+    	saveLast();
+    	saveFav();
+    	adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,7 +195,10 @@ public class AllApplications extends Activity {
     		public void onClick(View v) { finish(); }});
 
         if (listName.equals("app_all"))
+        {
+        	app.setApps(ReLaunch.createAppList(getPackageManager()));
         	itemsArray = app.getApps();
+        }
         else
         {
         	List<String[]> lit = app.getList(listName);
@@ -224,6 +239,27 @@ public class AllApplications extends Activity {
  			}});
         }
     
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+        if (listName.equals("app_all"))
+        	rereadAppList();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+        if (listName.equals("app_all"))
+        	rereadAppList();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+        if (listName.equals("app_all"))
+        	rereadAppList();
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -365,14 +401,7 @@ public class AllApplications extends Activity {
 		switch (requestCode)
 		{
 			case UNINSTALL_ACT:
-				// REREAD application list, check that  favorites and last lists don't contain extra applications
-				app.setApps(ReLaunch.createAppList(getPackageManager()));
-		        checkListByName("app_last", app.getApps());
-		        checkListByName("app_favorites", app.getApps());
-		        itemsArray = checkList(itemsArray, app.getApps());
-		        saveLast();
-				saveFav();
-				adapter.notifyDataSetChanged();
+				rereadAppList();
 				break;
 			default:
 				return;

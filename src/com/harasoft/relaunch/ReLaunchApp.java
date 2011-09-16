@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -534,5 +535,25 @@ public class ReLaunchApp extends Application {
 		}
 		else
 			return true;
+	}
+	
+	public Drawable specialIcon(String s)
+	{
+		if (s.endsWith(".apk"))
+			return getResources().getDrawable(R.drawable.install);
+		return null;
+	}
+
+	public boolean specialAction(Activity a, String s)
+	{
+		if (s.endsWith(".apk"))
+		{
+			// Install application
+			Intent intent = new Intent(Intent.ACTION_VIEW);           
+			intent.setDataAndType(Uri.parse("file://" + s), "application/vnd.android.package-archive");
+			a.startActivity(intent);
+			return true;
+		}
+		return false;
 	}
 }

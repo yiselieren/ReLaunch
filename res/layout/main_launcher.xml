@@ -17,15 +17,15 @@
     <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_weight="1" android:layout_height="0dp"></ListView>
     <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="0.0">
         <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:text="Memory" android:id="@+id/mem_title" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_gravity="center"></TextView>
-            <TextView android:id="@+id/mem_level" android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Mem:" android:layout_weight="1" android:layout_height="fill_parent" android:layout_gravity="center" android:layout_width="fill_parent"></TextView>
+            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:text="Memory" android:id="@+id/mem_title" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></TextView>
+            <TextView android:id="@+id/mem_level" android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Mem:" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></TextView>
         </LinearLayout>
         <ImageButton android:layout_width="0dp" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/app_last" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></ImageButton>
         <ImageButton android:src="@android:drawable/ic_dialog_dialer" android:text="All applications" android:id="@+id/all_applications_btn" android:layout_gravity="center" android:layout_width="0dp" android:layout_weight="1" android:layout_height="fill_parent"></ImageButton>
         <ImageButton android:layout_width="0dp" android:src="@android:drawable/btn_star" android:id="@+id/app_favorites" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></ImageButton>
-        <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">
-            <TextView android:text="Battery" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/bat_title" android:layout_gravity="center"></TextView>
-            <TextView android:text="Batt: " android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/bat_level" android:layout_weight="1" android:layout_height="fill_parent" android:layout_gravity="center" android:layout_width="fill_parent"></TextView>
+        <LinearLayout android:layout_height="fill_parent" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1" android:id="@+id/linearLayout4">
+            <TextView android:text="Battery" android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/bat_title" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_weight="1" android:layout_height="wrap_content"></TextView>
+            <TextView android:text="B" android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/bat_level" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:layout_weight="1" android:layout_height="wrap_content"></TextView>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

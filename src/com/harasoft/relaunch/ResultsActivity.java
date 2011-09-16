@@ -146,16 +146,22 @@ public class ResultsActivity extends Activity {
         			}
         		}
 
-            	String rdrName = app.readerName(fname);
-            	if (rdrName.equals("Nope"))
-            		iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
-            	else
-            	{
-            		if (icons.containsKey(rdrName))
-            			iv.setImageDrawable(icons.get(rdrName));
-            		else
-            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-            	}
+        		Drawable d = app.specialIcon(fname);
+        		if (d != null)
+        			iv.setImageDrawable(d);
+        		else
+        		{
+        			String rdrName = app.readerName(fname);
+        			if (rdrName.equals("Nope"))
+        				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+        			else
+        			{
+        				if (icons.containsKey(rdrName))
+        					iv.setImageDrawable(icons.get(rdrName));
+        				else
+        					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+        			}
+        		}
             	
         		if (useFaces)
         		{
@@ -247,7 +253,7 @@ public class ResultsActivity extends Activity {
  
              	String fullName = item.get("dname") + "/" + item.get("fname");
              	String fileName = item.get("fname");
-             	if (!app.readerName(fileName).equals("Nope"))
+             	if (!app.specialAction(ResultsActivity.this, fullName)  &&  !app.readerName(fileName).equals("Nope"))
             	{
             		// Launch reader
             		if (app.askIfAmbiguous)

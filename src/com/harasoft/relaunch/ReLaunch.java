@@ -160,15 +160,21 @@ public class ReLaunch extends Activity {
             					setBold = true;
             			}
             		}
-            		String rdrName = item.get("reader");
-            		if (rdrName.equals("Nope"))
-            			iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            		Drawable d = app.specialIcon(item.get("name"));
+            		if (d != null)
+            			iv.setImageDrawable(d);
             		else
             		{
-            			if (app.getIcons().containsKey(rdrName))
-            				iv.setImageDrawable(app.getIcons().get(rdrName));
+            			String rdrName = item.get("reader");
+            			if (rdrName.equals("Nope"))
+            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
             			else
-            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+            			{
+            				if (app.getIcons().containsKey(rdrName))
+            					iv.setImageDrawable(app.getIcons().get(rdrName));
+            				else
+            					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+            			}
             		}
             	}
             	
@@ -331,7 +337,7 @@ public class ReLaunch extends Activity {
         			positions.push(position);
             		drawDirectory(item.get("fname"), -1);
             	}
-            	else if (!item.get("reader").equals("Nope"))
+            	else if (!app.specialAction(ReLaunch.this, item.get("fname"))  &&  !item.get("reader").equals("Nope"))
             	{
             		// Launch reader
             		if (app.askIfAmbiguous)
