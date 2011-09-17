@@ -5,13 +5,15 @@
         <item>Regexp</item>
     </string-array>
 
-    <integer name="SEARCH_FILE">  0 </integer>
-    <integer name="SEARCH_DIR">   1 </integer>
-    <integer name="SEARCH_PATH">  2 </integer>
+    <integer name="SEARCH_FILE">    0 </integer>
+    <integer name="SEARCH_LASTDIR"> 1 </integer>
+    <integer name="SEARCH_FPATH">   2 </integer>
+    <integer name="SEARCH_PATH">    3 </integer>
     <string-array name="search_in_values">
         <item>File name</item>
         <item>Innermost directory name</item>
-        <item>Full path</item>
+        <item>Full path including file name</item>
+        <item>Path only, without file</item>
     </string-array>
 
     <integer name="FLT_SELECT">          0 </integer>

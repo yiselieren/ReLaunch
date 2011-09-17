@@ -76,6 +76,7 @@ public class ReLaunch extends Activity {
 	ReLaunchApp                   app;
     boolean                       useHome = false;
     boolean                       useShop = false;
+    boolean                       useDirViewer = false;
     static public boolean         filterMyself = true;
     static public String          selfName = "ReLaunch";
 
@@ -160,7 +161,7 @@ public class ReLaunch extends Activity {
             					setBold = true;
             			}
             		}
-            		Drawable d = app.specialIcon(item.get("name"));
+            		Drawable d = app.specialIcon(item.get("fname"), false);
             		if (d != null)
             			iv.setImageDrawable(d);
             		else
@@ -262,8 +263,8 @@ public class ReLaunch extends Activity {
         editor.putString("lastdir", currentRoot);
         editor.commit();
     	
-    	TextView  tv = (TextView)findViewById(R.id.title_txt);
-    	tv.setText(dir.getAbsolutePath());
+    	TextView  tv = (TextView)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
+    	tv.setText(dir.getAbsolutePath() + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
 
     	itemsArray = new ArrayList<HashMap<String,String>>();
     	if (dir.getParent() != null)
@@ -306,9 +307,9 @@ public class ReLaunch extends Activity {
     	
     	String[] from = new String[] { "name" };
     	int[]    to   = new int[] { R.id.fl_text };
-    	ListView lv = (ListView) findViewById(R.id.fl_list);
+    	ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
 
-        adapter = new FLSimpleAdapter(this, itemsArray, R.layout.flist_layout, from, to);
+        adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
         if (startPosition != -1)
@@ -421,6 +422,8 @@ public class ReLaunch extends Activity {
 	        useHome = true;
         if (data.getExtras() != null  &&  data.getBooleanExtra("shop", false))
 	        useShop = true;
+        if (data.getExtras() != null  &&  data.getBooleanExtra("dirviewer", false))
+	        useDirViewer = true;
         
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
@@ -467,65 +470,79 @@ public class ReLaunch extends Activity {
         		app.history.put(r[0], app.FINISHED);
         }
 
-        // Main layout
-        if (useHome)
+        if (useDirViewer)
         {
-            app.readFile("app_last", APP_LRU_FILE, ":");
-            app.readFile("app_favorites", APP_FAV_FILE, ":");
-        	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
-        	((ImageButton)findViewById(R.id.app_last)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v)
-        		{
-        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
-        			intent.putExtra("list", "app_last");
-        			intent.putExtra("title", "Last recently used applications");
-        			startActivity(intent);
-        		}
-        	});
-        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v)
-        		{
-        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
-        			intent.putExtra("list", "app_all");
-        			intent.putExtra("title", "All applications");
-        			startActivity(intent);
-        		}
-        	});
-        	((ImageButton)findViewById(R.id.app_favorites)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v)
-        		{
-        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
-        			intent.putExtra("list", "app_favorites");
-        			intent.putExtra("title", "Favorite applications");
-        			startActivity(intent);
-        		}
-        	});
+        	String start_dir = null;
+        	setContentView(R.layout.results_layout);
+            if (data.getExtras() != null)
+            	start_dir = data.getStringExtra("start_dir");
+        	((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
+        		public void onClick(View v) { finish(); }});
+            if (start_dir != null)
+            	drawDirectory(start_dir, -1);
         }
         else
-        	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main : R.layout.main_nobuttons);
-         if (prefs.getBoolean("showButtons", true))
         {
-        	((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuSettings(); }});
-        	((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuTypes(); }});
-        	((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuSearch(); }});
-        	((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuLastopened(); }});
-        	((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuFavorites(); }});
-        	((ImageButton)findViewById(R.id.readers_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuReaders(); }});
-        	((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
-        		public void onClick(View v) { menuAbout(); }});
+        	// Main layout
+	        if (useHome)
+	        {
+	            app.readFile("app_last", APP_LRU_FILE, ":");
+	            app.readFile("app_favorites", APP_FAV_FILE, ":");
+	        	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
+	        	((ImageButton)findViewById(R.id.app_last)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v)
+	        		{
+	        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+	        			intent.putExtra("list", "app_last");
+	        			intent.putExtra("title", "Last recently used applications");
+	        			startActivity(intent);
+	        		}
+	        	});
+	        	((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v)
+	        		{
+	        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+	        			intent.putExtra("list", "app_all");
+	        			intent.putExtra("title", "All applications");
+	        			startActivity(intent);
+	        		}
+	        	});
+	        	((ImageButton)findViewById(R.id.app_favorites)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v)
+	        		{
+	        			Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+	        			intent.putExtra("list", "app_favorites");
+	        			intent.putExtra("title", "Favorite applications");
+	        			startActivity(intent);
+	        		}
+	        	});
+	        }
+	        else
+	        	setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main : R.layout.main_nobuttons);
+	        if (prefs.getBoolean("showButtons", true))
+	        {
+	        	((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuSettings(); }});
+	        	((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuTypes(); }});
+	        	((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuSearch(); }});
+	        	((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuLastopened(); }});
+	        	((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuFavorites(); }});
+	        	((ImageButton)findViewById(R.id.readers_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuReaders(); }});
+	        	((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
+	        		public void onClick(View v) { menuAbout(); }});
+	        }
+	
+	        // First directory to get to
+	        if (prefs.getBoolean("saveDir", true))
+	        	drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
+	        else
+	        	drawDirectory(prefs.getString("startDir", "/sdcard"), -1);
         }
-
-        // First directory to get to
-        if (prefs.getBoolean("saveDir", true))
-        	drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
-        else
-        	drawDirectory(prefs.getString("startDir", "/sdcard"), -1);
     }
     
     @Override

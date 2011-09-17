@@ -35,10 +35,10 @@ import android.widget.TextView;
 public class SearchActivity extends Activity {
 	final String             TAG = "Search";
 	int                      SEARCH_FILE;
-	int                      SEARCH_DIR;
+	int                      SEARCH_LASTDIR;
+	int                      SEARCH_FPATH;
 	int                      SEARCH_PATH;
 
-	
     SharedPreferences        prefs;
     Spinner                  searchAs;
     Spinner                  searchIn;
@@ -92,6 +92,83 @@ public class SearchActivity extends Activity {
 			int     searchReport;
 			int     searchSize;
 
+			private void addToResults(String dname, String fname, String fullPath, boolean is_dir)
+			{
+				String[] n = new String[2];
+				
+				if (is_dir)
+				{
+					n[0] = dname; //fullPath;
+					n[1] = app.DIR_TAG;
+					boolean found = false;
+					for (String r[] : searchResults)
+					{
+						if (r[0].equals(n[0])  &&  r[1].equals(n[1]))
+						{
+							found = true;
+							break;
+						}
+					}
+					if (!found)
+						searchResults.add(n);
+				}
+				else
+				{
+					n[0] = dname;
+					n[1] = fname;
+					searchResults.add(n);
+				}
+			}
+			
+			private void compareAdd(String dname, String fname, String fullPath, boolean is_dir)
+			{
+				String item; // Item for comparison
+				if (search_mode == SEARCH_FILE)
+					item = fname;
+				else if (search_mode == SEARCH_PATH)
+				{
+					item = dname;
+					fname = app.DIR_TAG;
+					is_dir = true;
+				}
+				else if (search_mode == SEARCH_LASTDIR)
+				{
+					String i[] = dname.split("/");
+					if (i.length > 0)
+						item = i[i.length - 1];
+					else
+						item = dname;
+					fname = app.DIR_TAG;
+					is_dir = true;
+				}
+				else if (search_mode == SEARCH_FPATH)
+					item = fullPath;
+				else
+					item = fullPath; // Should not be here!!!
+
+				if (regexp)
+				{
+					// Regular expression
+					if (item.matches(pattern))
+						addToResults(dname, fname, fullPath, is_dir);
+				}
+				else
+				{
+					// String
+					if (case_sens)
+					{
+						if (item.contains(pattern))
+							addToResults(dname, fname, fullPath, is_dir);
+					}
+					else
+					{
+						if (item.toLowerCase().contains(pattern.toLowerCase()))
+							addToResults(dname, fname, fullPath, is_dir);
+					}
+				}
+
+			}
+
 			private void addEntries(String root)
 			{
 				File         dir = new File(root);
@@ -109,53 +186,13 @@ public class SearchActivity extends Activity {
 						break;
 
 					if (entry.isDirectory())
-						addEntries(entryFullName);
-					else
 					{
-						String[] n = new String[2];
-						n[0] = root;
-						n[1] = entry.getName();
-		
-						if (known_only  &&  app.readerName(n[1]).equals("Nope"))
-							continue;
-						
-						String item; // Item for comparison
-						if (search_mode == SEARCH_FILE)
-							item = entry.getName();
-						else if (search_mode == SEARCH_DIR)
-						{
-							String i[] = root.split("/");
-							if (i.length > 0)
-								item = i[i.length - 1];
-							else
-								item = root;
-						}
-						else if (search_mode == SEARCH_PATH)
-							item = entryFullName;
-						else
-							item = entry.getName(); // Should not be here!!!
-
-						if (regexp)
-						{
-							// Regular expression
-							if (item.matches(pattern))
-								searchResults.add(n); 
-						}
-						else
-						{
-							// String
-							if (case_sens)
-							{
-								if (item.contains(pattern))
-									searchResults.add(n); 
-							}
-							else
-							{
-								if (item.toLowerCase().contains(pattern.toLowerCase()))
-									searchResults.add(n); 
-							}
-						}
+						if (search_mode == SEARCH_PATH)
+							compareAdd(root, entry.getName(), entryFullName, true);
+						addEntries(entryFullName);
 					}
+					else
+						compareAdd(root, entry.getName(), entryFullName, false);
 				}
 			}
 
@@ -253,7 +290,8 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.search);
 
         SEARCH_FILE = getResources().getInteger(R.integer.SEARCH_FILE);
-        SEARCH_DIR  = getResources().getInteger(R.integer.SEARCH_DIR);
+        SEARCH_LASTDIR  = getResources().getInteger(R.integer.SEARCH_LASTDIR);
+        SEARCH_FPATH = getResources().getInteger(R.integer.SEARCH_FPATH);
         SEARCH_PATH = getResources().getInteger(R.integer.SEARCH_PATH);
 
 		stop_search = false;

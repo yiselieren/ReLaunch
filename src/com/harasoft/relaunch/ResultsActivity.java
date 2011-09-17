@@ -1,5 +1,6 @@
 package com.harasoft.relaunch;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ public class ResultsActivity extends Activity {
 	final int                     CNTXT_MENU_MARK_FINISHED = 6;
 	final int                     CNTXT_MENU_MARK_READING = 7;
 	final int                     CNTXT_MENU_MARK_FORGET = 8;
+	final int                     CNTXT_MENU_RMDIR = 9;
 	ReLaunchApp                   app;
     HashMap<String, Drawable>     icons;
     String                        listName;
@@ -146,7 +148,7 @@ public class ResultsActivity extends Activity {
         			}
         		}
 
-        		Drawable d = app.specialIcon(fname);
+        		Drawable d = app.specialIcon(fullName, item.get("type").equals("dir"));
         		if (d != null)
         			iv.setImageDrawable(d);
         		else
@@ -239,6 +241,23 @@ public class ResultsActivity extends Activity {
     			HashMap<String, String> item = new HashMap<String, String>();
 	    		item.put("dname", n[0]);
 	    		item.put("fname", n[1]);
+            	if (n[1].equals(app.DIR_TAG))
+            	{
+            		int ind = n[0].lastIndexOf('/');
+            		if (ind == -1)
+            		{
+            			item.put("fname", "");
+            		}
+            		else
+            		{
+            			item.put("fname", n[0].substring(ind+1));
+            			item.put("dname", n[0].substring(0, ind));
+            		}
+    	    		item.put("type", "dir");
+            	}
+            	else
+    	    		item.put("type", "file");
+
 	    		//Log.d(TAG, n[0] + ":" + n[1]);
 	    		itemsArray.add(item);
     		}
@@ -251,38 +270,47 @@ public class ResultsActivity extends Activity {
                 
              	HashMap<String, String> item = itemsArray.get(position);      
  
-             	String fullName = item.get("dname") + "/" + item.get("fname");
-             	String fileName = item.get("fname");
-             	if (!app.specialAction(ResultsActivity.this, fullName)  &&  !app.readerName(fileName).equals("Nope"))
-            	{
-            		// Launch reader
-            		if (app.askIfAmbiguous)
-            		{
-            			List<String> rdrs = app.readerNames(item.get("fname"));
-            			if (rdrs.size() < 1)
-            				return;
-            			else if (rdrs.size() == 1)
-            				start(app.launchReader(rdrs.get(0), fullName));
-            			else
-            			{
-            			   	final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
-            			   	final String rdr1 = fullName;
-    						AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
-    						builder.setTitle("Select application");
-    						builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
-    						    public void onClick(DialogInterface dialog, int i) {
-    						    	start(app.launchReader((String)applications[i], rdr1));
-    		            			dialog.dismiss();
-    						    }
-    						});
-    						AlertDialog alert = builder.create();
-    						alert.show();
-
-            			}
-            		}
-            		else
-            			start(app.launchReader(app.readerName(fileName), fullName));
-            	}
+         		String fullName = item.get("dname") + "/" + item.get("fname");
+             	if (item.get("type").equals("dir"))
+             	{
+            		Intent intent = new Intent(ResultsActivity.this, ReLaunch.class);
+            		intent.putExtra("dirviewer", true);
+            		intent.putExtra("start_dir", fullName);
+                    startActivity(intent);
+             	}
+             	else
+             	{
+             		String fileName = item.get("fname");
+             		if (!app.specialAction(ResultsActivity.this, fullName)  &&  !app.readerName(fileName).equals("Nope"))
+             		{
+             			// Launch reader
+             			if (app.askIfAmbiguous)
+             			{
+             				List<String> rdrs = app.readerNames(item.get("fname"));
+             				if (rdrs.size() < 1)
+             					return;
+             				else if (rdrs.size() == 1)
+             					start(app.launchReader(rdrs.get(0), fullName));
+             				else
+             				{
+             					final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
+             					final String rdr1 = fullName;
+             					AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
+             					builder.setTitle("Select application");
+             					builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+             						public void onClick(DialogInterface dialog, int i) {
+             							start(app.launchReader((String)applications[i], rdr1));
+             							dialog.dismiss();
+             						}
+             					});
+             					AlertDialog alert = builder.create();
+             					alert.show();
+             				}
+             			}
+             		}
+             		else
+             			start(app.launchReader(app.readerName(fileName), fullName));
+             	}
  			}});
 	}
 
@@ -377,7 +405,17 @@ public class ResultsActivity extends Activity {
 		final String fn = i.get("fname");
 		String fullName = dr + "/" + fn;
 
-		if (listName.equals("favorites"))
+		if (i.get("type").equals("dir"))
+		{
+			if (pos > 0)
+				menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+			if (pos < (itemsArray.size()-1))
+				menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+    		menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, "Delete directory");
+    		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+
+		}
+		else if (listName.equals("favorites"))
 		{
 			if (pos > 0)
 				menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
@@ -519,6 +557,64 @@ public class ResultsActivity extends Activity {
 			{
 				itemsArray.remove(pos);
 				redrawList();
+			}
+			break;
+		case CNTXT_MENU_RMDIR:
+			File d = new File(fullName);
+			boolean isEmpty = d.list().length < 1;
+			if (isEmpty)
+			{
+				if (prefs.getBoolean("confirmDirDelete", true))
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle("Are you sure to delete empty directory \"" + fname + "\"?");
+					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+								dialog.dismiss();
+								if (app.removeFile(dname, fname))
+								{
+									itemsArray.remove(pos);
+									redrawList();
+								}
+							}});
+					builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+	            			dialog.dismiss();
+						}});
+					builder.show();
+				}
+				else if (app.removeFile(dname, fname))
+				{
+					itemsArray.remove(pos);
+					redrawList();
+				}
+			}
+			else
+			{
+				if (prefs.getBoolean("confirmNonEmptyDirDelete", true))
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
+					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+								dialog.dismiss();
+								if (app.removeDirectory(dname, fname))
+								{
+									itemsArray.remove(pos);
+									redrawList();
+								}
+							}});
+					builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+	            			dialog.dismiss();
+						}});
+					builder.show();
+				}
+				else if (app.removeDirectory(dname, fname))
+				{
+					itemsArray.remove(pos);
+					redrawList();
+				}
 			}
 			break;
 		}

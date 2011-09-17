@@ -23,7 +23,11 @@ import android.widget.Toast;
 public class ReLaunchApp extends Application {
 	final String                            TAG = "ReLaunchApp";
 
+	// Reading files
 	final int                               FileBufferSize = 1024;
+
+	// Search values
+	final String                            DIR_TAG = ".DIR..";
 
 	// Book status
 	final int                               READING=1;
@@ -537,8 +541,10 @@ public class ReLaunchApp extends Application {
 			return true;
 	}
 	
-	public Drawable specialIcon(String s)
+	public Drawable specialIcon(String s, boolean isDir)
 	{
+		if (isDir)
+			return getResources().getDrawable(R.drawable.dir_ok);
 		if (s.endsWith(".apk"))
 			return getResources().getDrawable(R.drawable.install);
 		return null;
