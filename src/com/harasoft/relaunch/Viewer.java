@@ -1,11 +1,9 @@
 package com.harasoft.relaunch;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;
@@ -15,176 +13,56 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class Viewer extends Activity {
     final String                  TAG = "Viewer";
 
+    final int                     EDITOR_ACT = 1;
+    
     SharedPreferences             prefs;
-    Button                        backBtn;
+    ImageButton                   backBtn;
     Button                        editBtn;
     EditText                      editTxt;
     String                        textBuffer;
+    String                        fileName;
     int                           viewerMax;
     int                           editorMax;
 
-    public void saveChanges(String newBuf, final String fname, final long fsize)
+    private boolean rereadFile(String fname, EditText editTxt)
     {
-        // Open
-        BufferedWriter bw;
-        try {
-            bw = new BufferedWriter(new FileWriter(fname));
-        } catch (IOException e) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
-            builder.setTitle("Can't open \"" + fname + "\"");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        switchToView(fname, fsize);
-                    }});
-            builder.show();
-            return;
-        }
+        StringBuilder  buf = new StringBuilder();
+        String         readLine;
+    	BufferedReader br;
 
-        // Write
-        try {
-            bw.write(newBuf, 0, newBuf.length());
-        } catch (IOException e) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
-            builder.setTitle("Can't write to \"" + fname + "\"");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        switchToView(fname, fsize);
-                    }});
-            builder.show();
-            return;
-        }
+    	try {
+    		br = new BufferedReader(new FileReader(fname));
+    	} catch (FileNotFoundException e) { return false; }
 
-        // Close
-        try {
-            bw.close();
-        } catch (IOException e) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
-            builder.setTitle("Can't close file \"" + fname + "\"");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        switchToView(fname, fsize);
-                    }});
-            builder.show();
-       }
+    	try {
+    		while ((readLine = br.readLine()) != null)
+    		{
+    			buf.append(readLine);
+    			buf.append("\n");
+    		}
+    	} catch (IOException e) { return false; }
+    	try {
+    		br.close();
+    	} catch (IOException e) { }
+
+    	// Set text
+    	textBuffer = buf.toString();
+    	editTxt.setText(textBuffer);
+    	return true;
     }
 
-    public void switchToView(final String fname, final long fsize)
-    {
-    	editTxt.setFocusable(false);
-    	//editTxt.setFilters(new InputFilter[] {
-    	//	    new InputFilter() {
-    	//	    	public CharSequence filter(CharSequence source, int start,
-    	//	    			int end, Spanned dest, int dstart, int dend) { return source; }
-    	//	    }});
 
-    	// Set edit button
-        editBtn.setText("Edit");
-        editBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-                    if (fsize > editorMax)
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
-                        builder.setTitle("File \"" + fname + "\" is too big for editor (" + fsize + " bytes) " + editorMax);
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    finish();
-                                }});
-                        builder.show();
-                    }
-                    else
-                        switchToEdit(fname, fsize);
-                }});
-
-        // Set back button
-        backBtn.setText("Back");
-        backBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) { finish(); }});
-
-        StringBuilder buf = new StringBuilder();
-        String        readLine;
-
-        // Read file
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(fname));
-        } catch (FileNotFoundException e) { br = null; }
-        if (br == null)
-            return;
-
-        try {
-        	while ((readLine = br.readLine()) != null)
-        	{
-        		buf.append(readLine);
-        		buf.append("\n");
-        	}
-        } catch (IOException e) { }
-        try {
-            br.close();
-        } catch (IOException e) { }
-
-        // Set text
-        textBuffer = buf.toString();
-        editTxt.setText(textBuffer);
-
-    }
-
-    public void switchToEdit(final String fname, final long fsize)
-    {
-    	editTxt.setFocusable(true);
-    	//editTxt.setFilters(new InputFilter[] {
-    	//	    new InputFilter() {
-    	//	    	public CharSequence filter(CharSequence source, int start,
-    	//	    			int end, Spanned dest, int dstart, int dend) { return null; }
-    	//	    }});
-
-    	editBtn.setText("Save");
-        editBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-                    final String newBuf = editTxt.getText().toString();
-                    saveChanges(newBuf, fname, fsize);
-                    switchToView(fname, fsize);
-               }});
-
-        backBtn.setText("Cancel");
-        backBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-                    final String newBuf = editTxt.getText().toString();
-                    if (newBuf.equals(textBuffer))
-                    	// No changes
-                    	switchToView(fname, fsize);
-                    else
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
-                        builder.setTitle("Save changes?");
-                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    saveChanges(newBuf, fname, fsize);
-                                    switchToView(fname, fsize);
-                                }});
-                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    switchToView(fname, fsize);
-                                }});
-                        builder.show();
-                    }
-                }});
-    }
-
-    @Override
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewer_layout);
@@ -205,10 +83,8 @@ public class Viewer extends Activity {
 
         final String fname = data.getStringExtra("filename");
         if (fname == null)
-        {
-            setResult(Activity.RESULT_CANCELED);
             finish();
-        }
+        fileName = fname;
 
         // Check file size
         File f = new File(fname);
@@ -227,13 +103,58 @@ public class Viewer extends Activity {
         }
         else
         {
+        	// Set edit button
             editBtn = (Button)findViewById(R.id.viewedit_btn);
-            backBtn = (Button)findViewById(R.id.view_back);
-            editTxt = (EditText)findViewById(R.id.view_txt);
+            editBtn.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+                        if (fileSize > editorMax)
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
+                            builder.setTitle("File \"" + fname + "\" is too big for editor (" + fileSize + " bytes)");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        finish();
+                                    }});
+                            builder.show();
+                        }
+                        else
+                        {
+                            // Start editor activity
+                    		Intent intent = new Intent(Viewer.this, Editor.class);
+                    		intent.putExtra("filename", fname);
+                    		startActivityForResult(intent, EDITOR_ACT);
+                        }
+                    }});
+
+            // Set back button
+            backBtn = (ImageButton)findViewById(R.id.view_btn);
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) { finish(); }});
+
 
             // Set title
             ((TextView)findViewById(R.id.view_title)).setText(fname);
-            switchToView(fname, fileSize);
+            
+            // Read file and set view field
+            editTxt = (EditText)findViewById(R.id.view_txt);
+            rereadFile(fname, editTxt);
         }
     }
+   
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_CANCELED)
+			return;
+
+		switch (requestCode)
+		{
+			case EDITOR_ACT:
+	            rereadFile(fileName, editTxt);
+				break;
+			default:
+				return;
+		}
+	}
+
 }

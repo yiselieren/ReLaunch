@@ -7,9 +7,9 @@
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="0.1">
         <Button android:layout_width="wrap_content" android:text="Edit" android:layout_height="wrap_content" android:layout_weight="0.1" android:id="@+id/viewedit_btn"></Button>
         <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:layout_height="wrap_content" android:text="TextView" android:layout_gravity="center" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/view_title"></TextView>
-        <Button android:layout_width="wrap_content" android:text="Back" android:layout_height="wrap_content" android:layout_weight="0.1" android:id="@+id/view_back"></Button>
+        <ImageButton android:src="@drawable/arrow_left" android:layout_height="fill_parent" android:layout_width="wrap_content" android:layout_weight="0.1" android:id="@+id/view_btn"></ImageButton>
     </LinearLayout>
-    <EditText android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_height="0dp" android:layout_width="fill_parent" android:inputType="textMultiLine" android:typeface="monospace" android:id="@+id/view_txt">
+    <EditText android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_height="0dp" android:layout_width="fill_parent" android:inputType="textMultiLine" android:typeface="monospace" android:id="@+id/view_txt" android:focusable="false" android:editable="false">
         <requestFocus></requestFocus>
     </EditText>
 </LinearLayout>
