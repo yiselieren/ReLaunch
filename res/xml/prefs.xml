@@ -20,6 +20,12 @@
        <EditTextPreference android:enabled="true" android:title="How often report search progress" android:selectable="true" android:key="searchReport" android:persistent="true" android:defaultValue="100" android:summary="Report search progress every ... times" android:numeric="integer"></EditTextPreference>
       </PreferenceCategory>
 
+      <PreferenceCategory android:title="Internal viewer/editor settings">
+       <EditTextPreference android:enabled="true" android:title="Maximal file size for viewer" android:selectable="true" android:key="viewerMaxSize" android:persistent="true" android:defaultValue="5242880" android:summary="Maximal file size allowed for viewer" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Maximal file size for editor" android:selectable="true" android:key="editorMaxSize" android:persistent="true" android:defaultValue="1048576" android:summary="Maximal file size allowed for editor" android:numeric="integer"></EditTextPreference>
+       </PreferenceCategory>
+
+
       <PreferenceCategory android:title="Maximal size of misc. persistent lists">
        <EditTextPreference android:enabled="true" android:title="Last opened list size" android:selectable="true" android:key="lruSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened list" android:numeric="integer"></EditTextPreference>
        <EditTextPreference android:enabled="true" android:title="Favorites list size" android:selectable="true" android:key="favSize" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of favorites list" android:numeric="integer"></EditTextPreference>
