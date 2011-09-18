@@ -338,35 +338,39 @@ public class ReLaunch extends Activity {
         			positions.push(position);
             		drawDirectory(item.get("fname"), -1);
             	}
-            	else if (!app.specialAction(ReLaunch.this, item.get("fname"))  &&  !item.get("reader").equals("Nope"))
+            	else if (!app.specialAction(ReLaunch.this, item.get("fname")))
             	{
-            		// Launch reader
-            		if (app.askIfAmbiguous)
-            		{
-            			List<String> rdrs = app.readerNames(item.get("fname"));
-            			if (rdrs.size() < 1)
-            				return;
-            			else if (rdrs.size() == 1)
-            				start(app.launchReader(rdrs.get(0), item.get("fname")));
-            			else
-            			{
-            			   	final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
-            			   	final String rdr1 = item.get("fname");
-    						AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
-    						builder.setTitle("Select application");
-    						builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
-    						    public void onClick(DialogInterface dialog, int i) {
-    						    	start(app.launchReader((String)applications[i], rdr1));
-    		            			dialog.dismiss();
-    						    }
-    						});
-    						AlertDialog alert = builder.create();
-    						alert.show();
-
-            			}
-            		}
+            		if (item.get("reader").equals("Nope"))
+            			app.defaultAction(ReLaunch.this, item.get("fname"));
             		else
-            			start(app.launchReader(item.get("reader"), item.get("fname")));
+            		{
+            			// Launch reader
+            			if (app.askIfAmbiguous)
+            			{
+            				List<String> rdrs = app.readerNames(item.get("fname"));
+            				if (rdrs.size() < 1)
+            					return;
+            				else if (rdrs.size() == 1)
+            					start(app.launchReader(rdrs.get(0), item.get("fname")));
+            				else
+            				{
+            					final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
+            					final String rdr1 = item.get("fname");
+            					AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+            					builder.setTitle("Select application");
+            					builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+            						public void onClick(DialogInterface dialog, int i) {
+            							start(app.launchReader((String)applications[i], rdr1));
+            							dialog.dismiss();
+            						}
+            					});
+            					AlertDialog alert = builder.create();
+            					alert.show();
+            				}
+            			}
+            			else
+            				start(app.launchReader(item.get("reader"), item.get("fname")));
+            		}
             	}
             }});
     }

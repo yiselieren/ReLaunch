@@ -110,7 +110,7 @@ public class ResultsActivity extends Activity {
             	String    fullName = dname + "/" + fname;
             	boolean   setBold = false;
             	boolean   useFaces  = prefs.getBoolean("showNew", true);
-
+            	
         		if (useFaces)
         		{
         			if (app.history.containsKey(fullName))
@@ -208,6 +208,37 @@ public class ResultsActivity extends Activity {
     		startActivity(i);
     }
 
+	private void createItemsArray()
+	{
+		itemsArray = new ArrayList<HashMap<String, String>>();
+    	for (String[] n : app.getList(listName))
+    	{
+    		if (!prefs.getBoolean("filterResults", false)  ||  app.filterFile(n[0], n[1]))
+    		{
+    			HashMap<String, String> item = new HashMap<String, String>();
+	    		item.put("dname", n[0]);
+	    		item.put("fname", n[1]);
+            	if (n[1].equals(app.DIR_TAG))
+            	{
+            		int ind = n[0].lastIndexOf('/');
+            		if (ind == -1)
+            		{
+            			item.put("fname", "");
+            		}
+            		else
+            		{
+            			item.put("fname", n[0].substring(ind+1));
+            			item.put("dname", n[0].substring(0, ind));
+            		}
+    	    		item.put("type", "dir");
+            	}
+            	else
+    	    		item.put("type", "file");
+
+	    		itemsArray.add(item);
+    		}
+    	}
+	}
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -233,35 +264,7 @@ public class ResultsActivity extends Activity {
     	lv = (ListView) findViewById(R.id.results_list);
     	((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
 
-    	//Log.d(TAG, "listname=" + listName + " title=" + title);
-    	for (String[] n : app.getList(listName))
-    	{
-    		if (!prefs.getBoolean("filterResults", false)  ||  app.filterFile(n[0], n[1]))
-    		{
-    			HashMap<String, String> item = new HashMap<String, String>();
-	    		item.put("dname", n[0]);
-	    		item.put("fname", n[1]);
-            	if (n[1].equals(app.DIR_TAG))
-            	{
-            		int ind = n[0].lastIndexOf('/');
-            		if (ind == -1)
-            		{
-            			item.put("fname", "");
-            		}
-            		else
-            		{
-            			item.put("fname", n[0].substring(ind+1));
-            			item.put("dname", n[0].substring(0, ind));
-            		}
-    	    		item.put("type", "dir");
-            	}
-            	else
-    	    		item.put("type", "file");
-
-	    		//Log.d(TAG, n[0] + ":" + n[1]);
-	    		itemsArray.add(item);
-    		}
-    	}
+    	createItemsArray();
     	adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
@@ -281,35 +284,40 @@ public class ResultsActivity extends Activity {
              	else
              	{
              		String fileName = item.get("fname");
-             		if (!app.specialAction(ResultsActivity.this, fullName)  &&  !app.readerName(fileName).equals("Nope"))
+             		if (!app.specialAction(ResultsActivity.this, fullName))
              		{
-             			// Launch reader
-             			if (app.askIfAmbiguous)
-             			{
-             				List<String> rdrs = app.readerNames(item.get("fname"));
-             				if (rdrs.size() < 1)
-             					return;
-             				else if (rdrs.size() == 1)
-             					start(app.launchReader(rdrs.get(0), fullName));
-             				else
-             				{
-             					final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
-             					final String rdr1 = fullName;
-             					AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
-             					builder.setTitle("Select application");
-             					builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
-             						public void onClick(DialogInterface dialog, int i) {
-             							start(app.launchReader((String)applications[i], rdr1));
-             							dialog.dismiss();
-             						}
-             					});
-             					AlertDialog alert = builder.create();
-             					alert.show();
-             				}
-             			}
+                		if (app.readerName(fileName).equals("Nope"))
+                			app.defaultAction(ResultsActivity.this, fullName);
+                		else
+                		{
+                 			// Launch reader
+                			if (app.askIfAmbiguous)
+                			{
+                				List<String> rdrs = app.readerNames(item.get("fname"));
+                				if (rdrs.size() < 1)
+                					return;
+                				else if (rdrs.size() == 1)
+                					start(app.launchReader(rdrs.get(0), fullName));
+                				else
+                				{
+                					final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
+                					final String rdr1 = fullName;
+                					AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
+                					builder.setTitle("Select application");
+                					builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                						public void onClick(DialogInterface dialog, int i) {
+                							start(app.launchReader((String)applications[i], rdr1));
+                							dialog.dismiss();
+                						}
+                					});
+                					AlertDialog alert = builder.create();
+                					alert.show();
+                				}
+                			}
+                			else
+                				start(app.launchReader(app.readerName(fileName), fullName));
+                		}
              		}
-             		else
-             			start(app.launchReader(app.readerName(fileName), fullName));
              	}
  			}});
 	}
@@ -317,20 +325,7 @@ public class ResultsActivity extends Activity {
 	@Override
 	protected void onStart() {
 		if (rereadOnStart)
-		{
-			itemsArray = new ArrayList<HashMap<String, String>>();
-			for (String[] n : app.getList(listName))
-			{
-	    		if (!prefs.getBoolean("filterResults", false)  ||  app.filterFile(n[0], n[1]))
-	    		{
-	    			HashMap<String, String> item = new HashMap<String, String>();
-	    			item.put("dname", n[0]);
-	    			item.put("fname", n[1]);
-	    			//Log.d(TAG, n[0] + ":" + n[1]);
-	    			itemsArray.add(item);
-	    		}
-			}
-		}
+	    	createItemsArray();
 		redrawList();
 		super.onStart();
 	}
