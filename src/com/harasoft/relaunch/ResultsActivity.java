@@ -356,15 +356,7 @@ public class ResultsActivity extends Activity {
             startActivityForResult(intent1, ReLaunch.TYPES_ACT);
             return true;
         case R.id.about:
-            String vers = getResources().getString(R.string.app_version);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("ReLaunch");
-            builder.setMessage("Reader launcher\nVersion: " + vers);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }});
-            builder.show();
+            app.About(this);
             return true;
         case R.id.readers:
             Intent intent2 = new Intent(ResultsActivity.this, ReadersActivity.class);
@@ -541,7 +533,8 @@ public class ResultsActivity extends Activity {
             if (prefs.getBoolean("confirmFileDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Are you sure to delete file \"" + fname + "\"?");
+                builder.setTitle("Delete file warning");
+                builder.setMessage("Are you sure to delete file \"" + fname + "\" ?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
@@ -571,7 +564,8 @@ public class ResultsActivity extends Activity {
                 if (prefs.getBoolean("confirmDirDelete", true))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Are you sure to delete empty directory \"" + fname + "\"?");
+                    builder.setTitle("Delete empty directory warning");
+                    builder.setMessage("Are you sure to delete empty directory \"" + fname + "\" ?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
@@ -598,7 +592,8 @@ public class ResultsActivity extends Activity {
                 if (prefs.getBoolean("confirmNonEmptyDirDelete", true))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
+                    builder.setTitle("Delete non empty directory warning");
+                    builder.setMessage("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();

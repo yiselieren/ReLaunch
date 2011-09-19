@@ -65,7 +65,8 @@ public class Editor extends Activity implements TextWatcher {
             bw = new BufferedWriter(new FileWriter(fname));
         } catch (IOException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-            builder.setTitle("Can't open \"" + fname + "\"");
+            builder.setTitle("Open failure");
+            builder.setMessage("Can't open file \"" + fname + "\" for writting");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_CANCELED);
@@ -80,7 +81,8 @@ public class Editor extends Activity implements TextWatcher {
             bw.write(newBuf, 0, newBuf.length());
         } catch (IOException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-            builder.setTitle("Can't write to \"" + fname + "\"");
+            builder.setTitle("Write failure");
+            builder.setMessage("Can't write to file \"" + fname + "\"");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_OK);
@@ -95,7 +97,8 @@ public class Editor extends Activity implements TextWatcher {
             bw.close();
         } catch (IOException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-            builder.setTitle("Can't close file \"" + fname + "\"");
+            builder.setTitle("Close failure");
+            builder.setMessage("Can't close file \"" + fname + "\"");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_OK);
@@ -134,7 +137,9 @@ public class Editor extends Activity implements TextWatcher {
         if (fileSize > app.editorMax)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("File \"" + fname + "\" is too big for editor (" + f.length() + " bytes)");
+            builder.setTitle("File too big");
+            builder.setMessage("File \"" + fname + "\" is too big for editor (" + f.length() + " bytes)\n"
+                    + "Maximal allowed size is " + app.editorMax + " bytes");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_CANCELED);
@@ -176,7 +181,8 @@ public class Editor extends Activity implements TextWatcher {
                         else
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-                            builder.setTitle("Save changes?");
+                            builder.setTitle("Save changes warning");
+                            builder.setMessage("Do you want to save changes?");
                             builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         if (saveChanges(newBuf, fname))

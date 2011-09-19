@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -34,6 +35,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -719,7 +721,8 @@ public class ReLaunch extends Activity {
             if (prefs.getBoolean("confirmFileDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Are you sure to delete file \"" + fname + "\"?");
+                builder.setTitle("Delete file warning");
+                builder.setMessage("Are you sure to delete file \"" + fname + "\" ?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
@@ -745,7 +748,8 @@ public class ReLaunch extends Activity {
             if (prefs.getBoolean("confirmDirDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Are you sure to delete empty directory \"" + fname + "\"?");
+                builder.setTitle("Delete empty directory warning");
+                builder.setMessage("Are you sure to delete empty directory \"" + fname + "\" ?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
@@ -771,7 +775,8 @@ public class ReLaunch extends Activity {
             if (prefs.getBoolean("confirmNonEmptyDirDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
+                builder.setTitle("Delete non empty directory warning");
+                builder.setMessage("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
@@ -922,14 +927,6 @@ public class ReLaunch extends Activity {
     }
 
     private void menuAbout() {
-        String vers = getResources().getString(R.string.app_version);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("ReLaunch");
-        builder.setMessage("Reader launcher\nVersion: " + vers + "\nSource code: git://github.com/yiselieren/ReLaunch.git");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    dialog.dismiss();
-                }});
-        builder.show();
+        app.About(this);
     }
 }

@@ -395,15 +395,7 @@ public class SearchActivity extends Activity {
         switch (item.getItemId())
         {
         case R.id.about:
-            String vers = getResources().getString(R.string.app_version);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("ReLaunch");
-            builder.setMessage("Reader launcher\nVersion: " + vers);
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }});
-            builder.show();
+            app.About(this);
             return true;
         case R.id.setting:
             Intent intent = new Intent(SearchActivity.this, PrefsActivity.class);

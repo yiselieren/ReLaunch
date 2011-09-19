@@ -10,14 +10,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 public class ReLaunchApp extends Application {
@@ -568,5 +571,23 @@ public class ReLaunchApp extends Application {
         Intent intent = new Intent(a, Viewer.class);
         intent.putExtra("filename", fname);
         a.startActivity(intent);
+    }
+    
+    public void About(Activity a)
+    {
+        String vers = getResources().getString(R.string.app_version);
+        AlertDialog.Builder builder = new AlertDialog.Builder(a);
+        WebView wv = new WebView(a);
+        builder.setTitle("ReLaunch");
+        String str = "<h2><center>ReLaunch</center></h2><center>Reader launcher for Nook Simple Touch</center><br>"
+            + "<center>Version: <b>" + vers + "</b></center><br>"
+            + "Source code: <a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git</a>";
+        wv.loadData(str, "text/html", "utf-8");
+        builder.setView(wv);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+                }});
+        builder.show();
     }
 }
