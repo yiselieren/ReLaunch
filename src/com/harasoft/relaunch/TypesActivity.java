@@ -25,26 +25,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TypesActivity extends Activity {
-	final String                  TAG = "Types";
+    final String                  TAG = "Types";
     HashMap<String, Drawable>     icons;
     PackageManager                pm;
     List<String>                  applicationsArray;
-   	CharSequence[]                applications;
-	List<HashMap<String,String>>  itemsArray;
+    CharSequence[]                applications;
+    List<HashMap<String,String>>  itemsArray;
     TPSimpleAdapter               adapter;
-	ReLaunchApp                   app;
+    ReLaunchApp                   app;
 
     class TPSimpleAdapter extends SimpleAdapter {
-    	final Context cntx;
-    	
-    	TPSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
-    	{
-    		super(context, data, resource, from, to);
-    		cntx = context;
-    	}
+        final Context cntx;
 
-    	@Override
-    	public View getView(final int position, View convertView, ViewGroup parent) {
+        TPSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
+        {
+            super(context, data, resource, from, to);
+            cntx = context;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -53,210 +53,208 @@ public class TypesActivity extends Activity {
             final HashMap<String, String> item = itemsArray.get(position);
             if (item != null)
             {
-            	ImageView iv = (ImageView) v.findViewById(R.id.types_img);
-            	
-            	// Setting up button
-            	ImageButton upBtn = (ImageButton) v.findViewById(R.id.types_up);
-            	if (position == 0)
-            	{
-            		upBtn.setImageDrawable(getResources().getDrawable(android.R.drawable.checkbox_off_background));
-            		upBtn.setEnabled(false);
-            	}
-            	else
-            	{
-            		upBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
-            		upBtn.setEnabled(true);
-            	}
-            	upBtn.setOnClickListener(new View.OnClickListener() {
-            		public void onClick(View v)
-            		{
-            			HashMap<String,String> i = itemsArray.get(position);
-            			itemsArray.remove(position);
-            			itemsArray.add(position-1, i);
-            			adapter.notifyDataSetChanged();
-					}
-				});
-            	
-            	// Setting down button
-            	ImageButton downBtn = (ImageButton) v.findViewById(R.id.types_down);
-            	if (position == (itemsArray.size()-1))
-            	{
-            		downBtn.setImageDrawable(getResources().getDrawable(android.R.drawable.checkbox_off_background));
-            		downBtn.setEnabled(false);
-            	}
-            	else
-            	{
-            		downBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
-            		downBtn.setEnabled(true);
-            	}
+                ImageView iv = (ImageView) v.findViewById(R.id.types_img);
 
-            	downBtn.setOnClickListener(new View.OnClickListener() {
-            		public void onClick(View v)
-            		{
-            			HashMap<String,String> i = itemsArray.get(position);
-            			itemsArray.remove(position);
-            			itemsArray.add(position+1, i);
-            			adapter.notifyDataSetChanged();
-					}
-				});
-            	
-            	// Setting remove button
-            	ImageButton rmBtn = (ImageButton) v.findViewById(R.id.types_delete);
-            	rmBtn.setEnabled(itemsArray.size() > 1);
-            	rmBtn.setOnClickListener(new View.OnClickListener() {
-            		public void onClick(View v)
-            		{
-            			itemsArray.remove(position);
-            			adapter.notifyDataSetChanged();
-					}
-				});
+                // Setting up button
+                ImageButton upBtn = (ImageButton) v.findViewById(R.id.types_up);
+                if (position == 0)
+                {
+                    upBtn.setImageDrawable(getResources().getDrawable(android.R.drawable.checkbox_off_background));
+                    upBtn.setEnabled(false);
+                }
+                else
+                {
+                    upBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
+                    upBtn.setEnabled(true);
+                }
+                upBtn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v)
+                        {
+                            HashMap<String,String> i = itemsArray.get(position);
+                            itemsArray.remove(position);
+                            itemsArray.add(position-1, i);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
 
-            	// Setting extension title
-            	TextView ext_title = (TextView) v.findViewById(R.id.types_ext_title);
-            	ext_title.setText("Suffix (" + (position+1) + "/" + (itemsArray.size()) + ")");
+                // Setting down button
+                ImageButton downBtn = (ImageButton) v.findViewById(R.id.types_down);
+                if (position == (itemsArray.size()-1))
+                {
+                    downBtn.setImageDrawable(getResources().getDrawable(android.R.drawable.checkbox_off_background));
+                    downBtn.setEnabled(false);
+                }
+                else
+                {
+                    downBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
+                    downBtn.setEnabled(true);
+                }
 
-            	// Setting extension
-            	Button  extName = (Button)v.findViewById(R.id.types_ext);
-            	extName.setText(item.get("ext"));
-            	extName.setOnClickListener(new View.OnClickListener() {
+                downBtn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v)
+                        {
+                            HashMap<String,String> i = itemsArray.get(position);
+                            itemsArray.remove(position);
+                            itemsArray.add(position+1, i);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
 
-					public void onClick(View v) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-						builder.setTitle("File suffix");
-						final EditText input = new EditText(cntx);
-						input.setText(item.get("ext"));
-						builder.setView(input);
+                // Setting remove button
+                ImageButton rmBtn = (ImageButton) v.findViewById(R.id.types_delete);
+                rmBtn.setEnabled(itemsArray.size() > 1);
+                rmBtn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v)
+                        {
+                            itemsArray.remove(position);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
 
-						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int whichButton) {
-								String value = input.getText().toString();
-								if (value.equals(""))
-									Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
-								else
-								{
-									itemsArray.get(position).put("ext", value);
-									adapter.notifyDataSetChanged();
-									dialog.dismiss();
-								}
-							}
-						});
+                // Setting extension title
+                TextView ext_title = (TextView) v.findViewById(R.id.types_ext_title);
+                ext_title.setText("Suffix (" + (position+1) + "/" + (itemsArray.size()) + ")");
 
-						builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int whichButton) {
-		            			dialog.dismiss();
-							}
-						});
+                // Setting extension
+                Button  extName = (Button)v.findViewById(R.id.types_ext);
+                extName.setText(item.get("ext"));
+                extName.setOnClickListener(new View.OnClickListener() {
 
-						builder.show();
-					}
-            	
-            	});
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+                            builder.setTitle("File suffix");
+                            final EditText input = new EditText(cntx);
+                            input.setText(item.get("ext"));
+                            builder.setView(input);
 
-            	// Setting application name
-            	Button  appName = (Button) v.findViewById(R.id.types_app);
-            	String    app = item.get("rdr");
-            	appName.setText(app);
-            	if(icons.containsKey(app))
-        			iv.setImageDrawable(icons.get(app));
-            	else
-            		iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
- 
-            	appName.setOnClickListener(new View.OnClickListener() {
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        String value = input.getText().toString();
+                                        if (value.equals(""))
+                                            Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                        else
+                                        {
+                                            itemsArray.get(position).put("ext", value);
+                                            adapter.notifyDataSetChanged();
+                                            dialog.dismiss();
+                                        }
+                                    }
+                                });
 
-					public void onClick(View v) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-						builder.setTitle("Select application");
-						builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
-						    public void onClick(DialogInterface dialog, int i) {
-						    	itemsArray.get(position).put("rdr", (String)applications[i]);
-		            			adapter.notifyDataSetChanged();
-		            			dialog.dismiss();
-						    	//Toast.makeText(getApplicationContext(), "Selected: " + applications[i], Toast.LENGTH_SHORT).show();
-						    }
-						});
-						AlertDialog alert = builder.create();
-						alert.show();
-					}
-            		
-            	});
-            	
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                            builder.show();
+                        }
+                    });
+
+                // Setting application name
+                Button  appName = (Button) v.findViewById(R.id.types_app);
+                String    app = item.get("rdr");
+                appName.setText(app);
+                if(icons.containsKey(app))
+                    iv.setImageDrawable(icons.get(app));
+                else
+                    iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
+
+                appName.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+                            builder.setTitle("Select application");
+                            builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        itemsArray.get(position).put("rdr", (String)applications[i]);
+                                        adapter.notifyDataSetChanged();
+                                        dialog.dismiss();
+                                        //Toast.makeText(getApplicationContext(), "Selected: " + applications[i], Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+                    });
+
             }
             return v;
-    	}
+        }
     }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.types_view);
- 
+
         // Global storage
-    	app = ((ReLaunchApp)getApplicationContext());
-    	icons = app.getIcons();
+        app = ((ReLaunchApp)getApplicationContext());
+        icons = app.getIcons();
 
         applicationsArray = app.getApps();
         applications = applicationsArray.toArray(new CharSequence[applicationsArray.size()]);
 
 
         // Fill listview with our info
-    	String[] from = new String[] { "ext" };
-    	int[]    to   = new int[] { R.id.types_ext };
-    	ListView lv = (ListView) findViewById(R.id.types_lv);
+        String[] from = new String[] { "ext" };
+        int[]    to   = new int[] { R.id.types_ext };
+        ListView lv = (ListView) findViewById(R.id.types_lv);
 
-    	itemsArray = new ArrayList<HashMap<String,String>>();
-    	for (HashMap<String, String> r : app.getReaders())
-    	{
-    		for (String k : r.keySet())
-    		{
-        		HashMap<String,String> i = new HashMap<String,String>();
+        itemsArray = new ArrayList<HashMap<String,String>>();
+        for (HashMap<String, String> r : app.getReaders())
+        {
+            for (String k : r.keySet())
+            {
+                HashMap<String,String> i = new HashMap<String,String>();
 
-    			i.put("ext", k);
-    			i.put("rdr", r.get(k));
-    			itemsArray.add(i);
-    		}
-    	}
-    	adapter = new TPSimpleAdapter(this, itemsArray, R.layout.types_layout, from, to);
+                i.put("ext", k);
+                i.put("rdr", r.get(k));
+                itemsArray.add(i);
+            }
+        }
+        adapter = new TPSimpleAdapter(this, itemsArray, R.layout.types_layout, from, to);
         lv.setAdapter(adapter);
-        
+
         // OK/Save button
         Button    okBtn = (Button) findViewById(R.id.types_ok);
         okBtn.setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v)
-    		{
-    			List<HashMap<String, String>> readers = new ArrayList<HashMap<String, String>>();
-    	    	for (HashMap<String, String> r : itemsArray)
-    	    	{
-    	    		HashMap<String, String> a = new HashMap<String, String>();
-    	    		a.put(r.get("ext"), r.get("rdr"));
-    	    		readers.add(a);
-    	    	}
-    	    	app.setReaders(readers);
-            	setResult(Activity.RESULT_OK);
-            	finish();
-   			}
-		});
-        
+                public void onClick(View v)
+                {
+                    List<HashMap<String, String>> readers = new ArrayList<HashMap<String, String>>();
+                    for (HashMap<String, String> r : itemsArray)
+                    {
+                        HashMap<String, String> a = new HashMap<String, String>();
+                        a.put(r.get("ext"), r.get("rdr"));
+                        readers.add(a);
+                    }
+                    app.setReaders(readers);
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }
+            });
+
         // Add new button
         Button    addBtn = (Button) findViewById(R.id.types_new);
         addBtn.setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v)
-    		{
-    			HashMap<String,String> i = new HashMap<String,String>();
-    			i.put("ext", ".");
-    			i.put("rdr", ReLaunch.defReader);
-    			itemsArray.add(i);
-    			adapter.notifyDataSetChanged();
-			}
-		});
-        
+                public void onClick(View v)
+                {
+                    HashMap<String,String> i = new HashMap<String,String>();
+                    i.put("ext", ".");
+                    i.put("rdr", ReLaunch.defReader);
+                    itemsArray.add(i);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+
         // Cancel button
         Button    cancelBtn = (Button) findViewById(R.id.types_cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v)
-    		{
-            	setResult(Activity.RESULT_CANCELED);
-            	finish();
-			}
-		});
-	}
+                public void onClick(View v)
+                {
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
+                }
+            });
+    }
 }

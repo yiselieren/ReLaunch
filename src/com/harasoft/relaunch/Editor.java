@@ -24,7 +24,7 @@ import android.widget.TextView;
 public class Editor extends Activity implements TextWatcher {
     final String                  TAG = "Viewer";
 
-	ReLaunchApp                   app;
+    ReLaunchApp                   app;
     Button                        saveBtn;
     Button                        cancelBtn;
     EditText                      editTxt;
@@ -34,33 +34,33 @@ public class Editor extends Activity implements TextWatcher {
     {
         StringBuilder  buf = new StringBuilder();
         String         readLine;
-    	BufferedReader br;
+        BufferedReader br;
 
-    	try {
-    		br = new BufferedReader(new FileReader(fname));
-    	} catch (FileNotFoundException e) { return false; }
+        try {
+            br = new BufferedReader(new FileReader(fname));
+        } catch (FileNotFoundException e) { return false; }
 
-    	try {
-    		while ((readLine = br.readLine()) != null)
-    		{
-    			buf.append(readLine);
-    			buf.append("\n");
-    		}
-    	} catch (IOException e) { return false; }
-    	try {
-    		br.close();
-    	} catch (IOException e) { }
+        try {
+            while ((readLine = br.readLine()) != null)
+            {
+                buf.append(readLine);
+                buf.append("\n");
+            }
+        } catch (IOException e) { return false; }
+        try {
+            br.close();
+        } catch (IOException e) { }
 
-    	// Set text
-    	textBuffer = buf.toString();
-    	editTxt.setText(textBuffer);
-    	return true;
+        // Set text
+        textBuffer = buf.toString();
+        editTxt.setText(textBuffer);
+        return true;
     }
 
     private boolean saveChanges(String newBuf, final String fname)
     {
         // Open
-    	BufferedWriter bw;
+        BufferedWriter bw;
         try {
             bw = new BufferedWriter(new FileWriter(fname));
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class Editor extends Activity implements TextWatcher {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_OK);
                         finish();
-                     }});
+                    }});
             builder.show();
             return false;
         }
@@ -100,11 +100,11 @@ public class Editor extends Activity implements TextWatcher {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_OK);
                         finish();
-                     }});
+                    }});
             builder.show();
             return false;
         }
-        
+
         return true;
     }
 
@@ -137,8 +137,8 @@ public class Editor extends Activity implements TextWatcher {
             builder.setTitle("File \"" + fname + "\" is too big for editor (" + f.length() + " bytes)");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                    	setResult(Activity.RESULT_CANCELED);
-                    	finish();
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
                     }});
             builder.show();
         }
@@ -146,84 +146,79 @@ public class Editor extends Activity implements TextWatcher {
         {
             saveBtn = (Button)findViewById(R.id.edit_save);
             saveBtn.setOnClickListener(new View.OnClickListener() {
-            	public void onClick(View v)
-                {
-                    final String newBuf = editTxt.getText().toString();
-                    if (newBuf.equals(textBuffer))
+                    public void onClick(View v)
                     {
-                    	// No changes
-                        setResult(Activity.RESULT_CANCELED);
-                        finish();
-                    }
-                    else if (saveChanges(newBuf, fname))
-                    {
-                        setResult(Activity.RESULT_OK);
-                        finish();
-                    }
-                }});
+                        final String newBuf = editTxt.getText().toString();
+                        if (newBuf.equals(textBuffer))
+                        {
+                            // No changes
+                            setResult(Activity.RESULT_CANCELED);
+                            finish();
+                        }
+                        else if (saveChanges(newBuf, fname))
+                            {
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            }
+                    }});
 
             cancelBtn = (Button)findViewById(R.id.edit_cancel);
             cancelBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-                    final String newBuf = editTxt.getText().toString();
-                    if (newBuf.equals(textBuffer))
+                    public void onClick(View v)
                     {
-                    	// No changes
-                        setResult(Activity.RESULT_CANCELED);
-                        finish();
-                    }
-                    else
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-                        builder.setTitle("Save changes?");
-                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    if (saveChanges(newBuf, fname))
-                                    {
-                                    	setResult(Activity.RESULT_OK);
-                                    	finish();
-                                    }
+                        final String newBuf = editTxt.getText().toString();
+                        if (newBuf.equals(textBuffer))
+                        {
+                            // No changes
+                            setResult(Activity.RESULT_CANCELED);
+                            finish();
+                        }
+                        else
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
+                            builder.setTitle("Save changes?");
+                            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        if (saveChanges(newBuf, fname))
+                                            {
+                                                setResult(Activity.RESULT_OK);
+                                                finish();
+                                            }
                                 }});
-                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                	setResult(Activity.RESULT_CANCELED);
-                                	finish();
-                                }});
-                        builder.show();
-                    }
-                }});
+                            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        setResult(Activity.RESULT_CANCELED);
+                                        finish();
+                                    }});
+                            builder.show();
+                        }
+                    }});
             editTxt = (EditText)findViewById(R.id.edit_txt);
             editTxt.addTextChangedListener(this);
 
             // Set title
             ((TextView)findViewById(R.id.edit_title)).setText(fname);
-          	rereadFile(fname, editTxt);
+            rereadFile(fname, editTxt);
         }
     }
 
-	public void afterTextChanged(Editable s) {
+    public void afterTextChanged(Editable s) {
         final String newBuf = editTxt.getText().toString();
         if (newBuf.equals(textBuffer))
         {
-        	saveBtn.setEnabled(false);
-        	cancelBtn.setText("Back");
+            saveBtn.setEnabled(false);
+            cancelBtn.setText("Back");
         }
         else
         {
-        	saveBtn.setEnabled(true);
-        	cancelBtn.setText("Cancel");
+            saveBtn.setEnabled(true);
+            cancelBtn.setText("Cancel");
         }
-	}
+    }
 
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
 }

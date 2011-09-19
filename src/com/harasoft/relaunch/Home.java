@@ -5,22 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class Home extends Activity {
-	ReLaunchApp                   app;
+    ReLaunchApp                   app;
 
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-    	app = ((ReLaunchApp)getApplicationContext());
-    	
-		Intent intent = new Intent(Home.this, ReLaunch.class);
-		intent.putExtra("home", true);
-        startActivityForResult(intent, 0);
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		finish();
-	}
 
+        app = ((ReLaunchApp)getApplicationContext());
+
+        Intent intent = new Intent(Home.this, ReLaunch.class);
+        intent.putExtra("home", true);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        finish();
+    }
 }

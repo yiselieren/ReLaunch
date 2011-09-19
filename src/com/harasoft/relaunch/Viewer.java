@@ -22,8 +22,8 @@ public class Viewer extends Activity {
     final String                  TAG = "Viewer";
 
     final int                     EDITOR_ACT = 1;
-    
-	ReLaunchApp                   app;
+
+    ReLaunchApp                   app;
     ImageButton                   backBtn;
     Button                        editBtn;
     EditText                      editTxt;
@@ -34,31 +34,31 @@ public class Viewer extends Activity {
     {
         StringBuilder  buf = new StringBuilder();
         String         readLine;
-    	BufferedReader br;
+        BufferedReader br;
 
-    	try {
-    		br = new BufferedReader(new FileReader(fname));
-    	} catch (FileNotFoundException e) { return false; }
+        try {
+            br = new BufferedReader(new FileReader(fname));
+        } catch (FileNotFoundException e) { return false; }
 
-    	try {
-    		while ((readLine = br.readLine()) != null)
-    		{
-    			buf.append(readLine);
-    			buf.append("\n");
-    		}
-    	} catch (IOException e) { return false; }
-    	try {
-    		br.close();
-    	} catch (IOException e) { }
+        try {
+            while ((readLine = br.readLine()) != null)
+            {
+                buf.append(readLine);
+                buf.append("\n");
+            }
+        } catch (IOException e) { return false; }
+        try {
+            br.close();
+        } catch (IOException e) { }
 
-    	// Set text
-    	textBuffer = buf.toString();
-    	editTxt.setText(textBuffer);
-    	return true;
+        // Set text
+        textBuffer = buf.toString();
+        editTxt.setText(textBuffer);
+        return true;
     }
 
 
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewer_layout);
@@ -92,7 +92,7 @@ public class Viewer extends Activity {
         }
         else
         {
-        	// Set edit button
+            // Set edit button
             editBtn = (Button)findViewById(R.id.viewedit_btn);
             editBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
@@ -110,9 +110,9 @@ public class Viewer extends Activity {
                         else
                         {
                             // Start editor activity
-                    		Intent intent = new Intent(Viewer.this, Editor.class);
-                    		intent.putExtra("filename", fname);
-                    		startActivityForResult(intent, EDITOR_ACT);
+                                Intent intent = new Intent(Viewer.this, Editor.class);
+                                intent.putExtra("filename", fname);
+                                startActivityForResult(intent, EDITOR_ACT);
                         }
                     }});
 
@@ -124,26 +124,25 @@ public class Viewer extends Activity {
 
             // Set title
             ((TextView)findViewById(R.id.view_title)).setText(fname);
-            
+
             // Read file and set view field
             editTxt = (EditText)findViewById(R.id.view_txt);
             rereadFile(fname, editTxt);
         }
     }
-   
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == Activity.RESULT_CANCELED)
-			return;
 
-		switch (requestCode)
-		{
-			case EDITOR_ACT:
-	            rereadFile(fileName, editTxt);
-				break;
-			default:
-				return;
-		}
-	}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_CANCELED)
+            return;
 
+        switch (requestCode)
+        {
+        case EDITOR_ACT:
+            rereadFile(fileName, editTxt);
+            break;
+        default:
+            return;
+        }
+    }
 }
