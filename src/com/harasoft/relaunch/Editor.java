@@ -12,24 +12,23 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Editor extends Activity {
+public class Editor extends Activity implements TextWatcher {
     final String                  TAG = "Viewer";
 
-    SharedPreferences             prefs;
+	ReLaunchApp                   app;
     Button                        saveBtn;
     Button                        cancelBtn;
     EditText                      editTxt;
     String                        textBuffer;
-    int                           editorMax;
 
     private boolean rereadFile(String fname, EditText editTxt)
     {
@@ -113,13 +112,7 @@ public class Editor extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editor_layout);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        try {
-            editorMax = Integer.parseInt(prefs.getString("editorMaxSize", "1048576"));
-        } catch(NumberFormatException e) {
-            editorMax = 1048576;
-        }
+        app = (ReLaunchApp)getApplicationContext();
 
         // Read parameters
         final Intent data = getIntent();
@@ -138,7 +131,7 @@ public class Editor extends Activity {
         if (!f.exists())
             finish();
         final long  fileSize = f.length();
-        if (fileSize > editorMax)
+        if (fileSize > app.editorMax)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("File \"" + fname + "\" is too big for editor (" + f.length() + " bytes)");
@@ -201,10 +194,36 @@ public class Editor extends Activity {
                     }
                 }});
             editTxt = (EditText)findViewById(R.id.edit_txt);
+            editTxt.addTextChangedListener(this);
 
             // Set title
             ((TextView)findViewById(R.id.edit_title)).setText(fname);
           	rereadFile(fname, editTxt);
         }
     }
+
+	public void afterTextChanged(Editable s) {
+        final String newBuf = editTxt.getText().toString();
+        if (newBuf.equals(textBuffer))
+        {
+        	saveBtn.setEnabled(false);
+        	cancelBtn.setText("Back");
+        }
+        else
+        {
+        	saveBtn.setEnabled(true);
+        	cancelBtn.setText("Cancel");
+        }
+	}
+
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// TODO Auto-generated method stub
+		
+	}
 }

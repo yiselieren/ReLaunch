@@ -168,7 +168,13 @@ public class ReLaunch extends Activity {
             		{
             			String rdrName = item.get("reader");
             			if (rdrName.equals("Nope"))
-            				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            			{
+            				File f = new File(item.get("fname"));
+            				if (f.length() > app.viewerMax)
+            					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+            				else
+            					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+            			}
             			else
             			{
             				if (app.getIcons().containsKey(rdrName))
@@ -443,6 +449,14 @@ public class ReLaunch extends Activity {
 		// Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
+        try {
+            app.viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize", "5242880"));
+            app.editorMax = Integer.parseInt(prefs.getString("editorMaxSize", "1048576"));
+        } catch(NumberFormatException e) {
+        	app.viewerMax = 5242880;
+        	app.editorMax = 1048576;
+       }
+
         filterMyself = prefs.getBoolean("filterSelf", true);
         if (useShop  &&  prefs.getBoolean("shopMode", true))
         	useHome = true;

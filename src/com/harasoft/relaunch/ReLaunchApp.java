@@ -35,6 +35,10 @@ public class ReLaunchApp extends Application {
 	final int                               READING=1;
 	final int                               FINISHED=2;
 	
+	// Max file sizes
+    int                                     viewerMax;
+    int                                     editorMax;
+
 	// Filter values
 	public int                        FLT_SELECT;
 	public int                        FLT_STARTS;

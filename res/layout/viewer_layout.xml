@@ -4,10 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="0.1">
-        <Button android:layout_width="wrap_content" android:text="Edit" android:layout_height="wrap_content" android:layout_weight="0.1" android:id="@+id/viewedit_btn"></Button>
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:layout_height="wrap_content" android:text="TextView" android:layout_gravity="center" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/view_title"></TextView>
-        <ImageButton android:src="@drawable/arrow_left" android:layout_height="fill_parent" android:layout_width="wrap_content" android:layout_weight="0.1" android:id="@+id/view_btn"></ImageButton>
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_weight="0.1" android:layout_height="2dp">
+        <Button android:text="Edit" android:id="@+id/viewedit_btn" android:layout_weight="0.3" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+        <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:maxLines="1" android:layout_height="wrap_content" android:text="TextView" android:layout_gravity="center" android:id="@+id/view_title" android:layout_width="fill_parent" android:gravity="center"></TextView>
+           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:layout_height="wrap_content" android:text="VIEWER" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center"></TextView>
+        </LinearLayout>
+        <ImageButton android:src="@drawable/arrow_left" android:id="@+id/view_btn" android:layout_weight="0.3" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageButton>
     </LinearLayout>
     <EditText android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_height="0dp" android:layout_width="fill_parent" android:inputType="textMultiLine" android:typeface="monospace" android:id="@+id/view_txt" android:focusable="false" android:editable="false">
         <requestFocus></requestFocus>

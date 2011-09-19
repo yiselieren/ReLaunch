@@ -10,9 +10,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,14 +23,12 @@ public class Viewer extends Activity {
 
     final int                     EDITOR_ACT = 1;
     
-    SharedPreferences             prefs;
+	ReLaunchApp                   app;
     ImageButton                   backBtn;
     Button                        editBtn;
     EditText                      editTxt;
     String                        textBuffer;
     String                        fileName;
-    int                           viewerMax;
-    int                           editorMax;
 
     private boolean rereadFile(String fname, EditText editTxt)
     {
@@ -66,15 +62,8 @@ public class Viewer extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewer_layout);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        try {
-            viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize", "5242880"));
-            editorMax = Integer.parseInt(prefs.getString("editorMaxSize", "1048576"));
-        } catch(NumberFormatException e) {
-            viewerMax = 5242880;
-            editorMax = 1048576;
-        }
+        app = (ReLaunchApp)getApplicationContext();
 
         // Read parameters
         final Intent data = getIntent();
@@ -91,7 +80,7 @@ public class Viewer extends Activity {
         if (!f.exists())
             finish();
         final long  fileSize = f.length();
-        if (fileSize > viewerMax)
+        if (fileSize > app.viewerMax)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("File \"" + fname + "\" is too big for viewer (" + f.length() + " bytes)");
@@ -108,7 +97,7 @@ public class Viewer extends Activity {
             editBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
-                        if (fileSize > editorMax)
+                        if (fileSize > app.editorMax)
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
                             builder.setTitle("File \"" + fname + "\" is too big for editor (" + fileSize + " bytes)");

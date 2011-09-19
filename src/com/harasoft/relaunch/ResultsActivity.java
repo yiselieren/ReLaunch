@@ -155,7 +155,13 @@ public class ResultsActivity extends Activity {
         		{
         			String rdrName = app.readerName(fname);
         			if (rdrName.equals("Nope"))
-        				iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+        			{
+        				File f = new File(fullName);
+        				if (f.length() > app.viewerMax)
+        					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+        				else
+        					iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+        			}
         			else
         			{
         				if (icons.containsKey(rdrName))
