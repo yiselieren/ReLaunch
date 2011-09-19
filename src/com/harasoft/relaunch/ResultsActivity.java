@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.harasoft.relaunch.ReLaunch.ViewHolder;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
