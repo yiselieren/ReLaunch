@@ -255,6 +255,13 @@ public class ReLaunch extends Activity {
        	return rc;
     }
 
+    private void pushCurrentPos(AdapterView<?> parent, boolean push_to_stack)
+    {
+    	Integer p1 = parent.getFirstVisiblePosition();
+    	if (push_to_stack)
+    		positions.push(p1);
+		currentPosition = p1;
+    }
 
     private void drawDirectory(String root, Integer startPosition)
     {
@@ -264,7 +271,7 @@ public class ReLaunch extends Activity {
     	List<String> dirs = new ArrayList<String>();
 
     	currentRoot = root;
-    	currentPosition = startPosition;
+    	currentPosition = (startPosition == -1) ? 0 : startPosition;
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("lastdir", currentRoot);
         editor.commit();
@@ -341,11 +348,14 @@ public class ReLaunch extends Activity {
             	else if (item.get("type").equals("dir"))
             	{
             		// Goto directory
-        			positions.push(position);
-            		drawDirectory(item.get("fname"), -1);
+            		pushCurrentPos(parent, true);
+             		drawDirectory(item.get("fname"), -1);
             	}
-            	else if (!app.specialAction(ReLaunch.this, item.get("fname")))
+            	else if (app.specialAction(ReLaunch.this, item.get("fname")))
+            		pushCurrentPos(parent, false);
+            	else
             	{
+            		pushCurrentPos(parent, false);
             		if (item.get("reader").equals("Nope"))
             			app.defaultAction(ReLaunch.this, item.get("fname"));
             		else
@@ -450,11 +460,11 @@ public class ReLaunch extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
         try {
-            app.viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize", "5242880"));
-            app.editorMax = Integer.parseInt(prefs.getString("editorMaxSize", "1048576"));
+            app.viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize", "1048576"));
+            app.editorMax = Integer.parseInt(prefs.getString("editorMaxSize", "262144"));
         } catch(NumberFormatException e) {
-        	app.viewerMax = 5242880;
-        	app.editorMax = 1048576;
+        	app.viewerMax = 1048576;
+        	app.editorMax = 262144;
        }
 
         filterMyself = prefs.getBoolean("filterSelf", true);

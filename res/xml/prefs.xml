@@ -21,8 +21,8 @@
       </PreferenceCategory>
 
       <PreferenceCategory android:title="Internal viewer/editor settings">
-       <EditTextPreference android:enabled="true" android:title="Maximal file size for viewer" android:selectable="true" android:key="viewerMaxSize" android:persistent="true" android:defaultValue="5242880" android:summary="Maximal file size allowed for viewer" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:enabled="true" android:title="Maximal file size for editor" android:selectable="true" android:key="editorMaxSize" android:persistent="true" android:defaultValue="1048576" android:summary="Maximal file size allowed for editor" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Maximal file size for viewer" android:selectable="true" android:key="viewerMaxSize" android:persistent="true" android:defaultValue="1048576" android:summary="Maximal file size allowed for viewer" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Maximal file size for editor" android:selectable="true" android:key="editorMaxSize" android:persistent="true" android:defaultValue="262144" android:summary="Maximal file size allowed for editor" android:numeric="integer"></EditTextPreference>
        </PreferenceCategory>
 
 

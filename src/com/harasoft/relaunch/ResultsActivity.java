@@ -58,6 +58,7 @@ public class ResultsActivity extends Activity {
     FLSimpleAdapter               adapter;
     ListView                      lv;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
+	Integer                       currentPosition = -1;
 
     static class ViewHolder {
         TextView  tv1;
@@ -206,6 +207,8 @@ public class ResultsActivity extends Activity {
 			itemsArray = newItemsArray;
 		}
 		adapter.notifyDataSetChanged();
+		if (currentPosition != -1)
+			lv.setSelection(currentPosition);
 	}
 
 	private void start(Intent i)
@@ -267,6 +270,7 @@ public class ResultsActivity extends Activity {
     	((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
     		public void onClick(View v) { finish(); }});
 
+    	currentPosition = -1;
     	lv = (ListView) findViewById(R.id.results_list);
     	((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
 
@@ -280,6 +284,7 @@ public class ResultsActivity extends Activity {
              	HashMap<String, String> item = itemsArray.get(position);      
  
          		String fullName = item.get("dname") + "/" + item.get("fname");
+         		currentPosition = parent.getFirstVisiblePosition();
              	if (item.get("type").equals("dir"))
              	{
             		Intent intent = new Intent(ResultsActivity.this, ReLaunch.class);
