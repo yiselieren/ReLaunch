@@ -474,7 +474,7 @@ public class ReLaunch extends Activity {
         if (useShop  &&  prefs.getBoolean("shopMode", true))
             useHome = true;
         if (useLibrary  &&  prefs.getBoolean("libraryMode", true))
-            useLibrary = true;
+            useHome = true;
         app.fullScreen = prefs.getBoolean("fullScreen", true);
         app.setFullScreenIfNecessary(this);
 
