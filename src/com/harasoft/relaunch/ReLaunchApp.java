@@ -582,9 +582,10 @@ public class ReLaunchApp extends Application {
         AlertDialog.Builder builder = new AlertDialog.Builder(a);
         WebView wv = new WebView(a);
         builder.setTitle("ReLaunch");
-        String str = "<h2><center>ReLaunch</center></h2><center>Reader launcher for Nook Simple Touch</center><br>"
+        String str = "<h1><center>ReLaunch</center></h1>"
+            + "<center><b>Reader launcher for Nook Simple Touch</b></center><br>"
             + "<center>Version: <b>" + vers + "</b></center><br>"
-            + "Source code: <a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git</a>";
+            + "<center>Source code: <a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git</a></center>";
         wv.loadData(str, "text/html", "utf-8");
         builder.setView(wv);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

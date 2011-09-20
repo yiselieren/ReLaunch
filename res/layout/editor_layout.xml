@@ -6,9 +6,9 @@
     >
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_weight="0.1" android:layout_height="2dp">
         <Button android:layout_width="wrap_content" android:text="Save" android:layout_weight="0.1" android:id="@+id/edit_save" android:layout_height="fill_parent"></Button>
-        <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:maxLines="1" android:layout_height="wrap_content" android:text="TextView" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:id="@+id/edit_title"></TextView>
-           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:layout_height="wrap_content" android:text="EDITOR" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center"></TextView>
+        <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="fill_parent">
+           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:text="EDITOR" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center" android:layout_weight="1" android:layout_height="0dp"></TextView>
+           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:maxLines="1" android:text="TextView" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:id="@+id/edit_title" android:layout_weight="1" android:layout_height="0dp"></TextView>
         </LinearLayout>
         <Button android:layout_width="wrap_content" android:text="Cancel" android:layout_weight="0.1" android:id="@+id/edit_cancel" android:layout_height="fill_parent"></Button>
     </LinearLayout>
