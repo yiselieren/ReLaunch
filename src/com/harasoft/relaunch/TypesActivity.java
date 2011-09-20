@@ -186,10 +186,11 @@ public class TypesActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.types_view);
 
         // Global storage
         app = ((ReLaunchApp)getApplicationContext());
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.types_view);
         icons = app.getIcons();
 
         applicationsArray = app.getApps();

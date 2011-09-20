@@ -292,6 +292,8 @@ public class SearchActivity extends Activity {
     @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app = ((ReLaunchApp)getApplicationContext());
+        app.setFullScreenIfNecessary(this);
         setContentView(R.layout.search);
 
         SEARCH_FILE = getResources().getInteger(R.integer.SEARCH_FILE);
@@ -300,7 +302,6 @@ public class SearchActivity extends Activity {
         SEARCH_PATH = getResources().getInteger(R.integer.SEARCH_PATH);
 
         stop_search = false;
-        app = ((ReLaunchApp)getApplicationContext());
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

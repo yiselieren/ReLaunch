@@ -151,9 +151,11 @@ public class ReadersActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.readers_view);
 
         app = ((ReLaunchApp)getApplicationContext());
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.readers_view);
+
         lv = (ListView) findViewById(R.id.readers_lv);
         itemsArray = new ArrayList<HashMap<String,String>>();
         for (String[] r : app.getList("startReaders"))

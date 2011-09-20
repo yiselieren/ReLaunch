@@ -250,9 +250,12 @@ public class ResultsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.results_layout);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         app = ((ReLaunchApp)getApplicationContext());
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.results_layout);
+
         icons = app.getIcons();
 
         // Recreate readers list

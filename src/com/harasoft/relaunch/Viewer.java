@@ -61,9 +61,10 @@ public class Viewer extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.viewer_layout);
 
         app = (ReLaunchApp)getApplicationContext();
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.viewer_layout);
 
         // Read parameters
         final Intent data = getIntent();

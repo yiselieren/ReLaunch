@@ -163,10 +163,11 @@ public class FiltersActivity  extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filters_view);
 
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.filters_view);
 
         lv = (ListView) findViewById(R.id.filters_lv);
         itemsArray = app.getList("filters");

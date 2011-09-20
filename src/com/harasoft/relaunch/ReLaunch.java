@@ -24,7 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -35,7 +34,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -78,6 +76,7 @@ public class ReLaunch extends Activity {
     ReLaunchApp                   app;
     boolean                       useHome = false;
     boolean                       useShop = false;
+    boolean                       useLibrary = false;
     boolean                       useDirViewer = false;
     static public boolean         filterMyself = true;
     static public String          selfName = "ReLaunch";
@@ -444,6 +443,8 @@ public class ReLaunch extends Activity {
             useHome = true;
         if (data.getExtras() != null  &&  data.getBooleanExtra("shop", false))
             useShop = true;
+        if (data.getExtras() != null  &&  data.getBooleanExtra("library", false))
+            useLibrary = true;
         if (data.getExtras() != null  &&  data.getBooleanExtra("dirviewer", false))
             useDirViewer = true;
 
@@ -472,6 +473,10 @@ public class ReLaunch extends Activity {
         filterMyself = prefs.getBoolean("filterSelf", true);
         if (useShop  &&  prefs.getBoolean("shopMode", true))
             useHome = true;
+        if (useLibrary  &&  prefs.getBoolean("libraryMode", true))
+            useLibrary = true;
+        app.fullScreen = prefs.getBoolean("fullScreen", true);
+        app.setFullScreenIfNecessary(this);
 
        // Create application icons map
         app.setIcons(createIconsList(getPackageManager()));

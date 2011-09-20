@@ -20,6 +20,8 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -28,6 +30,10 @@ public class ReLaunchApp extends Application {
 
     // Reading files
     final int                               FileBufferSize = 1024;
+    
+    // Miscellaneous public flags/settings
+    public boolean                          fullScreen = false;
+    public Boolean                          askIfAmbiguous;
 
     // Search values
     final String                            DIR_TAG = ".DIR..";
@@ -55,9 +61,6 @@ public class ReLaunchApp extends Application {
     private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
     private List<String>                    apps;
-
-    // Miscellaneous public flags
-    public Boolean                          askIfAmbiguous;
 
     // Icons
     public HashMap<String, Drawable> getIcons()       { return icons; }
@@ -589,5 +592,15 @@ public class ReLaunchApp extends Application {
                 dialog.dismiss();
                 }});
         builder.show();
+    }
+    
+    public void setFullScreenIfNecessary(Activity a)
+    {
+        if (fullScreen)
+        {
+            a.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            a.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 }

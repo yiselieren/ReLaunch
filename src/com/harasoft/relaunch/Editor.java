@@ -114,8 +114,10 @@ public class Editor extends Activity implements TextWatcher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.editor_layout);
+
         app = (ReLaunchApp)getApplicationContext();
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.editor_layout);
 
         // Read parameters
         final Intent data = getIntent();

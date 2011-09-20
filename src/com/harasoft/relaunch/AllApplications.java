@@ -176,10 +176,11 @@ public class AllApplications extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.all_applications);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         app = ((ReLaunchApp)getApplicationContext());
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.all_applications);
         icons = app.getIcons();
 
         // Create applications list

@@ -3,6 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="General">
        <CheckBoxPreference android:summaryOff="Show all files" android:summaryOn="Filter results according to filter definitions" android:key="filterResults" android:title="Filter results" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="Show upper title bar" android:summaryOn="Work in full screen mode" android:key="fullScreen" android:title="Full screen" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <CheckBoxPreference android:summaryOff="Do not show buttons on main screen" android:summaryOn="Show buttons on main screen" android:key="showButtons" android:title="Show buttons on main screen" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <EditTextPreference android:enabled="true" android:title="Start directory" android:selectable="true" android:key="startDir" android:persistent="true" android:defaultValue="/sdcard" android:summary="Start here or last visited (see next)"></EditTextPreference>
        <CheckBoxPreference android:summaryOff="Always start from start directory" android:summaryOn="Start from last visited directory" android:key="saveDir" android:title="Save last visited directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
@@ -13,6 +14,7 @@
       <PreferenceCategory android:title="Launcher mode settings">
        <CheckBoxPreference android:summaryOff="Show all apps, including myself" android:summaryOn="Filter out my name from apps list" android:key="filterSelf" android:title="Filter selfname from apps list" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <CheckBoxPreference android:summaryOff="Work as application when invoked by Shop button" android:summaryOn="Work as launcher when invoked by Shop button" android:key="shopMode" android:title="Work mode when invoked by Shop button" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="Work as application when invoked by Library button" android:summaryOn="Work as launcher when invoked by Library button" android:key="libraryMode" android:title="Work mode when invoked by Library button" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
       </PreferenceCategory>
 
       <PreferenceCategory android:title="Seacrh settings">
