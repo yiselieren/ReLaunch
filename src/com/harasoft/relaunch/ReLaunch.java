@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -460,7 +461,7 @@ public class ReLaunch extends Activity {
         app.FLT_NEW = getResources().getInteger(R.integer.FLT_NEW);
         app.FLT_NEW_AND_READING = getResources().getInteger(R.integer.FLT_NEW_AND_READING);
 
-                // Preferences
+        // Preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
         try {
@@ -572,6 +573,44 @@ public class ReLaunch extends Activity {
                 ((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuAbout(); }});
             }
+
+            /*
+            // Memory buttons (task manager activity
+            Button m1 = (Button)findViewById(R.id.mem_level);
+            if (m1 != null)
+                m1.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                        startActivity(intent);
+                    }});
+            Button m2 = (Button)findViewById(R.id.mem_title);
+            if (m2 != null)
+                m2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                        startActivity(intent);
+                    }});
+             */
+            
+            // Battery buttons
+            Button b1 = (Button)findViewById(R.id.bat_level);
+            if (b1 != null)
+                b1.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                        startActivity(intent);
+                    }});
+            Button b2 = (Button)findViewById(R.id.bat_title);
+            if (b2 != null)
+                b2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                        startActivity(intent);
+                    }});
 
             // First directory to get to
             if (prefs.getBoolean("saveDir", true))
@@ -816,7 +855,7 @@ public class ReLaunch extends Activity {
         MemoryInfo mi = new MemoryInfo();
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         activityManager.getMemoryInfo(mi);
-        TextView tv = (TextView)findViewById(R.id.mem_level);
+        Button tv = (Button)findViewById(R.id.mem_level);
         if (tv != null)
             tv.setText(mi.availMem / 1048576L + "M free");
 
@@ -830,7 +869,7 @@ public class ReLaunch extends Activity {
                     if (rawlevel >= 0 && scale > 0) {
                         level = (rawlevel * 100) / scale;
                     }
-                    TextView tv = (TextView)findViewById(R.id.bat_level);
+                    Button tv = (Button)findViewById(R.id.bat_level);
                     if (tv != null)
                         tv.setText(level + "%");
                 }

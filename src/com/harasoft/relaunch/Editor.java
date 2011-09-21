@@ -205,7 +205,7 @@ public class Editor extends Activity implements TextWatcher {
             editTxt.addTextChangedListener(this);
 
             // Set title
-            ((TextView)findViewById(R.id.edit_title)).setText(fname);
+            ((EditText)findViewById(R.id.edit_title)).setText(fname);
             rereadFile(fname, editTxt);
         }
     }

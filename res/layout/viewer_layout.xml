@@ -5,21 +5,19 @@
     android:layout_height="fill_parent"
     >
 
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout3" android:layout_weight="0.1" android:orientation="vertical" android:layout_height="2dp">
-       <LinearLayout android:id="@+id/linearLayout1" android:layout_weight="0.1" android:layout_width="fill_parent" android:layout_height="wrap_content">
-            <Button android:text="Edit" android:id="@+id/viewedit_btn" android:layout_weight="0.3" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_gravity="center"></Button>
-            <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content">
-               <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:text="VIEWER   --   VIEWER   --   VIEWER" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center" android:layout_height="0dp" android:layout_weight="1"></TextView>
-               <EditText android:id="@+id/view_title" android:text="Filename" android:textColor="#000000" android:background="#ffffff"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="center">
-                   <requestFocus></requestFocus>
-               </EditText>
-            </LinearLayout>
-            <ImageButton android:src="@drawable/arrow_left" android:id="@+id/view_btn" android:layout_weight="0.3" android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="fill_parent"></ImageButton>
-        </LinearLayout>
-        <TextView android:background="#000000" android:textColor="#000000" android:text="TextView" android:layout_width="fill_parent" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_height="2dp"></TextView>
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="0">
+       <Button android:text="Edit" android:id="@+id/viewedit_btn" android:layout_weight="0" android:layout_height="fill_parent" android:layout_gravity="center" android:layout_width="wrap_content"></Button>
+       <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content">
+           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:text="VIEWER   --   VIEWER   --   VIEWER" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center" android:layout_height="wrap_content" ></TextView>
+           <EditText android:id="@+id/view_title" android:text="Filename" android:textColor="#000000" android:background="#ffffff"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center">
+               <requestFocus></requestFocus>
+           </EditText>
+       </LinearLayout>
+       <ImageButton android:src="@drawable/arrow_left" android:id="@+id/view_btn" android:layout_weight="0" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_width="56dp"></ImageButton>
     </LinearLayout>
+    <TextView android:background="#000000" android:textColor="#000000" android:text="TextView" android:layout_width="fill_parent" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_height="2dp" android:layout_weight="0"></TextView>
 
-    <EditText android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_height="0dp" android:layout_width="fill_parent" android:inputType="textMultiLine" android:typeface="monospace" android:id="@+id/view_txt" android:focusable="false" android:editable="false">
+    <EditText android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="fill_parent" android:inputType="textMultiLine" android:typeface="monospace" android:id="@+id/view_txt" android:focusable="false" android:editable="false" android:layout_weight="1" android:layout_height="wrap_content">
         <requestFocus></requestFocus>
     </EditText>
 </LinearLayout>
