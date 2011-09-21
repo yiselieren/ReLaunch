@@ -13,7 +13,9 @@
         <ImageButton android:src="@android:drawable/ic_media_play" android:id="@+id/readers_btn" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
         <ImageButton android:src="@android:drawable/ic_menu_info_details" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/about_btn" android:layout_height="fill_parent" android:layout_gravity="center"></ImageButton>
     </LinearLayout>
-    <TextView android:text="TextView" android:id="@+id/title_txt" android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="3" android:layout_height="0dp" android:layout_width="fill_parent" android:layout_weight="0.06" android:layout_gravity="center"></TextView>
+    <EditText android:id="@+id/title_txt" android:textColor="#ffffff" android:background="#000000"  android:textAppearance="?android:attr/textAppearanceMedium"  android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:focusable="false" android:editable="false">
+        <requestFocus></requestFocus>
+    </EditText>
     <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_weight="1" android:layout_height="0dp"></ListView>
     <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="0.0">
         <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">

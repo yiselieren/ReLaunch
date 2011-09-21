@@ -127,7 +127,7 @@ public class Viewer extends Activity {
 
 
             // Set title
-            ((TextView)findViewById(R.id.view_title)).setText(fname);
+            ((EditText)findViewById(R.id.view_title)).setText(fname);
 
             // Read file and set view field
             editTxt = (EditText)findViewById(R.id.view_txt);

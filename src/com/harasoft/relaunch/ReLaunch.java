@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -277,7 +278,7 @@ public class ReLaunch extends Activity {
         editor.putString("lastdir", currentRoot);
         editor.commit();
 
-        TextView  tv = (TextView)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
+        EditText  tv = (EditText)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
         tv.setText(dir.getAbsolutePath() + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
 
         itemsArray = new ArrayList<HashMap<String,String>>();
@@ -708,7 +709,7 @@ public class ReLaunch extends Activity {
         switch (item.getItemId())
         {
         case CNTXT_MENU_ADD:
-            app.addToList("favorites", dname, fname, true);
+            app.addToList("favorites", dname, fname, false);
             break;
         case CNTXT_MENU_MARK_READING:
             app.history.put(fullName, app.READING);
