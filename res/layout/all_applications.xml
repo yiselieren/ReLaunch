@@ -8,8 +8,5 @@
         <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:layout_height="wrap_content" android:text="TextView" android:layout_gravity="center" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/app_title"></TextView>
         <ImageButton android:src="@drawable/arrow_left" android:layout_height="fill_parent" android:layout_width="wrap_content" android:layout_weight="0.1" android:id="@+id/app_btn"></ImageButton>
     </LinearLayout>
-      <GridView android:background="#000000" android:layout_height="0dp" android:layout_width="fill_parent" android:numColumns="2" android:id="@+id/app_grid" android:layout_gravity="center" android:layout_weight="1" android:stretchMode="columnWidth"></GridView>
-    <!--
-     <ListView android:layout_width="fill_parent" android:id="@+id/app_list" android:layout_weight="1" android:layout_height="0dp"></ListView>
-    -->
+    <GridView android:background="#000000" android:layout_height="0dp" android:layout_width="fill_parent" android:numColumns="2" android:id="@+id/app_grid" android:layout_gravity="center" android:layout_weight="1" android:stretchMode="columnWidth"></GridView>
 </LinearLayout>

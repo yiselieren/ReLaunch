@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+        <EditText android:id="@+id/editText1" android:layout_height="wrap_content" android:layout_weight="1" android:inputType="textMultiLine" android:layout_width="fill_parent" android:focusable="false" android:editable="false">
+            <requestFocus></requestFocus>
+        </EditText>
+        <ImageButton android:id="@+id/imageButton1" android:src="@drawable/arrow_left" android:layout_width="72dp" android:layout_height="fill_parent"></ImageButton>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
+        <Button android:text="Button" android:id="@+id/button2" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
+        <Button android:text="Button" android:id="@+id/button3" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
+        <Button android:text="Button" android:id="@+id/button4" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3">
+        <TextView android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center"></TextView>
+        <TextView android:id="@+id/textView2" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Services" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center"></TextView>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout4">
+        <ListView android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/listView1" android:layout_width="wrap_content"></ListView>
+        <ListView android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/listView2"></ListView>
+    </LinearLayout>
+</LinearLayout>

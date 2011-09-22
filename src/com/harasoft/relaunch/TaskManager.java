@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,8 +29,21 @@ public class TaskManager extends Activity {
     };
 
     // Process info
-    
-    
+    static class PInfo {
+        PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
+        int     pid;
+        long    prev;
+        long    curr;
+        long    usage;
+        int     mem;
+        String  name;
+        String  extra;
+        boolean service;
+    }
+    List<PInfo> pinfo = new ArrayList<PInfo>();
+    long        CPUUsage;
+
+    /*
     // Process map by pids
     static class Pids {
         Pids() { prev = 0; curr = 0; usage = 0; }
@@ -39,6 +53,7 @@ public class TaskManager extends Activity {
     }
     HashMap<Integer, Pids> pidInfo = new HashMap<Integer, Pids>();
     long                   CPUUsage;
+    */
 
     private void stopCPUUpdate()
     {
@@ -59,33 +74,31 @@ public class TaskManager extends Activity {
     {
         // Update current
         getCPU();
-        for (Integer pid : pidInfo.keySet())
-            pidInfo.get(pid).curr = getCPU(pid);
+        for (PInfo p : pinfo)
+            p.curr = getCPU(p.pid);
         if (cpuTotal_prev != 0  &&  cpuIdle_prev != 0)
         {
             // CPU total
             long deltaTotal =  cpuTotal - cpuTotal_prev;
             long deltaIdle = cpuIdle - cpuIdle_prev;
             CPUUsage = (deltaTotal != 0) ? (100 * (deltaTotal - deltaIdle)) / deltaTotal : 0;
-            //Log.d(TAG, "CPU usage: " + CPUUsage + "%");
+            Log.d(TAG, "CPU usage: " + CPUUsage + "%");
 
             // Per process
-            for (Integer pid : pidInfo.keySet())
+            for (PInfo p : pinfo)
             {
-                long curr = getCPU(pid);
-                long prev = pidInfo.get(pid).prev;
-                if (prev != 0)
+                if (p.prev != 0)
                 {
-                    long us = (deltaTotal != 0) ? (100 * (curr - prev)) / deltaTotal : 0;
-                    pidInfo.get(pid).usage = us;
-                    //Log.d(TAG, "PID:" + pid + ", Usage: " + us + "%");
+                    p.usage = (deltaTotal != 0) ? (100 * (p.curr - p.prev)) / deltaTotal : 0;
+                    Log.d(TAG, "NAME:" + p.name + " PID:" + p.pid + ", Usage: " + p.usage + "%");
                 }
             }
         }
+        Log.d(TAG, "---------------");
         
         // Save current values as previous
-        for (Integer pid : pidInfo.keySet())
-            pidInfo.get(pid).prev = pidInfo.get(pid).curr;
+        for (PInfo p : pinfo)
+            p.prev = p.curr;
         cpuTotal_prev = cpuTotal;
         cpuIdle_prev = cpuIdle;
 
@@ -144,11 +157,6 @@ public class TaskManager extends Activity {
                 pids[i] = pi.pid;
                 names[i] = pi.processName;
                 imps[i] = pi.importance;
-                //Log.d(TAG, "Process=" + pi.processName + " PID:" + pi.pid);
-                //int pid = android.os.Process.getUidForName("com.android.email");
-                //android.os.Process.killProcess(pid);
-                
-                pidInfo.put(pi.pid, new Pids());
             }
             
             Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
@@ -182,12 +190,23 @@ public class TaskManager extends Activity {
                          + " = " + (mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty )
                          + " OR " + (mis[i].otherPss + mis[i].nativePss + mis[i].dalvikPss)
                          + " Importance: " + imps[i] + "(" + is + ")");
+                 PInfo p = new PInfo();
+                 p.pid = pids[i];
+                 p.name = names[i];
+                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                 p.service = false;
+                 pinfo.add(p);
             }
         }
   
         Log.d(TAG, "-------------------- getRunningServices:");
         List<ActivityManager.RunningServiceInfo> list = am.getRunningServices(1024);
         if(list != null){
+            int[] pids = new int[l.size()];
+            for(int i=0;i<list.size();++i)
+                pids[i] = list.get(i).pid;
+            Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
+
             for(int i=0;i<list.size();++i)
             {
                 ActivityManager.RunningServiceInfo si = list.get(i);
@@ -202,8 +221,12 @@ public class TaskManager extends Activity {
                     fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
 
                 Log.d(TAG, "Service:" + si.service.getClassName() + ", " + fs + " foreground=" + si.foreground);
-                pidInfo.put(si.pid, new Pids());
-
+                PInfo p = new PInfo();
+                p.pid = pids[i];
+                p.name = si.clientPackage;
+                p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                p.service = true;
+                pinfo.add(p);
             }
         }
         startCPUUpdate();
