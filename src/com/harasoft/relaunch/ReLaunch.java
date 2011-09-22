@@ -574,7 +574,6 @@ public class ReLaunch extends Activity {
                         public void onClick(View v) { menuAbout(); }});
             }
 
-            /*
             // Memory buttons (task manager activity
             Button m1 = (Button)findViewById(R.id.mem_level);
             if (m1 != null)
@@ -592,8 +591,7 @@ public class ReLaunch extends Activity {
                         Intent intent = new Intent(ReLaunch.this, TaskManager.class);
                         startActivity(intent);
                     }});
-             */
-            
+
             // Battery buttons
             Button b1 = (Button)findViewById(R.id.bat_level);
             if (b1 != null)

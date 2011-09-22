@@ -199,6 +199,10 @@ public class AllApplications extends Activity {
         if (listName.equals("app_all"))
         {
             app.setApps(ReLaunch.createAppList(getPackageManager()));
+            checkListByName("app_last", app.getApps());
+            checkListByName("app_favorites", app.getApps());
+            saveLast();
+            saveFav();
             itemsArray = app.getApps();
         }
         else

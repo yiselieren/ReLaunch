@@ -278,6 +278,7 @@ public class SearchActivity extends Activity {
                 intent.putExtra("list", "searchResults");
                 intent.putExtra("title", "Search results");
                 intent.putExtra("rereadOnStart", false);
+                intent.putExtra("total", filesCount);
                 startActivity(intent);
             }
 

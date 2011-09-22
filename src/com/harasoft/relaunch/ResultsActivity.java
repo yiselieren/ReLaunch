@@ -268,13 +268,17 @@ public class ResultsActivity extends Activity {
         listName = data.getExtras().getString("list");
         title = data.getExtras().getString("title");
         rereadOnStart = data.getExtras().getBoolean("rereadOnStart");
+        int total = data.getExtras().getInt("total", -1);
 
         ((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { finish(); }});
 
         currentPosition = -1;
         lv = (ListView) findViewById(R.id.results_list);
-        ((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
+        if (total == -1)
+            ((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + ")");
+        else
+            ((TextView)findViewById(R.id.results_title)).setText(title + " (" + app.getList(listName).size() + "/" + total +")");
 
         createItemsArray();
         adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
