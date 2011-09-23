@@ -14,6 +14,11 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
@@ -23,7 +28,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +40,7 @@ public class TaskManager extends Activity {
 
     ReLaunchApp                   app;
     SharedPreferences             prefs;
+    PackageManager                pm;
 
     final int                     CPUUpdate_i = 5000;
     long                          cpuTotal = 0;
@@ -56,12 +64,14 @@ public class TaskManager extends Activity {
     // Process info
     static class PInfo {
         PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
-        long    prev;
-        long    curr;
-        long    usage;
-        int     mem;
-        String  name;
-        String  extra;
+        long     prev;
+        long     curr;
+        long     usage;
+        int      mem;
+        String   label;
+        String   name;
+        String   extra;
+        Drawable icon;
     }
     HashMap<Integer, PInfo> pinfo = new HashMap<Integer, PInfo>();
 
@@ -94,7 +104,6 @@ public class TaskManager extends Activity {
         if (l1 != null)
         {
             int[] pids = new int[l1.size()];
-            int[] imps = new int[l1.size()];
             for (int i=0; i<l1.size(); i++)
                 pids[i] = l1.get(i).pid;
             Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
@@ -102,16 +111,16 @@ public class TaskManager extends Activity {
             {
                 ActivityManager.RunningAppProcessInfo pi = l1.get(i);
                 String is = "";
-                switch (imps[i])
+                switch (pi.importance)
                 {
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND:
-                    is = "RUNNING IN BACKGROUND";
+                    is = "BACKGROUND";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_EMPTY:
                     is = "NOT ACTIVE";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND:
-                    is = "RUNNING IN FOREGROUND";
+                    is = "FOREGROUND";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE:
                     is = "SERVICE";
@@ -125,6 +134,11 @@ public class TaskManager extends Activity {
                 p.name = pi.processName;
                 p.extra = is;
                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                try {
+                    ApplicationInfo ai = pm.getApplicationInfo(pi.processName, 0);
+                    p.icon = pm.getApplicationIcon(ai.packageName);
+                    p.label = pm.getApplicationLabel(ai).toString();
+                } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
                 newPinfo.put(pids[i], p);
                 newTask.add(pids[i]);
             }
@@ -268,8 +282,9 @@ public class TaskManager extends Activity {
     }
 
     static class ViewHolder {
-        TextView  tv1;
-        TextView  tv2;
+        EditText  tv1;
+        EditText  tv2;
+        EditText  tv3;
         ImageView iv;
     }
     class TAdapter extends ArrayAdapter<Integer> {
@@ -289,11 +304,12 @@ public class TaskManager extends Activity {
             View       v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.results_item, null);
+                v = vi.inflate(R.layout.taskmanager_item, null);
                 holder = new ViewHolder();
-                holder.tv1 = (TextView) v.findViewById(R.id.res_dname);
-                holder.tv2 = (TextView) v.findViewById(R.id.res_fname);
-                holder.iv  = (ImageView) v.findViewById(R.id.res_icon);
+                holder.tv1 = (EditText) v.findViewById(R.id.tm_label);
+                holder.tv2 = (EditText) v.findViewById(R.id.tm_fullname);
+                holder.tv3 = (EditText) v.findViewById(R.id.tm_extra);
+                holder.iv  = (ImageView) v.findViewById(R.id.tm_icon);
                 v.setTag(holder);
             }
             else
@@ -301,13 +317,21 @@ public class TaskManager extends Activity {
 
             TextView  tv1 = holder.tv1;
             TextView  tv2 = holder.tv2;
+            TextView  tv3 = holder.tv3;
             ImageView iv = holder.iv;
-
             Integer item = taskPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
+                tv1.setText(pi.label == null ? "Unknown" : pi.label);
                 tv2.setText(pi.name);
-                tv1.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                if (pi.extra.equals(""))
+                    tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                else
+                    tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                if (pi.icon == null)
+                    iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                else 
+                    iv.setImageDrawable(pi.icon);
             }
             return v;
         }
@@ -330,11 +354,12 @@ public class TaskManager extends Activity {
             View       v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.results_item, null);
+                v = vi.inflate(R.layout.taskmanager_item, null);
                 holder = new ViewHolder();
-                holder.tv1 = (TextView) v.findViewById(R.id.res_dname);
-                holder.tv2 = (TextView) v.findViewById(R.id.res_fname);
-                holder.iv  = (ImageView) v.findViewById(R.id.res_icon);
+                holder.tv1 = (EditText) v.findViewById(R.id.tm_label);
+                holder.tv2 = (EditText) v.findViewById(R.id.tm_fullname);
+                holder.tv3 = (EditText) v.findViewById(R.id.tm_extra);
+                holder.iv  = (ImageView) v.findViewById(R.id.tm_icon);
                 v.setTag(holder);
             }
             else
@@ -342,13 +367,14 @@ public class TaskManager extends Activity {
 
             TextView  tv1 = holder.tv1;
             TextView  tv2 = holder.tv2;
+            TextView  tv3 = holder.tv3;
             ImageView iv = holder.iv;
 
             Integer item = servPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
-                tv2.setText(pi.name);
-                tv1.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                tv1.setText(pi.name);
+                tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
             }
             return v;
         }
@@ -361,13 +387,14 @@ public class TaskManager extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         app = ((ReLaunchApp)getApplicationContext());
         app.setFullScreenIfNecessary(this);
+        pm = getPackageManager();
         setContentView(R.layout.taskmanager_layout);
 
         lv_t = (ListView) findViewById(R.id.tasks_lv);
-        adapter_t = new TAdapter(this, R.layout.results_item);
+        adapter_t = new TAdapter(this, R.layout.taskmanager_item);
         lv_t.setAdapter(adapter_t);
         lv_s = (ListView) findViewById(R.id.services_lv);
-        adapter_s = new SAdapter(this, R.layout.results_item);
+        adapter_s = new SAdapter(this, R.layout.taskmanager_item);
         lv_s.setAdapter(adapter_s);
 
         startCPUUpdate();

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+  <ImageView android:src="@drawable/dir_ok" android:background="#ffffff" android:layout_width="64dp" android:id="@+id/tm_icon" android:layout_height="fill_parent" android:layout_gravity="center"></ImageView>
+  <LinearLayout android:id="@+id/linearLayout1" android:background="#ffffff" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+      <EditText android:gravity="center_vertical" android:text="Filename" android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/tm_label" android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_weight="1"></EditText>
+      <EditText android:gravity="center_vertical" android:text="Full path" android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#000000" android:background="#ffffff"  android:layout_width="fill_parent" android:id="@+id/tm_fullname" android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_weight="1"></EditText>
+      <EditText android:gravity="center_vertical" android:text="Full path" android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#000000" android:background="#ffffff"  android:layout_width="fill_parent" android:id="@+id/tm_extra" android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_weight="1"></EditText>
+  </LinearLayout>
+</LinearLayout>
