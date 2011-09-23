@@ -8,15 +8,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.harasoft.relaunch.ResultsActivity.FLSimpleAdapter;
+
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class TaskManager extends Activity {
     final String                  TAG = "TaskManager";
+
+    ReLaunchApp                   app;
+    SharedPreferences             prefs;
+
     final int                     CPUUpdate_i = 5000;
     long                          cpuTotal = 0;
     long                          cpuTotal_prev = 0;
@@ -27,33 +44,26 @@ public class TaskManager extends Activity {
     Runnable                      CPUUpdate = new Runnable() {
          public void run() { CPUUpdate_proc(); }
     };
+    long                          CPUUsage;
+
+    List<Integer>                 taskPids = new ArrayList<Integer>();
+    List<Integer>                 servPids = new ArrayList<Integer>();
+    ListView                      lv_t;
+    TAdapter                      adapter_t;
+    ListView                      lv_s;
+    SAdapter                      adapter_s;
 
     // Process info
     static class PInfo {
         PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
-        int     pid;
         long    prev;
         long    curr;
         long    usage;
         int     mem;
         String  name;
         String  extra;
-        boolean service;
     }
-    List<PInfo> pinfo = new ArrayList<PInfo>();
-    long        CPUUsage;
-
-    /*
-    // Process map by pids
-    static class Pids {
-        Pids() { prev = 0; curr = 0; usage = 0; }
-        long  prev;
-        long  curr;
-        long  usage;
-    }
-    HashMap<Integer, Pids> pidInfo = new HashMap<Integer, Pids>();
-    long                   CPUUsage;
-    */
+    HashMap<Integer, PInfo> pinfo = new HashMap<Integer, PInfo>();
 
     private void stopCPUUpdate()
     {
@@ -72,37 +82,157 @@ public class TaskManager extends Activity {
 
     private void CPUUpdate_proc()
     {
-        // Update current
+        List<Integer>                 newTask = new ArrayList<Integer>();
+        List<Integer>                 newServ = new ArrayList<Integer>();
+        HashMap<Integer, PInfo>       newPinfo = new HashMap<Integer, PInfo>();
+
+        /*
+         * New tasks list
+         */
+        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> l1 = am.getRunningAppProcesses();
+        if (l1 != null)
+        {
+            int[] pids = new int[l1.size()];
+            int[] imps = new int[l1.size()];
+            for (int i=0; i<l1.size(); i++)
+                pids[i] = l1.get(i).pid;
+            Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
+            for (int i=0; i<l1.size(); i++)
+            {
+                ActivityManager.RunningAppProcessInfo pi = l1.get(i);
+                String is = "";
+                switch (imps[i])
+                {
+                case ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND:
+                    is = "RUNNING IN BACKGROUND";
+                    break;
+                case ActivityManager.RunningAppProcessInfo.IMPORTANCE_EMPTY:
+                    is = "NOT ACTIVE";
+                    break;
+                case ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND:
+                    is = "RUNNING IN FOREGROUND";
+                    break;
+                case ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE:
+                    is = "SERVICE";
+                    break;
+                case ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE:
+                    is = "VISIBLE";
+                    break;
+                }
+            
+                PInfo p = new PInfo();
+                p.name = pi.processName;
+                p.extra = is;
+                p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                newPinfo.put(pids[i], p);
+                newTask.add(pids[i]);
+            }
+        }
+        
+        /*
+         * New services list
+         */
+        List<ActivityManager.RunningServiceInfo> l2 = am.getRunningServices(1024);
+        if(l2 != null){
+            int[] pids = new int[l2.size()];
+            for(int i=0;i<l2.size();++i)
+                pids[i] = l2.get(i).pid;
+            Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
+
+            for(int i=0;i<l2.size();++i)
+            {
+                ActivityManager.RunningServiceInfo si = l2.get(i);
+                String fs = "";
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0)
+                    fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0)
+                    fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0)
+                    fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0)
+                    fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
+
+                PInfo p = new PInfo();
+                p.name = si.clientPackage;
+                p.extra = fs;
+                p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                newPinfo.put(pids[i], p);
+                newServ.add(pids[i]);
+            }
+        }
+
+        /*
+         * Merge new pinfo list with the old one
+         */
+        for (Integer k : pinfo.keySet())
+            if (!newPinfo.containsKey(k))
+                pinfo.remove(k);
+        for (Integer k : pinfo.keySet())
+        {
+            PInfo n = newPinfo.get(k);
+            pinfo.get(k).mem = n.mem;
+        }
+        for (Integer k : newPinfo.keySet())
+            if (!pinfo.containsKey(k))
+                pinfo.put(k, newPinfo.get(k));
+
+        /*
+         *  Update CPU usage
+         *  ----------------
+         */
         getCPU();
-        for (PInfo p : pinfo)
-            p.curr = getCPU(p.pid);
+        for (Integer k : pinfo.keySet())
+            pinfo.get(k).curr = getCPU(k);
+ 
         if (cpuTotal_prev != 0  &&  cpuIdle_prev != 0)
         {
             // CPU total
             long deltaTotal =  cpuTotal - cpuTotal_prev;
             long deltaIdle = cpuIdle - cpuIdle_prev;
             CPUUsage = (deltaTotal != 0) ? (100 * (deltaTotal - deltaIdle)) / deltaTotal : 0;
-            Log.d(TAG, "CPU usage: " + CPUUsage + "%");
 
             // Per process
-            for (PInfo p : pinfo)
+            for (Integer k : pinfo.keySet())
             {
+                PInfo p = pinfo.get(k);
                 if (p.prev != 0)
-                {
                     p.usage = (deltaTotal != 0) ? (100 * (p.curr - p.prev)) / deltaTotal : 0;
-                    Log.d(TAG, "NAME:" + p.name + " PID:" + p.pid + ", Usage: " + p.usage + "%");
-                }
+                pinfo.put(k, p);
             }
         }
-        Log.d(TAG, "---------------");
         
         // Save current values as previous
-        for (PInfo p : pinfo)
-            p.prev = p.curr;
+        for (Integer k : pinfo.keySet())
+            pinfo.get(k).prev = pinfo.get(k).curr;
         cpuTotal_prev = cpuTotal;
         cpuIdle_prev = cpuIdle;
+        
+        taskPids = newTask;
+        servPids = newServ;
+        adapter_t.notifyDataSetChanged();
+        adapter_s.notifyDataSetChanged();
 
-          // Next CPUUpdate_proc call
+        //// DEBUG+++++
+        //Log.d(TAG, "---------------");
+        //Log.d(TAG, "CPU usage: " + CPUUsage + "%");
+        //Log.d(TAG, "--- Tasks:");
+        //for (Integer pid : taskPids)
+        //{
+        //    PInfo pi = pinfo.get(pid);
+        //    Log.d(TAG, pi.name + " " + pi.extra + " CPU:" + pi.usage + "% MEM:" + pi.mem + "K");
+        //}
+        //Log.d(TAG, "--- Services:");
+        //for (Integer pid : taskPids)
+        //{
+        //    PInfo pi = pinfo.get(pid);
+        //    Log.d(TAG, pi.name + " " + pi.extra + " CPU:" + pi.usage + "% MEM:" + pi.mem + "K");
+        //}
+        //// DEBUG-----
+
+        /*
+         *  Next CPUUpdate_proc call
+         */
         if (CPUUpdate_active)
             CPUUpdate_h.postDelayed(CPUUpdate, CPUUpdate_i);
     }
@@ -137,100 +267,110 @@ public class TaskManager extends Activity {
         catch(IOException ex) { return 0; }  
     }
 
+    static class ViewHolder {
+        TextView  tv1;
+        TextView  tv2;
+        ImageView iv;
+    }
+    class TAdapter extends ArrayAdapter<Integer> {
+        TAdapter(Context context, int resource)
+        {
+            super(context, resource);
+        }
+
+        @Override
+        public int getCount() {
+            return taskPids.size();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            View       v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(R.layout.results_item, null);
+                holder = new ViewHolder();
+                holder.tv1 = (TextView) v.findViewById(R.id.res_dname);
+                holder.tv2 = (TextView) v.findViewById(R.id.res_fname);
+                holder.iv  = (ImageView) v.findViewById(R.id.res_icon);
+                v.setTag(holder);
+            }
+            else
+                holder = (ViewHolder) v.getTag();
+
+            TextView  tv1 = holder.tv1;
+            TextView  tv2 = holder.tv2;
+            ImageView iv = holder.iv;
+
+            Integer item = taskPids.get(position);
+            PInfo   pi = pinfo.get(item);
+            if (item != null) {
+                tv2.setText(pi.name);
+                tv1.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+            }
+            return v;
+        }
+    }
+
+    class SAdapter extends ArrayAdapter<Integer> {
+        SAdapter(Context context, int resource)
+        {
+            super(context, resource);
+        }
+
+        @Override
+        public int getCount() {
+            return servPids.size();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            View       v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(R.layout.results_item, null);
+                holder = new ViewHolder();
+                holder.tv1 = (TextView) v.findViewById(R.id.res_dname);
+                holder.tv2 = (TextView) v.findViewById(R.id.res_fname);
+                holder.iv  = (ImageView) v.findViewById(R.id.res_icon);
+                v.setTag(holder);
+            }
+            else
+                holder = (ViewHolder) v.getTag();
+
+            TextView  tv1 = holder.tv1;
+            TextView  tv2 = holder.tv2;
+            ImageView iv = holder.iv;
+
+            Integer item = servPids.get(position);
+            PInfo   pi = pinfo.get(item);
+            if (item != null) {
+                tv2.setText(pi.name);
+                tv1.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+            }
+            return v;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        app = ((ReLaunchApp)getApplicationContext());
+        app.setFullScreenIfNecessary(this);
+        setContentView(R.layout.taskmanager_layout);
 
-        Log.d(TAG, "-------------------- getRunningAppProcesses in details:");
-        List<ActivityManager.RunningAppProcessInfo> l = am.getRunningAppProcesses();
-        if (l != null)
-        {
-            int[] pids = new int[l.size()];
-            int[] imps = new int[l.size()];
-            String[] names = new String[l.size()];
-            for (int i=0; i<l.size(); i++)
-            {
-                ActivityManager.RunningAppProcessInfo pi = l.get(i);
-                pids[i] = pi.pid;
-                names[i] = pi.processName;
-                imps[i] = pi.importance;
-            }
-            
-            Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
-            for (int i=0; i<l.size(); i++)
-            {
-                 //pinfo[i].name = names[i];
-                 //pinfo[i].pid = pids[i];
-                 //pinfo[i].mi = mis[i];
-                 String is = "Unknown";
-                 switch (imps[i])
-                 {
-                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND:
-                     is = "IMPORTANCE_BACKGROUND";
-                     break;
-                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_EMPTY:
-                     is = "IMPORTANCE_EMPTY";
-                     break;
-                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND:
-                     is = "IMPORTANCE_FOREGROUND";
-                     break;
-                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE:
-                     is = "IMPORTANCE_SERVICE";
-                     break;
-                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE:
-                     is = "IMPORTANCE_VISIBLE";
-                     break;
-                 }
-            
-                 Log.d(TAG, "Process=" + names[i] + " -- PID:" + pids[i] + " -- MEM=" + mis[i].otherPrivateDirty
-                         + " / " + mis[i].nativePrivateDirty + " / " + mis[i].dalvikPrivateDirty
-                         + " = " + (mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty )
-                         + " OR " + (mis[i].otherPss + mis[i].nativePss + mis[i].dalvikPss)
-                         + " Importance: " + imps[i] + "(" + is + ")");
-                 PInfo p = new PInfo();
-                 p.pid = pids[i];
-                 p.name = names[i];
-                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
-                 p.service = false;
-                 pinfo.add(p);
-            }
-        }
-  
-        Log.d(TAG, "-------------------- getRunningServices:");
-        List<ActivityManager.RunningServiceInfo> list = am.getRunningServices(1024);
-        if(list != null){
-            int[] pids = new int[l.size()];
-            for(int i=0;i<list.size();++i)
-                pids[i] = list.get(i).pid;
-            Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
+        lv_t = (ListView) findViewById(R.id.tasks_lv);
+        adapter_t = new TAdapter(this, R.layout.results_item);
+        lv_t.setAdapter(adapter_t);
+        lv_s = (ListView) findViewById(R.id.services_lv);
+        adapter_s = new SAdapter(this, R.layout.results_item);
+        lv_s.setAdapter(adapter_s);
 
-            for(int i=0;i<list.size();++i)
-            {
-                ActivityManager.RunningServiceInfo si = list.get(i);
-                String fs = "";
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0)
-                    fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0)
-                    fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0)
-                    fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0)
-                    fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
-
-                Log.d(TAG, "Service:" + si.service.getClassName() + ", " + fs + " foreground=" + si.foreground);
-                PInfo p = new PInfo();
-                p.pid = pids[i];
-                p.name = si.clientPackage;
-                p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
-                p.service = true;
-                pinfo.add(p);
-            }
-        }
         startCPUUpdate();
-        //finish();
     }
 
     @Override
