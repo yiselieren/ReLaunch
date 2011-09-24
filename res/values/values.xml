@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="show_new_as_bold">true</bool>
+    <integer name="SORT_SIZE"> 1 </integer>
+    <integer name="SORT_CPU">  2 </integer>
+    <integer name="SORT_ABC">  3 </integer>
 </resources>

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,20 +18,26 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
+import android.os.Debug.MemoryInfo;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +48,14 @@ public class TaskManager extends Activity {
     ReLaunchApp                   app;
     SharedPreferences             prefs;
     PackageManager                pm;
+    int                           sortMethod;
+    int                           sortCpu;
+    int                           sortSize;
+    int                           sortAbc;
+    EditText                      title;
+    Button                        sortSizeBtn;
+    Button                        sortCpuBtn;
+    Button                        sortAbcBtn;
 
     final int                     CPUUpdate_i = 5000;
     long                          cpuTotal = 0;
@@ -53,6 +68,8 @@ public class TaskManager extends Activity {
          public void run() { CPUUpdate_proc(); }
     };
     long                          CPUUsage;
+    int                           memTotal;
+    long                          memUsage;
 
     List<Integer>                 taskPids = new ArrayList<Integer>();
     List<Integer>                 servPids = new ArrayList<Integer>();
@@ -66,8 +83,9 @@ public class TaskManager extends Activity {
         PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
         long     prev;
         long     curr;
-        long     usage;
-        int      mem;
+        Integer  usage;
+        Integer  mem;
+        int      imp;
         String   label;
         String   name;
         String   extra;
@@ -75,6 +93,145 @@ public class TaskManager extends Activity {
     }
     HashMap<Integer, PInfo> pinfo = new HashMap<Integer, PInfo>();
 
+    public class cpuComparator implements java.util.Comparator<Integer>
+    {
+        public int compare(Integer o1, Integer o2)
+        {
+            PInfo p1 = pinfo.get(o1);
+            PInfo p2 = pinfo.get(o2);
+            if (p1 == null)
+            {
+                if (p2 == null)
+                    return 0;
+                else
+                    return 1;
+            }
+            else if (p2 == null)
+                return -1;
+                
+            int rc = -p1.usage.compareTo(p2.usage);
+            if (rc == 0)
+                return -p1.mem.compareTo(p2.mem);
+            else
+                return rc;
+        }
+    }
+    public class sizeComparator implements java.util.Comparator<Integer>
+    {
+        public int compare(Integer o1, Integer o2)
+        {
+            PInfo p1 = pinfo.get(o1);
+            PInfo p2 = pinfo.get(o2);
+            if (p1 == null)
+            {
+                if (p2 == null)
+                    return 0;
+                else
+                    return 1;
+            }
+            else if (p2 == null)
+                return -1;
+                
+            return -p1.mem.compareTo(p2.mem);
+        }
+    }
+    public class abcComparator implements java.util.Comparator<Integer>
+    {
+        public int compare(Integer o1, Integer o2)
+        {
+            PInfo p1 = pinfo.get(o1);
+            PInfo p2 = pinfo.get(o2);
+            if (p1 == null)
+            {
+                if (p2 == null)
+                    return 0;
+                else
+                    return 1;
+            }
+            else if (p2 == null)
+                return -1;
+            
+            if (p1.name == null)
+            {
+                if (p2.name == null)
+                    return 0;
+                else
+                    return 1;
+            }
+            else if (p2.name == null)
+                return -1;
+            int rc = -p1.name.compareTo(p2.name);
+            if (rc == 0)
+                return -p1.mem.compareTo(p2.mem);
+            else
+                return rc;
+        }
+    }
+    
+    private boolean sortLists()
+    {
+        if (sortMethod == sortCpu)
+        {
+            Collections.sort(taskPids, new cpuComparator());
+            Collections.sort(servPids, new cpuComparator());
+            return true;
+        }
+        else if (sortMethod == sortSize)
+        {
+            Collections.sort(taskPids, new sizeComparator());
+            Collections.sort(servPids, new sizeComparator());
+            return true;
+        }
+        else if (sortMethod == sortAbc)
+        {
+            Collections.sort(taskPids, new abcComparator());
+            Collections.sort(servPids, new abcComparator());
+            return true;
+        }
+        return false;
+    }
+    private void setSorting(int m)
+    {
+        sortMethod = m;
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("sortMethod", sortMethod);
+        editor.commit();
+
+        
+        if (m == sortCpu)
+        {
+            sortCpuBtn.setEnabled(false);
+            sortSizeBtn.setEnabled(true);
+            sortAbcBtn.setEnabled(true);
+            if (sortLists())
+            {
+                adapter_t.notifyDataSetChanged();
+                adapter_s.notifyDataSetChanged();
+            }
+        }
+        else if (m == sortSize)
+        {
+            sortCpuBtn.setEnabled(true);
+            sortSizeBtn.setEnabled(false);
+            sortAbcBtn.setEnabled(true);
+            if (sortLists())
+            {
+                adapter_t.notifyDataSetChanged();
+                adapter_s.notifyDataSetChanged();
+            }
+        }
+        else if (m == sortAbc)
+        {
+            sortCpuBtn.setEnabled(true);
+            sortSizeBtn.setEnabled(true);
+            sortAbcBtn.setEnabled(false);
+            if (sortLists())
+            {
+                adapter_t.notifyDataSetChanged();
+                adapter_s.notifyDataSetChanged();
+            }
+        }
+    }
     private void stopCPUUpdate()
     {
         CPUUpdate_active = false;
@@ -110,27 +267,33 @@ public class TaskManager extends Activity {
             for (int i=0; i<l1.size(); i++)
             {
                 ActivityManager.RunningAppProcessInfo pi = l1.get(i);
+                PInfo p = new PInfo();
+
                 String is = "";
                 switch (pi.importance)
                 {
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND:
+                    p.imp = 2;
                     is = "BACKGROUND";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_EMPTY:
+                    p.imp = 3;
                     is = "NOT ACTIVE";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND:
+                    p.imp = 1;
                     is = "FOREGROUND";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE:
+                    p.imp = 2;
                     is = "SERVICE";
                     break;
                 case ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE:
+                    p.imp = 1;
                     is = "VISIBLE";
                     break;
                 }
             
-                PInfo p = new PInfo();
                 p.name = pi.processName;
                 p.extra = is;
                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
@@ -157,17 +320,27 @@ public class TaskManager extends Activity {
             for(int i=0;i<l2.size();++i)
             {
                 ActivityManager.RunningServiceInfo si = l2.get(i);
-                String fs = "";
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0)
-                    fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0)
-                    fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0)
-                    fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
-                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0)
-                    fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
-
                 PInfo p = new PInfo();
+
+                String fs = "";
+                p.imp = 3;
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0) {
+                    p.imp = 1;
+                    fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
+                }
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0) {
+                    p.imp = 1;
+                    fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
+                }
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0) {
+                    p.imp = 2;
+                    fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
+                }
+                if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0) {
+                    p.imp = 1;
+                    fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
+                }
+
                 p.name = si.clientPackage;
                 p.extra = fs;
                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
@@ -211,11 +384,16 @@ public class TaskManager extends Activity {
             {
                 PInfo p = pinfo.get(k);
                 if (p.prev != 0)
-                    p.usage = (deltaTotal != 0) ? (100 * (p.curr - p.prev)) / deltaTotal : 0;
+                    p.usage = (int)((deltaTotal != 0) ? (100 * (p.curr - p.prev)) / deltaTotal : 0);
                 pinfo.put(k, p);
             }
         }
         
+        // Update memory usage
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        am.getMemoryInfo(memoryInfo);
+        memUsage = memoryInfo.availMem;
+
         // Save current values as previous
         for (Integer k : pinfo.keySet())
             pinfo.get(k).prev = pinfo.get(k).curr;
@@ -224,8 +402,13 @@ public class TaskManager extends Activity {
         
         taskPids = newTask;
         servPids = newServ;
+        sortLists();
         adapter_t.notifyDataSetChanged();
         adapter_s.notifyDataSetChanged();
+
+        // Set title
+        title.setText(Html.fromHtml("Memory: Total <b>" + memTotal/1024 + "</b>M / Used: <b>" + memUsage/1048576 + "</b>M\n"
+                + "CPU usage: <b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
 
         //// DEBUG+++++
         //Log.d(TAG, "---------------");
@@ -322,12 +505,32 @@ public class TaskManager extends Activity {
             Integer item = taskPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
-                tv1.setText(pi.label == null ? "Unknown" : pi.label);
+                String label = (pi.label == null) ? "???" : pi.label;
+                switch (pi.imp)
+                {
+                case 1:
+                    SpannableString s = new SpannableString(label);
+                    s.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), 0);
+                    tv1.setBackgroundColor(getResources().getColor(R.color.foreground_task_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.foreground_task_fg));
+                    tv1.setText(s);
+                    break;
+                case 2:
+                    tv1.setBackgroundColor(getResources().getColor(R.color.background_task_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.backgorund_task_fg));
+                    tv1.setText(label);
+                    break;
+                case 3:
+                    tv1.setBackgroundColor(getResources().getColor(R.color.nonactive_task_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.nonactive_task_fg));
+                    tv1.setText(label);
+                    break;
+                }
                 tv2.setText(pi.name);
                 if (pi.extra.equals(""))
-                    tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                    tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 else
-                    tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                    tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 if (pi.icon == null)
                     iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                 else 
@@ -390,6 +593,10 @@ public class TaskManager extends Activity {
         pm = getPackageManager();
         setContentView(R.layout.taskmanager_layout);
 
+        sortCpu = getResources().getInteger(R.integer.SORT_CPU);
+        sortSize = getResources().getInteger(R.integer.SORT_SIZE);
+        sortAbc = getResources().getInteger(R.integer.SORT_ABC);
+        sortMethod = prefs.getInt("sortMethod", sortCpu);
         lv_t = (ListView) findViewById(R.id.tasks_lv);
         adapter_t = new TAdapter(this, R.layout.taskmanager_item);
         lv_t.setAdapter(adapter_t);
@@ -397,6 +604,31 @@ public class TaskManager extends Activity {
         adapter_s = new SAdapter(this, R.layout.taskmanager_item);
         lv_s.setAdapter(adapter_s);
 
+        // Get total memory
+        try
+        {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/proc/meminfo")), 1000);
+            String load = reader.readLine();
+            reader.close();     
+
+            String[] toks = load.split("\\s+");
+            memTotal = Integer.parseInt(toks[1]);
+        }
+        catch(IOException ex) { memTotal = 0; }
+
+        title = (EditText) findViewById(R.id.title_txt);
+        ((ImageButton)findViewById(R.id.tm_back)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { finish(); }});
+        sortSizeBtn =  (Button)findViewById(R.id.sort_size);
+        sortSizeBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { setSorting(sortSize); }});
+        sortCpuBtn =  (Button)findViewById(R.id.sort_cpu);
+        sortCpuBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { setSorting(sortCpu); }});
+        sortAbcBtn =  (Button)findViewById(R.id.sort_abc);
+        sortAbcBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { setSorting(sortAbc); }});
+        setSorting(sortMethod);
         startCPUUpdate();
     }
 

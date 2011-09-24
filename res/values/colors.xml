@@ -12,4 +12,10 @@
     <color name="file_finished_fg">#FF000000</color>
     <color name="file_unknown_bg">#FF000000</color>
     <color name="file_unknown_fg">#FF808080</color>
+    <color name="foreground_task_bg">#FFFFFFFF</color>
+    <color name="foreground_task_fg">#FF000000</color>
+    <color name="background_task_bg">#FFFFFFFF</color>
+    <color name="backgorund_task_fg">#FF404040</color>
+    <color name="nonactive_task_bg">#FFFFFFFF</color>
+    <color name="nonactive_task_fg">#FF808080</color>
 </resources>

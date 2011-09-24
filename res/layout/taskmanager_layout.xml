@@ -8,12 +8,12 @@
         <EditText android:layout_height="wrap_content" android:layout_weight="1" android:inputType="textMultiLine" android:layout_width="fill_parent" android:focusable="false" android:editable="false" android:id="@+id/title_txt">
             <requestFocus></requestFocus>
         </EditText>
-        <ImageButton android:id="@+id/imageButton1" android:src="@drawable/arrow_left" android:layout_width="72dp" android:layout_height="fill_parent"></ImageButton>
+        <ImageButton android:src="@drawable/arrow_left" android:layout_width="72dp" android:layout_height="fill_parent" android:id="@+id/tm_back"></ImageButton>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
-        <Button android:text="Button" android:id="@+id/button2" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
-        <Button android:text="Button" android:id="@+id/button3" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
-        <Button android:text="Button" android:id="@+id/button4" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp"></Button>
+        <Button android:text="Sort by size" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_size"></Button>
+        <Button android:text="Sort by CPU" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_cpu"></Button>
+        <Button android:text="Sort alphabetically" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_abc"></Button>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3">
         <TextView android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center"></TextView>
