@@ -52,7 +52,8 @@ public class TaskManager extends Activity {
     int                           sortCpu;
     int                           sortSize;
     int                           sortAbc;
-    EditText                      title;
+    TextView                      title1;
+    TextView                      title2;
     Button                        sortSizeBtn;
     Button                        sortCpuBtn;
     Button                        sortAbcBtn;
@@ -98,6 +99,24 @@ public class TaskManager extends Activity {
         List<ExtraInfo> e;
     }
     HashMap<Integer, PInfo> pinfo = new HashMap<Integer, PInfo>();
+    
+    private void dumpPinfo(HashMap<Integer, PInfo> p, String name)
+    {
+        Log.d(TAG, ">>> " + name +":");
+        for (Integer pid : p.keySet())
+        {
+            PInfo pi = p.get(pid);
+            if (pi.e == null)
+                Log.d(TAG, "APP -- Label:\"" + pi.label + "\" Name:\"" + pi.name + "\" - " + pi.extra + " - CPU:" + pi.usage + "% MEM:" + pi.mem + "K e is null");
+            else
+            {
+                Log.d(TAG, "APP -- Label:\"" + pi.label + "\" Name:\"" + pi.name + "\" - " + pi.extra + " - CPU:" + pi.usage + "% MEM:" + pi.mem + "K packages:" + pi.e.size());
+                for (ExtraInfo e : pi.e)
+                    Log.d(TAG, "-----   for package --  Label:\"" + e.label + "\" Name:\"" + e.name + "\"");
+            }
+        }
+        Log.d(TAG, "<<< " + name);
+    }
 
     public class cpuComparator implements java.util.Comparator<Integer>
     {
@@ -361,10 +380,10 @@ public class TaskManager extends Activity {
 
                 p.name = si.clientPackage;
                 p.extra = fs;
+                p.e = new ArrayList<ExtraInfo>();
                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
                 newPinfo.put(pids[i], p);
                 newServ.add(pids[i]);
-                //Log.d(TAG, "SRV: for process:" + si.process + " -- client count:" + si.clientCount + " -- client package:" + si.clientPackage);
             }
         }
 
@@ -382,6 +401,7 @@ public class TaskManager extends Activity {
         for (Integer k : newPinfo.keySet())
             if (!pinfo.containsKey(k))
                 pinfo.put(k, newPinfo.get(k));
+
 
         /*
          *  Update CPU usage
@@ -426,11 +446,11 @@ public class TaskManager extends Activity {
         adapter_s.notifyDataSetChanged();
 
         // Set title
-        title.setText(Html.fromHtml("Memory: Total <b>" + memTotal/1024 + "</b>M / Used: <b>" + memUsage/1048576 + "</b>M\n"
-                + "CPU usage: <b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
+        title1.setText(Html.fromHtml("Total <b>" + memTotal/1024 + "</b>M / Used: <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
+        title2.setText(Html.fromHtml("<b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
 
         // DEBUG+++++
-        
+        /*
         Log.d(TAG, "---------------");
         Log.d(TAG, "CPU usage: " + CPUUsage + "%");
         Log.d(TAG, "--- Tasks:");
@@ -448,8 +468,7 @@ public class TaskManager extends Activity {
             PInfo pi = pinfo.get(pid);
             Log.d(TAG, pi.name + " " + pi.extra + " CPU:" + pi.usage + "% MEM:" + pi.mem + "K");
         }
-        finish();
-        
+        */
         // DEBUG-----
 
         /*
@@ -531,6 +550,8 @@ public class TaskManager extends Activity {
             PInfo   pi = pinfo.get(item);
             if (item != null) {
                 String label = (pi.label == null) ? "???" : pi.label;
+                if (pi.e.size() > 1)
+                    label = label + " (+" + (pi.e.size()-1) + ")";
                 switch (pi.imp)
                 {
                 case 1:
@@ -557,7 +578,7 @@ public class TaskManager extends Activity {
                 else
                     tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 if (pi.icon == null)
-                    iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                    iv.setImageDrawable(getResources().getDrawable(android.R.drawable.sym_def_app_icon));
                 else 
                     iv.setImageDrawable(pi.icon);
             }
@@ -641,7 +662,8 @@ public class TaskManager extends Activity {
         }
         catch(IOException ex) { memTotal = 0; }
 
-        title = (EditText) findViewById(R.id.title_txt);
+        title1 = (TextView) findViewById(R.id.title1_txt);
+        title2 = (TextView) findViewById(R.id.title2_txt);
         ((ImageButton)findViewById(R.id.tm_back)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { finish(); }});
         sortSizeBtn =  (Button)findViewById(R.id.sort_size);
