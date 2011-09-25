@@ -446,7 +446,7 @@ public class TaskManager extends Activity {
         adapter_s.notifyDataSetChanged();
 
         // Set title
-        title1.setText(Html.fromHtml("Total <b>" + memTotal/1024 + "</b>M / Used: <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
+        title1.setText(Html.fromHtml("Total <b>" + memTotal/1024 + "</b>M / Free: <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
         title2.setText(Html.fromHtml("<b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
 
         // DEBUG+++++
@@ -573,10 +573,11 @@ public class TaskManager extends Activity {
                     break;
                 }
                 tv2.setText(pi.name);
-                if (pi.extra.equals(""))
-                    tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
-                else
-                    tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                //if (pi.extra.equals(""))
+                //    tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                //else
+                //    tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 if (pi.icon == null)
                     iv.setImageDrawable(getResources().getDrawable(android.R.drawable.sym_def_app_icon));
                 else 

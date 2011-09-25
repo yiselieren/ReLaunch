@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     >
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent">
-        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center">
+        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="center" android:layout_width="100dp">
             <TextView android:text="Memory:" android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="right"></TextView>
             <TextView android:text="CPU:"  android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="right"></TextView>
         </LinearLayout>
