@@ -79,17 +79,23 @@ public class TaskManager extends Activity {
     SAdapter                      adapter_s;
 
     // Process info
-    static class PInfo {
-        PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
-        long     prev;
-        long     curr;
-        Integer  usage;
-        Integer  mem;
-        int      imp;
+    static class ExtraInfo {
         String   label;
         String   name;
-        String   extra;
-        Drawable icon;
+        Drawable icon;        
+    }
+    static class PInfo {
+        PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
+        long            prev;
+        long            curr;
+        Integer         usage;
+        Integer         mem;
+        int             imp;
+        String          label;
+        String          name;
+        String          extra;
+        Drawable        icon;
+        List<ExtraInfo> e;
     }
     HashMap<Integer, PInfo> pinfo = new HashMap<Integer, PInfo>();
 
@@ -296,12 +302,24 @@ public class TaskManager extends Activity {
             
                 p.name = pi.processName;
                 p.extra = is;
+                p.e = new ArrayList<ExtraInfo>();
                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
                 try {
                     ApplicationInfo ai = pm.getApplicationInfo(pi.processName, 0);
                     p.icon = pm.getApplicationIcon(ai.packageName);
                     p.label = pm.getApplicationLabel(ai).toString();
                 } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
+                for (int j=0; j<pi.pkgList.length; j++)
+                {
+                    ExtraInfo e = new ExtraInfo();
+                    e.name = pi.pkgList[j];
+                    try {
+                        ApplicationInfo ai = pm.getApplicationInfo(e.name, 0);
+                        e.icon = pm.getApplicationIcon(e.name);
+                        e.label = pm.getApplicationLabel(ai).toString();
+                    } catch(PackageManager.NameNotFoundException ex) { e.icon = null; e.label = null; }
+                    p.e.add(e);
+                }
                 newPinfo.put(pids[i], p);
                 newTask.add(pids[i]);
             }
@@ -346,6 +364,7 @@ public class TaskManager extends Activity {
                 p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
                 newPinfo.put(pids[i], p);
                 newServ.add(pids[i]);
+                //Log.d(TAG, "SRV: for process:" + si.process + " -- client count:" + si.clientCount + " -- client package:" + si.clientPackage);
             }
         }
 
@@ -410,22 +429,28 @@ public class TaskManager extends Activity {
         title.setText(Html.fromHtml("Memory: Total <b>" + memTotal/1024 + "</b>M / Used: <b>" + memUsage/1048576 + "</b>M\n"
                 + "CPU usage: <b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
 
-        //// DEBUG+++++
-        //Log.d(TAG, "---------------");
-        //Log.d(TAG, "CPU usage: " + CPUUsage + "%");
-        //Log.d(TAG, "--- Tasks:");
-        //for (Integer pid : taskPids)
-        //{
-        //    PInfo pi = pinfo.get(pid);
-        //    Log.d(TAG, pi.name + " " + pi.extra + " CPU:" + pi.usage + "% MEM:" + pi.mem + "K");
-        //}
-        //Log.d(TAG, "--- Services:");
-        //for (Integer pid : taskPids)
-        //{
-        //    PInfo pi = pinfo.get(pid);
-        //    Log.d(TAG, pi.name + " " + pi.extra + " CPU:" + pi.usage + "% MEM:" + pi.mem + "K");
-        //}
-        //// DEBUG-----
+        // DEBUG+++++
+        
+        Log.d(TAG, "---------------");
+        Log.d(TAG, "CPU usage: " + CPUUsage + "%");
+        Log.d(TAG, "--- Tasks:");
+        for (Integer pid : newTask)
+        {
+            PInfo pi = pinfo.get(pid);
+            Log.d(TAG, "APP -- Label:\"" + pi.label + "\" Name:\"" + pi.name + "\" - " + pi.extra + " - CPU:" + pi.usage + "% MEM:" + pi.mem + "K packages:" + (pi.e == null));
+            Log.d(TAG, "APP -- Label:\"" + pi.label + "\" Name:\"" + pi.name + "\" - " + pi.extra + " - CPU:" + pi.usage + "% MEM:" + pi.mem + "K packages:" + pi.e.size());
+            for (ExtraInfo e : pi.e)
+                    Log.d(TAG, "-----   for package --  Label:\"" + e.label + "\" Name:\"" + e.name + "\"");
+        }
+        Log.d(TAG, "--- Services:");
+        for (Integer pid : newServ)
+        {
+            PInfo pi = pinfo.get(pid);
+            Log.d(TAG, pi.name + " " + pi.extra + " CPU:" + pi.usage + "% MEM:" + pi.mem + "K");
+        }
+        finish();
+        
+        // DEBUG-----
 
         /*
          *  Next CPUUpdate_proc call
