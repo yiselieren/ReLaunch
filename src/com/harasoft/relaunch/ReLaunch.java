@@ -560,16 +560,16 @@ public class ReLaunch extends Activity {
             {
                 ((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSettings(); }});
-                ((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) { menuTypes(); }});
+                //((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
+                //        public void onClick(View v) { menuTypes(); }});
                 ((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSearch(); }});
                 ((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuLastopened(); }});
                 ((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuFavorites(); }});
-                ((ImageButton)findViewById(R.id.readers_btn)).setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) { menuReaders(); }});
+                //((ImageButton)findViewById(R.id.readers_btn)).setOnClickListener(new View.OnClickListener() {
+                //        public void onClick(View v) { menuReaders(); }});
                 ((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuAbout(); }});
             }

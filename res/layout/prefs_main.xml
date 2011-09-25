@@ -3,16 +3,15 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical">
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="73dp" >
-        <TextView android:background="#000000" android:textColor="#000000" android:text="TextView" android:layout_width="20dp" android:id="@+id/textView1" android:layout_height="fill_parent" android:textAppearance="?android:attr/textAppearanceSmall"></TextView>
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content">
         <Button android:text="Filter setting"
                 android:layout_width="fill_parent"
                 android:layout_gravity="center" android:id="@+id/filter_settings" android:layout_height="fill_parent" android:layout_weight="1"/>
-        <TextView android:background="#000000" android:textColor="#000000" android:text="TextView" android:layout_width="20dp" android:id="@+id/textView2" android:layout_height="fill_parent" android:textAppearance="?android:attr/textAppearanceSmall"></TextView>
+        <Button android:text="Associations" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/associations"></Button>
+        <Button android:layout_height="fill_parent" android:text="How to start readers" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/readers_start"></Button>
         <Button android:text="OK"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/filter_ok"/>
-        <TextView android:background="#000000" android:textColor="#000000" android:text="TextView" android:layout_width="20dp" android:id="@+id/textView3" android:layout_height="fill_parent" android:textAppearance="?android:attr/textAppearanceSmall"></TextView>
+                android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/prefs_ok"/>
     </LinearLayout>
     <ListView android:id="@android:id/list"
               android:layout_width="fill_parent"
