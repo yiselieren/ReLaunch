@@ -38,6 +38,24 @@
 
     <string-array name="tasks_to_ignore_labels">
         <item>android</item>
-        <item>android 2</item>
+    </string-array>
+
+    <string-array name="services_to_ignore_names">
+    </string-array>
+
+    <string-array name="services_to_ignore_labels">
+    </string-array>
+
+    <string-array name="tasks_notkill_names">
+    </string-array>
+
+    <string-array name="tasks_notkill_labels">
+        <item>android</item>
+    </string-array>
+
+    <string-array name="services_notkill_names">
+    </string-array>
+
+    <string-array name="services_notkill_labels">
     </string-array>
 </resources>
