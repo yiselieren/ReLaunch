@@ -21,8 +21,8 @@
         <Button android:text="Sort alphabetically" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_abc"></Button>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3">
-        <TextView android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center"></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="Services" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/textView2"></TextView>
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="Tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_tasks_title"></TextView>
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="Services" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_services_title"></TextView>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout4">
         <ListView android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/tasks_lv"></ListView>

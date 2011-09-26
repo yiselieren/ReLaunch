@@ -32,4 +32,12 @@
         <item>New books</item>
         <item>New books and books you are reading now</item>
     </string-array>
+    
+    <string-array name="tasks_to_ignore_names">
+    </string-array>
+
+    <string-array name="tasks_to_ignore_labels">
+        <item>android</item>
+        <item>android 2</item>
+    </string-array>
 </resources>

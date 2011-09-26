@@ -9,23 +9,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.harasoft.relaunch.ResultsActivity.FLSimpleAdapter;
-
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Rect;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
-import android.os.Debug.MemoryInfo;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.SpannableString;
@@ -34,7 +32,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+import android.view.View.OnClickListener;
+import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,9 +42,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class TaskManager extends Activity {
     final String                  TAG = "TaskManager";
+    
+    String[]                      ignoreTasksLabels;
+    String[]                      ignoreTasksNames;
+    String[]                      ignoreServicesLabels;
+    String[]                      ignoreServicesNames;
+    String[]                      notKillTasksLabels;
+    String[]                      notKillTasksNames;
+    String[]                      notKillServicesLabels;
+    String[]                      notKillServicesNames;
 
     ReLaunchApp                   app;
     SharedPreferences             prefs;
@@ -55,6 +65,9 @@ public class TaskManager extends Activity {
     int                           sortAbc;
     TextView                      title1;
     TextView                      title2;
+    TextView                      tasks_title;
+    TextView                      serv_title;
+
     Button                        sortSizeBtn;
     Button                        sortCpuBtn;
     Button                        sortAbcBtn;
@@ -399,6 +412,11 @@ public class TaskManager extends Activity {
                         p.extra = fs;
                         p.e = new ArrayList<ExtraInfo>();
                         p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                        try {
+                            ApplicationInfo ai = pm.getApplicationInfo(p.name, 0);
+                            p.icon = pm.getApplicationIcon(ai.packageName);
+                            p.label = pm.getApplicationLabel(ai).toString();
+                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
                         newPinfo.put(pids[i], p);
                         newServ.add(pids[i]);
                     }
@@ -467,9 +485,11 @@ public class TaskManager extends Activity {
                 adapter_t.notifyDataSetChanged();
                 adapter_s.notifyDataSetChanged();
 
-                // Set title
+                // Set titles
                 title1.setText(Html.fromHtml("Total <b>" + memTotal/1024 + "</b>M / Free: <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
                 title2.setText(Html.fromHtml("<b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
+                tasks_title.setText("Tasks (" + taskPids.size() + ")");
+                serv_title.setText("Services (" + servPids.size() + ")");
 
                 // DEBUG+++++
                 /*
@@ -532,16 +552,50 @@ public class TaskManager extends Activity {
         catch(IOException ex) { return 0; }
     }
 
+    private void showTaskDetails(Integer pid)
+    {
+        final PInfo   p = pinfo.get(pid);
+
+        LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v1 = vi.inflate(R.layout.task_details, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(v1);
+        builder.setTitle("Tasks details");
+        ((TextView) v1.findViewById(R.id.tm1_pid)).setText(pid.toString());
+        ((TextView) v1.findViewById(R.id.tm1_label)).setText(p.label);
+        ((TextView) v1.findViewById(R.id.tm1_name)).setText(p.name);
+        ((TextView) v1.findViewById(R.id.tm1_extra)).setText(p.extra);
+
+        builder.setPositiveButton("Kill", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }});
+        builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }});
+        builder.show();
+    }
+
     static class ViewHolder {
         EditText  tv1;
         EditText  tv2;
         EditText  tv3;
         ImageView iv;
     }
-    class TAdapter extends ArrayAdapter<Integer> {
+    class TAdapter extends ArrayAdapter<Integer> implements OnClickListener {
+        Context cntx;
+ 
         TAdapter(Context context, int resource)
         {
             super(context, resource);
+            cntx = context;
+        }
+
+        public void onClick(View v) {
+            final int     pos = v.getId();
+            final Integer pid = taskPids.get(pos);
+            showTaskDetails(pid);
         }
 
         @Override
@@ -561,15 +615,21 @@ public class TaskManager extends Activity {
                 holder.tv2 = (EditText) v.findViewById(R.id.tm_fullname);
                 holder.tv3 = (EditText) v.findViewById(R.id.tm_extra);
                 holder.iv  = (ImageView) v.findViewById(R.id.tm_icon);
+
+                holder.iv.setOnClickListener(this);
+                holder.tv1.setOnClickListener(this);
+                holder.tv2.setOnClickListener(this);
+                holder.tv3.setOnClickListener(this);
+
                 v.setTag(holder);
             }
             else
                 holder = (ViewHolder) v.getTag();
+            TextView  tv1 = holder.tv1; tv1.setId(position);
+            TextView  tv2 = holder.tv2; tv2.setId(position);
+            TextView  tv3 = holder.tv3; tv3.setId(position);
+            ImageView iv = holder.iv;   iv.setId(position);
 
-            TextView  tv1 = holder.tv1;
-            TextView  tv2 = holder.tv2;
-            TextView  tv3 = holder.tv3;
-            ImageView iv = holder.iv;
             Integer item = taskPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
@@ -598,10 +658,6 @@ public class TaskManager extends Activity {
                 }
                 tv2.setText(pi.name);
                 tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
-                //if (pi.extra.equals(""))
-                //    tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
-                //else
-                //    tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 if (pi.icon == null)
                     iv.setImageDrawable(getResources().getDrawable(android.R.drawable.sym_def_app_icon));
                 else
@@ -647,8 +703,35 @@ public class TaskManager extends Activity {
             Integer item = servPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
+                String label = (pi.label == null) ? "SYSTEM" : pi.label;
                 tv1.setText(pi.name);
                 tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                switch (pi.imp)
+                {
+                case 1:
+                    SpannableString s = new SpannableString(label);
+                    s.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), 0);
+                    tv1.setBackgroundColor(getResources().getColor(R.color.foreground_task_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.foreground_task_fg));
+                    tv1.setText(s);
+                    break;
+                case 2:
+                    tv1.setBackgroundColor(getResources().getColor(R.color.background_task_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.backgorund_task_fg));
+                    tv1.setText(label);
+                    break;
+                case 3:
+                    tv1.setBackgroundColor(getResources().getColor(R.color.nonactive_task_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.nonactive_task_fg));
+                    tv1.setText(label);
+                    break;
+                }
+                tv2.setText(pi.name);
+                tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                if (pi.icon == null)
+                    iv.setImageDrawable(getResources().getDrawable(android.R.drawable.sym_def_app_icon));
+                else
+                    iv.setImageDrawable(pi.icon);
             }
             return v;
         }
@@ -664,13 +747,16 @@ public class TaskManager extends Activity {
         pm = getPackageManager();
         setContentView(R.layout.taskmanager_layout);
 
+        ignoreTasksLabels = getResources().getStringArray(R.array.tasks_to_ignore_labels);
+        ignoreTasksNames = getResources().getStringArray(R.array.tasks_to_ignore_names);
         sortCpu = getResources().getInteger(R.integer.SORT_CPU);
         sortSize = getResources().getInteger(R.integer.SORT_SIZE);
         sortAbc = getResources().getInteger(R.integer.SORT_ABC);
         sortMethod = prefs.getInt("sortMethod", sortCpu);
         lv_t = (ListView) findViewById(R.id.tasks_lv);
-        adapter_t = new TAdapter(this, R.layout.taskmanager_item);
-        lv_t.setAdapter(adapter_t);
+         adapter_t = new TAdapter(this, R.layout.taskmanager_item);
+         lv_t.setAdapter(adapter_t);
+
         lv_s = (ListView) findViewById(R.id.services_lv);
         adapter_s = new SAdapter(this, R.layout.taskmanager_item);
         lv_s.setAdapter(adapter_s);
@@ -689,6 +775,8 @@ public class TaskManager extends Activity {
 
         title1 = (TextView) findViewById(R.id.title1_txt);
         title2 = (TextView) findViewById(R.id.title2_txt);
+        tasks_title = (TextView) findViewById(R.id.tm_tasks_title);
+        serv_title = (TextView) findViewById(R.id.tm_services_title);
         ((ImageButton)findViewById(R.id.tm_back)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { finish(); }});
         sortSizeBtn =  (Button)findViewById(R.id.sort_size);
