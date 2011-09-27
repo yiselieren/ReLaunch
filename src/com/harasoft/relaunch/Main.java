@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-public class Home extends Activity {
-    final String                 TAG = "Home";
+public class Main extends Activity {
+    final String                 TAG = "Main";
     ReLaunchApp                  app;
 
     @Override
@@ -15,8 +15,8 @@ public class Home extends Activity {
 
         app = ((ReLaunchApp)getApplicationContext());
 
-        Intent intent = new Intent(Home.this, ReLaunch.class);
-        intent.putExtra("home", true);
+        Intent intent = new Intent(Main.this, ReLaunch.class);
+        intent.putExtra("home", false);
         intent.putExtra("shop", false);
         intent.putExtra("library", false);
         startActivityForResult(intent, 0);

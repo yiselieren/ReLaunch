@@ -14,7 +14,9 @@ public class Shop extends Activity {
         app = ((ReLaunchApp)getApplicationContext());
 
         Intent intent = new Intent(Shop.this, ReLaunch.class);
+        intent.putExtra("home", false);
         intent.putExtra("shop", true);
+        intent.putExtra("library", false);
         startActivityForResult(intent, 0);
     }
 

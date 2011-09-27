@@ -40,7 +40,9 @@
             <meta-data android:name="quicknav.view" android:value="true" />
         </activity>
 
-        <activity android:name=".ReLaunch"
+        <activity android:name=".Main"
+                  android:launchMode="singleInstance"
+                  android:stateNotNeeded="true"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,6 +50,11 @@
             </intent-filter>
        </activity>
 
+       <activity android:name="ReLaunch">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
        <activity android:name="AllApplications">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
