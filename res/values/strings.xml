@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ReLaunch</string>
-    <string name="app_version">1.1.0</string>
+    <string  name="app_name">ReLaunch</string>
+
+    <string  name="app_version">1.1.1</string>
+    <integer name="app_iversion"> 100100100 </integer>
+    <string name="whats_new">&lt;h2&gt;What\'s new:&lt;/h2&gt;
+        &lt;b&gt;1.1.1&lt;/b&gt; - New Cancel/Revert buttons in settings screen.
+        &lt;br&gt;&lt;b&gt;1.1.0&lt;/b&gt; - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only)
+    </string>
+    
 </resources>

@@ -35,6 +35,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -439,7 +440,6 @@ public class ReLaunch extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "RELAUNCH INTENT");
 
         // If we called from Home launcher?
         final Intent data = getIntent();
@@ -461,7 +461,6 @@ public class ReLaunch extends Activity {
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
 
-        app.RestartIntent = PendingIntent.getActivity(this, 0, data, data.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
         app.FLT_SELECT = getResources().getInteger(R.integer.FLT_SELECT);
         app.FLT_STARTS = getResources().getInteger(R.integer.FLT_STARTS);
         app.FLT_ENDS = getResources().getInteger(R.integer.FLT_ENDS);
@@ -619,6 +618,26 @@ public class ReLaunch extends Activity {
                         startActivity(intent);
                     }});
 
+            // What's new processing
+            final int latestVersion = prefs.getInt("latestVersion", 0);
+            final int currentVersion = getResources().getInteger(R.integer.app_iversion);
+            if (currentVersion > latestVersion)
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                WebView wv = new WebView(this);
+                wv.loadData(getResources().getString(R.string.whats_new), "text/html", "utf-8");
+                builder.setTitle("What's new");
+                builder.setView(wv);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt("latestVersion", currentVersion);
+                        editor.commit();
+                        dialog.dismiss();
+                    }});
+                builder.show();
+            }
+    
             // First directory to get to
             if (prefs.getBoolean("saveDir", true))
                 drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);

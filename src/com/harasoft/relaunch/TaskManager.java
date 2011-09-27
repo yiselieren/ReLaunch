@@ -50,14 +50,8 @@ public class TaskManager extends Activity {
     final int                     DIALOG_TASK_DETAILS = 1;
     final int                     DIALOG_SERVICE_DETAILS = 2;
 
-    String[]                      ignoreTasksLabels;
-    String[]                      ignoreTasksNames;
-    String[]                      ignoreServicesLabels;
-    String[]                      ignoreServicesNames;
-    String[]                      notKillTasksLabels;
-    String[]                      notKillTasksNames;
-    String[]                      notKillServicesLabels;
-    String[]                      notKillServicesNames;
+    String[]                      doNotKillLabels;
+    String[]                      doNotKillNames;
 
     ReLaunchApp                   app;
     SharedPreferences             prefs;
@@ -366,7 +360,7 @@ public class TaskManager extends Activity {
                         p.uid = si.uid;
                         p.name = si.process;
                         p.clientPackage = si.clientPackage;
-                        p.clientLabel = (si.clientLabel == 0) ? "0" : getResources().getString(si.clientLabel);
+                        p.clientLabel = (si.clientLabel == 0) ? "" : getResources().getString(si.clientLabel);
                         p.descr = si.service.toShortString();
                         p.extra = fs;
                         p.e = new ArrayList<ExtraInfo>();
@@ -375,7 +369,7 @@ public class TaskManager extends Activity {
                             ApplicationInfo ai = pm.getApplicationInfo(p.name, 0);
                             p.icon = pm.getApplicationIcon(ai.packageName);
                             p.label = pm.getApplicationLabel(ai).toString();
-                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
+                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = ""; }
                         newPinfo.put(pids[i], p);
                         newServ.add(pids[i]);
                     }
@@ -435,7 +429,7 @@ public class TaskManager extends Activity {
                             ApplicationInfo ai = pm.getApplicationInfo(pi.processName, 0);
                             p.icon = pm.getApplicationIcon(ai.packageName);
                             p.label = pm.getApplicationLabel(ai).toString();
-                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
+                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = ""; }
                         for (int j=0; j<pi.pkgList.length; j++)
                         {
                             ExtraInfo e = new ExtraInfo();
@@ -444,7 +438,7 @@ public class TaskManager extends Activity {
                                 ApplicationInfo ai = pm.getApplicationInfo(e.name, 0);
                                 e.icon = pm.getApplicationIcon(e.name);
                                 e.label = pm.getApplicationLabel(ai).toString();
-                            } catch(PackageManager.NameNotFoundException ex) { e.icon = null; e.label = null; }
+                            } catch(PackageManager.NameNotFoundException ex) { e.icon = null; e.label = ""; }
                             p.e.add(e);
                         }
                         newPinfo.put(pids[i], p);
@@ -620,7 +614,7 @@ public class TaskManager extends Activity {
                 TextView tv2 = (TextView) v.findViewById(R.id.res_dname);
                 ImageView iv = (ImageView)v.findViewById(R.id.res_icon);
 
-                String label = (e.label == null) ? "SYSTEM" : e.label;
+                String label = (e.label.equals("")) ? "SYSTEM" : e.label;
                 SpannableString s = new SpannableString(label);
                 s.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), 0);
                 tv1.setText(s);
@@ -642,7 +636,8 @@ public class TaskManager extends Activity {
         ((TextView) dialog.findViewById(R.id.tm1_extra)).setText(p.extra);
         ((Button)   dialog.findViewById(R.id.tm1_ok)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { dialog.dismiss(); }});
-        ((Button)   dialog.findViewById(R.id.tm1_kill)).setOnClickListener(new View.OnClickListener() {
+        Button killBtn = (Button)dialog.findViewById(R.id.tm1_kill);
+        killBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
                     ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -652,6 +647,21 @@ public class TaskManager extends Activity {
 
                 dialog.dismiss();
             }});
+        boolean killEnable = true;
+        for (int i=0; i<doNotKillLabels.length; i++)
+            if (p.label.startsWith(doNotKillLabels[i]))
+            {
+                killEnable = false;
+                break;
+            }
+        if (killEnable)
+            for (int i=0; i<doNotKillNames.length; i++)
+                if (p.name.startsWith(doNotKillNames[i]))
+                {
+                    killEnable = false;
+                    break;
+                }
+        killBtn.setEnabled(killEnable);
 
         ListView lv = (ListView)dialog.findViewById(R.id.tm1_lv);
         TDAdapter adapter = new TDAdapter(this, R.layout.results_item);
@@ -683,7 +693,8 @@ public class TaskManager extends Activity {
         ((TextView) dialog.findViewById(R.id.tm2_clientd)).setText(p.descr);
         ((Button)   dialog.findViewById(R.id.tm2_ok)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { dialog.dismiss(); }});
-        ((Button)   dialog.findViewById(R.id.tm2_kill)).setOnClickListener(new View.OnClickListener() {
+        Button killBtn = (Button)dialog.findViewById(R.id.tm2_kill);
+        killBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
                     ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -692,6 +703,21 @@ public class TaskManager extends Activity {
                 } catch(PackageManager.NameNotFoundException e) { }
                 dialog.dismiss();
             }});
+        boolean killEnable = true;
+        for (int i=0; i<doNotKillLabels.length; i++)
+            if (p.label.startsWith(doNotKillLabels[i]))
+            {
+                killEnable = false;
+                break;
+            }
+        if (killEnable)
+            for (int i=0; i<doNotKillNames.length; i++)
+                if (p.name.startsWith(doNotKillNames[i]))
+                {
+                    killEnable = false;
+                    break;
+                }
+        killBtn.setEnabled(killEnable);
 
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width=WindowManager.LayoutParams.FILL_PARENT;
@@ -756,7 +782,7 @@ public class TaskManager extends Activity {
             Integer item = taskPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
-                String label = (pi.label == null) ? "SYSTEM" : pi.label;
+                String label = (pi.label.equals("")) ? "SYSTEM" : pi.label;
                 if (pi.e.size() > 1)
                     label = label + " (+" + (pi.e.size()-1) + ")";
                 switch (pi.imp)
@@ -836,7 +862,7 @@ public class TaskManager extends Activity {
             Integer item = servPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
-                String label = (pi.label == null) ? "SYSTEM" : pi.label;
+                String label = (pi.label.equals("")) ? "SYSTEM" : pi.label;
                 tv1.setText(pi.name);
                 tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
                 switch (pi.imp)
@@ -880,15 +906,8 @@ public class TaskManager extends Activity {
         pm = getPackageManager();
         setContentView(R.layout.taskmanager_layout);
 
-        ignoreTasksLabels = getResources().getStringArray(R.array.tasks_to_ignore_labels);
-        ignoreTasksNames = getResources().getStringArray(R.array.tasks_to_ignore_names);
-        ignoreServicesLabels = getResources().getStringArray(R.array.services_to_ignore_labels);
-        ignoreServicesNames = getResources().getStringArray(R.array.services_to_ignore_names);
-
-        notKillTasksLabels = getResources().getStringArray(R.array.tasks_notkill_labels);
-        notKillTasksNames = getResources().getStringArray(R.array.tasks_notkill_names);
-        notKillServicesLabels = getResources().getStringArray(R.array.services_notkill_labels);
-        notKillServicesNames = getResources().getStringArray(R.array.services_notkill_names);
+        doNotKillLabels = getResources().getStringArray(R.array.do_not_kill_labels);
+        doNotKillNames = getResources().getStringArray(R.array.do_not_kill_names);
 
         sortCpu = getResources().getInteger(R.integer.SORT_CPU);
         sortSize = getResources().getInteger(R.integer.SORT_SIZE);

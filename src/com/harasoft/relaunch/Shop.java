@@ -1,17 +1,21 @@
 package com.harasoft.relaunch;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 public class Shop extends Activity {
-    ReLaunchApp                   app;
+    final String                 TAG = "Shop";
+    ReLaunchApp                  app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         app = ((ReLaunchApp)getApplicationContext());
+        app.RestartIntent = PendingIntent.getActivity(this, 0, getIntent(), getIntent().getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         Intent intent = new Intent(Shop.this, ReLaunch.class);
         intent.putExtra("home", false);
