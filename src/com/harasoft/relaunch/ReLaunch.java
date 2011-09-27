@@ -10,6 +10,7 @@ import java.util.Stack;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ActivityManager.MemoryInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -76,7 +77,7 @@ public class ReLaunch extends Activity {
     SimpleAdapter                 adapter;
     SharedPreferences             prefs;
     ReLaunchApp                   app;
-    boolean                       useHome = false;
+    static public boolean         useHome = false;
     boolean                       useShop = false;
     boolean                       useLibrary = false;
     boolean                       useDirViewer = false;
@@ -439,7 +440,7 @@ public class ReLaunch extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // If we called from Home laucher?
+        // If we called from Home launcher?
         final Intent data = getIntent();
         if (data.getExtras() != null  &&  data.getBooleanExtra("home", false))
             useHome = true;
@@ -449,10 +450,12 @@ public class ReLaunch extends Activity {
             useLibrary = true;
         if (data.getExtras() != null  &&  data.getBooleanExtra("dirviewer", false))
             useDirViewer = true;
+        Log.d(TAG, "Use as home:" + useHome + " shop:" + useShop + " Library:" + useLibrary + " dirViewer:" + useDirViewer);
 
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
 
+        app.RestartIntent = PendingIntent.getActivity(this, 0, data, data.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
         app.FLT_SELECT = getResources().getInteger(R.integer.FLT_SELECT);
         app.FLT_STARTS = getResources().getInteger(R.integer.FLT_STARTS);
         app.FLT_ENDS = getResources().getInteger(R.integer.FLT_ENDS);

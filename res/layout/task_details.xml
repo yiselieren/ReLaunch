@@ -3,26 +3,37 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="fill_parent" android:layout_weight="0.7">
-        <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_width="fill_parent" android:layout_weight="1">
-            <TextView android:id="@+id/textView2" android:text="PID/UID:" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"></TextView>
-            <TextView android:id="@+id/textView3" android:text="Label:" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"></TextView>
-            <TextView android:id="@+id/textView6" android:text="Name:" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"></TextView>
-            <TextView android:id="@+id/textView9" android:text="Flags:" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right"></TextView>
+  android:layout_height="fill_parent"
+  android:background="#000000">
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:layout_height="wrap_content" android:layout_marginBottom="26dp" android:minHeight="72dp" android:layout_marginTop="36dp">
+        <Button android:id="@+id/tm1_kill" android:text="Kill" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></Button>
+        <Button android:id="@+id/tm1_ok" android:text="OK" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_weight="0.3" android:gravity="center" android:layout_height="fill_parent"></Button>
+    </LinearLayout>
+    <TextView android:id="@+id/textView4" android:textColor="#ffffff" android:text="Task details:" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+        <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_width="fill_parent" android:layout_weight="1" android:layout_marginRight="1dp">
+            <TextView android:id="@+id/textView2" android:textColor="#000000" android:background="#ffffff" android:text="PID/UID:" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:gravity="right" android:layout_width="fill_parent" android:layout_marginBottom="1dp"></TextView>
+            <TextView android:id="@+id/textView3" android:textColor="#000000" android:background="#ffffff" android:text="Label:" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:gravity="right" android:layout_marginBottom="1dp"></TextView>
+            <TextView android:id="@+id/textView6" android:textColor="#000000" android:background="#ffffff" android:text="Name:" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:gravity="right" android:layout_marginBottom="1dp"></TextView>
+            <TextView android:id="@+id/textView9" android:textColor="#000000" android:background="#ffffff" android:text="Flags:" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:gravity="right" android:layout_marginBottom="1dp"></TextView>
         </LinearLayout>
         <LinearLayout android:layout_height="fill_parent" android:orientation="vertical" android:layout_width="fill_parent" android:id="@+id/linearLayout3" android:layout_weight="0.38">
-            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_pid"></TextView>
-            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_label"></TextView>
-            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_name"></TextView>
-            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_extra"></TextView>
+            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_pid" android:layout_marginBottom="1dp"></TextView>
+            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_label" android:layout_marginBottom="1dp"></TextView>
+            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_name" android:layout_marginBottom="1dp"></TextView>
+            <TextView android:textColor="#000000" android:background="#ffffff" android:text="TextView" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:id="@+id/tm1_extra" android:layout_marginBottom="1dp"></TextView>
         </LinearLayout>
     </LinearLayout>
-    <TextView android:id="@+id/textView4" android:text="Related packages:" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="1" android:gravity="center" android:layout_width="fill_parent"></TextView>
-    <ListView android:layout_width="fill_parent" android:id="@+id/tm1_lv" android:layout_height="fill_parent" android:layout_weight="0.6" android:paddingBottom="10dp"></ListView>
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:layout_height="fill_parent" android:layout_weight="1">
-        <Button android:id="@+id/tm1_kill" android:text="Kill" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center"></Button>
-        <Button android:id="@+id/tm1_ok" android:text="OK" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_weight="0.3" android:gravity="center"></Button>
+    <TextView android:id="@+id/textView4" android:textColor="#ffffff" android:text="Related packages:" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp"></TextView>
+    <!--
+    <ListView android:id="@+id/tm1_lv" android:background="#ffffff" android:layout_weight="0.6" android:layout_width="wrap_content" android:layout_height="fill_parent"></ListView>
+    -->
+    <ListView android:id="@+id/tm1_lv" android:background="#ffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20dp"></ListView>
+    <!--
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout5" android:layout_height="wrap_content">
+        <Button android:id="@+id/tm1_kill" android:text="Kill" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></Button>
+        <Button android:id="@+id/tm1_ok" android:text="OK" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_weight="0.3" android:gravity="center" android:layout_height="fill_parent"></Button>
     </LinearLayout>
+     -->
     
 </LinearLayout>

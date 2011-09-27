@@ -12,6 +12,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,9 @@ public class ReLaunchApp extends Application {
     // Reading files
     final int                               FileBufferSize = 1024;
     
+    // Pending intent to self restart
+    public PendingIntent                    RestartIntent;
+
     // Miscellaneous public flags/settings
     public boolean                          fullScreen = false;
     public Boolean                          askIfAmbiguous;

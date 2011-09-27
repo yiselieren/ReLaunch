@@ -46,7 +46,7 @@ public class TaskManager extends Activity {
     final String                  TAG = "TaskManager";
     final int                     DIALOG_TASK_DETAILS = 1;
     final int                     DIALOG_SERVICE_DETAILS = 2;
-    
+
     String[]                      ignoreTasksLabels;
     String[]                      ignoreTasksNames;
     String[]                      ignoreServicesLabels;
@@ -102,7 +102,17 @@ public class TaskManager extends Activity {
     static class PInfo {
         PInfo() { prev = 0; curr = 0; usage = 0; mem = 0; }
         boolean         service;
+
+        // Service specific
         int             clients;
+        String          clientPackage ;
+        String          clientLabel;
+        String          descr;
+
+        // Task specific
+        List<ExtraInfo> e;
+
+        // General
         int             uid;
         long            prev;
         long            curr;
@@ -113,7 +123,6 @@ public class TaskManager extends Activity {
         String          name;
         String          extra;
         Drawable        icon;
-        List<ExtraInfo> e;
     }
     HashMap<Integer, PInfo> pinfo = new HashMap<Integer, PInfo>();
 
@@ -312,9 +321,63 @@ public class TaskManager extends Activity {
             protected String doInBackground(Boolean... params) {
 
                 /*
-                 * New tasks list
+                 * New services list
                  */
                 ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                List<ActivityManager.RunningServiceInfo> l2 = am.getRunningServices(1024);
+                if(l2 != null){
+                    int[] pids = new int[l2.size()];
+                    for(int i=0;i<l2.size();++i)
+                        pids[i] = l2.get(i).pid;
+                    Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
+
+                    for(int i=0;i<l2.size();++i)
+                    {
+                        ActivityManager.RunningServiceInfo si = l2.get(i);
+                        PInfo p = new PInfo();
+
+                        String fs = "";
+                        p.imp = 3;
+                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0) {
+                            p.imp = 1;
+                            fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
+                        }
+                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0) {
+                            p.imp = 1;
+                            fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
+                        }
+                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0) {
+                            p.imp = 2;
+                            fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
+                        }
+                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0) {
+                            p.imp = 1;
+                            fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
+                        }
+
+                        p.service = true;
+                        p.clients = si.clientCount;
+                        p.uid = si.uid;
+                        p.name = si.process;
+                        p.clientPackage = si.clientPackage;
+                        p.clientLabel = (si.clientLabel == 0) ? "0" : getResources().getString(si.clientLabel);
+                        p.descr = si.service.toShortString();
+                        p.extra = fs;
+                        p.e = new ArrayList<ExtraInfo>();
+                        p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
+                        try {
+                            ApplicationInfo ai = pm.getApplicationInfo(p.name, 0);
+                            p.icon = pm.getApplicationIcon(ai.packageName);
+                            p.label = pm.getApplicationLabel(ai).toString();
+                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
+                        newPinfo.put(pids[i], p);
+                        newServ.add(pids[i]);
+                    }
+                }
+
+                /*
+                 * New tasks list
+                 */
                 List<ActivityManager.RunningAppProcessInfo> l1 = am.getRunningAppProcesses();
                 if (l1 != null)
                 {
@@ -352,6 +415,9 @@ public class TaskManager extends Activity {
                             break;
                         }
 
+                        if (newPinfo.containsKey(pids[i]))
+                            continue;   // This task is already in services list
+
                         p.service = false;
                         p.clients = 0;
                         p.uid = pi.uid;
@@ -380,60 +446,6 @@ public class TaskManager extends Activity {
                     }
                 }
 
-                /*
-                 * New services list
-                 */
-                List<ActivityManager.RunningServiceInfo> l2 = am.getRunningServices(1024);
-                if(l2 != null){
-                    int[] pids = new int[l2.size()];
-                    for(int i=0;i<l2.size();++i)
-                        pids[i] = l2.get(i).pid;
-                    Debug.MemoryInfo[] mis = am.getProcessMemoryInfo(pids);
-
-                    for(int i=0;i<l2.size();++i)
-                    {
-                        ActivityManager.RunningServiceInfo si = l2.get(i);
-                        PInfo p = new PInfo();
-
-                        String fs = "";
-                        p.imp = 3;
-                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0) {
-                            p.imp = 1;
-                            fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
-                        }
-                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0) {
-                            p.imp = 1;
-                            fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
-                        }
-                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0) {
-                            p.imp = 2;
-                            fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
-                        }
-                        if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0) {
-                            p.imp = 1;
-                            fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
-                        }
-
-                        p.service = true;
-                        p.clients = si.clientCount;
-                        p.uid = si.uid;
-                        p.name = (si.clientPackage == null) ? si.process : si.clientPackage;
-                        p.extra = fs;
-                        p.e = new ArrayList<ExtraInfo>();
-                        p.mem = mis[i].otherPrivateDirty + mis[i].nativePrivateDirty + mis[i].dalvikSharedDirty;
-                        try {
-                            ApplicationInfo ai = pm.getApplicationInfo(p.name, 0);
-                            p.icon = pm.getApplicationIcon(ai.packageName);
-                            p.label = pm.getApplicationLabel(ai).toString();
-                        } catch(PackageManager.NameNotFoundException e) { p.icon = null; p.label = null; }
-                        newPinfo.put(pids[i], p);
-                        newServ.add(pids[i]);
-                        Log.d(TAG, "SRV -- count:" + p.clients +" client name:" + p.name + " process:"  + si.process
-                                + " label:"+ p.label + " client Lbl:" + si.clientLabel  + " / "
-                                + ((si.clientLabel == 0) ? "0" : getResources().getString(si.clientLabel))
-                                + " srv:" + si.service.toShortString());
-                    }
-                }
 
                 /*
                  * Merge new pinfo list with the old one
@@ -570,10 +582,11 @@ public class TaskManager extends Activity {
         final Dialog          dialog = new Dialog(this);
         final PInfo           p = pinfo.get(pid);
         final int             localPid = pid;
+        final String          localName = p.name;
         final List<ExtraInfo> itemsArray = p.e;
 
         class TDAdapter extends ArrayAdapter<Integer> {
-     
+
             TDAdapter(Context context, int resource)
             {
                 super(context, resource);
@@ -591,6 +604,7 @@ public class TaskManager extends Activity {
                     LayoutInflater vi = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     v = vi.inflate(R.layout.results_item, null);
                 }
+                
                 ExtraInfo e = itemsArray.get(position);
                 TextView tv1 = (TextView) v.findViewById(R.id.res_fname);
                 TextView tv2 = (TextView) v.findViewById(R.id.res_dname);
@@ -618,18 +632,22 @@ public class TaskManager extends Activity {
         ((TextView) dialog.findViewById(R.id.tm1_extra)).setText(p.extra);
         ((Button)   dialog.findViewById(R.id.tm1_ok)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { dialog.dismiss(); }});
-        // TODO: KILL implementation
-        //((Button)   dialog.findViewById(R.id.tm1_kill)).setOnClickListener(new View.OnClickListener() {
-        //    public void onClick(View v) {
-        //        android.os.Process.killProcess(localPid);
-        //        dialog.dismiss();
-        //    }});
-        ((Button)   dialog.findViewById(R.id.tm1_kill)).setEnabled(false);
-        
+        ((Button)   dialog.findViewById(R.id.tm1_kill)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                    ApplicationInfo ai = pm.getApplicationInfo(localName, 0);
+                    am.restartPackage(ai.packageName);
+                } catch(PackageManager.NameNotFoundException e) { }
+
+                dialog.dismiss();
+            }});
+        ((Button)   dialog.findViewById(R.id.tm1_kill)).setEnabled(false); // TODO: remove this when sync problem solved
+
         ListView lv = (ListView)dialog.findViewById(R.id.tm1_lv);
         TDAdapter adapter = new TDAdapter(this, R.layout.results_item);
         lv.setAdapter(adapter);
-        
+
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width=WindowManager.LayoutParams.FILL_PARENT;
         params.height=WindowManager.LayoutParams.FILL_PARENT;
@@ -638,6 +656,45 @@ public class TaskManager extends Activity {
         dialog.show();
     }
 
+    private void showServiceDetails(Integer pid)
+    {
+        final Dialog          dialog = new Dialog(this);
+        final PInfo           p = pinfo.get(pid);
+        final int             localPid = pid;
+        final String          localName = p.name;
+
+        dialog.setContentView(R.layout.service_details);
+        dialog.setTitle("Service details");
+        ((TextView) dialog.findViewById(R.id.tm2_pid)).setText(pid + " / " + p.uid);
+        ((TextView) dialog.findViewById(R.id.tm2_label)).setText(p.label);
+        ((TextView) dialog.findViewById(R.id.tm2_name)).setText(p.name);
+        ((TextView) dialog.findViewById(R.id.tm2_extra)).setText(p.extra);
+        ((TextView) dialog.findViewById(R.id.tm2_clients)).setText(Integer.toString(p.clients));
+        ((TextView) dialog.findViewById(R.id.tm2_clientp)).setText(p.clientPackage);
+        ((TextView) dialog.findViewById(R.id.tm2_clientl)).setText(p.clientLabel);
+        ((TextView) dialog.findViewById(R.id.tm2_clientd)).setText(p.descr);
+        ((Button)   dialog.findViewById(R.id.tm2_ok)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { dialog.dismiss(); }});
+        ((Button)   dialog.findViewById(R.id.tm2_kill)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                    ApplicationInfo ai = pm.getApplicationInfo(localName, 0);
+                    am.restartPackage(ai.packageName);
+                } catch(PackageManager.NameNotFoundException e) { }
+
+                //android.os.Process.killProcess(localPid);
+                dialog.dismiss();
+            }});
+        ((Button)   dialog.findViewById(R.id.tm2_kill)).setEnabled(false); // TODO: remove this when sync problem solved
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width=WindowManager.LayoutParams.FILL_PARENT;
+        params.height=WindowManager.LayoutParams.FILL_PARENT;
+        dialog.getWindow().setAttributes(params);
+
+        dialog.show();
+    }
 
     static class ViewHolder {
         EditText  tv1;
@@ -647,7 +704,7 @@ public class TaskManager extends Activity {
     }
     class TAdapter extends ArrayAdapter<Integer> implements OnClickListener {
         Context cntx;
- 
+
         TAdapter(Context context, int resource)
         {
             super(context, resource);
@@ -656,7 +713,6 @@ public class TaskManager extends Activity {
 
         public void onClick(View v) {
             final int     pos = v.getId();
-            //showDialog(taskPids.get(pos));
             showTaskDetails(taskPids.get(pos));
         }
 
@@ -729,10 +785,15 @@ public class TaskManager extends Activity {
         }
     }
 
-    class SAdapter extends ArrayAdapter<Integer> {
+    class SAdapter extends ArrayAdapter<Integer>  implements OnClickListener {
         SAdapter(Context context, int resource)
         {
             super(context, resource);
+        }
+
+        public void onClick(View v) {
+            final int     pos = v.getId();
+            showServiceDetails(servPids.get(pos));
         }
 
         @Override
@@ -756,11 +817,15 @@ public class TaskManager extends Activity {
             }
             else
                 holder = (ViewHolder) v.getTag();
+            holder.iv.setOnClickListener(this);
+            holder.tv1.setOnClickListener(this);
+            holder.tv2.setOnClickListener(this);
+            holder.tv3.setOnClickListener(this);
 
-            TextView  tv1 = holder.tv1;
-            TextView  tv2 = holder.tv2;
-            TextView  tv3 = holder.tv3;
-            ImageView iv = holder.iv;
+            TextView  tv1 = holder.tv1; tv1.setId(position);
+            TextView  tv2 = holder.tv2; tv2.setId(position);
+            TextView  tv3 = holder.tv3; tv3.setId(position);
+            ImageView iv = holder.iv;   iv.setId(position);
 
             Integer item = servPids.get(position);
             PInfo   pi = pinfo.get(item);
