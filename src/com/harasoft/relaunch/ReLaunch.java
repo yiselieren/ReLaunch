@@ -60,7 +60,7 @@ public class ReLaunch extends Activity {
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
     final String                  defReaders = ".fb2,.fb2.zip,.epub:Cool Reader|.zip:FBReader";
-    final static public String    defReader = "Nomad Reader";
+    final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
     final static int              CNTXT_MENU_DELETE_F=1;
     final static int              CNTXT_MENU_DELETE_D_EMPTY=2;

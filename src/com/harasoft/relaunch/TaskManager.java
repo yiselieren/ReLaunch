@@ -7,7 +7,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -355,6 +358,9 @@ public class TaskManager extends Activity {
                             fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
                         }
 
+                        if (newPinfo.containsKey(pids[i]))
+                            continue;  // This service is already in services list
+
                         p.service = true;
                         p.clients = si.clientCount;
                         p.uid = si.uid;
@@ -450,9 +456,13 @@ public class TaskManager extends Activity {
                 /*
                  * Merge new pinfo list with the old one
                  */
-                for (Integer k : pinfo.keySet())
+                for (Iterator<Integer> it = pinfo.keySet().iterator(); it.hasNext(); )
+                {
+                    Integer k = it.next();
                     if (!newPinfo.containsKey(k))
-                        pinfo.remove(k);
+                        it.remove();
+                }
+                    
                 for (Integer k : pinfo.keySet())
                 {
                     PInfo n = newPinfo.get(k);
@@ -642,7 +652,6 @@ public class TaskManager extends Activity {
 
                 dialog.dismiss();
             }});
-        ((Button)   dialog.findViewById(R.id.tm1_kill)).setEnabled(false); // TODO: remove this when sync problem solved
 
         ListView lv = (ListView)dialog.findViewById(R.id.tm1_lv);
         TDAdapter adapter = new TDAdapter(this, R.layout.results_item);
@@ -660,7 +669,6 @@ public class TaskManager extends Activity {
     {
         final Dialog          dialog = new Dialog(this);
         final PInfo           p = pinfo.get(pid);
-        final int             localPid = pid;
         final String          localName = p.name;
 
         dialog.setContentView(R.layout.service_details);
@@ -682,11 +690,8 @@ public class TaskManager extends Activity {
                     ApplicationInfo ai = pm.getApplicationInfo(localName, 0);
                     am.restartPackage(ai.packageName);
                 } catch(PackageManager.NameNotFoundException e) { }
-
-                //android.os.Process.killProcess(localPid);
                 dialog.dismiss();
             }});
-        ((Button)   dialog.findViewById(R.id.tm2_kill)).setEnabled(false); // TODO: remove this when sync problem solved
 
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width=WindowManager.LayoutParams.FILL_PARENT;
@@ -781,6 +786,7 @@ public class TaskManager extends Activity {
                 else
                     iv.setImageDrawable(pi.icon);
             }
+
             return v;
         }
     }

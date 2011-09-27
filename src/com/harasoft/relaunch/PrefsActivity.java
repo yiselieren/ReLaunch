@@ -1,10 +1,12 @@
 package com.harasoft.relaunch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -18,6 +20,92 @@ public class PrefsActivity extends PreferenceActivity {
     ReLaunchApp                   app;
     SharedPreferences             prefs;
 
+    static class PrefItem
+    {
+        PrefItem(String n, boolean value)
+        {
+            name = n;
+            isBoolean = true;
+            bValue = value;
+        }
+        PrefItem(String n, String value)
+        {
+            name = n;
+            isBoolean = false;
+            sValue = value;        
+        }
+        PrefItem(PrefItem o)
+        {
+            name = o.name;
+            isBoolean = o.isBoolean;
+            bValue = o.bValue;
+            sValue = o.sValue;
+        }
+        String  name;
+        boolean isBoolean;
+        boolean bValue;
+        String  sValue;
+    }
+    List<PrefItem> defItems = new ArrayList<PrefItem>();
+    List<PrefItem> savedItems;
+    
+    private void setDefaults()
+    {
+        defItems.add(new PrefItem("filterResults", false));
+        defItems.add(new PrefItem("fullScreen", true));
+        defItems.add(new PrefItem("showButtons", true));
+        defItems.add(new PrefItem("startDir", "/sdcard"));
+        defItems.add(new PrefItem("saveDir", true));
+        defItems.add(new PrefItem("askAmbig", false));
+        defItems.add(new PrefItem("showNew", true));
+
+        defItems.add(new PrefItem("filterSelf", true));
+        defItems.add(new PrefItem("shopMode", true));
+        defItems.add(new PrefItem("libraryMode", true));
+
+        defItems.add(new PrefItem("searchSize", "5000"));
+        defItems.add(new PrefItem("searchReport", "100"));
+
+        defItems.add(new PrefItem("viewerMaxSize", "1048576"));
+        defItems.add(new PrefItem("editorMaxSize", "262144"));
+
+        defItems.add(new PrefItem("lruSize", "30"));
+        defItems.add(new PrefItem("favSize", "30"));
+        defItems.add(new PrefItem("appLruSize", "30"));
+        defItems.add(new PrefItem("appFavSize", "30"));
+
+        defItems.add(new PrefItem("confirmFileDelete", true));
+        defItems.add(new PrefItem("confirmDirDelete", true));
+        defItems.add(new PrefItem("confirmNonEmptyDirDelete", true));
+        defItems.add(new PrefItem("searchRoot", "/sdcard"));
+    }
+ 
+    private void revert()
+    {
+        SharedPreferences.Editor editor = prefs.edit();
+        for (PrefItem p : defItems)
+        {
+            if (p.isBoolean)
+                editor.putBoolean(p.name, p.bValue);
+            else
+                editor.putString(p.name, p.sValue);
+        }
+        editor.commit();
+    }
+
+    private void cancel()
+    {
+        SharedPreferences.Editor editor = prefs.edit();
+        for (PrefItem p : savedItems)
+        {
+            if (p.isBoolean)
+                editor.putBoolean(p.name, p.bValue);
+            else
+                editor.putString(p.name, p.sValue);
+        }
+        editor.commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -27,6 +115,12 @@ public class PrefsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);
         setContentView(R.layout.prefs_main);
+
+        // Save items value
+        setDefaults();
+        savedItems = new ArrayList<PrefItem>();
+        for (PrefItem p : defItems)
+            savedItems.add(new PrefItem(p));
 
         ((Button)findViewById(R.id.filter_settings)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -58,9 +152,18 @@ public class PrefsActivity extends PreferenceActivity {
                 mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, app.RestartIntent);
                 System.exit(0);
             }});
-            //Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
-            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //startActivity(i);
+        ((Button)findViewById(R.id.revert_btn)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                revert();
+                finish();
+            }});
+        ((Button)findViewById(R.id.cancel_btn)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                cancel();
+                finish();
+            }});
     }
     
     @Override
