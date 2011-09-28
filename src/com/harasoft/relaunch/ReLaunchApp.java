@@ -16,6 +16,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -575,7 +576,7 @@ public class ReLaunchApp extends Application {
         a.startActivity(intent);
     }
     
-    public void About(Activity a)
+    public void About(final Activity a)
     {
         String vers = getResources().getString(R.string.app_version);
         AlertDialog.Builder builder = new AlertDialog.Builder(a);
@@ -590,6 +591,19 @@ public class ReLaunchApp extends Application {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
+                }});
+        builder.setNegativeButton("See changelog", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(a);
+                WebView wv = new WebView(a);
+                wv.loadData(getResources().getString(R.string.whats_new), "text/html", "utf-8");
+                builder1.setTitle("What's new");
+                builder1.setView(wv);
+                builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }});
+                builder1.show();
                 }});
         builder.show();
     }

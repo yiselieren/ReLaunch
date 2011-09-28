@@ -1,10 +1,24 @@
-Nook Touch reader launcher
+ReLaunch - filemanager / launcher for Nook Simple Touch.
 
-It looks like very simple Android filemanager which is able to performs only one
-action - it starts predefined application with selected file passed vis setData().
+This is a filenamager and/or launcher for Nook Simple Touch. It calls
+predefined reader on file selection, In addition it has task manager, task killer,
+application manager and file viewer/editor functionality.
 
-It may be usable for Nook Touch when the predefined application is reader (like
-FBReader, NomadReader, etc.).
+The tool is able to work in two modes:
 
+1. Application mode
+-------------------
+When ReLaunch is invoked from other launcher it work like very simple filemanager.
+The only action it can perform on file selection - call another application (usually reader)
+with that file.
+
+2. Launcher mode
+----------------
+When ReLanuch is invoked from SoftKey "home" button, or by pressing "Nook button - > Shop" or
+"Nook button - > Library" it works in launcher mode. In that mode it has all standard launcher
+functionality (task manager / application manager) in addition to application mode possibilities.
+
+Notes
+-----
 Note 1: I build it in debug mode using eclipse. Do not forget to copy
 debug.keystore to ~/.android in order to be compatible with old version
