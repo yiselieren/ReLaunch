@@ -80,11 +80,6 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name="ReadersActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-            </intent-filter>
-        </activity>
         <activity android:name="FiltersActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>

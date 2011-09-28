@@ -161,6 +161,9 @@ public class ResultsActivity extends Activity {
                         else
                             iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                     }
+                    else if (rdrName.startsWith("Intent:"))
+                        //iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
+                        iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
                     else
                     {
                         if (icons.containsKey(rdrName))
@@ -364,10 +367,6 @@ public class ResultsActivity extends Activity {
             return true;
         case R.id.about:
             app.About(this);
-            return true;
-        case R.id.readers:
-            Intent intent2 = new Intent(ResultsActivity.this, ReadersActivity.class);
-            startActivity(intent2);
             return true;
         case R.id.setting:
             Intent intent3 = new Intent(ResultsActivity.this, PrefsActivity.class);

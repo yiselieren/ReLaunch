@@ -135,12 +135,6 @@ public class ReLaunchApp extends Application {
         else if (name.equals("favorites"))
         {
         }
-        else if (name.equals("startReaders"))
-        {
-            nl.add(new String[] {"Nomad Reader", "application/fb2"});
-            nl.add(new String[] {"EBookDroid",   "application/djvu"});
-        }
-
         m.put(name, nl);
     }
 
@@ -447,30 +441,31 @@ public class ReLaunchApp extends Application {
     // common utility - return intent to launch reader by reader name and full file name. Null if not found
     public Intent launchReader(String name, String file)
     {
-        for (String[] r : getList("startReaders"))
+        String re[] = name.split(":");
+        if (re.length == 2  &&  re[0].equals("Intent"))
         {
-            if (r[0].equals(name))
+            Intent i = new Intent();
+            i.setAction(Intent.ACTION_VIEW);
+            i.setDataAndType(Uri.parse("file://" + file), re[1]);
+            addToList("lastOpened", file, false);
+            if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
+                history.put(file, READING);
+            return i;       
+        }
+        else
+        {
+            Intent i = getIntentByLabel(name);
+            if (i == null)
+                Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
+            else
             {
-                Intent i = new Intent();
                 i.setAction(Intent.ACTION_VIEW);
-                i.setDataAndType(Uri.parse("file://" + file), r[1]);
+                i.setData(Uri.parse("file://" + file));
                 addToList("lastOpened", file, false);
                 if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
                     history.put(file, READING);
                 return i;
             }
-        }
-        Intent i = getIntentByLabel(name);
-        if (i == null)
-            Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
-        else
-        {
-            i.setAction(Intent.ACTION_VIEW);
-            i.setData(Uri.parse("file://" + file));
-            addToList("lastOpened", file, false);
-            if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
-                history.put(file, READING);
-            return i;
         }
         return null;
     }

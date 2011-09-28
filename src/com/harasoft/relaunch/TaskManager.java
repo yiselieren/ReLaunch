@@ -648,12 +648,16 @@ public class TaskManager extends Activity {
                 dialog.dismiss();
             }});
         boolean killEnable = true;
-        for (int i=0; i<doNotKillLabels.length; i++)
-            if (p.label.startsWith(doNotKillLabels[i]))
-            {
-                killEnable = false;
-                break;
-            }
+        boolean doNotKillEmpty = getResources().getBoolean(R.bool.do_not_kill_empty_labels);
+        if (doNotKillEmpty  &&  p.label.equals(""))
+            killEnable = false;
+        if (killEnable)
+            for (int i=0; i<doNotKillLabels.length; i++)
+                if (p.label.startsWith(doNotKillLabels[i]))
+                {
+                    killEnable = false;
+                    break;
+                }
         if (killEnable)
             for (int i=0; i<doNotKillNames.length; i++)
                 if (p.name.startsWith(doNotKillNames[i]))
@@ -704,12 +708,16 @@ public class TaskManager extends Activity {
                 dialog.dismiss();
             }});
         boolean killEnable = true;
-        for (int i=0; i<doNotKillLabels.length; i++)
-            if (p.label.startsWith(doNotKillLabels[i]))
-            {
-                killEnable = false;
-                break;
-            }
+        boolean doNotKillEmpty = getResources().getBoolean(R.bool.do_not_kill_empty_labels);
+        if (doNotKillEmpty  &&  p.label.equals(""))
+            killEnable = false;
+        if (killEnable)
+            for (int i=0; i<doNotKillLabels.length; i++)
+                if (p.label.startsWith(doNotKillLabels[i]))
+                {
+                    killEnable = false;
+                    break;
+                }
         if (killEnable)
             for (int i=0; i<doNotKillNames.length; i++)
                 if (p.name.startsWith(doNotKillNames[i]))

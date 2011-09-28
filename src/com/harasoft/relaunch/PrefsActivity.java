@@ -134,12 +134,6 @@ public class PrefsActivity extends PreferenceActivity {
                 Intent intent = new Intent(PrefsActivity.this, TypesActivity.class);
                 startActivityForResult(intent, TYPES_ACT);
             }});
-        ((Button)findViewById(R.id.readers_start)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(PrefsActivity.this, ReadersActivity.class);
-                startActivity(intent);
-            }});
         ((Button)findViewById(R.id.prefs_ok)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {

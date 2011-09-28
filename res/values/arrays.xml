@@ -42,4 +42,5 @@
     <string-array name="do_not_kill_labels">
         <item>Android System</item>
     </string-array>
+    <bool name="do_not_kill_empty_labels">true</bool>
 </resources>

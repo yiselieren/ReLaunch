@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,24 +28,35 @@ import android.widget.Toast;
 
 public class TypesActivity extends Activity {
     final String                  TAG = "Types";
+    final String                  INTENT_PREFIX = "Intent:";
     HashMap<String, Drawable>     icons;
     PackageManager                pm;
     List<String>                  applicationsArray;
     CharSequence[]                applications;
     List<HashMap<String,String>>  itemsArray;
-    TPSimpleAdapter               adapter;
+    TPAdapter                     adapter;
     ReLaunchApp                   app;
 
-    class TPSimpleAdapter extends SimpleAdapter {
+    class TPAdapter extends BaseAdapter {
         final Context cntx;
 
-        TPSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
+        TPAdapter(Context context)
         {
-            super(context, data, resource, from, to);
             cntx = context;
         }
 
-        @Override
+        public int getCount() {
+            return itemsArray.size();
+        }
+
+        public Object getItem(int position) {
+            return itemsArray.get(position);
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
         public View getView(final int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
@@ -89,7 +102,6 @@ public class TypesActivity extends Activity {
                     downBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
                     downBtn.setEnabled(true);
                 }
-
                 downBtn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v)
                         {
@@ -163,18 +175,70 @@ public class TypesActivity extends Activity {
                 appName.setOnClickListener(new View.OnClickListener() {
 
                         public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-                            builder.setTitle("Select application");
-                            builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int i) {
-                                        itemsArray.get(position).put("rdr", (String)applications[i]);
-                                        adapter.notifyDataSetChanged();
-                                        dialog.dismiss();
-                                        //Toast.makeText(getApplicationContext(), "Selected: " + applications[i], Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            AlertDialog alert = builder.create();
-                            alert.show();
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(cntx);
+                            builder1.setTitle("Explicit application or general intent?");
+                            builder1.setMessage("When you tap on file with specified suffix ReLaunch"
+                                    + " may call explicit application or just generate intent with"
+                                    + " application type you specify (ACTION_VIEW). \n\nWhich method do you want?");
+
+                            builder1.setPositiveButton("Explicit application", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {                                    
+                                    AlertDialog.Builder builder2 = new AlertDialog.Builder(cntx);
+                                    builder2.setTitle("Select application");
+                                    builder2.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int i) {
+                                                itemsArray.get(position).put("rdr", (String)applications[i]);
+                                                adapter.notifyDataSetChanged();
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        builder2.show();
+                                }});
+
+                            builder1.setNeutralButton("General intent", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {    
+                                    AlertDialog.Builder builder3 = new AlertDialog.Builder(cntx);
+                                    builder3.setTitle("Intent type");
+                                    final EditText input = new EditText(cntx);
+                                    String v = item.get("rdr");
+                                    if (v.startsWith(INTENT_PREFIX))
+                                        v = v.substring(INTENT_PREFIX.length());
+                                    else
+                                        v = "application/";
+                                    input.setText(v);
+                                    builder3.setView(input);
+                                    builder3.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                String value = input.getText().toString();
+                                                if (value.equals(""))
+                                                    Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                                else
+                                                {
+                                                    itemsArray.get(position).put("rdr", INTENT_PREFIX + value);
+                                                    adapter.notifyDataSetChanged();
+                                                    dialog.dismiss();
+                                                }
+                                            }
+                                        });
+
+                                    builder3.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                    builder3.show();
+                                }});
+
+                            builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }});
+
+                            builder1.show();
+                            
+                            /*
+                            */
                         }
                     });
 
@@ -198,8 +262,6 @@ public class TypesActivity extends Activity {
 
 
         // Fill listview with our info
-        String[] from = new String[] { "ext" };
-        int[]    to   = new int[] { R.id.types_ext };
         ListView lv = (ListView) findViewById(R.id.types_lv);
 
         itemsArray = new ArrayList<HashMap<String,String>>();
@@ -214,7 +276,7 @@ public class TypesActivity extends Activity {
                 itemsArray.add(i);
             }
         }
-        adapter = new TPSimpleAdapter(this, itemsArray, R.layout.types_layout, from, to);
+        adapter = new TPAdapter(this);
         lv.setAdapter(adapter);
 
         // OK/Save button

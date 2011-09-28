@@ -57,10 +57,9 @@ public class ReLaunch extends Activity {
     static public final String    APP_FAV_FILE = "AppFavorites.txt";
     static public final String    LRU_FILE = "LruFile.txt";
     static public final String    FAV_FILE = "Favorites.txt";
-    static public final String    RDR_FILE = "Readers.txt";
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
-    final String                  defReaders = ".fb2,.fb2.zip,.epub:Cool Reader|.zip:FBReader";
+    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub";
     final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
     final static int              CNTXT_MENU_DELETE_F=1;
@@ -180,6 +179,9 @@ public class ReLaunch extends Activity {
                             else
                                 iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                         }
+                        else if (rdrName.startsWith("Intent:"))
+                            //iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
+                            iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
                         else
                         {
                             if (app.getIcons().containsKey(rdrName))
@@ -229,16 +231,33 @@ public class ReLaunch extends Activity {
         for (int i=0; i<rdrs.length; i++)
         {
             String[] re = rdrs[i].split(":");
-            if (re.length != 2)
-                continue;
-            String rName = re[1];
-            String[] exts = re[0].split(",");
-            for (int j=0; j<exts.length; j++)
+            switch (re.length)
             {
-                String ext = exts[j];
-                HashMap<String, String> r = new HashMap<String, String>();
-                r.put(ext, rName);
-                rc.add(r);
+            case 2:
+                String rName = re[1];
+                String[] exts = re[0].split(",");
+                for (int j=0; j<exts.length; j++)
+                {
+                    String ext = exts[j];
+                    HashMap<String, String> r = new HashMap<String, String>();
+                    r.put(ext, rName);
+                    rc.add(r);
+                }
+                break;
+            case 3:
+                if (re[1].equals("Intent"))
+                {
+                    String iType = re[2];
+                    String[] exts1 = re[0].split(",");
+                    for (int j=0; j<exts1.length; j++)
+                    {
+                        String ext = exts1[j];
+                        HashMap<String, String> r = new HashMap<String, String>();
+                        r.put(ext, "Intent:" + iType);
+                        rc.add(r);
+                    }
+               }
+                break;
             }
         }
         return rc;
@@ -503,8 +522,6 @@ public class ReLaunch extends Activity {
         app.readFile("favorites", FAV_FILE);
         app.readFile("filters", FILT_FILE, ":");
         app.filters_and = prefs.getBoolean("filtersAnd", true);
-        if (!app.readFile("startReaders", RDR_FILE, ":"))
-                        app.setDefault("startReaders");
         app.readFile("history", HIST_FILE, ":");
         app.history.clear();
         for (String[] r : app.getList("history"))
@@ -682,9 +699,6 @@ public class ReLaunch extends Activity {
                 return true;
             case R.id.about:
                 menuAbout();
-                return true;
-            case R.id.readers:
-                menuReaders();
                 return true;
             case R.id.setting:
                 menuSettings();
@@ -989,11 +1003,6 @@ public class ReLaunch extends Activity {
         intent.putExtra("list", "favorites");
         intent.putExtra("title", "Favorites");
         intent.putExtra("rereadOnStart", true);
-        startActivity(intent);
-    }
-
-    private void menuReaders() {
-        Intent intent = new Intent(ReLaunch.this, ReadersActivity.class);
         startActivity(intent);
     }
 
