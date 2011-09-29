@@ -10,8 +10,8 @@ import java.util.Stack;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ActivityManager.MemoryInfo;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
@@ -59,7 +60,7 @@ public class ReLaunch extends Activity {
     static public final String    FAV_FILE = "Favorites.txt";
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
-    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub";
+    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg";
     final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
     final static int              CNTXT_MENU_DELETE_F=1;
@@ -83,7 +84,52 @@ public class ReLaunch extends Activity {
     boolean                       useDirViewer = false;
     static public boolean         filterMyself = true;
     static public String          selfName = "ReLaunch";
+    String[]                      allowedModels;
+    String[]                      allowedDevices;
+    String[]                      allowedManufacts;
+    String[]                      allowedProducts;
 
+
+    private boolean checkField(String[] a, String f)
+    {
+        for (int i=0; i<a.length; i++)
+            if (a[i].equals("*")  ||  a[i].equals(f))
+                return true;
+        return false;
+    }
+    private void checkDevice(String dev, String man, String model, String product)
+    {
+        if (checkField(allowedModels, model))
+            return;
+        if (checkField(allowedDevices, dev))
+            return;
+        if (checkField(allowedManufacts, man))
+            return;
+        if (checkField(allowedProducts, product))
+            return;
+            
+        if (!prefs.getBoolean("allowDevice", false))
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            WebView wv = new WebView(this);
+            wv.loadData(getResources().getString(R.string.model_warning), "text/html", "utf-8");
+            builder.setTitle("Wrong model !");
+            builder.setView(wv);
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("allowDevice", true);
+                    editor.commit();
+                    dialog.dismiss();
+                }});
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }});
+         
+            builder.show();
+        }
+     }
 
     static class ViewHolder {
         TextView  tv;
@@ -453,7 +499,11 @@ public class ReLaunch extends Activity {
     private void start(Intent i)
     {
         if (i != null)
-            startActivity(i);
+            try {
+                startActivity(i);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(ReLaunch.this, "Activity not found", Toast.LENGTH_LONG).show();
+            }
     }
 
     @Override
@@ -476,6 +526,12 @@ public class ReLaunch extends Activity {
             useLibrary = data.getBooleanExtra("library", false);
             useDirViewer = data.getBooleanExtra("dirviewer", false);
         }
+
+        // Global arrays
+        allowedModels = getResources().getStringArray(R.array.allowed_models);
+        allowedDevices = getResources().getStringArray(R.array.allowed_devices);
+        allowedManufacts = getResources().getStringArray(R.array.allowed_manufacturers);
+        allowedProducts = getResources().getStringArray(R.array.allowed_products);
 
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
@@ -635,6 +691,8 @@ public class ReLaunch extends Activity {
                         startActivity(intent);
                     }});
 
+            checkDevice(Build.DEVICE, Build.MANUFACTURER, Build.MODEL, Build.PRODUCT);
+
             // What's new processing
             final int latestVersion = prefs.getInt("latestVersion", 0);
             final int currentVersion = getResources().getInteger(R.integer.app_iversion);
@@ -655,7 +713,7 @@ public class ReLaunch extends Activity {
                 builder.show();
             }
     
-            // First directory to get to
+             // First directory to get to
             if (prefs.getBoolean("saveDir", true))
                 drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
             else

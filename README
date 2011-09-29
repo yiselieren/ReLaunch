@@ -1,24 +1,84 @@
 ReLaunch - filemanager / launcher for Nook Simple Touch.
 
-This is a filenamager and/or launcher for Nook Simple Touch. It calls
+This is a simple filenamager and/or launcher for Nook Simple Touch. It calls
 predefined reader on file selection, In addition it has task manager, task killer,
 application manager and file viewer/editor functionality.
 
 The tool is able to work in two modes:
 
 1. Application mode
--------------------
-When ReLaunch is invoked from other launcher it work like very simple filemanager.
-The only action it can perform on file selection - call another application (usually reader)
-with that file.
+===================
+When ReLaunch is invoked from other launcher (technically speaking when it
+invoked using main intent - android.intent.action.MAIN) it works in application mode.
+
+1.1 filemanager
+---------------
+You see a directory structure, you can walk on it. Tap on directory name to go into
+the directory, tap on ".." labeled line to go one directory up.
+
+1.2 on-file actions, single tap
+-------------------------------
+When you tap on regular file (not a directory) the ReLaunch may perform a few actions, depending
+on you settings (see 1.4 for settings details)
+
+- call explicit package or create intent for that file if such action is defined in
+  Settings->Associations screen
+- for .apk file - install it
+- for any other file - open viewer (if file is small enough, see 1.4). Note
+  that editor can be opened from the viewer
+- do nothing if file is too big for viewer and association for that file not found
+
+1.3 on-file actions, long tap
+-----------------------------
+On long tap context menu is opened. The file can be added to favorites, marked as read (we
+are speaking about ebooks, isn't it?) or removed (with confirmations, see 1.4).
+Note that directories can be removed too, even recursively. Be careful!
+
+1.4 settings (first from left button on top panel)
+--------------------------------------------------
+Some application-wide settings. Pay attention to "Filter settings" and "Association".
+
+Filter settings defines which files are visible in file manager. If you define some rules there do not
+forget to switch on "Filter result" checkbox in general settings section.
+
+Association defines action which performs on file tap (according to file's extension)
+
+1.5 search (second from left button on top panel
+------------------------------------------------
+You can search files (books) from any root by some patterns. Note "Show all books" button. By pressing
+it you see all files with known extension (see 1.4 associations).
+
+1.6 last opened files list (third from left button on top panel)
+----------------------------------------------------------------
+Each file opened by ReLaunch remembered in last opened files (LIFO order).
+
+1.7 favorites list (fourth from left button on top panel
+--------------------------------------------------------
+You can manage favorites list by adding / removing books to it.
+
+1.8 about (fifth from left button on top panel)
+-----------------------------------------------
+Application info
+
 
 2. Launcher mode
-----------------
-When ReLanuch is invoked from SoftKey "home" button, or by pressing "Nook button - > Shop" or
-"Nook button - > Library" it works in launcher mode. In that mode it has all standard launcher
-functionality (task manager / application manager) in addition to application mode possibilities.
+================
+When ReLanuch is invoked by pressing "Home" (in a NookSimpleTouch case by SoftKey
+"home" button), or by pressing "Nook button - > Shop" or "Nook button - > Library" it
+works in launcher mode. In that mode it has all standard launcher functionality (task
+manager / application manager) in addition to application mode possibilities described above.
+
+Launcher mode functionality:
+- Task manager (tap on memory status, first left bottom button)
+- Last used applications (second left bottom button)
+- All applications (third left bottom button)
+  You can launch application by taping on it, or uninstall it by
+  long tap (context menu opened)
+- Favorites applications (fourth left bottom button)
+- Battery status (tap on memory status, fifth left bottom button)
+
 
 Notes
------
+=====
 Note 1: I build it in debug mode using eclipse. Do not forget to copy
 debug.keystore to ~/.android in order to be compatible with old version
