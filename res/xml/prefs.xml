@@ -8,8 +8,15 @@
        <EditTextPreference android:enabled="true" android:title="Start directory" android:selectable="true" android:key="startDir" android:persistent="true" android:defaultValue="/sdcard" android:summary="Start here or last visited (see next)"></EditTextPreference>
        <CheckBoxPreference android:summaryOff="Always start from start directory" android:summaryOn="Start from last visited directory" android:key="saveDir" android:title="Save last visited directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <CheckBoxPreference android:summaryOff="Run first association" android:summaryOn="Ask if association is ambiguous" android:key="askAmbig" android:title="Ambiguous associations" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
-       <CheckBoxPreference android:summaryOff="Show all files in a normal way" android:summaryOn="Use color/bold fonts to show new and finished bools" android:key="showNew" android:title="Show new/read books" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="Show all files in a normal way" android:summaryOn="Use color/bold fonts to show new and finished books" android:key="showNew" android:title="Show new/read books" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <EditTextPreference android:enabled="true" android:title="GL16 mode" android:selectable="true" android:key="gl16Mode" android:persistent="true" android:defaultValue="0" android:summary="GL16 Mode" android:numeric="integer"></EditTextPreference>
+    </PreferenceCategory>
+
+      <PreferenceCategory android:title="Launcher mode settings">
        <CheckBoxPreference android:summaryOff="Show only total size of a big list" android:summaryOn="Show scrolling position in a big list" android:key="showScroll" android:title="Show scroll position" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
+       <CheckBoxPreference android:summaryOff="System scrollbar indication" android:summaryOn="Draw custom scrollbar" android:key="customScroll" android:title="Custom scrollbar indication" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <EditTextPreference android:enabled="true" android:title="Custom scrollbar widht" android:selectable="true" android:key="scrollWidth" android:persistent="true" android:defaultValue="10" android:summary="Scrollbar width" android:numeric="integer"></EditTextPreference>
+       <EditTextPreference android:enabled="true" android:title="Custom scrollbar laft margin" android:selectable="true" android:key="scrollPad" android:persistent="true" android:defaultValue="3" android:summary="Scrollbar left margin" android:numeric="integer"></EditTextPreference>
       </PreferenceCategory>
 
       <PreferenceCategory android:title="Launcher mode settings">

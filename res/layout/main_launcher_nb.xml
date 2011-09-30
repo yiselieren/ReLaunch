@@ -4,9 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <EditText android:id="@+id/title_txt" android:textColor="#ffffff" android:background="#000000"  android:textAppearance="?android:attr/textAppearanceMedium"  android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:focusable="false" android:editable="false">
+    <EditText android:id="@+id/title_txt" android:textColor="#ffffff" android:background="#000000"  android:textAppearance="?android:attr/textAppearanceMedium"  android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_gravity="center" android:gravity="center">
         <requestFocus></requestFocus>
     </EditText>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="56dp">
+        <Button android:text="Go one level up" android:drawableLeft="@drawable/arrow_up" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/goup_btn" android:drawableRight="@drawable/arrow_up" android:layout_weight="0.6"></Button>
+        <Button android:text="Advanced" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn"></Button>
+    </LinearLayout>
     <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_weight="1" android:layout_height="0dp" android:fadeScrollbars="false"></ListView>
     <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="0.0">
         <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">

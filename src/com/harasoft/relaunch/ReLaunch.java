@@ -20,6 +20,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
@@ -28,6 +29,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -45,6 +47,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -61,7 +64,7 @@ public class ReLaunch extends Activity {
     static public final String    FAV_FILE = "Favorites.txt";
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
-    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg";
+    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg|.png:Intent:image/png";
     final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
     final static int              CNTXT_MENU_DELETE_F=1;
@@ -89,7 +92,7 @@ public class ReLaunch extends Activity {
     String[]                      allowedDevices;
     String[]                      allowedManufacts;
     String[]                      allowedProducts;
-
+    boolean                       addSView = true;
 
     private boolean checkField(String[] a, String f)
     {
@@ -366,8 +369,8 @@ public class ReLaunch extends Activity {
         final EditText  tv = (EditText)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
         final String dirAbsPath = dir.getAbsolutePath();
         tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
-        Button up = (Button)findViewById(R.id.goup_btn);
-        ((Button)findViewById(R.id.advaned_btn)).setEnabled(false);
+        final Button up = (Button)findViewById(R.id.goup_btn);
+        ((Button)findViewById(R.id.advanced_btn)).setEnabled(false);
 
         itemsArray = new ArrayList<HashMap<String,String>>();
         if (dir.getParent() != null)
@@ -414,10 +417,9 @@ public class ReLaunch extends Activity {
 
         String[] from = new String[] { "name" };
         int[]    to   = new int[] { R.id.fl_text };
-        ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
-
         setUpButton(up, upDir);
         
+        ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
         if (prefs.getBoolean("showScroll", false))
@@ -436,6 +438,37 @@ public class ReLaunch extends Activity {
         }
         else
             tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
+
+        if (prefs.getBoolean("customScroll", false))
+        {
+            if (addSView)
+            {
+                int scrollW;
+                try {
+                    scrollW = Integer.parseInt(prefs.getString("scrollWidth", "10"));
+                } catch(NumberFormatException e) {
+                    scrollW = 10;
+                }
+
+                LinearLayout ll = (LinearLayout)findViewById(R.id.fl_layout);
+                final SView sv = new SView(getBaseContext());
+                LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
+                sv.setLayoutParams(pars);
+                ll.addView(sv);
+                lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                        sv.total = totalItemCount;
+                        sv.count = visibleItemCount;
+                        sv.first = firstVisibleItem;
+                        sv.invalidate();
+                    }
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    }
+                });         
+                addSView = false;
+            }
+        }
+
 
         registerForContextMenu(lv);
         if (startPosition != -1)
@@ -671,16 +704,12 @@ public class ReLaunch extends Activity {
             {
                 ((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSettings(); }});
-                //((ImageButton)findViewById(R.id.types_btn)).setOnClickListener(new View.OnClickListener() {
-                //        public void onClick(View v) { menuTypes(); }});
                 ((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSearch(); }});
                 ((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuLastopened(); }});
                 ((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuFavorites(); }});
-                //((ImageButton)findViewById(R.id.readers_btn)).setOnClickListener(new View.OnClickListener() {
-                //        public void onClick(View v) { menuReaders(); }});
                 ((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuAbout(); }});
             }
@@ -743,6 +772,13 @@ public class ReLaunch extends Activity {
                 builder.show();
             }
     
+            int gl16Mode;
+            try {
+                gl16Mode = Integer.parseInt(prefs.getString("gl16Mode", "0"));
+            } catch (NumberFormatException e) {
+                gl16Mode = 0;
+            }
+            N2EpdController.setGL16Mode(gl16Mode);
              // First directory to get to
             if (prefs.getBoolean("saveDir", true))
                 drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
