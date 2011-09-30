@@ -40,6 +40,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -332,6 +333,22 @@ public class ReLaunch extends Activity {
             positions.push(p1);
         currentPosition = p1;
     }
+    
+    private void setUpButton(Button up, final String upDir)
+    {
+        up.setEnabled(!upDir.equals(""));
+        up.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                if (!upDir.equals(""))
+                {
+                    Integer p = -1;
+                    if (!positions.empty())
+                        p = positions.pop();
+                    drawDirectory(upDir, p);
+                }
+            }});
+    }
 
     private void drawDirectory(String root, Integer startPosition)
     {
@@ -346,8 +363,11 @@ public class ReLaunch extends Activity {
         editor.putString("lastdir", currentRoot);
         editor.commit();
 
-        EditText  tv = (EditText)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
-        tv.setText(dir.getAbsolutePath() + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
+        final EditText  tv = (EditText)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
+        final String dirAbsPath = dir.getAbsolutePath();
+        tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
+        Button up = (Button)findViewById(R.id.goup_btn);
+        ((Button)findViewById(R.id.advaned_btn)).setEnabled(false);
 
         itemsArray = new ArrayList<HashMap<String,String>>();
         if (dir.getParent() != null)
@@ -364,13 +384,17 @@ public class ReLaunch extends Activity {
         }
         Collections.sort(dirs);
         Collections.sort(files);
+        String upDir = "";
         for (String f : dirs)
         {
             HashMap<String, String> item = new HashMap<String, String>();
             item.put("name", f);
             item.put("dname", dir.getAbsolutePath());
             if (f.equals(".."))
-                item.put("fname", dir.getParent());
+            {
+                upDir = dir.getParent();
+                continue;
+            }
             else
                 item.put("fname", dir.getAbsolutePath() + "/" + f);
             item.put("type", "dir");
@@ -392,8 +416,27 @@ public class ReLaunch extends Activity {
         int[]    to   = new int[] { R.id.fl_text };
         ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
 
+        setUpButton(up, upDir);
+        
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
+        if (prefs.getBoolean("showScroll", false))
+        {
+            lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                    int first = firstVisibleItem+1;
+                    int last = first+visibleItemCount-1;
+                    if (last > totalItemCount)
+                        last = totalItemCount;
+                    tv.setText(dirAbsPath + " (" + first + "-" + last  + " / " + totalItemCount + ")");
+                }
+                public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                }
+            });
+        }
+        else
+            tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
+
         registerForContextMenu(lv);
         if (startPosition != -1)
             lv.setSelection(startPosition);
@@ -402,20 +445,7 @@ public class ReLaunch extends Activity {
 
                     HashMap<String, String> item = itemsArray.get(position);
 
-                    if (item.get("name").equals(".."))
-                    {
-                        // Goto up directory
-                        File dir = new File(item.get("dname"));
-                        String pdir = dir.getParent();
-                        if (pdir != null)
-                        {
-                            Integer p = -1;
-                            if (!positions.empty())
-                                p = positions.pop();
-                            drawDirectory(pdir, p);
-                        }
-                    }
-                    else if (item.get("type").equals("dir"))
+                    if (item.get("type").equals("dir"))
                     {
                         // Goto directory
                         pushCurrentPos(parent, true);

@@ -17,6 +17,6 @@
         <Button android:text="Save settings and restart ReLaunch (some settings work only after restart)" android:minHeight="72dp" android:layout_gravity="center" android:id="@+id/restart_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
         <Button android:text="Revert all settings to default values" android:id="@+id/revert_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
     </LinearLayout>
-    <ListView android:id="@android:id/list"
+    <ListView android:id="@android:id/list" android:fadeScrollbars="false"
               android:layout_width="fill_parent" android:layout_height="fill_parent"/>
 </LinearLayout>

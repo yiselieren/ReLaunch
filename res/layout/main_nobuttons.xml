@@ -7,5 +7,5 @@
     <EditText android:id="@+id/title_txt" android:textColor="#ffffff" android:background="#000000"  android:textAppearance="?android:attr/textAppearanceMedium"  android:layout_width="fill_parent" android:layout_height="wrap_content" android:inputType="textMultiLine" android:focusable="false" android:editable="false">
         <requestFocus></requestFocus>
     </EditText>
-   <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="wrap_content"></ListView>
+   <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="wrap_content" android:fadeScrollbars="false"></ListView>
 </LinearLayout>
