@@ -19,6 +19,7 @@ public class Home extends Activity {
 
         Intent intent = new Intent(Home.this, ReLaunch.class);
         intent.putExtra("home", true);
+        intent.putExtra("home1", false);
         intent.putExtra("shop", false);
         intent.putExtra("library", false);
         startActivityForResult(intent, 0);

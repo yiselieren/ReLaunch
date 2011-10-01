@@ -221,7 +221,7 @@ public class AllApplications extends Activity {
         lv = (GridView) findViewById(R.id.app_grid);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-        if (prefs.getBoolean("customScroll", false))
+        if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
             {

@@ -67,6 +67,7 @@ public class ReLaunch extends Activity {
     final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg|.png:Intent:image/png";
     final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
+    final static public int       DIR_ACT = 2;
     final static int              CNTXT_MENU_DELETE_F=1;
     final static int              CNTXT_MENU_DELETE_D_EMPTY=2;
     final static int              CNTXT_MENU_DELETE_D_NON_EMPTY=3;
@@ -83,6 +84,7 @@ public class ReLaunch extends Activity {
     SharedPreferences             prefs;
     ReLaunchApp                   app;
     static public boolean         useHome = false;
+    boolean                       useHome1 = false;
     boolean                       useShop = false;
     boolean                       useLibrary = false;
     boolean                       useDirViewer = false;
@@ -339,18 +341,21 @@ public class ReLaunch extends Activity {
     
     private void setUpButton(Button up, final String upDir)
     {
-        up.setEnabled(!upDir.equals(""));
-        up.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                if (!upDir.equals(""))
+        if (up != null)
+        {
+            up.setEnabled(!upDir.equals(""));
+            up.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
                 {
-                    Integer p = -1;
-                    if (!positions.empty())
-                        p = positions.pop();
-                    drawDirectory(upDir, p);
-                }
-            }});
+                    if (!upDir.equals(""))
+                    {
+                        Integer p = -1;
+                        if (!positions.empty())
+                            p = positions.pop();
+                        drawDirectory(upDir, p);
+                    }
+                }});
+        }
     }
 
     private void drawDirectory(String root, Integer startPosition)
@@ -370,7 +375,9 @@ public class ReLaunch extends Activity {
         final String dirAbsPath = dir.getAbsolutePath();
         tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
         final Button up = (Button)findViewById(R.id.goup_btn);
-        ((Button)findViewById(R.id.advanced_btn)).setEnabled(false);
+        final Button adv = (Button)findViewById(R.id.advanced_btn);
+        if (adv != null)
+            adv.setEnabled(false);
 
         itemsArray = new ArrayList<HashMap<String,String>>();
         if (dir.getParent() != null)
@@ -439,7 +446,7 @@ public class ReLaunch extends Activity {
         else
             tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
 
-        if (prefs.getBoolean("customScroll", false))
+        if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
             {
@@ -450,7 +457,7 @@ public class ReLaunch extends Activity {
                     scrollW = 25;
                 }
 
-                LinearLayout ll = (LinearLayout)findViewById(R.id.fl_layout);
+                LinearLayout ll = (LinearLayout)findViewById(useDirViewer ? R.id.results_fl : R.id.fl_layout);
                 final SView sv = new SView(getBaseContext());
                 LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
                 sv.setLayoutParams(pars);
@@ -578,6 +585,7 @@ public class ReLaunch extends Activity {
         if (data.getExtras() == null)
         {
             useHome = false;
+            useHome1 = false;
             useShop = false;
             useLibrary = false;
             useDirViewer = false;
@@ -585,6 +593,7 @@ public class ReLaunch extends Activity {
         else
         {
             useHome = data.getBooleanExtra("home", false);
+            useHome1 = data.getBooleanExtra("home1", false);
             useShop = data.getBooleanExtra("shop", false);
             useLibrary = data.getBooleanExtra("library", false);
             useDirViewer = data.getBooleanExtra("dirviewer", false);
@@ -619,8 +628,8 @@ public class ReLaunch extends Activity {
        }
 
         filterMyself = prefs.getBoolean("filterSelf", true);
-        if (useHome  &&  !prefs.getBoolean("homeMode", true))
-            useHome = false;
+        if (useHome1  &&  prefs.getBoolean("homeMode", true))
+            useHome = true;
         if (useShop  &&  prefs.getBoolean("shopMode", true))
             useHome = true;
         if (useLibrary  &&  prefs.getBoolean("libraryMode", true))
@@ -891,6 +900,8 @@ public class ReLaunch extends Activity {
         {
             File   d = new File(fullName);
             String[] allEntries = d.list();
+            if (!app.contains("favorites", fullName, app.DIR_TAG))
+                menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
             if (allEntries.length > 0)
                 menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, "Delete NON-EMPTY directory!");
             else
@@ -910,11 +921,15 @@ public class ReLaunch extends Activity {
         final String fname = i.get("name");
         final String dname = i.get("dname");
         final String fullName = dname + "/" + fname;
+        final String type  = i.get("type");
 
         switch (item.getItemId())
         {
         case CNTXT_MENU_ADD:
-            app.addToList("favorites", dname, fname, false);
+            if (type.equals("file"))
+                app.addToList("favorites", dname, fname, false);
+            else
+                app.addToList("favorites", fullName, app.DIR_TAG, false);
             break;
         case CNTXT_MENU_MARK_READING:
             app.history.put(fullName, app.READING);

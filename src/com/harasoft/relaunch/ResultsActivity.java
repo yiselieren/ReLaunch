@@ -29,6 +29,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +61,7 @@ public class ResultsActivity extends Activity {
     List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
     Integer                       currentPosition = -1;
     boolean                       addSView = true;
+    boolean                       oldHome;
 
     static class ViewHolder {
         TextView  tv1;
@@ -279,6 +281,13 @@ public class ResultsActivity extends Activity {
         ((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { finish(); }});
 
+        final Button up = (Button)findViewById(R.id.goup_btn);
+        if (up != null)
+            up.setEnabled(false);
+        final Button adv = (Button)findViewById(R.id.advanced_btn);
+        if (adv != null)
+            adv.setEnabled(false);
+
         currentPosition = -1;
         lv = (ListView) findViewById(R.id.results_list);
         if (total == -1)
@@ -290,7 +299,7 @@ public class ResultsActivity extends Activity {
         adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-        if (prefs.getBoolean("customScroll", false))
+        if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
             {
@@ -331,7 +340,8 @@ public class ResultsActivity extends Activity {
                         Intent intent = new Intent(ResultsActivity.this, ReLaunch.class);
                         intent.putExtra("dirviewer", true);
                         intent.putExtra("start_dir", fullName);
-                        startActivity(intent);
+                        oldHome = ReLaunch.useHome;
+                        startActivityForResult(intent, ReLaunch.DIR_ACT);
                     }
                     else
                     {
@@ -412,11 +422,12 @@ public class ResultsActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
-        if (resultCode != Activity.RESULT_OK)
-            return;
         switch (requestCode)
         {
         case ReLaunch.TYPES_ACT:
+            if (resultCode != Activity.RESULT_OK)
+                return;
+
             String newTypes = ReLaunch.createReadersString(app.getReaders());
 
             SharedPreferences.Editor editor = prefs.edit();
@@ -424,6 +435,9 @@ public class ResultsActivity extends Activity {
             editor.commit();
 
             redrawList();
+            break;
+        case ReLaunch.DIR_ACT:
+            ReLaunch.useHome = oldHome;
             break;
         default:
             return;
@@ -446,6 +460,7 @@ public class ResultsActivity extends Activity {
                 menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
             if (pos < (itemsArray.size()-1))
                 menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
             menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, "Delete directory");
             menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
         }
@@ -524,7 +539,10 @@ public class ResultsActivity extends Activity {
             redrawList();
             break;
         case CNTXT_MENU_RMFAV:
-            app.removeFromList("favorites", dname, fname);
+            if (i.get("type").equals("dir"))
+                app.removeFromList("favorites", fullName, app.DIR_TAG);
+            else
+                app.removeFromList("favorites", dname, fname);
             itemsArray.remove(pos);
             redrawList();
             break;

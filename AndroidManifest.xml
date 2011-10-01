@@ -15,10 +15,19 @@
                   android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="com.bn.intent.action.home" />
                 <category android:name="android.intent.category.HOME"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".Home1"
+                  android:launchMode="singleInstance"
+                  android:stateNotNeeded="true">
+            <intent-filter>
+                <action android:name="com.bn.intent.action.home" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="quicknav.view" android:value="true" />
         </activity>
 
         <activity android:name=".Shop"
