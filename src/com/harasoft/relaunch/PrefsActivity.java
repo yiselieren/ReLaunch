@@ -51,6 +51,7 @@ public class PrefsActivity extends PreferenceActivity {
     
     private void setDefaults()
     {
+        // General section
         defItems.add(new PrefItem("filterResults", false));
         defItems.add(new PrefItem("fullScreen", true));
         defItems.add(new PrefItem("showButtons", true));
@@ -58,26 +59,39 @@ public class PrefsActivity extends PreferenceActivity {
         defItems.add(new PrefItem("saveDir", true));
         defItems.add(new PrefItem("askAmbig", false));
         defItems.add(new PrefItem("showNew", true));
+        defItems.add(new PrefItem("gl16Mode", "5"));
 
+        // Launcher mode settings
         defItems.add(new PrefItem("filterSelf", true));
         defItems.add(new PrefItem("shopMode", true));
         defItems.add(new PrefItem("libraryMode", true));
+        defItems.add(new PrefItem("homeMode", true));
 
+        // Scrollbar appearance settings
+        defItems.add(new PrefItem("showScroll", false));
+        defItems.add(new PrefItem("customScroll", true));
+        defItems.add(new PrefItem("scrollWidth", "25"));
+        defItems.add(new PrefItem("scrollPad", "10"));
+
+        // Search setting
         defItems.add(new PrefItem("searchSize", "5000"));
         defItems.add(new PrefItem("searchReport", "100"));
+        defItems.add(new PrefItem("searchRoot", "/sdcard"));
 
+        // Viewer/editor settings
         defItems.add(new PrefItem("viewerMaxSize", "1048576"));
         defItems.add(new PrefItem("editorMaxSize", "262144"));
 
+        // Maximal size of misc. persistent lists
         defItems.add(new PrefItem("lruSize", "30"));
         defItems.add(new PrefItem("favSize", "30"));
         defItems.add(new PrefItem("appLruSize", "30"));
         defItems.add(new PrefItem("appFavSize", "30"));
 
+        // Confirmations
         defItems.add(new PrefItem("confirmFileDelete", true));
         defItems.add(new PrefItem("confirmDirDelete", true));
         defItems.add(new PrefItem("confirmNonEmptyDirDelete", true));
-        defItems.add(new PrefItem("searchRoot", "/sdcard"));
     }
  
     private void revert()

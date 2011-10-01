@@ -37,11 +37,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -87,8 +89,10 @@ public class TaskManager extends Activity {
     List<Integer>                 servPids = new ArrayList<Integer>();
     ListView                      lv_t;
     TAdapter                      adapter_t;
+    boolean                       addSView_t = true;
     ListView                      lv_s;
     SAdapter                      adapter_s;
+    boolean                       addSView_s = true;
 
     // Process info
     static class ExtraInfo {
@@ -928,6 +932,56 @@ public class TaskManager extends Activity {
         lv_s = (ListView) findViewById(R.id.services_lv);
         adapter_s = new SAdapter(this, R.layout.taskmanager_item);
         lv_s.setAdapter(adapter_s);
+
+        if (prefs.getBoolean("customScroll", false))
+        {
+            int scrollW;
+            try {
+                scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
+            } catch(NumberFormatException e) {
+                scrollW = 25;
+            }
+
+            if (addSView_t)
+            {
+                LinearLayout ll = (LinearLayout)findViewById(R.id.tasks_lv_layout);
+                final SView sv = new SView(getBaseContext());
+                LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
+                sv.setLayoutParams(pars);
+                ll.addView(sv);
+                lv_t.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                        sv.total = totalItemCount;
+                        sv.count = visibleItemCount;
+                        sv.first = firstVisibleItem;
+                        sv.invalidate();
+                    }
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    }
+                });         
+                addSView_t = false;
+            }
+
+            if (addSView_s)
+            {
+                LinearLayout ll = (LinearLayout)findViewById(R.id.services_lv_layout);
+                final SView sv = new SView(getBaseContext());
+                LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
+                sv.setLayoutParams(pars);
+                ll.addView(sv);
+                lv_s.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                        sv.total = totalItemCount;
+                        sv.count = visibleItemCount;
+                        sv.first = firstVisibleItem;
+                        sv.invalidate();
+                    }
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    }
+                });         
+                addSView_s = false;
+            }
+        }
 
         // Get total memory
         try

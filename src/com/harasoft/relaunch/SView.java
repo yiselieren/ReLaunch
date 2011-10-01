@@ -43,19 +43,26 @@ public class SView extends View {
         busyPaint.setColor(getResources().getColor(R.color.scrollbar_busy));
         freePaint = new Paint();
         freePaint.setColor(getResources().getColor(R.color.scrollbar_free));
+        int scrollW;
         try {
-            lpad = Integer.parseInt(prefs.getString("scrollPad", "3"));
+            lpad = Integer.parseInt(prefs.getString("scrollPad", "10"));
+            scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
         } catch(NumberFormatException e) {
-            lpad = 3;
-       }
-
+            lpad = 10;
+            scrollW = 25;
+        }
+        if (lpad >= scrollW)
+            lpad = scrollW-2;
+        if (lpad < 0)
+            lpad = 0;
+        
 
     }
     @Override
     protected void onDraw(Canvas canvas) {
         int h = getHeight();
         int w = getWidth() - lpad;
-        Log.d(TAG, "SV --  first:" + first + " count:" + count + " total:" + total + " (" + w + " x " + h + ")");
+        //Log.d(TAG, "SV --  first:" + first + " count:" + count + " total:" + total + " (" + w + " x " + h + ")");
         if (total == 0)
             canvas.drawRect(lpad, 0, w, h, busyPaint);
         else
@@ -64,22 +71,17 @@ public class SView extends View {
             if (first > 0)
             {
                 int n = (h * first) / total;
-                //Log.d(TAG, "DRAW FREE: " + lpad + ", " + curr + ", " + w + " ," + h);
                 canvas.drawRect(lpad, curr, w, h, freePaint);
                 curr += n;
             }
             if (count > 0)
             {
                 int n = (h * count) / total;
-                //Log.d(TAG, "DRAW BUSY: " + lpad + ", " + curr + ", " + w + " ," + h);
                 canvas.drawRect(lpad, curr, w, h, busyPaint);
                 curr += n;
            }
             if ((first + count) < (total - 1))
-            {
-                //Log.d(TAG, "DRAW FREE: " + lpad + ", " + curr + ", " + w + " ," + h);
                 canvas.drawRect(lpad, curr, w, h, freePaint);
-            }
         }
     }
 }

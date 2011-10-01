@@ -18,7 +18,9 @@
         <Button android:text="Go one level up" android:drawableLeft="@drawable/arrow_up" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/goup_btn" android:drawableRight="@drawable/arrow_up" android:layout_weight="0.6"></Button>
         <Button android:text="Advanced" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn"></Button>
     </LinearLayout>
-    <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="0dp" android:fadeScrollbars="false" android:layout_weight="1"></ListView>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/fl_layout">
+        <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="fill_parent" android:fadeScrollbars="false" android:layout_weight="1"></ListView>
+    </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="wrap_content">
         <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">
             <Button android:id="@+id/mem_title" android:textColor="#ffffff" android:background="#000000" android:text="Memory" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>

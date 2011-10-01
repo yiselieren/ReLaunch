@@ -445,9 +445,9 @@ public class ReLaunch extends Activity {
             {
                 int scrollW;
                 try {
-                    scrollW = Integer.parseInt(prefs.getString("scrollWidth", "10"));
+                    scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
                 } catch(NumberFormatException e) {
-                    scrollW = 10;
+                    scrollW = 25;
                 }
 
                 LinearLayout ll = (LinearLayout)findViewById(R.id.fl_layout);
@@ -619,6 +619,8 @@ public class ReLaunch extends Activity {
        }
 
         filterMyself = prefs.getBoolean("filterSelf", true);
+        if (useHome  &&  !prefs.getBoolean("homeMode", true))
+            useHome = false;
         if (useShop  &&  prefs.getBoolean("shopMode", true))
             useHome = true;
         if (useLibrary  &&  prefs.getBoolean("libraryMode", true))
@@ -774,9 +776,9 @@ public class ReLaunch extends Activity {
     
             int gl16Mode;
             try {
-                gl16Mode = Integer.parseInt(prefs.getString("gl16Mode", "0"));
+                gl16Mode = Integer.parseInt(prefs.getString("gl16Mode", "5"));
             } catch (NumberFormatException e) {
-                gl16Mode = 0;
+                gl16Mode = 5;
             }
             N2EpdController.setGL16Mode(gl16Mode);
              // First directory to get to

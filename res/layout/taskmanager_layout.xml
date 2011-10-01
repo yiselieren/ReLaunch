@@ -25,7 +25,14 @@
         <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="Services" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_services_title"></TextView>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout4">
-        <ListView android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/tasks_lv" android:fadeScrollbars="false"></ListView>
-        <ListView android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/services_lv" android:fadeScrollbars="false"></ListView>
+
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/tasks_lv_layout">
+            <ListView android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/tasks_lv" android:fadeScrollbars="false"></ListView>
+        </LinearLayout>
+        
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/services_lv_layout">
+            <ListView android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/services_lv" android:fadeScrollbars="false"></ListView>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

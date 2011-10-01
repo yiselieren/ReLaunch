@@ -26,10 +26,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +59,7 @@ public class ResultsActivity extends Activity {
     ListView                      lv;
     List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
     Integer                       currentPosition = -1;
+    boolean                       addSView = true;
 
     static class ViewHolder {
         TextView  tv1;
@@ -287,6 +290,35 @@ public class ResultsActivity extends Activity {
         adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
+        if (prefs.getBoolean("customScroll", false))
+        {
+            if (addSView)
+            {
+                int scrollW;
+                try {
+                    scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
+                } catch(NumberFormatException e) {
+                    scrollW = 25;
+                }
+
+                LinearLayout ll = (LinearLayout)findViewById(R.id.results_fl);
+                final SView sv = new SView(getBaseContext());
+                LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
+                sv.setLayoutParams(pars);
+                ll.addView(sv);
+                lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                        sv.total = totalItemCount;
+                        sv.count = visibleItemCount;
+                        sv.first = firstVisibleItem;
+                        sv.invalidate();
+                    }
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    }
+                });         
+                addSView = false;
+            }
+        }
         lv.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
