@@ -377,7 +377,14 @@ public class ReLaunch extends Activity {
         final Button up = (Button)findViewById(R.id.goup_btn);
         final Button adv = (Button)findViewById(R.id.advanced_btn);
         if (adv != null)
-            adv.setEnabled(false);
+        {
+            adv.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    Intent i = new Intent(ReLaunch.this, Advanced.class);
+                    startActivity(i);
+                }});
+        }
 
         itemsArray = new ArrayList<HashMap<String,String>>();
         if (dir.getParent() != null)

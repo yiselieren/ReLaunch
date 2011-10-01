@@ -286,7 +286,15 @@ public class ResultsActivity extends Activity {
             up.setEnabled(false);
         final Button adv = (Button)findViewById(R.id.advanced_btn);
         if (adv != null)
-            adv.setEnabled(false);
+        {
+            adv.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    Intent i = new Intent(ResultsActivity.this, Advanced.class);
+                    startActivity(i);
+                }});
+
+        }
 
         currentPosition = -1;
         lv = (ListView) findViewById(R.id.results_list);

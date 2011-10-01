@@ -43,4 +43,13 @@
         <item>Android System</item>
     </string-array>
     <bool name="do_not_kill_empty_labels">true</bool>
+    
+    <string-array name="filesystems_to_ignore">
+        <item>rootfs</item>
+        <item>tmpfs</item>
+        <item>devpts</item>
+        <item>proc</item>
+        <item>sysfs</item>
+        <item>cgroup</item>
+    </string-array>
 </resources>

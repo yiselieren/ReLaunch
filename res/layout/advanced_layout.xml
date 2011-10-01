@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Obtain superuser permissions" android:id="@+id/su_btn" android:drawableLeft="@drawable/su" android:drawableRight="@drawable/su"></Button>
+    <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="Reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:drawableRight="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn"></Button>    
+</LinearLayout>
