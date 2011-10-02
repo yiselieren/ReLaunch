@@ -433,26 +433,9 @@ public class ReLaunch extends Activity {
         int[]    to   = new int[] { R.id.fl_text };
         setUpButton(up, upDir);
         
-        ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
+        final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
-        if (prefs.getBoolean("showScroll", false))
-        {
-            lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
-                    int first = firstVisibleItem+1;
-                    int last = first+visibleItemCount-1;
-                    if (last > totalItemCount)
-                        last = totalItemCount;
-                    tv.setText(dirAbsPath + " (" + first + "-" + last  + " / " + totalItemCount + ")");
-                }
-                public void onScrollStateChanged(AbsListView view, int scrollState) {                
-                }
-            });
-        }
-        else
-            tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
-
         if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
@@ -536,6 +519,36 @@ public class ReLaunch extends Activity {
                         }
                     }
                 }});
+
+        final Button upScroll = (Button)findViewById(R.id.upscroll_btn);
+        upScroll.setText(app.scrollStep + "%");
+        upScroll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                int first = lv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                first -= (total * app.scrollStep) / 100;
+                if (first < 0)
+                    first = 0;
+                lv.setSelection(first);
+            }});
+
+        final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
+        downScroll.setText(app.scrollStep + "%");
+        downScroll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                int first = lv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                int last = lv.getLastVisiblePosition();
+                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                first += (total * app.scrollStep) / 100;
+                if (first <= last)
+                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (first > (total-1))
+                    first = total-1;
+                lv.setSelection(first);
+            }});
     }
 
     private HashMap<String, Drawable> createIconsList(PackageManager pm)
@@ -627,12 +640,18 @@ public class ReLaunch extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
         try {
+            app.scrollStep = Integer.parseInt(prefs.getString("scrollPerc", "10"));
             app.viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize", "1048576"));
             app.editorMax = Integer.parseInt(prefs.getString("editorMaxSize", "262144"));
         } catch(NumberFormatException e) {
+            app.scrollStep = 10;
             app.viewerMax = 1048576;
             app.editorMax = 262144;
        }
+        if (app.scrollStep < 1)
+            app.scrollStep = 1;
+        if (app.scrollStep > 100)
+            app.scrollStep = 100;
 
         filterMyself = prefs.getBoolean("filterSelf", true);
         if (useHome1  &&  prefs.getBoolean("homeMode", true))

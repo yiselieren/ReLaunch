@@ -51,6 +51,9 @@ public class ReLaunchApp extends Application {
     int                                     viewerMax;
     int                                     editorMax;
 
+    // Scrolling related values
+    public int                             scrollStep; 
+
     // Filter values
     public int                        FLT_SELECT;
     public int                        FLT_STARTS;

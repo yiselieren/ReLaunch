@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,6 +21,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Advanced extends Activity {
@@ -30,6 +34,7 @@ public class Advanced extends Activity {
     Button                        suBtn;
     String[]                      ingnoreFs;
     List<Info>                    infos;
+    int                           myId = -1;;
 
     static class Info {
         String  dev;
@@ -47,6 +52,75 @@ public class Advanced extends Activity {
         }
     }
     
+    private boolean cmd_su(String cmd, String title, String descr)
+    {
+        String r1 = "";
+        Log.d(TAG, "===== LOG 1 ID:" + getMyId());
+        //List<String> r = execFg(cmd);
+        try {
+            Runtime.getRuntime().exec("su");
+        } catch (IOException e1) { }
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) { }
+        Log.d(TAG, "===== LOG 2 ID:" + getMyId());
+       if (getMyId() == 0)
+            return true;
+
+        /*
+        for (int i=0; i<r.size(); i++)
+            r1 = r1 + r.get(i) + "\n";
+        AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
+        builder.setTitle(title);
+        builder.setMessage("Can't " + descr + ":\n" + ((r.size() > 0) ? r1 : "Can't execute \"su\""));
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }});
+        builder.show();
+        */
+        return false;
+    }
+
+    private boolean cmd1(String cmd, String title, String descr)
+    {
+        String r1 = "";
+        List<String> r = execFg(cmd);
+        if (r.size() < 1)
+            return true;
+
+        for (int i=0; i<r.size(); i++)
+            r1 = r1 + r.get(i) + "\n";
+        AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
+        builder.setTitle(title);
+        builder.setMessage("Can't " + descr + ":\n" + r1);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }});
+        builder.show();
+        return false;
+    }
+    private int getMyId()
+    {
+        int rc = -1;
+
+        for (String l : execFg("id"))
+        {
+            Pattern p = Pattern.compile("uid=(\\d+)\\(");
+            Matcher m = p.matcher(l);
+            if (m.find())
+            {
+                try {
+                    rc = Integer.parseInt(m.group(1));
+                } catch (NumberFormatException e) {
+                    rc=-1;
+                }
+                if (rc != -1)
+                    return rc;
+            }
+        }
+        return rc;
+    }
+ 
     // Read file and return result as list of strings
     private List<String> readFile(String fname)
     {
@@ -149,6 +223,9 @@ public class Advanced extends Activity {
             
             infos.add(in);
         }
+        
+        myId = getMyId();
+        Log.d(TAG, "ID=" + myId);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +241,9 @@ public class Advanced extends Activity {
         createInfo();
         for (int i=0; i<infos.size(); i++)
             infos.get(i).dump("#" + i);
+        ((TextView)findViewById(R.id.results_title)).setText("Advanced functions");
+        ((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { finish(); }});
 
         rebootBtn = (Button)findViewById(R.id.reboot_btn);
         rebootBtn.setOnClickListener(new View.OnClickListener() {
@@ -174,29 +254,32 @@ public class Advanced extends Activity {
                 builder.setMessage("Are you sure to reboot your device ? ");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        try {
-                            Runtime.getRuntime().exec("su");
-                            Runtime.getRuntime().exec("reboot");
-                        } catch (IOException e) {
-                            Toast.makeText(Advanced.this, "Can't reboot", Toast.LENGTH_LONG).show();
-                        }
-                     }});
+                        if (cmd_su("su", "Obtaining superuser permissions failure", "obtain superuser permissions"))
+                            try {
+                                Runtime.getRuntime().exec("reboot");
+                            } catch (IOException e) {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(Advanced.this);
+                                builder1.setTitle("Reboot failure");
+                                builder1.setMessage("Can't reboot device");
+                                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }});
+                                builder1.show();
+                            }
+
+                    }});
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }});
              
                 builder.show();
             }});
-
+        
         suBtn = (Button)findViewById(R.id.su_btn);
+        suBtn.setEnabled(myId != 0);
         suBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                try {
-                    Runtime.getRuntime().exec("su");
-                } catch (IOException e) {
-                    Toast.makeText(Advanced.this, "Can't obtain superuser permissions", Toast.LENGTH_LONG).show();
-                }
+            public void onClick(View v) {
+                suBtn.setEnabled(!cmd_su("su", "Obtaining superuser permissions failure", "obtain superuser permissions"));
             }});
     }
 }

@@ -390,6 +390,32 @@ public class ResultsActivity extends Activity {
                         }
                     }
                 }});
+
+        final Button upScroll = (Button)findViewById(R.id.upscroll_btn);
+        upScroll.setText(app.scrollStep + "%");
+        upScroll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                int first = lv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                first -= (total * app.scrollStep) / 100;
+                if (first < 0)
+                    first = 0;
+                lv.setSelection(first);
+            }});
+
+        final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
+        downScroll.setText(app.scrollStep + "%");
+        downScroll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                int first = lv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                first += (total * app.scrollStep) / 100;
+                if (first > total)
+                    first = total;
+                lv.setSelection(first);
+            }});
     }
 
     @Override
