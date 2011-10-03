@@ -17,6 +17,10 @@
         <Button android:text="Switch WiFi off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn"></Button>    
     </LinearLayout>
 
+    <WebView android:id="@+id/webview1" android:layout_marginTop="28dp"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+    />
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_marginTop="48dp" android:layout_height="wrap_content">
         <Button android:text="Reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:drawableRight="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></Button>
     </LinearLayout>

@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -411,6 +412,29 @@ public class Advanced extends Activity {
              
                 builder.show();
             }});
+        
+        // Web info view
+        WebView wv = (WebView)findViewById(R.id.webview1);
+        String s = "<h2><center>Disks/partitions</center></h2><table>";
+        s += "<tr>"
+            + "<td><b>Mount point</b></td>"
+            + "<td><b>FS</b></td>"
+            + "<td><b>total</b></td>"
+            + "<td><b>used</b></td>"
+            + "<td><b>free</b></td>"
+            + "<td><b>RO/RW</b></td>"
+            + "</tr>";
+        for (Info i : infos)
+            s += "<tr>"
+                + "<td>" + i.mpoint + "</td>"
+                + "<td>" + i.fs +     "</td>"
+                + "<td>" + i.total +  "</td>"
+                + "<td>" + i.used +   "</td>"
+                + "<td>" + i.free +   "</td>"
+                + "<td>" + (i.ro ? "RO" : "RW") + "</td>"
+                + "</tr>";
+        s += "</table>";
+        wv.loadData(s, "text/html", "utf-8");
     }
 
     @Override
