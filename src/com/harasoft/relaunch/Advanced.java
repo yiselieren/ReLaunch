@@ -25,12 +25,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,20 +135,29 @@ public class Advanced extends Activity {
             final ScanResult item = wifiNetworks.get(position);
             if (item != null)
             {
-                tv1.setText(item.SSID);
-                tv2.setText(item.capabilities);
                 if (item.SSID.equals(winfo.getSSID()))
                 {
+                    SpannableString s1 = new SpannableString(item.SSID);
+                    s1.setSpan(Typeface.BOLD, 0, item.SSID.length(), 0);
+                    tv1.setText(s1);
+                    SpannableString s2 = new SpannableString(item.capabilities);
+                    s2.setSpan(Typeface.BOLD, 0, item.capabilities.length(), 0);
+                    tv2.setText(s2);
                     int ipAddress = winfo.getIpAddress();
-                    tv3.setText(String.format("IP: %d.%d.%d.%d",
+                    String s = String.format("Connected, IP: %d.%d.%d.%d",
                             (ipAddress & 0xff),
                             (ipAddress >> 8 & 0xff),
                             (ipAddress >> 16 & 0xff),
-                            (ipAddress >> 24 & 0xff)));
+                            (ipAddress >> 24 & 0xff));
+                    SpannableString s3 = new SpannableString(s);
+                    s3.setSpan(Typeface.BOLD, 0, s.length(), 0);
+                    tv3.setText(s3);
                     iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                }
                 else
                 {
+                    tv1.setText(item.SSID);
+                    tv2.setText(item.capabilities);
                     tv3.setText("Level: " + item.level);
                     iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
                 }
