@@ -149,4 +149,10 @@ public class Viewer extends Activity {
             return;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.generalOnResume(TAG, this);
+    }
 }

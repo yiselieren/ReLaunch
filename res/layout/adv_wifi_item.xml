@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+  <ImageView android:src="@drawable/dir_ok" android:background="#ffffff" android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/wf_icon"></ImageView>
+  <LinearLayout android:id="@+id/linearLayout1" android:background="#ffffff" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+      <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="SSID" android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/wf_ssid"></TextView>
+      <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="capabilities" android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#000000" android:background="#ffffff"  android:layout_width="fill_parent" android:id="@+id/wf_capabilities"></TextView>
+      <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="other" android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff"  android:layout_width="fill_parent" android:id="@+id/wf_other"></TextView>
+  </LinearLayout>
+    
+</LinearLayout>

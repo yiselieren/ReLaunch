@@ -11,7 +11,7 @@
         <Button android:text="Go one level up" android:drawableLeft="@drawable/arrow_up" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/goup_btn" android:drawableRight="@drawable/arrow_up" android:layout_weight="0.6"></Button>
         <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_up" android:text="0%" android:layout_width="fill_parent" android:id="@+id/upscroll_btn"></Button>
         <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_down" android:text="0%" android:layout_width="fill_parent" android:id="@+id/downscroll_btn"></Button>
-        <Button android:text="Advanced" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn"></Button>
+        <ImageButton android:layout_width="fill_parent" android:src="@drawable/su" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn"></ImageButton>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fl_layout">
         <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="wrap_content" android:fadeScrollbars="false"></ListView>

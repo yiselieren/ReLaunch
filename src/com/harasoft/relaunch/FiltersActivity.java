@@ -231,4 +231,10 @@ public class FiltersActivity  extends Activity {
                     finish();
                 }});
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.generalOnResume(TAG, this);
+    }
 }

@@ -320,4 +320,10 @@ public class TypesActivity extends Activity {
                 }
             });
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.generalOnResume(TAG, this);
+    }
 }

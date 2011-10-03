@@ -2,7 +2,9 @@ package com.harasoft.relaunch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -23,10 +25,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract.Data;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
@@ -375,7 +379,7 @@ public class ReLaunch extends Activity {
         final String dirAbsPath = dir.getAbsolutePath();
         tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
         final Button up = (Button)findViewById(R.id.goup_btn);
-        final Button adv = (Button)findViewById(R.id.advanced_btn);
+        final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
         {
             adv.setOnClickListener(new View.OnClickListener() {
@@ -1057,6 +1061,29 @@ public class ReLaunch extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        app.generalOnResume(TAG, this);
+
+        // Date
+        String d;
+        Calendar c = Calendar.getInstance();
+        if (prefs.getBoolean("dateUS", false))
+            d = String.format("%02d:%02d%s %02d/%02d/%02d",
+                    c.get(Calendar.HOUR),
+                    c.get(Calendar.MINUTE),
+                    ((c.get(Calendar.AM_PM) == 0) ? "AM" : "PM"),
+                    c.get(Calendar.MONTH),
+                    c.get(Calendar.DAY_OF_MONTH),
+                    (c.get(Calendar.YEAR)-2000));
+        else
+            d = String.format("%02d:%02d %02d/%02d/%02d",
+                    c.get(Calendar.HOUR_OF_DAY),
+                    c.get(Calendar.MINUTE),
+                    c.get(Calendar.DAY_OF_MONTH),
+                    c.get(Calendar.MONTH),
+                    (c.get(Calendar.YEAR)-2000));
+        Button mt = (Button)findViewById(R.id.mem_title);
+        if (mt != null)
+            mt.setText(d);
 
         // Memory
         MemoryInfo mi = new MemoryInfo();
@@ -1066,6 +1093,23 @@ public class ReLaunch extends Activity {
         if (tv != null)
             tv.setText(mi.availMem / 1048576L + "M free");
 
+        // Wifi status
+        WifiManager wfm = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        Button bt = (Button)findViewById(R.id.bat_title);
+        if (bt != null)
+        {
+            if (wfm.isWifiEnabled())
+            {
+                bt.setText(wfm.getConnectionInfo().getSSID());
+                bt.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_on), null, null, null);
+            }
+            else
+            {
+                bt.setText("WiFi is off");
+                bt.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_off), null, null, null);
+            }
+        }
+            
         // Battery
         BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
                 public void onReceive(Context context, Intent intent) {
@@ -1078,7 +1122,7 @@ public class ReLaunch extends Activity {
                     }
                     Button tv = (Button)findViewById(R.id.bat_level);
                     if (tv != null)
-                        tv.setText(level + "%");
+                        tv.setText("Bat.: " + level + "%");
                 }
             };
         IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);

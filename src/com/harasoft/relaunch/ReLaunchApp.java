@@ -620,4 +620,9 @@ public class ReLaunchApp extends Application {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
+    
+    public void generalOnResume(String name, Activity a)
+    {
+        Log.d(TAG, "--- onResume(" + name + ")");
+    }
 }

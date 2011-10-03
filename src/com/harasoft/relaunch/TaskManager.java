@@ -1036,6 +1036,7 @@ public class TaskManager extends Activity {
     protected void onResume() {
         super.onResume();
         startCPUUpdate();
+        app.generalOnResume(TAG, this);
    }
 
     @Override

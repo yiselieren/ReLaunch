@@ -383,6 +383,7 @@ public class SearchActivity extends Activity {
         super.onResume();
         searchAs.setSelection(prefs.getInt("searchAs", 0), false);
         searchIn.setSelection(prefs.getInt("searchIn", 0), false);
+        app.generalOnResume(TAG, this);
     }
 
     @Override

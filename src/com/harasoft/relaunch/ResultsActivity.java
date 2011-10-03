@@ -284,7 +284,7 @@ public class ResultsActivity extends Activity {
         final Button up = (Button)findViewById(R.id.goup_btn);
         if (up != null)
             up.setEnabled(false);
-        final Button adv = (Button)findViewById(R.id.advanced_btn);
+        final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
         {
             adv.setOnClickListener(new View.OnClickListener() {
@@ -708,5 +708,11 @@ public class ResultsActivity extends Activity {
             break;
         }
         return true;
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.generalOnResume(TAG, this);
     }
 }

@@ -294,6 +294,7 @@ public class AllApplications extends Activity {
         super.onResume();
         if (listName.equals("app_all"))
             rereadAppList();
+        app.generalOnResume(TAG, this);
     }
 
     @Override

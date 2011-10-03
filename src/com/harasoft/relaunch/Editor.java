@@ -210,6 +210,12 @@ public class Editor extends Activity implements TextWatcher {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.generalOnResume(TAG, this);
+    }
+
     public void afterTextChanged(Editable s) {
         final String newBuf = editTxt.getText().toString();
         if (newBuf.equals(textBuffer))

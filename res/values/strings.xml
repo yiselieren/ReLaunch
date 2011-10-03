@@ -26,5 +26,6 @@
     <string-array name="allowed_products">
         <item>NOOK</item>
     </string-array>
+    <string name="shell">/system/bin/sh -</string>
     
 </resources>

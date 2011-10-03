@@ -4,15 +4,20 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="68dp">
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="68dp" android:layout_marginBottom="36dp">
         <EditText android:id="@+id/results_title" android:textColor="#ffffff" android:background="#000000"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:gravity="center">
             <requestFocus></requestFocus>
         </EditText>
         <ImageButton android:src="@drawable/arrow_left" android:background="#ffffff" android:id="@+id/results_btn" android:layout_height="fill_parent" android:layout_weight="0.3" android:layout_width="96dp"></ImageButton>
     </LinearLayout>
+    <ListView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/wifi_lv"></ListView>
 
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="48dp">
-        <Button android:text="Obtain superuser permissions" android:id="@+id/su_btn" android:drawableLeft="@drawable/su" android:drawableRight="@drawable/su" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></Button>
-        <Button android:text="Reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:drawableRight="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></Button>    
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_marginTop="48dp" android:layout_height="wrap_content">
+        <Button android:text="Scan" android:drawableTop="@android:drawable/ic_menu_help" android:drawableLeft="@drawable/wifi_on" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent" android:id="@+id/wifi_scan_btn"></Button>    
+        <Button android:text="Switch WiFi off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn"></Button>    
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_marginTop="48dp" android:layout_height="wrap_content">
+        <Button android:text="Reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:drawableRight="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent"></Button>
     </LinearLayout>
 </LinearLayout>

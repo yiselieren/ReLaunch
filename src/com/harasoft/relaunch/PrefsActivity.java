@@ -64,6 +64,7 @@ public class PrefsActivity extends PreferenceActivity {
         // Launcher mode settings
         defItems.add(new PrefItem("filterSelf", true));
         defItems.add(new PrefItem("shopMode", true));
+        defItems.add(new PrefItem("dateUS", false));
         defItems.add(new PrefItem("libraryMode", true));
         defItems.add(new PrefItem("homeMode", true));
 
@@ -173,7 +174,13 @@ public class PrefsActivity extends PreferenceActivity {
                 finish();
             }});
     }
-    
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        app.generalOnResume(TAG, this);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
