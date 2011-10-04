@@ -1091,7 +1091,11 @@ public class ReLaunch extends Activity {
         activityManager.getMemoryInfo(mi);
         Button tv = (Button)findViewById(R.id.mem_level);
         if (tv != null)
+        {
             tv.setText(mi.availMem / 1048576L + "M free");
+            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ram), null, null, null);
+        }
+
 
         // Wifi status
         WifiManager wfm = (WifiManager)getSystemService(Context.WIFI_SERVICE);
@@ -1122,7 +1126,18 @@ public class ReLaunch extends Activity {
                     }
                     Button tv = (Button)findViewById(R.id.bat_level);
                     if (tv != null)
-                        tv.setText("Bat.: " + level + "%");
+                    {
+                        tv.setText(level + "%");
+                        if (level < 25)
+                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat1), null, null, null);
+                        else if (level < 50)
+                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat2), null, null, null);
+                        else if (level < 75)
+                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat3), null, null, null);
+                        else
+                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat4), null, null, null);
+                    }
+
                 }
             };
         IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
