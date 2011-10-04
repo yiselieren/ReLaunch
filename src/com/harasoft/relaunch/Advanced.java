@@ -85,6 +85,10 @@ public class Advanced extends Activity {
         }
     }
     
+    private void Trace(String t, String s)
+    {
+        Log.d(t, s);
+    }
     static class ViewHolder {
         TextView  tv1;
         TextView  tv2;
@@ -309,7 +313,7 @@ public class Advanced extends Activity {
         }
     }
     
-    private void updateWiFiOnOffButton()
+    private void updateWiFiInfo()
     {
         if (wifiOn)
         {
@@ -319,11 +323,14 @@ public class Advanced extends Activity {
                     getResources().getDrawable(android.R.drawable.ic_lock_power_off),
                     getResources().getDrawable(R.drawable.wifi_off),
                     null);
-            wfm.startScan();            
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(false);
-                }});
+                    wifiOnOff.setEnabled(false);
+               }});
+            wifiNetworks = wfm.getScanResults();
+            adapter.notifyDataSetChanged();
+            wifiScan.setEnabled(true);
         }
         else
         {
@@ -336,9 +343,11 @@ public class Advanced extends Activity {
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(true);
+                    wifiOnOff.setEnabled(false);
                 }});
             wifiNetworks.clear();
             adapter.notifyDataSetChanged();
+            wifiScan.setEnabled(false);
         }
     }
 
@@ -363,13 +372,23 @@ public class Advanced extends Activity {
         adapter = new WiFiAdapter(this);
         lv_wifi.setAdapter(adapter);
 
+        wifiScan = (Button)findViewById(R.id.wifi_scan_btn);
+        wifiScan.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                wfm.startScan();
+                wifiScan.setEnabled(false);
+            }});
+
         // Receive broadcast when scan results are available
         i1 = new IntentFilter();
         i1.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         b1 = new BroadcastReceiver(){
             @Override
             public void onReceive(Context context, Intent intent) {
+                Trace(TAG, "--- Broadcast receiver B1");
                 wifiNetworks = wfm.getScanResults();
+                wifiScan.setEnabled(true);
                 adapter.notifyDataSetChanged();
             }};
         registerReceiver(b1, i1);
@@ -377,24 +396,22 @@ public class Advanced extends Activity {
         // Receive broadcast when WiFi status changed
         i2 = new IntentFilter();
         i2.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        i2.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        i2.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
+        i2.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        i2.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         b2 = new BroadcastReceiver(){
             @Override
             public void onReceive(Context context, Intent intent) {
+                Trace(TAG, "--- Broadcast receiver B2");
                 wifiOn = wfm.isWifiEnabled();
-                updateWiFiOnOffButton();
+                updateWiFiInfo();
              }};
         registerReceiver(b2, i2);
         
         wifiOnOff = (Button)findViewById(R.id.wifi_onoff_btn);
-        updateWiFiOnOffButton();
+        updateWiFiInfo();
             
-        wifiScan = (Button)findViewById(R.id.wifi_scan_btn);
-        wifiScan.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                wfm.startScan();
-            }});
-
         // Reboot button
         rebootBtn = (Button)findViewById(R.id.reboot_btn);
         rebootBtn.setOnClickListener(new View.OnClickListener() {
