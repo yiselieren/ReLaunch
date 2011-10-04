@@ -38,11 +38,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,12 +58,13 @@ public class Advanced extends Activity {
     String[]                      ingnoreFs;
     List<Info>                    infos;
     int                           myId = -1;
+    boolean                       addSView = true;
     
     WifiManager                   wfm;
     boolean                       wifiOn = false;
     Button                        wifiOnOff;
     Button                        wifiScan;
-    List<ScanResult>              wifiNetworks;
+    List<ScanResult>              wifiNetworks = new ArrayList<ScanResult>();
     WiFiAdapter                   adapter;
     ListView                      lv_wifi;
     IntentFilter                  i1;
@@ -170,6 +173,13 @@ public class Advanced extends Activity {
         }
     }
 
+    private String sp(int n)
+    {
+        String rc = "";
+        for (int i=0; i<n; i++)
+            rc += "&nbsp;";
+        return rc;
+    }
     private int getMyId()
     {
         int rc = -1;
@@ -315,6 +325,7 @@ public class Advanced extends Activity {
     
     private void updateWiFiInfo()
     {
+        wifiOnOff.setEnabled(true);
         if (wifiOn)
         {
             wifiOnOff.setText("Turn WiFi off");
@@ -326,6 +337,7 @@ public class Advanced extends Activity {
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(false);
+                    wifiOnOff.setText("Turning WiFi off");   
                     wifiOnOff.setEnabled(false);
                }});
             wifiNetworks = wfm.getScanResults();
@@ -343,6 +355,8 @@ public class Advanced extends Activity {
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(true);
+                    Log.d(TAG, " ---- Turning WiFi on");
+                    wifiOnOff.setText("Turning WiFi on");   
                     wifiOnOff.setEnabled(false);
                 }});
             wifiNetworks.clear();
@@ -363,7 +377,7 @@ public class Advanced extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         createInfo();
-        ((TextView)findViewById(R.id.results_title)).setText("Advanced functions");
+        ((TextView)findViewById(R.id.results_title)).setText("Advanced functions, info, etc.");
         ((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { finish(); }});
 
@@ -371,6 +385,36 @@ public class Advanced extends Activity {
         lv_wifi = (ListView) findViewById(R.id.wifi_lv);
         adapter = new WiFiAdapter(this);
         lv_wifi.setAdapter(adapter);
+        if (prefs.getBoolean("customScroll", true))
+        {
+            int scrollW;
+            try {
+                scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
+            } catch(NumberFormatException e) {
+                scrollW = 25;
+            }
+
+            if (addSView)
+            {
+                LinearLayout ll = (LinearLayout)findViewById(R.id.wifi_lv_layout);
+                final SView sv = new SView(getBaseContext());
+                LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
+                sv.setLayoutParams(pars);
+                ll.addView(sv);
+                lv_wifi.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                        sv.total = totalItemCount;
+                        sv.count = visibleItemCount;
+                        sv.first = firstVisibleItem;
+                        sv.invalidate();
+                    }
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    }
+                });         
+                addSView = false;
+            }
+        }
+
 
         wifiScan = (Button)findViewById(R.id.wifi_scan_btn);
         wifiScan.setOnClickListener(new View.OnClickListener() {
@@ -405,6 +449,9 @@ public class Advanced extends Activity {
             public void onReceive(Context context, Intent intent) {
                 Trace(TAG, "--- Broadcast receiver B2");
                 wifiOn = wfm.isWifiEnabled();
+                wifiNetworks = wfm.getScanResults();
+                wifiScan.setEnabled(true);
+                adapter.notifyDataSetChanged();
                 updateWiFiInfo();
              }};
         registerReceiver(b2, i2);
@@ -443,23 +490,25 @@ public class Advanced extends Activity {
         
         // Web info view
         WebView wv = (WebView)findViewById(R.id.webview1);
+        final int ntitle1 = 0;
+        final int ntitle2 = 5;
         String s = "<h2><center>Disks/partitions</center></h2><table>";
         s += "<tr>"
-            + "<td><b>Mount point</b></td>"
-            + "<td><b>FS</b></td>"
-            + "<td><b>total</b></td>"
-            + "<td><b>used</b></td>"
-            + "<td><b>free</b></td>"
-            + "<td><b>RO/RW</b></td>"
+            + "<td><b>" + sp(ntitle1) + "Mount point" + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + "FS"          + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + "total"       + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + "used"        + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + "free"        + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + "RO/RW"       + sp(ntitle2) + "</b></td>"
             + "</tr>";
         for (Info i : infos)
             s += "<tr>"
-                + "<td>" + i.mpoint + "</td>"
-                + "<td>" + i.fs +     "</td>"
-                + "<td>" + i.total +  "</td>"
-                + "<td>" + i.used +   "</td>"
-                + "<td>" + i.free +   "</td>"
-                + "<td>" + (i.ro ? "RO" : "RW") + "</td>"
+                + "<td><b>" + i.mpoint + "</b></td>"
+                + "<td><b>" + i.fs +     "</b></td>"
+                + "<td><b>" + i.total +  "</b></td>"
+                + "<td><b>" + i.used +   "</b></td>"
+                + "<td><b>" + i.free +   "</b></td>"
+                + "<td><b>" + (i.ro ? "RO" : "RW") + "</b></td>"
                 + "</tr>";
         s += "</table>";
         wv.loadData(s, "text/html", "utf-8");

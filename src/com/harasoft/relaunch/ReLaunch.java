@@ -382,6 +382,7 @@ public class ReLaunch extends Activity {
         final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
         {
+            adv.setEnabled(false);   // TODO: The advanced activity not good enough yet
             adv.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
@@ -1071,7 +1072,7 @@ public class ReLaunch extends Activity {
                     c.get(Calendar.HOUR),
                     c.get(Calendar.MINUTE),
                     ((c.get(Calendar.AM_PM) == 0) ? "AM" : "PM"),
-                    c.get(Calendar.MONTH),
+                    c.get(Calendar.MONTH)+1,
                     c.get(Calendar.DAY_OF_MONTH),
                     (c.get(Calendar.YEAR)-2000));
         else
@@ -1079,7 +1080,7 @@ public class ReLaunch extends Activity {
                     c.get(Calendar.HOUR_OF_DAY),
                     c.get(Calendar.MINUTE),
                     c.get(Calendar.DAY_OF_MONTH),
-                    c.get(Calendar.MONTH),
+                    c.get(Calendar.MONTH)+1,
                     (c.get(Calendar.YEAR)-2000));
         Button mt = (Button)findViewById(R.id.mem_title);
         if (mt != null)
@@ -1093,7 +1094,7 @@ public class ReLaunch extends Activity {
         if (tv != null)
         {
             tv.setText(mi.availMem / 1048576L + "M free");
-            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ram), null, null, null);
+            tv.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ram), null);
         }
 
 
