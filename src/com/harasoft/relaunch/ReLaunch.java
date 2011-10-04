@@ -382,7 +382,7 @@ public class ReLaunch extends Activity {
         final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
         {
-            adv.setEnabled(false);   // TODO: The advanced activity not good enough yet
+            //adv.setEnabled(false);   // TODO: The advanced activity not good enough yet
             adv.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {

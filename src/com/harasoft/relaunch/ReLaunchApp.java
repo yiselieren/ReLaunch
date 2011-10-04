@@ -185,10 +185,21 @@ public class ReLaunchApp extends Application {
 
         if (delimiter.equals("/"))
         {
-            File f = new File(fullName);
-            if (!f.exists())
-                return;
-            addToList_internal(listName, f.getParent(), f.getName(), addToEnd);
+            if (fullName.endsWith("/" + DIR_TAG))
+            {
+                fullName = fullName.substring(0, fullName.length() - DIR_TAG.length() - 1);
+                File f = new File(fullName);
+                if (!f.exists())
+                    return;
+                addToList_internal(listName, fullName, DIR_TAG, addToEnd);
+            }
+            else
+            {
+                File f = new File(fullName);
+                if (!f.exists())
+                    return;
+                addToList_internal(listName, f.getParent(), f.getName(), addToEnd);
+            }
         }
         else
         {

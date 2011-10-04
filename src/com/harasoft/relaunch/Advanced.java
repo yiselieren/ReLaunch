@@ -6,16 +6,11 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.harasoft.relaunch.ResultsActivity.ViewHolder;
-import com.harasoft.relaunch.TypesActivity.TPAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,13 +36,11 @@ import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Advanced extends Activity {
     final static String           TAG = "Advanced";
@@ -59,7 +52,7 @@ public class Advanced extends Activity {
     List<Info>                    infos;
     int                           myId = -1;
     boolean                       addSView = true;
-    
+
     WifiManager                   wfm;
     boolean                       wifiOn = false;
     Button                        wifiOnOff;
@@ -84,14 +77,21 @@ public class Advanced extends Activity {
         {
             Log.d(TAG, p + " dev=\"" + dev + "\" mpoint=\"" + mpoint + "\" fs=\"" + fs
                     + "\" used=\"" + used + " total=\"" + total
-                    + "\" free=\"" + free + "\" ro=" + ro); 
+                    + "\" free=\"" + free + "\" ro=" + ro);
         }
     }
-    
+
     private void Trace(String t, String s)
     {
-        Log.d(t, s);
+        //Log.d(t, s);
     }
+    //private void dumpIntentData(String t, Intent i)
+    //{
+    //    Bundle d = i.getExtras();
+    //    for (String k : d.keySet())
+    //        Log.d(t, "Bundle key=\"" + k + "\"; value=" + d.getInt(k) + "");
+    //}
+
     static class ViewHolder {
         TextView  tv1;
         TextView  tv2;
@@ -201,7 +201,7 @@ public class Advanced extends Activity {
         }
         return rc;
     }
- 
+
     // Read file and return result as list of strings
     private List<String> readFile(String fname)
     {
@@ -226,16 +226,16 @@ public class Advanced extends Activity {
             br.close();
         } catch (IOException e) { }
 
-       
+
         return rc;
     }
-    
+
     // Execute foreground command and return result as list of strings
     private List<String> execFg(String cmd)
     {
         List<String>   rc = new ArrayList<String>();
         try {
-            
+
             Process p = Runtime.getRuntime().exec(cmd);
             try {
                 DataInputStream ds = new DataInputStream(p.getInputStream());
@@ -302,19 +302,21 @@ public class Advanced extends Activity {
                 in.used = e[3];
                 in.free = e[5];
             }
-            
+
             infos.add(in);
         }
-        
+
         // UID
         myId = getMyId();
-        
+
         // Wifi
         wfm = (WifiManager)getSystemService(Context.WIFI_SERVICE);
         if (wfm.isWifiEnabled())
         {
             wifiOn = true;
             wifiNetworks = wfm.getScanResults();
+            if (wifiNetworks == null)
+                wifiNetworks = new ArrayList<ScanResult>();
         }
         else
         {
@@ -322,7 +324,28 @@ public class Advanced extends Activity {
             wifiNetworks = new ArrayList<ScanResult>();
         }
     }
-    
+
+    private List<ScanResult> readScanResults(WifiManager w)
+    {
+        List<ScanResult> rc1;
+        rc1 = w.getScanResults();
+        if (rc1 == null)
+            return new ArrayList<ScanResult>();
+        List<ScanResult> rc = new ArrayList<ScanResult>();
+        for (ScanResult s : rc1)
+        {
+            boolean alreadyHere = false;
+            for (ScanResult s1 : rc)
+                if (s1.SSID.equals(s.SSID))
+                {
+                    alreadyHere = true;
+                    break;
+                }
+            if (!alreadyHere)
+                rc.add(s);
+        }
+        return rc;
+    }
     private void updateWiFiInfo()
     {
         wifiOnOff.setEnabled(true);
@@ -337,10 +360,10 @@ public class Advanced extends Activity {
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(false);
-                    wifiOnOff.setText("Turning WiFi off");   
+                    wifiOnOff.setText("Turning WiFi off");
                     wifiOnOff.setEnabled(false);
                }});
-            wifiNetworks = wfm.getScanResults();
+            wifiNetworks = readScanResults(wfm);
             adapter.notifyDataSetChanged();
             wifiScan.setEnabled(true);
         }
@@ -351,12 +374,11 @@ public class Advanced extends Activity {
                     getResources().getDrawable(R.drawable.wifi_on),
                     getResources().getDrawable(android.R.drawable.ic_lock_power_off),
                     getResources().getDrawable(R.drawable.wifi_on),
-                    null);                
+                    null);
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(true);
-                    Log.d(TAG, " ---- Turning WiFi on");
-                    wifiOnOff.setText("Turning WiFi on");   
+                    wifiOnOff.setText("Turning WiFi on");
                     wifiOnOff.setEnabled(false);
                 }});
             wifiNetworks.clear();
@@ -368,7 +390,7 @@ public class Advanced extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         ingnoreFs = getResources().getStringArray(R.array.filesystems_to_ignore);
 
         app = ((ReLaunchApp)getApplicationContext());
@@ -402,15 +424,15 @@ public class Advanced extends Activity {
                 sv.setLayoutParams(pars);
                 ll.addView(sv);
                 lv_wifi.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                         sv.total = totalItemCount;
                         sv.count = visibleItemCount;
                         sv.first = firstVisibleItem;
                         sv.invalidate();
                     }
-                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
                     }
-                });         
+                });
                 addSView = false;
             }
         }
@@ -431,7 +453,7 @@ public class Advanced extends Activity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Trace(TAG, "--- Broadcast receiver B1");
-                wifiNetworks = wfm.getScanResults();
+                wifiNetworks = readScanResults(wfm);
                 wifiScan.setEnabled(true);
                 adapter.notifyDataSetChanged();
             }};
@@ -449,16 +471,16 @@ public class Advanced extends Activity {
             public void onReceive(Context context, Intent intent) {
                 Trace(TAG, "--- Broadcast receiver B2");
                 wifiOn = wfm.isWifiEnabled();
-                wifiNetworks = wfm.getScanResults();
+                wifiNetworks = readScanResults(wfm);
                 wifiScan.setEnabled(true);
                 adapter.notifyDataSetChanged();
                 updateWiFiInfo();
              }};
         registerReceiver(b2, i2);
-        
+
         wifiOnOff = (Button)findViewById(R.id.wifi_onoff_btn);
         updateWiFiInfo();
-            
+
         // Reboot button
         rebootBtn = (Button)findViewById(R.id.reboot_btn);
         rebootBtn.setOnClickListener(new View.OnClickListener() {
@@ -484,14 +506,14 @@ public class Advanced extends Activity {
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }});
-             
+
                 builder.show();
             }});
-        
+
         // Web info view
         WebView wv = (WebView)findViewById(R.id.webview1);
-        final int ntitle1 = 0;
-        final int ntitle2 = 5;
+        final int ntitle1 = 3;
+        final int ntitle2 = 8;
         String s = "<h2><center>Disks/partitions</center></h2><table>";
         s += "<tr>"
             + "<td><b>" + sp(ntitle1) + "Mount point" + sp(ntitle2) + "</b></td>"
@@ -503,12 +525,12 @@ public class Advanced extends Activity {
             + "</tr>";
         for (Info i : infos)
             s += "<tr>"
-                + "<td><b>" + i.mpoint + "</b></td>"
-                + "<td><b>" + i.fs +     "</b></td>"
-                + "<td><b>" + i.total +  "</b></td>"
-                + "<td><b>" + i.used +   "</b></td>"
-                + "<td><b>" + i.free +   "</b></td>"
-                + "<td><b>" + (i.ro ? "RO" : "RW") + "</b></td>"
+                + "<td>" + i.mpoint + "</td>"
+                + "<td>" + i.fs +     "</td>"
+                + "<td>" + i.total +  "</td>"
+                + "<td>" + i.used +   "</td>"
+                + "<td>" + i.free +   "</td>"
+                + "<td>" + (i.ro ? "RO" : "RW") + "</b></td>"
                 + "</tr>";
         s += "</table>";
         wv.loadData(s, "text/html", "utf-8");
