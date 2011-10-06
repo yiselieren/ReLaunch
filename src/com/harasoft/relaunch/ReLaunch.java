@@ -99,6 +99,15 @@ public class ReLaunch extends Activity {
     String[]                      allowedManufacts;
     String[]                      allowedProducts;
     boolean                       addSView = true;
+    
+    // Bottom info panel
+    BroadcastReceiver             batteryLevelReceiver = null;
+    boolean                       batteryLevelRegistered = false;
+    Button                        memTitle;
+    Button                        memLevel;
+    Button                        battTitle;
+    Button                        battLevel;
+    IntentFilter                  batteryLevelFilter;
 
     private boolean checkField(String[] a, String f)
     {
@@ -362,6 +371,93 @@ public class ReLaunch extends Activity {
         }
     }
 
+    private void refreshBottomInfo()
+    {
+        // Date
+        Log.d(TAG, "memTitle:" + (memTitle==null) + " memLevel:" + (memLevel==null));
+        String d;
+        Calendar c = Calendar.getInstance();
+        if (prefs.getBoolean("dateUS", false))
+            d = String.format("%02d:%02d%s %02d/%02d/%02d",
+                    c.get(Calendar.HOUR),
+                    c.get(Calendar.MINUTE),
+                    ((c.get(Calendar.AM_PM) == 0) ? "AM" : "PM"),
+                    c.get(Calendar.MONTH)+1,
+                    c.get(Calendar.DAY_OF_MONTH),
+                    (c.get(Calendar.YEAR)-2000));
+        else
+            d = String.format("%02d:%02d %02d/%02d/%02d",
+                    c.get(Calendar.HOUR_OF_DAY),
+                    c.get(Calendar.MINUTE),
+                    c.get(Calendar.DAY_OF_MONTH),
+                    c.get(Calendar.MONTH)+1,
+                    (c.get(Calendar.YEAR)-2000));
+        if (memTitle != null)
+            memTitle.setText(d);
+
+        // Memory
+        MemoryInfo mi = new MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        if (memLevel != null)
+        {
+            memLevel.setText(mi.availMem / 1048576L + "M free");
+            memLevel.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ram), null);
+        }
+
+
+        // Wifi status
+        WifiManager wfm = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        if (battTitle != null)
+        {
+            if (wfm.isWifiEnabled())
+            {
+                battTitle.setText(wfm.getConnectionInfo().getSSID());
+                battTitle.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_on), null, null, null);
+            }
+            else
+            {
+                battTitle.setText("WiFi is off");
+                battTitle.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_off), null, null, null);
+            }
+        }
+
+        // Battery
+        if (batteryLevelReceiver == null)
+        {
+            batteryLevelReceiver = new BroadcastReceiver() {
+                public void onReceive(Context context, Intent intent) {
+                    context.unregisterReceiver(this);
+                    batteryLevelRegistered = false;
+                    int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                    int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                    int level = -1;
+                    if (rawlevel >= 0 && scale > 0) {
+                        level = (rawlevel * 100) / scale;
+                    }
+                    if (battLevel != null)
+                    {
+                        battLevel.setText(level + "%");
+                        if (level < 25)
+                            battLevel.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat1), null, null, null);
+                        else if (level < 50)
+                            battLevel.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat2), null, null, null);
+                        else if (level < 75)
+                            battLevel.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat3), null, null, null);
+                        else
+                            battLevel.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat4), null, null, null);
+                    }
+
+                }
+            };
+        }
+        if (!batteryLevelRegistered)
+        {
+            registerReceiver(batteryLevelReceiver, batteryLevelFilter);
+            batteryLevelRegistered = true;
+        }
+    }
+
     private void drawDirectory(String root, Integer startPosition)
     {
         File         dir = new File(root);
@@ -382,7 +478,6 @@ public class ReLaunch extends Activity {
         final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
         {
-            //adv.setEnabled(false);   // TODO: The advanced activity not good enough yet
             adv.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
@@ -554,6 +649,8 @@ public class ReLaunch extends Activity {
                     first = total-1;
                 lv.setSelection(first);
             }});
+        
+        refreshBottomInfo();
     }
 
     private HashMap<String, Drawable> createIconsList(PackageManager pm)
@@ -757,17 +854,17 @@ public class ReLaunch extends Activity {
             }
 
             // Memory buttons (task manager activity
-            Button m1 = (Button)findViewById(R.id.mem_level);
-            if (m1 != null)
-                m1.setOnClickListener(new View.OnClickListener() {
+            memLevel = (Button)findViewById(R.id.mem_level);
+            if (memLevel != null)
+                memLevel.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(ReLaunch.this, TaskManager.class);
                         startActivity(intent);
                     }});
-            Button m2 = (Button)findViewById(R.id.mem_title);
-            if (m2 != null)
-                m2.setOnClickListener(new View.OnClickListener() {
+            memTitle = (Button)findViewById(R.id.mem_title);
+            if (memTitle != null)
+                memTitle.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(ReLaunch.this, TaskManager.class);
@@ -775,22 +872,23 @@ public class ReLaunch extends Activity {
                     }});
 
             // Battery buttons
-            Button b1 = (Button)findViewById(R.id.bat_level);
-            if (b1 != null)
-                b1.setOnClickListener(new View.OnClickListener() {
+            battLevel = (Button)findViewById(R.id.bat_level);
+            if (battLevel != null)
+                battLevel.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
                         startActivity(intent);
                     }});
-            Button b2 = (Button)findViewById(R.id.bat_title);
-            if (b2 != null)
-                b2.setOnClickListener(new View.OnClickListener() {
+            battTitle = (Button)findViewById(R.id.bat_title);
+            if (battTitle != null)
+                battTitle.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
                         startActivity(intent);
                     }});
+            batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
             checkDevice(Build.DEVICE, Build.MANUFACTURER, Build.MODEL, Build.PRODUCT);
 
@@ -1064,85 +1162,7 @@ public class ReLaunch extends Activity {
         super.onResume();
         app.generalOnResume(TAG, this);
 
-        // Date
-        String d;
-        Calendar c = Calendar.getInstance();
-        if (prefs.getBoolean("dateUS", false))
-            d = String.format("%02d:%02d%s %02d/%02d/%02d",
-                    c.get(Calendar.HOUR),
-                    c.get(Calendar.MINUTE),
-                    ((c.get(Calendar.AM_PM) == 0) ? "AM" : "PM"),
-                    c.get(Calendar.MONTH)+1,
-                    c.get(Calendar.DAY_OF_MONTH),
-                    (c.get(Calendar.YEAR)-2000));
-        else
-            d = String.format("%02d:%02d %02d/%02d/%02d",
-                    c.get(Calendar.HOUR_OF_DAY),
-                    c.get(Calendar.MINUTE),
-                    c.get(Calendar.DAY_OF_MONTH),
-                    c.get(Calendar.MONTH)+1,
-                    (c.get(Calendar.YEAR)-2000));
-        Button mt = (Button)findViewById(R.id.mem_title);
-        if (mt != null)
-            mt.setText(d);
-
-        // Memory
-        MemoryInfo mi = new MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        activityManager.getMemoryInfo(mi);
-        Button tv = (Button)findViewById(R.id.mem_level);
-        if (tv != null)
-        {
-            tv.setText(mi.availMem / 1048576L + "M free");
-            tv.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ram), null);
-        }
-
-
-        // Wifi status
-        WifiManager wfm = (WifiManager)getSystemService(Context.WIFI_SERVICE);
-        Button bt = (Button)findViewById(R.id.bat_title);
-        if (bt != null)
-        {
-            if (wfm.isWifiEnabled())
-            {
-                bt.setText(wfm.getConnectionInfo().getSSID());
-                bt.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_on), null, null, null);
-            }
-            else
-            {
-                bt.setText("WiFi is off");
-                bt.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_off), null, null, null);
-            }
-        }
-            
-        // Battery
-        BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
-                public void onReceive(Context context, Intent intent) {
-                    context.unregisterReceiver(this);
-                    int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                    int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-                    int level = -1;
-                    if (rawlevel >= 0 && scale > 0) {
-                        level = (rawlevel * 100) / scale;
-                    }
-                    Button tv = (Button)findViewById(R.id.bat_level);
-                    if (tv != null)
-                    {
-                        tv.setText(level + "%");
-                        if (level < 25)
-                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat1), null, null, null);
-                        else if (level < 50)
-                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat2), null, null, null);
-                        else if (level < 75)
-                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat3), null, null, null);
-                        else
-                            tv.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat4), null, null, null);
-                    }
-
-                }
-            };
-        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryLevelReceiver, batteryLevelFilter);
+        refreshBottomInfo();
     }
 
     @Override

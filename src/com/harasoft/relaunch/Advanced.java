@@ -8,9 +8,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.harasoft.relaunch.TaskManager.PInfo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +26,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -57,13 +62,65 @@ public class Advanced extends Activity {
     boolean                       wifiOn = false;
     Button                        wifiOnOff;
     Button                        wifiScan;
-    List<ScanResult>              wifiNetworks = new ArrayList<ScanResult>();
+    List<NetInfo>                 wifiNetworks = new ArrayList<NetInfo>();
     WiFiAdapter                   adapter;
     ListView                      lv_wifi;
     IntentFilter                  i1;
     IntentFilter                  i2;
     BroadcastReceiver             b1;
     BroadcastReceiver             b2;
+
+    static class NetInfo {
+        String  SSID;
+        String  extra;
+        int     level;
+        int     netId;
+        boolean inrange;
+        boolean configured;
+        NetInfo(String s, int id, boolean in, boolean conf) {
+            SSID = s;
+            extra = "";
+            level = 0;
+            netId = id;
+            inrange = in;
+            configured = conf;
+        }
+        NetInfo(String s, boolean in, boolean conf) {
+            SSID = s;
+            extra = "";
+            level = 0;
+            netId = 0;
+            inrange = in;
+            configured = conf;
+        }
+        NetInfo(String s, String e, int id, boolean in, boolean conf) {
+            SSID = s;
+            extra = e;
+            level = 0;
+            netId = id;
+            inrange = in;
+            configured = conf;
+        }
+        NetInfo(String s, String e, boolean in, boolean conf) {
+            SSID = s;
+            extra = e;
+            level = 0;
+            netId = 0;
+            inrange = in;
+            configured = conf;
+        }
+    }
+    public class NetInfoComparator implements java.util.Comparator<NetInfo>
+    {
+        public int compare(NetInfo o1, NetInfo o2)
+        {
+            if (o1.inrange  &&  !o1.inrange)
+                return -1;
+            if (!o1.inrange  &&  o1.inrange)
+                return 1;
+            return o1.SSID.compareToIgnoreCase(o2.SSID);
+        }
+    }
 
     static class Info {
         String  dev;
@@ -139,34 +196,69 @@ public class Advanced extends Activity {
             ImageView iv = holder.iv;
 
             final WifiInfo  winfo = wfm.getConnectionInfo();
-            final ScanResult item = wifiNetworks.get(position);
+            final NetInfo item = wifiNetworks.get(position);
             if (item != null)
             {
+                if (item.inrange  &&  item.configured)
+                {
+                    tv1.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.file_reading_fg));
+                    tv2.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                    tv2.setTextColor(getResources().getColor(R.color.file_reading_fg));
+                    tv3.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                    tv3.setTextColor(getResources().getColor(R.color.file_reading_fg));
+                    iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                }
+                else
+                {
+                    tv1.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                    tv1.setTextColor(getResources().getColor(R.color.file_finished_fg));
+                    tv2.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                    tv2.setTextColor(getResources().getColor(R.color.file_finished_fg));
+                    tv3.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                    tv3.setTextColor(getResources().getColor(R.color.file_finished_fg));
+                    iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+                }
+
                 if (item.SSID.equals(winfo.getSSID()))
                 {
                     SpannableString s1 = new SpannableString(item.SSID);
                     s1.setSpan(Typeface.BOLD, 0, item.SSID.length(), 0);
                     tv1.setText(s1);
-                    SpannableString s2 = new SpannableString(item.capabilities);
-                    s2.setSpan(Typeface.BOLD, 0, item.capabilities.length(), 0);
-                    tv2.setText(s2);
+                    if (item.extra.equals(""))
+                        tv2.setText("");
+                    else
+                    {
+                        SpannableString s2 = new SpannableString(item.extra);
+                        s2.setSpan(Typeface.BOLD, 0, item.extra.length(), 0);
+                        tv2.setText(s2);
+                    }
                     int ipAddress = winfo.getIpAddress();
                     String s = String.format("Connected, IP: %d.%d.%d.%d",
                             (ipAddress & 0xff),
                             (ipAddress >> 8 & 0xff),
                             (ipAddress >> 16 & 0xff),
                             (ipAddress >> 24 & 0xff));
+                    int sl1 = s.length();
+                    s += ", Level: " + item.level;
                     SpannableString s3 = new SpannableString(s);
-                    s3.setSpan(Typeface.BOLD, 0, s.length(), 0);
+                    s3.setSpan(Typeface.BOLD, 0, sl1, 0);
                     tv3.setText(s3);
-                    iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-               }
+                }
                 else
                 {
-                    tv1.setText(item.SSID);
-                    tv2.setText(item.capabilities);
-                    tv3.setText("Level: " + item.level);
-                    iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+                    SpannableString s1 = new SpannableString(item.SSID);
+                    s1.setSpan(Typeface.BOLD, 0, item.SSID.length(), 0);
+                    tv1.setText(s1);
+                    tv2.setText(item.extra);
+                    String s;
+                    if (item.inrange)
+                        s = "Level: " + item.level;
+                    else
+                        s = "Not in range";
+                    if (!item.configured)
+                        s += ", not configured";
+                    tv3.setText(s);
                 }
             }
             return v;
@@ -311,41 +403,77 @@ public class Advanced extends Activity {
 
         // Wifi
         wfm = (WifiManager)getSystemService(Context.WIFI_SERVICE);
-        if (wfm.isWifiEnabled())
-        {
-            wifiOn = true;
-            wifiNetworks = wfm.getScanResults();
-            if (wifiNetworks == null)
-                wifiNetworks = new ArrayList<ScanResult>();
-        }
-        else
-        {
-            wifiOn = false;
-            wifiNetworks = new ArrayList<ScanResult>();
-        }
+        wifiOn = wfm.isWifiEnabled();
+        wifiNetworks = readScanResults(wfm);
     }
 
-    private List<ScanResult> readScanResults(WifiManager w)
+    private List<NetInfo> readScanResults(WifiManager w)
     {
-        List<ScanResult> rc1;
-        rc1 = w.getScanResults();
+        List<NetInfo> rc = new ArrayList<NetInfo>();
+        List<ScanResult> rc1 = w.getScanResults();
+        List<WifiConfiguration> rc2 = w.getConfiguredNetworks();
+
         if (rc1 == null)
-            return new ArrayList<ScanResult>();
-        List<ScanResult> rc = new ArrayList<ScanResult>();
+        {
+            // No scan results - just copy configured networks to returned value
+            for (WifiConfiguration wc : rc2)
+                rc.add(new NetInfo(wc.SSID, wc.networkId, false, true));
+            Collections.sort(rc, new NetInfoComparator());
+            return rc;
+        }
+        
+        // Merge uniq scanresult items with configured network info
         for (ScanResult s : rc1)
         {
             boolean alreadyHere = false;
-            for (ScanResult s1 : rc)
+            for (NetInfo s1 : rc)
                 if (s1.SSID.equals(s.SSID))
                 {
                     alreadyHere = true;
                     break;
                 }
             if (!alreadyHere)
-                rc.add(s);
+            {
+                boolean in = false;
+                for (WifiConfiguration wc : rc2)
+                {
+                    String ssid = wc.SSID;
+                    if (ssid.startsWith("\"")  &&  ssid.endsWith("\""))
+                        ssid = ssid.substring(1, ssid.length()-1);
+                    if (ssid.equals(s.SSID))
+                    {
+                        rc.add(new NetInfo(ssid, s.capabilities, wc.networkId, true, true));
+                        in = true;
+                        break;
+                    }
+                }
+                if (!in)
+                    // In range but not configured
+                    rc.add(new NetInfo(s.SSID, s.capabilities, true, false));
+            }
         }
+        
+        // Add confiured but not active networks
+        for (WifiConfiguration wc : rc2)
+        {
+            String ssid = wc.SSID;
+            if (ssid.startsWith("\"")  &&  ssid.endsWith("\""))
+                ssid = ssid.substring(1, ssid.length()-1);
+            boolean alreadyHere = false;
+            for (NetInfo s : rc)
+                if (s.SSID.equals(ssid))
+                {
+                    alreadyHere = true;
+                    break;
+                }
+            if (!alreadyHere)
+                rc.add(new NetInfo(ssid, false, true));
+ 
+        }
+        Collections.sort(rc, new NetInfoComparator());
         return rc;
     }
+
     private void updateWiFiInfo()
     {
         wifiOnOff.setEnabled(true);
