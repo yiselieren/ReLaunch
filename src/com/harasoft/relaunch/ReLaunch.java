@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -68,7 +69,8 @@ public class ReLaunch extends Activity {
     static public final String    FAV_FILE = "Favorites.txt";
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
-    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg|.png:Intent:image/png";
+    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg"
+        + "|.png:Intent:image/png|.pdf:Intent:application/pdf";
     final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
     final static public int       DIR_ACT = 2;
@@ -80,6 +82,8 @@ public class ReLaunch extends Activity {
     final static int              CNTXT_MENU_MARK_READING = 6;
     final static int              CNTXT_MENU_MARK_FINISHED = 7;
     final static int              CNTXT_MENU_MARK_FORGET = 8;
+    final static int              CNTXT_MENU_INTENT = 9;
+    final static int              CNTXT_MENU_OPENWITH = 10;
     String                        currentRoot = "/sdcard";
     Integer                       currentPosition = -1;
     List<HashMap<String, String>> itemsArray;
@@ -1023,6 +1027,10 @@ public class ReLaunch extends Activity {
             }
             else
                 menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+            if (prefs.getBoolean("openWith", true))
+                menu.add(Menu.NONE, CNTXT_MENU_OPENWITH, Menu.NONE, "Open with ...");
+            if (prefs.getBoolean("createIntent", true))
+                menu.add(Menu.NONE, CNTXT_MENU_INTENT, Menu.NONE, "Create Intent ...");
             menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, "Delete");
         }
         else
@@ -1072,6 +1080,108 @@ public class ReLaunch extends Activity {
             app.history.remove(fullName);
             redrawList();
             break;
+        case CNTXT_MENU_OPENWITH:
+        {
+            final CharSequence[] applications = app.getApps().toArray(new CharSequence[app.getApps().size()]);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+            builder.setTitle("Select application");
+            builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int i) {
+                        start(app.launchReader((String)applications[i], fullName));
+                        dialog.dismiss();
+                    }
+                });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.dismiss();
+                }});
+            builder.show();
+            break;
+        }
+        case CNTXT_MENU_INTENT:
+        {
+            String re[] = fname.split("\\.");
+            for (int j=0; j<re.length; j++)
+                Log.d(TAG, "re[" + j + "]=" + re[j]);
+            List<String> ilist = new ArrayList<String>();
+            for (int j=1; j<re.length; j++)
+            {
+                String act = "application/";
+                String typ = re[j];
+                if (typ.equals("jpg"))
+                    typ = "jpeg";
+                if (typ.equals("jpeg")  ||  typ.equals("png"))
+                    act = "image/";
+                ilist.add(act + typ);
+                if (re.length > 2)
+                {
+                    for (int k = j+1; k < re.length; k++)
+                    {
+                        String x = "";
+                        for (int l = k; l < re.length; l++)
+                            x += "+" + re[l];
+                        ilist.add(act + typ + x);
+                    }
+                }
+            }
+
+            final CharSequence[] intents = ilist.toArray(new CharSequence[ilist.size()]);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+            builder.setTitle("Select intent type");
+            builder.setSingleChoiceItems(intents, -1, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int i) {
+                    Intent in = new Intent();
+                    in.setAction(Intent.ACTION_VIEW);
+                    in.setDataAndType(Uri.parse("file://" + fullName), (String) intents[i]);
+                    dialog.dismiss();
+                    try {
+                        startActivity(in);
+                    } catch (ActivityNotFoundException e) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ReLaunch.this);
+                        builder1.setTitle("Activity not found");
+                        builder1.setMessage("Activity for file \"" + fullName + "\" with type \"" + intents[i] + "\" not found");
+                        builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }});
+                        builder1.show();
+                    }
+                }
+            });
+            builder.setPositiveButton("Other", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ReLaunch.this);
+                    builder1.setTitle("Intent type");
+                    final EditText input = new EditText(ReLaunch.this);
+                    input.setText("application/");
+                    builder1.setView(input);
+                    builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Intent in = new Intent();
+                            in.setAction(Intent.ACTION_VIEW);
+                            in.setDataAndType(Uri.parse("file://" + fullName), input.getText().toString());
+                            dialog.dismiss();
+                            try {
+                                startActivity(in);
+                            } catch (ActivityNotFoundException e) {
+                                AlertDialog.Builder builder2 = new AlertDialog.Builder(ReLaunch.this);
+                                builder2.setTitle("Activity not found");
+                                builder2.setMessage("Activity for file \"" + fullName + "\" with type \"" + input.getText() + "\" not found");
+                                builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }});
+                                builder2.show();
+                            }
+                        }});
+                    builder1.show();
+                }});
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.dismiss();
+                }});
+
+            builder.show();
+            break;
+        }
         case CNTXT_MENU_DELETE_F:
             if (prefs.getBoolean("confirmFileDelete", true))
             {

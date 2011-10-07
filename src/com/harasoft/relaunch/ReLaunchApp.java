@@ -443,7 +443,7 @@ public class ReLaunchApp extends Application {
     // common utility - get intent by label, null if not found
     public Intent getIntentByLabel(String label)
     {
-        PackageManager pm = getPackageManager();;
+        PackageManager pm = getPackageManager();
 
         for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
         {

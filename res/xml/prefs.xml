@@ -9,6 +9,8 @@
        <CheckBoxPreference android:key="saveDir"       android:summaryOff="Always start from start directory" android:summaryOn="Start from last visited directory" android:title="Save last visited directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <CheckBoxPreference android:key="askAmbig"      android:summaryOff="Run first association" android:summaryOn="Ask if association is ambiguous" android:title="Ambiguous associations" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
        <CheckBoxPreference android:key="showNew"       android:summaryOff="Show all files in a normal way" android:summaryOn="Use color/bold fonts to show new and finished books" android:title="Show new/read books" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:key="openWith"      android:summaryOff="Do not show \'Open with...\' context menu item" android:summaryOn="Show \'Open with...\' context menu item" android:title="\'Open with...\' context menu item" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
+       <CheckBoxPreference android:key="createIntent"  android:summaryOff="Do not show \'Create intent...\' context menu item" android:summaryOn="Show \'Create intent...\' context menu item" android:title="\'Create intent...\' context menu item" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
        <EditTextPreference android:key="gl16Mode"      android:enabled="true" android:title="GL16 mode" android:selectable="true" android:persistent="true" android:defaultValue="5" android:summary="GL16 Mode" android:numeric="integer"></EditTextPreference>
     </PreferenceCategory>
 
