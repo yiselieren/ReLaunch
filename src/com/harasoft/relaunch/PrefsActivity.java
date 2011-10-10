@@ -77,7 +77,7 @@ public class PrefsActivity extends PreferenceActivity {
         // Search setting
         defItems.add(new PrefItem("searchSize", "5000"));
         defItems.add(new PrefItem("searchReport", "100"));
-        defItems.add(new PrefItem("searchRoot", "/sdcard"));
+        defItems.add(new PrefItem("searchRoot", "/media,/sdcard"));
 
         // Viewer/editor settings
         defItems.add(new PrefItem("viewerMaxSize", "1048576"));

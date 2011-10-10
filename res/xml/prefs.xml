@@ -32,7 +32,7 @@
       <PreferenceCategory android:title="Seacrh settings">
        <EditTextPreference android:key="searchSize"    android:enabled="true" android:title="Maximal amount of search results" android:selectable="true" android:persistent="true" android:defaultValue="5000" android:summary="Maximal size of search results list" android:numeric="integer"></EditTextPreference>
        <EditTextPreference android:key="searchReport"  android:enabled="true" android:title="How often report search progress" android:selectable="true" android:persistent="true" android:defaultValue="100" android:summary="Report search progress every ... times" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="searchRoot"    android:enabled="true" android:title="Root search directory" android:selectable="true" android:persistent="true" android:defaultValue="/sdcard" android:summary="Search always start here"></EditTextPreference>
+       <EditTextPreference android:key="searchRoot"    android:enabled="true" android:title="Root search directory" android:selectable="true" android:persistent="true" android:defaultValue="/media,/sdcard" android:summary="Search always start here"></EditTextPreference>
       </PreferenceCategory>
 
       <PreferenceCategory android:title="Internal viewer/editor settings">

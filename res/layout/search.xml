@@ -25,8 +25,11 @@
         <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_in"></Spinner>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_width="fill_parent">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView3" android:text="Search root" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
-        <EditText android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_root">
+        <LinearLayout android:orientation="vertical" android:layout_height="wrap_content" android:layout_weight="1"  android:id="@+id/linearLayout3" android:layout_width="0dp">
+            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="Search root" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:layout_gravity="center"></TextView>
+            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="May be directory or comma separated directories list" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="fill_parent" android:layout_gravity="center"></TextView>
+        </LinearLayout>
+        <EditText android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_root" android:layout_height="fill_parent">
             <requestFocus></requestFocus>
         </EditText>
     </LinearLayout>

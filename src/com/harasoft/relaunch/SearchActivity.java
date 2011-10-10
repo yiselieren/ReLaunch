@@ -175,30 +175,38 @@ public class SearchActivity extends Activity {
                 }
             }
 
-            private void addEntries(String root)
+            private void addEntries(String roots)
             {
-                File         dir = new File(root);
-                File[]       allEntries = dir.listFiles();
-                for (File entry : allEntries)
+                String[] r = roots.split(",");
+                for (String root : r)
                 {
-                    filesCount++;
-                    String entryFullName = root + "/" + entry.getName();
-                    if ((filesCount % searchReport) == 0)
-                        publishProgress(filesCount);
-
-                    if (stop_search)
-                        break;
-                    if (searchResults.size() >= searchSize)
-                        break;
-
-                    if (entry.isDirectory())
+                    File         dir = new File(root);
+                    if (!dir.isDirectory())
+                        continue;
+                    File[]       allEntries = dir.listFiles();
+                    if (allEntries == null)
+                        continue;
+                    for (File entry : allEntries)
                     {
-                        if (search_mode == SEARCH_PATH)
-                            compareAdd(root, entry.getName(), entryFullName, true);
-                        addEntries(entryFullName);
+                        filesCount++;
+                        String entryFullName = root + "/" + entry.getName();
+                        if ((filesCount % searchReport) == 0)
+                            publishProgress(filesCount);
+
+                        if (stop_search)
+                            break;
+                        if (searchResults.size() >= searchSize)
+                            break;
+
+                        if (entry.isDirectory())
+                        {
+                            if (search_mode == SEARCH_PATH)
+                                compareAdd(root, entry.getName(), entryFullName, true);
+                            addEntries(entryFullName);
+                        }
+                        else
+                            compareAdd(root, entry.getName(), entryFullName, false);
                     }
-                    else
-                        compareAdd(root, entry.getName(), entryFullName, false);
                 }
             }
 
@@ -227,9 +235,6 @@ public class SearchActivity extends Activity {
 
                 if (all)
                 {
-                    File         dir = new File(root);
-                    if (!dir.isDirectory())
-                        return "OK";
                     case_sens = false;
                     known_only = true;
                     regexp = true;
@@ -254,9 +259,6 @@ public class SearchActivity extends Activity {
                     editor.commit();
 
                     // Search
-                    File         dir = new File(root);
-                    if (!dir.isDirectory())
-                        return "OK";
                     addEntries(root);
                 }
 
