@@ -4,18 +4,18 @@
               android:layout_height="fill_parent"
               android:orientation="vertical">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="36dp" android:minHeight="72dp">
-        <Button android:text="Filter setting"
+        <Button android:text="@string/prefs_layout_filter_setting"
                 android:layout_width="fill_parent"
                 android:layout_gravity="center" android:id="@+id/filter_settings" android:layout_height="fill_parent" android:layout_weight="1"/>
-        <Button android:text="Associations" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/associations"></Button>
-        <Button android:text="Cancel" android:layout_height="fill_parent" android:id="@+id/cancel_btn" android:layout_weight="1" android:layout_width="fill_parent"></Button>
-        <Button android:text="OK"
+        <Button android:text="@string/prefs_layout_associations" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/associations"></Button>
+        <Button android:text="@string/prefs_layout_cancel" android:layout_height="fill_parent" android:id="@+id/cancel_btn" android:layout_weight="1" android:layout_width="fill_parent"></Button>
+        <Button android:text="@string/prefs_layout_ok"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/prefs_ok"/>
     </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="36dp" android:layout_marginBottom="36dp">
-        <Button android:text="Save settings and restart ReLaunch (some settings work only after restart)" android:minHeight="72dp" android:layout_gravity="center" android:id="@+id/restart_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
-        <Button android:text="Revert all settings to default values" android:id="@+id/revert_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
+        <Button android:text="@string/prefs_layout_save_restart" android:minHeight="72dp" android:layout_gravity="center" android:id="@+id/restart_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
+        <Button android:text="@string/prefs_layout_revert_default" android:id="@+id/revert_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
     </LinearLayout>
     <ListView android:id="@android:id/list" android:fadeScrollbars="false"
               android:layout_width="fill_parent" android:layout_height="fill_parent"/>
