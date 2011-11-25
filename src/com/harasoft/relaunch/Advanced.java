@@ -535,7 +535,7 @@ public class Advanced extends Activity {
         lv_wifi = (ListView) findViewById(R.id.wifi_lv);
         adapter = new WiFiAdapter(this);
         lv_wifi.setAdapter(adapter);
-        if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))
         {
             int scrollW;
             try {

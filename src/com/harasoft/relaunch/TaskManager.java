@@ -933,7 +933,7 @@ public class TaskManager extends Activity {
         adapter_s = new SAdapter(this, R.layout.taskmanager_item);
         lv_s.setAdapter(adapter_s);
 
-        if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))
         {
             int scrollW;
             try {

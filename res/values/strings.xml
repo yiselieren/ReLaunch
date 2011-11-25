@@ -2,10 +2,14 @@
 <resources>
     <string  name="app_name">ReLaunch</string>
 
-    <string  name="app_version">1.2.3</string>
-    <integer name="app_iversion"> 100200300 </integer>
+    <string  name="app_version">1.2.4</string>
+    <integer name="app_iversion"> 100200400 </integer>
     <string name="whats_new">&lt;h2&gt;What\'s new:&lt;/h2&gt;
-        &lt;b&gt;1.2.3&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.2.4&lt;/b&gt;&lt;br&gt;\
+        - Layout fixes mostly for Sony PRS-T1&lt;br&gt;
+        - \'Wrong device\' notifier removed for Sony PRS-T1
+        &lt;br&gt;
+        &lt;br&gt;&lt;b&gt;1.2.1&lt;/b&gt;&lt;br&gt;
         - Context menu items \'Open with ...\' and \'Create intent ...\' added. Note that these items can be disabled via configuration settings.&lt;br&gt;
         - Search root can be comma separated directories list as well as a single directory
         &lt;br&gt;
@@ -34,16 +38,19 @@
         - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only)
     </string>
     <string name="model_warning">
-    &lt;h2&gt;The tool is for Nook Simple Touch only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
+    &lt;h2&gt;The tool is for Nook Simple Touch or Sony PRS-T1 only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
     
     <string-array name="allowed_devices">
         <item>zoom2</item>
+        <item>EBX-5047</item>
     </string-array>
     <string-array name="allowed_manufacturers">
         <item>BarnesAndNobble</item>
+        <item>sony</item>
     </string-array>
     <string-array name="allowed_models">
         <item>NOOK</item>
+        <item>PRS-T1</item>
     </string-array>
     <string-array name="allowed_products">
         <item>NOOK</item>

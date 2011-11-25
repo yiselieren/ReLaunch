@@ -9,7 +9,7 @@
         <CheckBox android:text="" android:layout_height="wrap_content" android:id="@+id/search_case" android:layout_width="0dp" android:layout_weight="1"></CheckBox>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout6">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView6" android:text="Seacrh known extensions only" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView6" android:text="Search known extensions only" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
         <CheckBox android:id="@+id/search_books_only" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout8">

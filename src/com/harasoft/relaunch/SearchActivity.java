@@ -53,7 +53,7 @@ public class SearchActivity extends Activity {
     ProgressDialog           pd;
     boolean                  stop_search = false;
 
-    // Seacrh parameters and result
+    // Search parameters and result
     List<String[]>           searchResults;
     int                      filesCount;
 

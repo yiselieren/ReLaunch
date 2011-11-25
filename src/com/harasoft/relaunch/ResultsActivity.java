@@ -307,7 +307,7 @@ public class ResultsActivity extends Activity {
         adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-        if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))
         {
             if (addSView)
             {

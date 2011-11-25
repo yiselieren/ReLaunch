@@ -122,6 +122,10 @@ public class ReLaunch extends Activity {
     }
     private void checkDevice(String dev, String man, String model, String product)
     {
+    	//Log.d(TAG, "dev=\"" + dev + "\", man=\"" + man + "\", model=\"" + model + "\",  product=\"" + product + "\"");
+    	//Toast.makeText(ReLaunch.this,
+    	//		"dev=\"" + dev + "\", man=\"" + man + "\", model=\"" + model + "\",  product=\"" + product + "\"", 
+    	//		Toast.LENGTH_LONG).show();
         if (checkField(allowedModels, model))
             return;
         if (checkField(allowedDevices, dev))
@@ -540,7 +544,7 @@ public class ReLaunch extends Activity {
         final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
-        if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))
         {
             if (addSView)
             {
@@ -894,7 +898,10 @@ public class ReLaunch extends Activity {
                     }});
             batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
+            // Check the device and set some defaults accordingly
             checkDevice(Build.DEVICE, Build.MANUFACTURER, Build.MODEL, Build.PRODUCT);
+            if (Build.MODEL.equals("PRS-T1"))
+            	app.customScrollDef = false;
 
             // What's new processing
             final int latestVersion = prefs.getInt("latestVersion", 0);
