@@ -262,6 +262,8 @@ public class AllApplications extends Activity {
                     boolean ok = true;
                     try {
                         startActivity(i);
+                        if (prefs.getBoolean("returnToMain", false))
+                        	finish();
                     } catch (ActivityNotFoundException e) {
                         Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
                         ok = false;
