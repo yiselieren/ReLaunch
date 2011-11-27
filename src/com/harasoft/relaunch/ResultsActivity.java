@@ -52,7 +52,7 @@ public class ResultsActivity extends Activity {
     HashMap<String, Drawable>     icons;
     String                        listName;
     String                        title;
-    Boolean                       rereadOnStart = false;
+    Boolean                       rereadOnStart = true;
     SharedPreferences             prefs;
     FLSimpleAdapter               adapter;
     ListView                      lv;

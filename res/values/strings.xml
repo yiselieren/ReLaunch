@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string  name="app_name">ReLaunch</string>
-    <string  name="app_version">1.2.4</string>
-    <integer name="app_iversion">100200400</integer>
+    <string  name="app_version">1.2.5</string>
+    <integer name="app_iversion">100200500</integer>
     <string name="whats_new">&lt;h2&gt;What\'s new:&lt;/h2&gt;
-    	&lt;b&gt;1.2.4&lt;/b&gt;&lt;br&gt;
-    	- Sony PRS-T1 support is added, some layout changes.&lt;br&gt;
-    	- Optional return to main widnow after application starts from \"All Applications\" window.&lt;br&gt;
+    	&lt;b&gt;1.2.5&lt;/b&gt;&lt;br&gt;
         - Source code cleaned, now compiled without warnings.&lt;br&gt;
         - Source code prepared to i18n.&lt;br&gt;
         - Reading Lists (i.e. FAVs, LRUs) with full UTF8 support.&lt;br&gt;
 		- Writing Lists (i.e. FAVs, LRUs) now is more frequent.&lt;br&gt;        
-		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.        
+		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.&lt;br&gt;
+		&lt;br&gt;    	
+    	&lt;b&gt;1.2.4&lt;/b&gt;&lt;br&gt;
+    	- Sony PRS-T1 support is added, some layout changes.&lt;br&gt;
+    	- Optional return to main window after application starts from \"All Applications\" window.&lt;br&gt;
         &lt;br&gt;
         &lt;b&gt;1.2.3&lt;/b&gt;&lt;br&gt;
         - Context menu items \'Open with ...\' and \'Create intent ...\' added. Note that these items can be disabled via configuration settings.&lt;br&gt;
