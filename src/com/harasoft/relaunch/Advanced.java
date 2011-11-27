@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.harasoft.relaunch.TaskManager.PInfo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,6 +52,7 @@ public class Advanced extends Activity {
     SharedPreferences             prefs;
     ReLaunchApp                   app;
     Button                        rebootBtn;
+    Button                        powerOffBtn;
     String[]                      ingnoreFs;
     List<Info>                    infos;
     int                           myId = -1;
@@ -234,13 +234,15 @@ public class Advanced extends Activity {
                         tv2.setText(s2);
                     }
                     int ipAddress = winfo.getIpAddress();
-                    String s = String.format("Connected, IP: %d.%d.%d.%d",
+                    //String s = String.format("Connected, IP: %d.%d.%d.%d",
+                    String s = String.format(getResources().getString(R.string.jv_advanced_connected) + " %d.%d.%d.%d",
                             (ipAddress & 0xff),
                             (ipAddress >> 8 & 0xff),
                             (ipAddress >> 16 & 0xff),
                             (ipAddress >> 24 & 0xff));
                     int sl1 = s.length();
-                    s += ", Level: " + item.level;
+                    //s += ", Level: " + item.level;
+                    s += ", " + getResources().getString(R.string.jv_advanced_level) + " " + item.level;
                     SpannableString s3 = new SpannableString(s);
                     s3.setSpan(Typeface.BOLD, 0, sl1, 0);
                     tv3.setText(s3);
@@ -253,11 +255,14 @@ public class Advanced extends Activity {
                     tv2.setText(item.extra);
                     String s;
                     if (item.inrange)
-                        s = "Level: " + item.level;
+                        //s = "Level: " + item.level;
+                    	s = getResources().getString(R.string.jv_advanced_level) + " " + item.level;
                     else
-                        s = "Not in range";
+                        //s = "Not in range";
+                    	s = getResources().getString(R.string.jv_advanced_notrange);
                     if (!item.configured)
-                        s += ", not configured";
+                        //s += ", not configured";
+                    	s += ", " + getResources().getString(R.string.jv_advanced_not_configured);
                     tv3.setText(s);
                 }
             }
@@ -479,7 +484,8 @@ public class Advanced extends Activity {
         wifiOnOff.setEnabled(true);
         if (wifiOn)
         {
-            wifiOnOff.setText("Turn WiFi off");
+            //wifiOnOff.setText("Turn WiFi off");
+        	wifiOnOff.setText(getResources().getString(R.string.jv_advanced_turn_wifi_off));
             wifiOnOff.setCompoundDrawablesWithIntrinsicBounds(
                     getResources().getDrawable(R.drawable.wifi_off),
                     getResources().getDrawable(android.R.drawable.ic_lock_power_off),
@@ -488,7 +494,8 @@ public class Advanced extends Activity {
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(false);
-                    wifiOnOff.setText("Turning WiFi off");
+                    //wifiOnOff.setText("Turning WiFi off");
+                    wifiOnOff.setText(getResources().getString(R.string.jv_advanced_turning_wifi_off));
                     wifiOnOff.setEnabled(false);
                }});
             wifiNetworks = readScanResults(wfm);
@@ -497,7 +504,8 @@ public class Advanced extends Activity {
         }
         else
         {
-            wifiOnOff.setText("Turn WiFi on");
+            //wifiOnOff.setText("Turn WiFi on");
+        	wifiOnOff.setText(getResources().getString(R.string.jv_advanced_turn_wifi_on));
             wifiOnOff.setCompoundDrawablesWithIntrinsicBounds(
                     getResources().getDrawable(R.drawable.wifi_on),
                     getResources().getDrawable(android.R.drawable.ic_lock_power_off),
@@ -506,7 +514,8 @@ public class Advanced extends Activity {
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     wfm.setWifiEnabled(true);
-                    wifiOnOff.setText("Turning WiFi on");
+                    //wifiOnOff.setText("Turning WiFi on");
+                    wifiOnOff.setText(getResources().getString(R.string.jv_advanced_turning_wifi_on));
                     wifiOnOff.setEnabled(false);
                 }});
             wifiNetworks.clear();
@@ -527,7 +536,8 @@ public class Advanced extends Activity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         createInfo();
-        ((TextView)findViewById(R.id.results_title)).setText("Advanced functions, info, etc.");
+        //((TextView)findViewById(R.id.results_title)).setText("Advanced functions, info, etc.");
+        ((TextView)findViewById(R.id.results_title)).setText(getResources().getString(R.string.jv_advanced_title));        
         ((ImageButton)findViewById(R.id.results_btn)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { finish(); }});
 
@@ -535,7 +545,7 @@ public class Advanced extends Activity {
         lv_wifi = (ListView) findViewById(R.id.wifi_lv);
         adapter = new WiFiAdapter(this);
         lv_wifi.setAdapter(adapter);
-        if (prefs.getBoolean("customScroll", app.customScrollDef))
+        if (prefs.getBoolean("customScroll", true))
         {
             int scrollW;
             try {
@@ -615,41 +625,103 @@ public class Advanced extends Activity {
             public void onClick(View v)
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
-                builder.setTitle("Reboot confirmation");
-                builder.setMessage("Are you sure to reboot your device ? ");
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                //builder.setTitle("Reboot confirmation");
+                builder.setTitle(getResources().getString(R.string.jv_advanced_reboot_confirm_title));
+                //builder.setMessage("Are you sure to reboot your device ? ");
+                builder.setMessage(getResources().getString(R.string.jv_advanced_reboot_confirm_text));
+                //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_advanced_yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        try {
-                            Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
-                            try {
-                                DataOutputStream os = new DataOutputStream(p.getOutputStream());
-                                os.writeChars("su\n");
-                                SystemClock.sleep(100);
-                                os.writeChars("reboot\n");
-                            } finally {
-                                p.destroy();
-                            }
-                        } catch (IOException e) { }
+                    	setContentView(R.layout.reboot);
+                    	Timer timer = new Timer();
+                        timer.schedule( new TimerTask(){
+                           public void run() { 
+                        	   try {
+                        		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
+                        	   		try {
+                        	   			DataOutputStream os = new DataOutputStream(p.getOutputStream());
+                        	   			os.writeChars("su\n");
+                        	   			SystemClock.sleep(100);
+                        	   			os.writeChars("reboot\n");
+                        	   		}
+                        	   		catch(Exception e) { }
+                        	   		finally {
+                        	   			p.destroy();
+                        	   			}
+                        	   	}
+                        	   	catch(Exception e) {}
+                            	}
+                         	}, 500);
                     }});
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.jv_advanced_no), new DialogInterface.OnClickListener() {                
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }});
 
                 builder.show();
             }});
 
+        // Power Off button
+        powerOffBtn = (Button)findViewById(R.id.poweroff_btn);
+        powerOffBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
+                //builder.setTitle("PowerOff confirmation");
+                builder.setTitle(getResources().getString(R.string.jv_advanced_poweroff_confirm_title));
+                //builder.setMessage("Are you sure to power off your device ? ");
+                builder.setMessage(getResources().getString(R.string.jv_advanced_poweroff_confirm_text));
+                //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_advanced_yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    	setContentView(R.layout.poweroff);
+                    	Timer timer = new Timer();
+                        timer.schedule( new TimerTask(){
+                           public void run() { 
+                        	   try {
+                        		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
+                        	   		try {
+                        	   			DataOutputStream os = new DataOutputStream(p.getOutputStream());
+                        	   			os.writeChars("su\n");
+                        	   			SystemClock.sleep(100);
+                        	   			os.writeChars("reboot -p\n");
+                        	   		}
+                        	   		catch(Exception e) { }
+                        	   		finally {
+                        	   			p.destroy();
+                        	   			}
+                        	   	}
+                        	   	catch(Exception e) {}
+                            	}
+                         	}, 500);
+                    }});
+                //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.jv_advanced_no), new DialogInterface.OnClickListener() {                
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }});
+
+                builder.show();
+            }});        
+        
         // Web info view
         WebView wv = (WebView)findViewById(R.id.webview1);
         final int ntitle1 = 3;
         final int ntitle2 = 8;
-        String s = "<h2><center>Disks/partitions</center></h2><table>";
+        //String s = "<h2><center>Disks/partitions</center></h2><table>";
+        String s = "<h2><center>" + getResources().getString(R.string.jv_advanced_mount_diskspartitions) + "</center></h2><table>";
         s += "<tr>"
-            + "<td><b>" + sp(ntitle1) + "Mount point" + sp(ntitle2) + "</b></td>"
-            + "<td><b>" + sp(ntitle1) + "FS"          + sp(ntitle2) + "</b></td>"
-            + "<td><b>" + sp(ntitle1) + "total"       + sp(ntitle2) + "</b></td>"
-            + "<td><b>" + sp(ntitle1) + "used"        + sp(ntitle2) + "</b></td>"
-            + "<td><b>" + sp(ntitle1) + "free"        + sp(ntitle2) + "</b></td>"
-            + "<td><b>" + sp(ntitle1) + "RO/RW"       + sp(ntitle2) + "</b></td>"
+            //+ "<td><b>" + sp(ntitle1) + "Mount point" + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + getResources().getString(R.string.jv_advanced_mount_mountpoint) + sp(ntitle2) + "</b></td>"        		
+            //+ "<td><b>" + sp(ntitle1) + "FS"          + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + getResources().getString(R.string.jv_advanced_mount_FS) + sp(ntitle2) + "</b></td>"
+            //+ "<td><b>" + sp(ntitle1) + "total"       + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + getResources().getString(R.string.jv_advanced_mount_total) + sp(ntitle2) + "</b></td>"            
+            //+ "<td><b>" + sp(ntitle1) + "used"        + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + getResources().getString(R.string.jv_advanced_mount_used) + sp(ntitle2) + "</b></td>"
+            //+ "<td><b>" + sp(ntitle1) + "free"        + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + getResources().getString(R.string.jv_advanced_mount_free) + sp(ntitle2) + "</b></td>"
+            //+ "<td><b>" + sp(ntitle1) + "RO/RW"       + sp(ntitle2) + "</b></td>"
+            + "<td><b>" + sp(ntitle1) + getResources().getString(R.string.jv_advanced_mount_rorw) + sp(ntitle2) + "</b></td>"
             + "</tr>";
         for (Info i : infos)
             s += "<tr>"
@@ -658,7 +730,8 @@ public class Advanced extends Activity {
                 + "<td>" + i.total +  "</td>"
                 + "<td>" + i.used +   "</td>"
                 + "<td>" + i.free +   "</td>"
-                + "<td>" + (i.ro ? "RO" : "RW") + "</b></td>"
+                //+ "<td>" + (i.ro ? "RO" : "RW") + "</b></td>"
+                + "<td>" + (i.ro ? getResources().getString(R.string.jv_advanced_mount_ro) : getResources().getString(R.string.jv_advanced_mount_rw)) + "</b></td>"
                 + "</tr>";
         s += "</table>";
         wv.loadData(s, "text/html", "utf-8");

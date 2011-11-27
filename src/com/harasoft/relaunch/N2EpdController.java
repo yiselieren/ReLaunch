@@ -3,15 +3,13 @@ package com.harasoft.relaunch;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import android.app.Activity;
-import android.widget.Toast;
-
 /**
  * Nook Touch EPD controller interface wrapper.
  * This class is created by DairyKnight for Nook Touch screen support in FBReaderJ.
  * @author DairyKnight <dairyknight@gmail.com>
  * http://forum.xda-developers.com/showthread.php?t=1183173
  */
+@SuppressWarnings("rawtypes")
 public class N2EpdController {
 
     public static int vCurrentNode = -2;

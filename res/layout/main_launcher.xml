@@ -4,14 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:minHeight="32dp" >
-
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_gravity="center" android:minHeight="32dp" android:layout_height="0dp" android:layout_weight="0.1">
         <ImageButton android:src="@android:drawable/ic_menu_preferences" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/settings_btn" android:layout_gravity="center" android:layout_height="fill_parent"></ImageButton>
         <ImageButton android:src="@android:drawable/ic_menu_search" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_height="fill_parent"></ImageButton>
         <ImageButton android:layout_weight="1" android:layout_width="0dp" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/lru_btn" android:layout_gravity="center" android:layout_height="fill_parent"></ImageButton>
@@ -22,15 +15,7 @@
         <requestFocus></requestFocus>
     </EditText>
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="56dp">
-
-        <Button
-            android:id="@+id/goup_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:drawableLeft="@drawable/arrow_up"
-            android:drawableRight="@drawable/arrow_up"
-            android:text="Go one level up" >
-</Button>
+        <Button android:text="@string/main_launcher_nb_layout_go_one_level_up" android:drawableLeft="@drawable/arrow_up" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/goup_btn" android:drawableRight="@drawable/arrow_up" android:layout_weight="0.6"></Button>
         <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_up" android:text="0%" android:layout_width="fill_parent" android:id="@+id/upscroll_btn"></Button>
         <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_down" android:text="0%" android:layout_width="fill_parent" android:id="@+id/downscroll_btn"></Button>
         <ImageButton android:layout_width="fill_parent" android:src="@drawable/su" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn"></ImageButton>
@@ -38,23 +23,17 @@
     <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/fl_layout">
         <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="fill_parent" android:fadeScrollbars="false" android:layout_weight="1"></ListView>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="fill_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="center" >
-
+    <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="wrap_content">
         <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">
-            <Button android:id="@+id/mem_title" android:textColor="#000000" android:background="#ffffff" android:text="Memory" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>
-            <Button android:id="@+id/mem_level" android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:text="Mem:" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>
+            <Button android:id="@+id/mem_title" android:textColor="#000000" android:background="#ffffff" android:text="@string/main_launcher_nb_layout_memory" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>
+            <Button android:id="@+id/mem_level" android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/main_launcher_nb_layout_mem" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>
         </LinearLayout>
         <ImageButton android:layout_width="0dp" android:src="@android:drawable/ic_menu_myplaces" android:id="@+id/app_last" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="0.65"></ImageButton>
         <ImageButton android:src="@android:drawable/ic_dialog_dialer" android:text="All applications" android:id="@+id/all_applications_btn" android:layout_gravity="center" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="0.65"></ImageButton>
         <ImageButton android:layout_width="0dp" android:src="@android:drawable/btn_star" android:id="@+id/app_favorites" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="0.65"></ImageButton>
         <LinearLayout android:layout_height="fill_parent" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1" android:id="@+id/linearLayout4">
-            <Button android:id="@+id/bat_title" android:textColor="#000000" android:background="#ffffff" android:text="Battery" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_weight="1" android:layout_height="wrap_content" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent"></Button>
-            <Button android:id="@+id/bat_level" android:textColor="#000000" android:background="#ffffff" android:text="B" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:layout_weight="1" android:layout_height="wrap_content"></Button>
+            <Button android:id="@+id/bat_title" android:textColor="#000000" android:background="#ffffff" android:text="@string/main_launcher_nb_layout_battery" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_weight="1" android:layout_height="wrap_content" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent"></Button>
+            <Button android:id="@+id/bat_level" android:textColor="#000000" android:background="#ffffff" android:text="@string/main_launcher_nb_layout_b" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:layout_weight="1" android:layout_height="wrap_content"></Button>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

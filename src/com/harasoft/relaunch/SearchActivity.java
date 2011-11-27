@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +14,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,7 +51,7 @@ public class SearchActivity extends Activity {
     ProgressDialog           pd;
     boolean                  stop_search = false;
 
-    // Search parameters and result
+    // Seacrh parameters and result
     List<String[]>           searchResults;
     int                      filesCount;
 
@@ -65,9 +63,11 @@ public class SearchActivity extends Activity {
 
         pd = new ProgressDialog(this);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage("Search in progress");
+        //pd.setMessage("Search in progress");
+        pd.setMessage(getResources().getString(R.string.jv_search_in_progress));
         pd.setCancelable(true);
-        pd.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+        //pd.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+        pd.setButton(ProgressDialog.BUTTON_NEGATIVE, getResources().getString(R.string.jv_search_cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     stop_search = true;
                 }});
@@ -262,7 +262,7 @@ public class SearchActivity extends Activity {
                     addEntries(root);
                 }
 
-                return "OK";
+                return "OK"; // no localization? correct me
             }
 
             @Override
@@ -278,7 +278,8 @@ public class SearchActivity extends Activity {
                 app.setList("searchResults", searchResults);
                 Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
                 intent.putExtra("list", "searchResults");
-                intent.putExtra("title", "Search results");
+                //intent.putExtra("title", "Search results");
+                intent.putExtra("title", getResources().getString(R.string.jv_search_results));
                 intent.putExtra("rereadOnStart", false);
                 intent.putExtra("total", filesCount);
                 startActivity(intent);
@@ -287,7 +288,8 @@ public class SearchActivity extends Activity {
             @Override
             protected void onProgressUpdate(Integer... values) {
                 super.onProgressUpdate(values);
-                pd.setMessage("Files (found / total searched) " + searchResults.size() + "/" + filesCount);
+                //pd.setMessage("Files (found / total searched) " + searchResults.size() + "/" + filesCount);
+                pd.setMessage(getResources().getString(R.string.jv_search_files_total) +  " " + searchResults.size() + "/" + filesCount);
             }
         };
     }

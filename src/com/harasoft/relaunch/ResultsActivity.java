@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -307,7 +305,7 @@ public class ResultsActivity extends Activity {
         adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-        if (prefs.getBoolean("customScroll", app.customScrollDef))
+        if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
             {
@@ -373,7 +371,8 @@ public class ResultsActivity extends Activity {
                                         final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
                                         final String rdr1 = fullName;
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
-                                        builder.setTitle("Select application");
+                                        //builder.setTitle("Select application");
+                                        builder.setTitle(getResources().getString(R.string.jv_results_select_application));
                                         builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int i) {
                                                     start(app.launchReader((String)applications[i], rdr1));
@@ -491,57 +490,80 @@ public class ResultsActivity extends Activity {
         if (i.get("type").equals("dir"))
         {
             if (pos > 0)
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, getResources().getString(R.string.jv_results_move_up));
             if (pos < (itemsArray.size()-1))
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
-            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
-            menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, "Delete directory");
-            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, getResources().getString(R.string.jv_results_move_down));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, getResources().getString(R.string.jv_results_remove));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, "Delete directory");
+            menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, getResources().getString(R.string.jv_results_delete_dir));
+            //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_results_cancel));
         }
         else if (listName.equals("favorites"))
         {
             if (pos > 0)
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, getResources().getString(R.string.jv_results_move_up));
             if (pos < (itemsArray.size()-1))
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
-            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
-            menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
-            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, getResources().getString(R.string.jv_results_move_down));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, getResources().getString(R.string.jv_results_remove));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources().getString(R.string.jv_results_delete_file));
+            //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_results_cancel));
         }
         else if (listName.equals("lastOpened"))
         {
             if (app.history.containsKey(fullName))
             {
                 if (app.history.get(fullName) == app.READING)
-                    menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                    //menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                	menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, getResources().getString(R.string.jv_results_mark));
                 else if (app.history.get(fullName) == app.FINISHED)
-                    menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
-                menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+                    //menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
+                	menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, getResources().getString(R.string.jv_results_unmark));
+                //menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+                menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, getResources().getString(R.string.jv_results_unmark_all));
             }
             else
-                menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
-            menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
-            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+                //menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+            	menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, getResources().getString(R.string.jv_results_mark));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources().getString(R.string.jv_results_delete_file));
+            //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_results_cancel));
         }
         else if (listName.equals("searchResults"))
         {
             if (pos > 0)
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, getResources().getString(R.string.jv_results_move_up));
             if (pos < (itemsArray.size()-1))
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, getResources().getString(R.string.jv_results_move_down));
             if (app.history.containsKey(fullName))
             {
                 if (app.history.get(fullName) == app.READING)
-                    menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                    //menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                	menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, getResources().getString(R.string.jv_results_mark));
                 else if (app.history.get(fullName) == app.FINISHED)
-                    menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
-                menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+                    //menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
+                	menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, getResources().getString(R.string.jv_results_unmark));
+                //menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+                menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, getResources().getString(R.string.jv_results_unmark_all));
             }
             else
-                menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
-
-            menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
-            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+                //menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+            	menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, getResources().getString(R.string.jv_results_mark));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources().getString(R.string.jv_results_delete_file));
+            //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_results_cancel));
         }
     }
 
@@ -623,9 +645,12 @@ public class ResultsActivity extends Activity {
             if (prefs.getBoolean("confirmFileDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete file warning");
-                builder.setMessage("Are you sure to delete file \"" + fname + "\" ?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                //builder.setTitle("Delete file warning");
+                builder.setTitle(getResources().getString(R.string.jv_results_delete_file_title));
+                //builder.setMessage("Are you sure to delete file \"" + fname + "\" ?");
+                builder.setMessage(getResources().getString(R.string.jv_results_delete_file_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_results_delete_file_text2));
+                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_results_yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                             if (app.removeFile(dname, fname))
@@ -634,7 +659,8 @@ public class ResultsActivity extends Activity {
                                 redrawList();
                             }
                         }});
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.jv_results_no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                         }});
@@ -654,9 +680,12 @@ public class ResultsActivity extends Activity {
                 if (prefs.getBoolean("confirmDirDelete", true))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Delete empty directory warning");
-                    builder.setMessage("Are you sure to delete empty directory \"" + fname + "\" ?");
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    //builder.setTitle("Delete empty directory warning");
+                    builder.setTitle(getResources().getString(R.string.jv_results_delete_em_dir_title));
+                    //builder.setMessage("Are you sure to delete empty directory \"" + fname + "\" ?");
+                    builder.setMessage(getResources().getString(R.string.jv_results_delete_em_dir_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_results_delete_em_dir_text2));
+                    //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getResources().getString(R.string.jv_results_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                                 if (app.removeFile(dname, fname))
@@ -665,7 +694,8 @@ public class ResultsActivity extends Activity {
                                     redrawList();
                                 }
                             }});
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getResources().getString(R.string.jv_results_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                             }});
@@ -682,9 +712,12 @@ public class ResultsActivity extends Activity {
                 if (prefs.getBoolean("confirmNonEmptyDirDelete", true))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Delete non empty directory warning");
-                    builder.setMessage("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    //builder.setTitle("Delete non empty directory warning");
+                    builder.setTitle(getResources().getString(R.string.jv_results_delete_ne_dir_title));
+                    //builder.setMessage("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
+                    builder.setMessage(getResources().getString(R.string.jv_results_delete_ne_dir_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_results_delete_ne_dir_text2));
+                    //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getResources().getString(R.string.jv_results_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                                 if (app.removeDirectory(dname, fname))
@@ -693,7 +726,8 @@ public class ResultsActivity extends Activity {
                                     redrawList();
                                 }
                             }});
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getResources().getString(R.string.jv_results_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                             }});

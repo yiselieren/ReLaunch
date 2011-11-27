@@ -15,11 +15,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class Editor extends Activity implements TextWatcher {
     final String                  TAG = "Viewer";
@@ -65,9 +63,12 @@ public class Editor extends Activity implements TextWatcher {
             bw = new BufferedWriter(new FileWriter(fname));
         } catch (IOException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-            builder.setTitle("Open failure");
-            builder.setMessage("Can't open file \"" + fname + "\" for writting");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            //builder.setTitle("Open failure");
+            builder.setTitle(getResources().getString(R.string.jv_editor_openerr_title));
+            //builder.setMessage("Can't open file \"" + fname + "\" for writting");
+            builder.setMessage(getResources().getString(R.string.jv_editor_openerr_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_editor_openerr_text2));
+            //builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.jv_editor_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_CANCELED);
                         finish();
@@ -81,9 +82,12 @@ public class Editor extends Activity implements TextWatcher {
             bw.write(newBuf, 0, newBuf.length());
         } catch (IOException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-            builder.setTitle("Write failure");
-            builder.setMessage("Can't write to file \"" + fname + "\"");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            //builder.setTitle("Write failure");
+            builder.setTitle(getResources().getString(R.string.jv_editor_writerr_title));
+            //builder.setMessage("Can't write to file \"" + fname + "\"");
+            builder.setMessage(getResources().getString(R.string.jv_editor_writerr_text) + " \"" + fname + "\"");
+            //builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.jv_editor_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_OK);
                         finish();
@@ -97,9 +101,12 @@ public class Editor extends Activity implements TextWatcher {
             bw.close();
         } catch (IOException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-            builder.setTitle("Close failure");
-            builder.setMessage("Can't close file \"" + fname + "\"");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            //builder.setTitle("Close failure");
+            builder.setTitle(getResources().getString(R.string.jv_editor_closerr_title));
+            //builder.setMessage("Can't close file \"" + fname + "\"");
+            builder.setMessage(getResources().getString(R.string.jv_editor_closerr_text) + " \"" + fname + "\"");
+            //builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.jv_editor_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_OK);
                         finish();
@@ -139,10 +146,13 @@ public class Editor extends Activity implements TextWatcher {
         if (fileSize > app.editorMax)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("File too big");
-            builder.setMessage("File \"" + fname + "\" is too big for editor (" + f.length() + " bytes)\n"
-                    + "Maximal allowed size is " + app.editorMax + " bytes");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            //builder.setTitle("File too big");
+            builder.setTitle(getResources().getString(R.string.jv_editor_file_too_big));
+            //builder.setMessage("File \"" + fname + "\" is too big for editor (" + f.length() + " bytes)\n"
+            //        + "Maximal allowed size is " + app.editorMax + " bytes");
+            builder.setMessage(getResources().getString(R.string.jv_editor_file) + " \"" + fname + "\" " + getResources().getString(R.string.jv_editor_too_big) + " (" + f.length() + " " + getResources().getString(R.string.jv_editor_bytes) + ")\n"
+                    + getResources().getString(R.string.jv_editor_maximum) + " " + app.editorMax + " " + getResources().getString(R.string.jv_editor_bytes));            
+            builder.setPositiveButton(getResources().getString(R.string.jv_editor_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         setResult(Activity.RESULT_CANCELED);
                         finish();
@@ -183,9 +193,12 @@ public class Editor extends Activity implements TextWatcher {
                         else
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Editor.this);
-                            builder.setTitle("Save changes warning");
-                            builder.setMessage("Do you want to save changes?");
-                            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            //builder.setTitle("Save changes warning");
+                            builder.setTitle(getResources().getString(R.string.jv_editor_save_title));
+                            //builder.setMessage("Do you want to save changes?");
+                            builder.setMessage(getResources().getString(R.string.jv_editor_save_text));
+                            //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton(getResources().getString(R.string.jv_editor_yes), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         if (saveChanges(newBuf, fname))
                                             {
@@ -193,7 +206,8 @@ public class Editor extends Activity implements TextWatcher {
                                                 finish();
                                             }
                                 }});
-                            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            builder.setNegativeButton(getResources().getString(R.string.jv_editor_no), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         setResult(Activity.RESULT_CANCELED);
                                         finish();
@@ -221,12 +235,14 @@ public class Editor extends Activity implements TextWatcher {
         if (newBuf.equals(textBuffer))
         {
             saveBtn.setEnabled(false);
-            cancelBtn.setText("Back");
+            //cancelBtn.setText("Back");
+            cancelBtn.setText(getResources().getString(R.string.jv_editor_back));
         }
         else
         {
             saveBtn.setEnabled(true);
-            cancelBtn.setText("Cancel");
+            //cancelBtn.setText("Cancel");
+            cancelBtn.setText(getResources().getString(R.string.jv_editor_cancel));
         }
     }
 

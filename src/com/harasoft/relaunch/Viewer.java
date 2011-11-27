@@ -11,12 +11,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 public class Viewer extends Activity {
     final String                  TAG = "Viewer";
@@ -84,10 +82,14 @@ public class Viewer extends Activity {
         if (fileSize > app.viewerMax)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("File too big");
-            builder.setMessage("File \"" + fname + "\" is too big for viewer (" + f.length() + " bytes)\n"
-                    + "Maximal allowed size is " + app.viewerMax + " bytes");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            //builder.setTitle("File too big");
+            builder.setTitle(getResources().getString(R.string.jv_viewer_file_too_big));
+            //builder.setMessage("File \"" + fname + "\" is too big for viewer (" + f.length() + " bytes)\n"
+            //        + "Maximal allowed size is " + app.viewerMax + " bytes");
+            builder.setMessage(getResources().getString(R.string.jv_viewer_file) + " \"" + fname + "\" " + getResources().getString(R.string.jv_viewer_too_big) + " (" + f.length() + " " + getResources().getString(R.string.jv_viewer_bytes) + ")\n"
+                    + getResources().getString(R.string.jv_viewer_maximum) + " " + app.viewerMax + " " + getResources().getString(R.string.jv_viewer_bytes));            
+            //builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.jv_viewer_ok), new DialogInterface.OnClickListener() {            
                     public void onClick(DialogInterface dialog, int whichButton) {
                         finish();
                     }});
@@ -103,10 +105,14 @@ public class Viewer extends Activity {
                         if (fileSize > app.editorMax)
                         {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Viewer.this);
-                            builder.setTitle("File too big");
-                            builder.setMessage("File \"" + fname + "\" is too big for editor (" + fileSize + " bytes)\n"
-                                    + "Maximal allowed size is " + app.editorMax + " bytes");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            // builder.setTitle("File too big");
+                            builder.setTitle(getResources().getString(R.string.jv_editor_file_too_big));
+                            //builder.setMessage("File \"" + fname + "\" is too big for editor (" + fileSize + " bytes)\n"
+                            //        + "Maximal allowed size is " + app.editorMax + " bytes");
+                            builder.setMessage(getResources().getString(R.string.jv_editor_file) + " \"" + fname + "\" " + getResources().getString(R.string.jv_editor_too_big) + " (" + fileSize + " " + getResources().getString(R.string.jv_editor_bytes) + "\n"
+                                    + getResources().getString(R.string.jv_editor_maximum) + " " + app.editorMax + " " + getResources().getString(R.string.jv_editor_bytes));                            
+                            //builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton(getResources().getString(R.string.jv_viewer_ok), new DialogInterface.OnClickListener() {                            
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                     }});
                             builder.show();

@@ -11,18 +11,15 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,7 +122,8 @@ public class TypesActivity extends Activity {
 
                 // Setting extension title
                 TextView ext_title = (TextView) v.findViewById(R.id.types_ext_title);
-                ext_title.setText("Suffix (" + (position+1) + "/" + (itemsArray.size()) + ")");
+                //ext_title.setText("Suffix (" + (position+1) + "/" + (itemsArray.size()) + ")");
+                ext_title.setText(getResources().getString(R.string.jv_types_suffix) + " (" + (position+1) + "/" + (itemsArray.size()) + ")");
 
                 // Setting extension
                 Button  extName = (Button)v.findViewById(R.id.types_ext);
@@ -134,16 +132,19 @@ public class TypesActivity extends Activity {
 
                         public void onClick(View v) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-                            builder.setTitle("File suffix");
+                            //builder.setTitle("File suffix");
+                            builder.setTitle(getResources().getString(R.string.jv_types_file_suffix));
                             final EditText input = new EditText(cntx);
                             input.setText(item.get("ext"));
                             builder.setView(input);
 
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            //builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton(getResources().getString(R.string.jv_types_ok), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         String value = input.getText().toString();
                                         if (value.equals(""))
-                                            Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                        	Toast.makeText(cntx, getResources().getString(R.string.jv_types_cant_be_empty), Toast.LENGTH_LONG).show();
                                         else
                                         {
                                             itemsArray.get(position).put("ext", value);
@@ -153,7 +154,8 @@ public class TypesActivity extends Activity {
                                     }
                                 });
 
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            //builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            builder.setNegativeButton(getResources().getString(R.string.jv_types_cancel), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         dialog.dismiss();
                                     }
@@ -176,15 +178,18 @@ public class TypesActivity extends Activity {
 
                         public void onClick(View v) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(cntx);
-                            builder1.setTitle("Explicit application or general intent?");
-                            builder1.setMessage("When you tap on file with specified suffix ReLaunch"
-                                    + " may call explicit application or just generate intent with"
-                                    + " application type you specify (ACTION_VIEW). \n\nWhich method do you want?");
-
-                            builder1.setPositiveButton("Explicit application", new DialogInterface.OnClickListener() {
+                            //builder1.setTitle("Explicit application or general intent?");
+                            builder1.setTitle(getResources().getString(R.string.jv_types_app_or_int_title));
+                            //builder1.setMessage("When you tap on file with specified suffix ReLaunch"
+                            //        + " may call explicit application or just generate intent with"
+                            //        + " application type you specify (ACTION_VIEW). \n\nWhich method do you want?");
+                            builder1.setMessage(getResources().getString(R.string.jv_types_app_or_int_text));
+                            //builder1.setPositiveButton("Explicit application", new DialogInterface.OnClickListener() {
+                            builder1.setPositiveButton(getResources().getString(R.string.jv_types_explicit_application), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {                                    
                                     AlertDialog.Builder builder2 = new AlertDialog.Builder(cntx);
-                                    builder2.setTitle("Select application");
+                                    //builder2.setTitle("Select application");
+                                    builder2.setTitle(getResources().getString(R.string.jv_types_select_application));
                                     builder2.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int i) {
                                                 itemsArray.get(position).put("rdr", (String)applications[i]);
@@ -195,10 +200,12 @@ public class TypesActivity extends Activity {
                                         builder2.show();
                                 }});
 
-                            builder1.setNeutralButton("General intent", new DialogInterface.OnClickListener() {
+                            //builder1.setNeutralButton("General intent", new DialogInterface.OnClickListener() {
+                            builder1.setNeutralButton(getResources().getString(R.string.jv_types_general_intent), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {    
                                     AlertDialog.Builder builder3 = new AlertDialog.Builder(cntx);
-                                    builder3.setTitle("Intent type");
+                                    //builder3.setTitle("Intent type");
+                                    builder3.setTitle(getResources().getString(R.string.jv_types_intent_type));
                                     final EditText input = new EditText(cntx);
                                     String v = item.get("rdr");
                                     if (v.startsWith(INTENT_PREFIX))
@@ -207,11 +214,13 @@ public class TypesActivity extends Activity {
                                         v = "application/";
                                     input.setText(v);
                                     builder3.setView(input);
-                                    builder3.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    //builder3.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    builder3.setPositiveButton(getResources().getString(R.string.jv_types_ok), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 String value = input.getText().toString();
                                                 if (value.equals(""))
-                                                    Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                                    //Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                                	Toast.makeText(cntx, getResources().getString(R.string.jv_types_cant_be_empty), Toast.LENGTH_LONG).show();
                                                 else
                                                 {
                                                     itemsArray.get(position).put("rdr", INTENT_PREFIX + value);
@@ -221,7 +230,8 @@ public class TypesActivity extends Activity {
                                             }
                                         });
 
-                                    builder3.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    //builder3.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    builder3.setNegativeButton(getResources().getString(R.string.jv_types_cancel), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 dialog.dismiss();
                                             }
@@ -230,7 +240,8 @@ public class TypesActivity extends Activity {
                                     builder3.show();
                                 }});
 
-                            builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            //builder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            builder1.setNegativeButton(getResources().getString(R.string.jv_types_cancel), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }});

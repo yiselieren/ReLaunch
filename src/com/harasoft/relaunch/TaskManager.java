@@ -9,15 +9,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -31,7 +26,6 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,6 +126,7 @@ public class TaskManager extends Activity {
     List<Integer>                 newServ;
     HashMap<Integer, PInfo>       newPinfo;
 
+    /*
     private void dumpPinfo(HashMap<Integer, PInfo> p, String name)
     {
         Log.d(TAG, ">>> " + name +":");
@@ -149,7 +144,8 @@ public class TaskManager extends Activity {
         }
         Log.d(TAG, "<<< " + name);
     }
-
+	*/
+    
     public class cpuComparator implements java.util.Comparator<Integer>
     {
         public int compare(Integer o1, Integer o2)
@@ -341,18 +337,22 @@ public class TaskManager extends Activity {
                         p.imp = 3;
                         if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_FOREGROUND) != 0) {
                             p.imp = 1;
+                            // no localization? correct me
                             fs = fs.equals("") ? "FOREGROUND" : (fs + ",FOREGROUND");
                         }
                         if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_PERSISTENT_PROCESS) != 0) {
                             p.imp = 1;
+                            // no localization? correct me
                             fs = fs.equals("") ? "PERSISTENT" : (fs + ",PERSISTENT");
                         }
                         if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_STARTED) != 0) {
                             p.imp = 2;
+                            // no localization? correct me
                             fs = fs.equals("") ? "STARTED" : (fs + ",STARTED");
                         }
                         if ((si.flags & ActivityManager.RunningServiceInfo.FLAG_SYSTEM_PROCESS) != 0) {
                             p.imp = 1;
+                            // no localization? correct me
                             fs = fs.equals("") ? "SYSTEM" : (fs + ",SYSTEM");
                         }
 
@@ -399,22 +399,27 @@ public class TaskManager extends Activity {
                         {
                         case ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND:
                             p.imp = 2;
+                            // no localization? correct me
                             is = "BACKGROUND";
                             break;
                         case ActivityManager.RunningAppProcessInfo.IMPORTANCE_EMPTY:
                             p.imp = 3;
+                            // no localization? correct me
                             is = "NOT ACTIVE";
                             break;
                         case ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND:
                             p.imp = 1;
+                            // no localization? correct me
                             is = "FOREGROUND";
                             break;
                         case ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE:
                             p.imp = 2;
+                            // no localization? correct me
                             is = "SERVICE";
                             break;
                         case ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE:
                             p.imp = 1;
+                            // no localization? correct me
                             is = "VISIBLE";
                             break;
                         }
@@ -507,7 +512,7 @@ public class TaskManager extends Activity {
                 cpuTotal_prev = cpuTotal;
                 cpuIdle_prev = cpuIdle;
 
-                return "OK";
+                return "OK"; // no localization? - correct me
             }
 
             @Override
@@ -519,10 +524,13 @@ public class TaskManager extends Activity {
                 adapter_s.notifyDataSetChanged();
 
                 // Set titles
-                title1.setText(Html.fromHtml("Total <b>" + memTotal/1024 + "</b>M / Free: <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
+                //title1.setText(Html.fromHtml("Total <b>" + memTotal/1024 + "</b>M / Free: <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
+                title1.setText(Html.fromHtml(getResources().getString(R.string.jv_taskman_total) + " <b>" + memTotal/1024 + "</b>M / " + getResources().getString(R.string.jv_taskman_free) +" <b>" + memUsage/1048576 + "</b>M"), TextView.BufferType.SPANNABLE);
                 title2.setText(Html.fromHtml("<b>" + CPUUsage + "</b>%"), TextView.BufferType.SPANNABLE);
-                tasks_title.setText("Tasks (" + taskPids.size() + ")");
-                serv_title.setText("Services (" + servPids.size() + ")");
+                //tasks_title.setText("Tasks (" + taskPids.size() + ")");
+                tasks_title.setText(getResources().getString(R.string.jv_taskman_tasks) + " (" + taskPids.size() + ")");
+                //serv_title.setText("Services (" + servPids.size() + ")");
+                serv_title.setText(getResources().getString(R.string.jv_taskman_services) + " (" + servPids.size() + ")");
 
                 // DEBUG+++++
                 /*
@@ -589,7 +597,7 @@ public class TaskManager extends Activity {
     {
         final Dialog          dialog = new Dialog(this);
         final PInfo           p = pinfo.get(pid);
-        final int             localPid = pid;
+        // final int             localPid = pid;
         final String          localName = p.name;
         final List<ExtraInfo> itemsArray = p.e;
 
@@ -618,7 +626,7 @@ public class TaskManager extends Activity {
                 TextView tv2 = (TextView) v.findViewById(R.id.res_dname);
                 ImageView iv = (ImageView)v.findViewById(R.id.res_icon);
 
-                String label = (e.label.equals("")) ? "SYSTEM" : e.label;
+                String label = (e.label.equals("")) ? "SYSTEM" : e.label; // no localization ? correct me
                 SpannableString s = new SpannableString(label);
                 s.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), 0);
                 tv1.setText(s);
@@ -633,7 +641,8 @@ public class TaskManager extends Activity {
         }
 
         dialog.setContentView(R.layout.task_details);
-        dialog.setTitle("Tasks details");
+        //dialog.setTitle("Tasks details");
+        dialog.setTitle(getResources().getString(R.string.jv_taskman_task_details));
         ((TextView) dialog.findViewById(R.id.tm1_pid)).setText(pid + " / " + p.uid);
         ((TextView) dialog.findViewById(R.id.tm1_label)).setText(p.label);
         ((TextView) dialog.findViewById(R.id.tm1_name)).setText(p.name);
@@ -690,7 +699,8 @@ public class TaskManager extends Activity {
         final String          localName = p.name;
 
         dialog.setContentView(R.layout.service_details);
-        dialog.setTitle("Service details");
+        //dialog.setTitle("Service details");
+        dialog.setTitle(getResources().getString(R.string.jv_taskman_service_details));
         ((TextView) dialog.findViewById(R.id.tm2_pid)).setText(pid + " / " + p.uid);
         ((TextView) dialog.findViewById(R.id.tm2_label)).setText(p.label);
         ((TextView) dialog.findViewById(R.id.tm2_name)).setText(p.name);
@@ -794,7 +804,7 @@ public class TaskManager extends Activity {
             Integer item = taskPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
-                String label = (pi.label.equals("")) ? "SYSTEM" : pi.label;
+                String label = (pi.label.equals("")) ? "SYSTEM" : pi.label; // no localization? // correct me
                 if (pi.e.size() > 1)
                     label = label + " (+" + (pi.e.size()-1) + ")";
                 switch (pi.imp)
@@ -818,7 +828,8 @@ public class TaskManager extends Activity {
                     break;
                 }
                 tv2.setText(pi.name);
-                tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                //tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                tv3.setText(Html.fromHtml(getResources().getString(R.string.jv_taskman_cpu) + " <b>" + pi.usage + "</b>%, " + getResources().getString(R.string.jv_taskman_mem) + " <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 if (pi.icon == null)
                     iv.setImageDrawable(getResources().getDrawable(android.R.drawable.sym_def_app_icon));
                 else
@@ -874,9 +885,10 @@ public class TaskManager extends Activity {
             Integer item = servPids.get(position);
             PInfo   pi = pinfo.get(item);
             if (item != null) {
-                String label = (pi.label.equals("")) ? "SYSTEM" : pi.label;
+                String label = (pi.label.equals("")) ? "SYSTEM" : pi.label; // no localization? // correct me
                 tv1.setText(pi.name);
-                tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                //tv3.setText(Html.fromHtml(pi.extra + ", CPU: <b>" + pi.usage + "%</b>, Mem: <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
+                tv3.setText(Html.fromHtml(pi.extra + ", " + getResources().getString(R.string.jv_taskman_cpu) + " <b>" + pi.usage + "%</b>, " + getResources().getString(R.string.jv_taskman_mem) + " <b>" + pi.mem + "K</b>"), TextView.BufferType.SPANNABLE);
                 switch (pi.imp)
                 {
                 case 1:
@@ -898,7 +910,8 @@ public class TaskManager extends Activity {
                     break;
                 }
                 tv2.setText(pi.name);
-                tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                //tv3.setText(Html.fromHtml("CPU: <b>" + pi.usage + "</b>%, Mem: <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
+                tv3.setText(Html.fromHtml(getResources().getString(R.string.jv_taskman_cpu) + " <b>" + pi.usage + "</b>%, " + getResources().getString(R.string.jv_taskman_mem) + " <b>" + pi.mem + "</b>K"), TextView.BufferType.SPANNABLE);
                 if (pi.icon == null)
                     iv.setImageDrawable(getResources().getDrawable(android.R.drawable.sym_def_app_icon));
                 else
@@ -933,7 +946,7 @@ public class TaskManager extends Activity {
         adapter_s = new SAdapter(this, R.layout.taskmanager_item);
         lv_s.setAdapter(adapter_s);
 
-        if (prefs.getBoolean("customScroll", app.customScrollDef))
+        if (prefs.getBoolean("customScroll", true))
         {
             int scrollW;
             try {

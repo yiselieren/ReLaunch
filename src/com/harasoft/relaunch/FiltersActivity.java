@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,16 +118,19 @@ public class FiltersActivity  extends Activity {
                 {
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-                        builder.setTitle("Filter value:");
+                        //builder.setTitle("Filter value:");
+                        builder.setTitle(getResources().getString(R.string.jv_filters_value));
                         final EditText input = new EditText(cntx);
                         input.setText(item[1]);
                         builder.setView(input);
 
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        //builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton(getResources().getString(R.string.jv_filters_ok), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     String value = input.getText().toString();
                                     if (value.equals(""))
-                                        Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(cntx, "Can't be empty!", Toast.LENGTH_LONG).show();
+                                    	Toast.makeText(cntx, getResources().getString(R.string.jv_filters_cant_be_empty), Toast.LENGTH_LONG).show();
                                     else
                                     {
                                         itemsArray.set(position, new String[] { item[0], value});
@@ -138,7 +140,8 @@ public class FiltersActivity  extends Activity {
                                 }
                             });
 
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        //builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getResources().getString(R.string.jv_filters_cancel), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     dialog.dismiss();
                                 }
@@ -152,9 +155,11 @@ public class FiltersActivity  extends Activity {
             if (position >= itemsArray.size()-1)
                 condTxt.setText("");
             else if (app.filters_and)
-                condTxt.setText("AND");
+                //condTxt.setText("AND");
+            	condTxt.setText(getResources().getString(R.string.jv_filters_and));
             else
-                condTxt.setText("OR");
+                //condTxt.setText("OR");
+            	condTxt.setText(getResources().getString(R.string.jv_filters_or));
 
             return v;
         }
@@ -207,17 +212,21 @@ public class FiltersActivity  extends Activity {
         // AND/OR button
         final Button    andorBtn = (Button) findViewById(R.id.filters_andor);
         if (app.filters_and)
-            andorBtn.setText("OR");
+            //andorBtn.setText("OR");
+        	andorBtn.setText(getResources().getString(R.string.jv_filters_or));
         else
-            andorBtn.setText("AND");
+            //andorBtn.setText("AND");
+        	andorBtn.setText(getResources().getString(R.string.jv_filters_and));
         andorBtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
                     app.filters_and = ! app.filters_and;
                     if (app.filters_and)
-                        andorBtn.setText("OR");
+                        //andorBtn.setText("OR");
+                    	andorBtn.setText(getResources().getString(R.string.jv_filters_or));
                     else
-                        andorBtn.setText("AND");
+                        //andorBtn.setText("AND");
+                    	andorBtn.setText(getResources().getString(R.string.jv_filters_and));
                     adapter.notifyDataSetChanged();
                 }
             });

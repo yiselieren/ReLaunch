@@ -1,10 +1,13 @@
 package com.harasoft.relaunch;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,7 +43,6 @@ public class ReLaunchApp extends Application {
     // Miscellaneous public flags/settings
     public boolean                          fullScreen = false;
     public Boolean                          askIfAmbiguous;
-    public boolean                          customScrollDef = true;
 
     // Search values
     final String                            DIR_TAG = ".DIR..";
@@ -170,6 +173,51 @@ public class ReLaunchApp extends Application {
             Log.d(TAG, "    \"" + n[0] + "\"; \"" + n[1] + "\"");
     }
 
+    // save list
+    public void saveList(String listName) {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    	if(listName.equals("favorites")) {
+            int favMax = 30;
+            try {
+                favMax = Integer.parseInt(prefs.getString("favSize", "30"));
+            } catch(NumberFormatException e) { }
+            this.writeFile("favorites",  ReLaunch.FAV_FILE, favMax);            
+    	}
+    	if(listName.equals("lastOpened")) {
+            int lruMax = 30;
+            try {
+                lruMax = Integer.parseInt(prefs.getString("lruSize", "30"));
+            } catch(NumberFormatException e) { }
+            this.writeFile("lastOpened", ReLaunch.LRU_FILE, lruMax);            
+    	}
+    	if(listName.equals("app_last")) {
+            int appLruMax = 30;
+            try {
+                appLruMax = Integer.parseInt(prefs.getString("appLruSize", "30"));
+            } catch(NumberFormatException e) { }
+            this.writeFile("app_last", ReLaunch.APP_LRU_FILE, appLruMax, ":");
+    	}
+    	if(listName.equals("app_favorites")) {
+            int appFavMax = 30;
+            try {
+                appFavMax = Integer.parseInt(prefs.getString("appFavSize", "30"));
+            } catch(NumberFormatException e) { }
+            this.writeFile("app_favorites", ReLaunch.APP_FAV_FILE, appFavMax, ":");    		
+    	}
+    	if(listName.equals("history")) {
+        List<String[]> h = new ArrayList<String[]>();
+        for (String k : this.history.keySet())
+        {
+            if (this.history.get(k) == this.READING)
+                h.add(new String[] {k, "READING"});
+            else if (this.history.get(k) == this.FINISHED)
+                h.add(new String[] {k, "FINISHED"});
+        }
+        this.setList("history", h);
+        this.writeFile("history", ReLaunch.HIST_FILE, 0, ":");
+    	}	
+    }
+    
     // Add to list
     public void addToList(String listName, String dr, String fn, Boolean addToEnd)
     {
@@ -246,6 +294,7 @@ public class ReLaunchApp extends Application {
             resultList.add(entry);
         else
             resultList.add(0, entry);
+        saveList(listName);
     }
 
     // Remove from list
@@ -275,6 +324,7 @@ public class ReLaunchApp extends Application {
             if (resultList.get(i)[0].equals(dr)  &&  resultList.get(i)[1].equals(fn))
             {
                 resultList.remove(i);
+                saveList(listName);
                 return;
             }
         }
@@ -301,6 +351,7 @@ public class ReLaunchApp extends Application {
         return readFile(listName, fileName, "/");
     }
 
+    /*
     public boolean readFile(String listName, String fileName, String delimiter)
     {
         FileInputStream fis = null;
@@ -357,12 +408,55 @@ public class ReLaunchApp extends Application {
         }
         return true;
     }
-
+	*/
+    
+    public boolean readFile(String listName, String fileName, String delimiter)
+    {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(fileName);
+        } catch (FileNotFoundException e) { }
+        if (fis == null)
+            return false;
+        else
+        {
+        	InputStreamReader insr = null;
+        	try {
+        		insr = new InputStreamReader(fis, "utf8");
+        	}
+        	catch(UnsupportedEncodingException e) {
+        		return false;
+        	}
+        	BufferedReader bufr = new BufferedReader(insr,FileBufferSize);
+            String l = new String();
+            while (true) {
+            		try { 
+            			l = bufr.readLine();
+            		}
+            		catch(IOException e) {
+            			return false;
+            		}
+            		if(l==null) break;
+                    if (!l.equals("")) {
+                        //Log.d(TAG, "ADD (last) \"" + l + "\"");
+                        addToList(listName, l, true, delimiter);
+                    }
+                }
+            try {
+            	bufr.close();
+            	insr.close();
+                fis.close();
+            } catch (IOException e) { }
+        }
+        return true;
+    }
+    
     // Save to file miscellaneous lists
     public void writeFile(String listName, String fileName, int maxEntries)
     {
         writeFile(listName, fileName, maxEntries, "/");
     }
+    
     public void writeFile(String listName, String fileName, int maxEntries, String delimiter)
     {
         if (!m.containsKey(listName))
@@ -472,7 +566,8 @@ public class ReLaunchApp extends Application {
         {
             Intent i = getIntentByLabel(name);
             if (i == null)
-                Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Activity \"" + name + "\" not found!", Toast.LENGTH_SHORT).show();
+            	Toast.makeText(this, getResources().getString(R.string.jv_rla_activity) + " \"" + name + "\" " + getResources().getString(R.string.jv_rla_not_found), Toast.LENGTH_SHORT).show();
             else
             {
                 i.setAction(Intent.ACTION_VIEW);
@@ -596,25 +691,31 @@ public class ReLaunchApp extends Application {
         String vers = getResources().getString(R.string.app_version);
         AlertDialog.Builder builder = new AlertDialog.Builder(a);
         WebView wv = new WebView(a);
+        
         builder.setTitle("ReLaunch");
-        String str = "<h1><center>ReLaunch</center></h1>"
-            + "<center><b>Reader launcher for Nook Simple Touch</b></center><br>"
-            + "<center>Version: <b>" + vers + "</b></center><br>"
-            + "<center>Source code: <a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git</a></center>";
+        //String str = "<h1><center>ReLaunch</center></h1>"
+        //    + "<center><b>Reader launcher for Nook Simple Touch</b></center><br>"
+        //    + "<center>Version: <b>" + vers + "</b></center><br>"
+        //    + "<center>Source code: <a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git</a></center>";
+        String str = getResources().getString(R.string.jv_rla_about_prev) + vers + getResources().getString(R.string.jv_rla_about_post);
         wv.loadData(str, "text/html", "utf-8");
         builder.setView(wv);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        //builder.setPositiveButton(("Ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.jv_rla_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
                 }});
-        builder.setNegativeButton("See changelog", new DialogInterface.OnClickListener() {
+        //builder.setNegativeButton("See changelog", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.jv_rla_see_changelog), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(a);
                 WebView wv = new WebView(a);
                 wv.loadData(getResources().getString(R.string.whats_new), "text/html", "utf-8");
-                builder1.setTitle("What's new");
+                //builder1.setTitle("What's new");
+                builder1.setTitle(getResources().getString(R.string.jv_rla_whats_new_title));
                 builder1.setView(wv);
-                builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builder1.setPositiveButton(getResources().getString(R.string.jv_rla_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.dismiss();
                     }});

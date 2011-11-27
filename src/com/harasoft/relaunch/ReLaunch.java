@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -22,7 +21,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -31,10 +29,8 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract.Data;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -122,10 +118,6 @@ public class ReLaunch extends Activity {
     }
     private void checkDevice(String dev, String man, String model, String product)
     {
-    	//Log.d(TAG, "dev=\"" + dev + "\", man=\"" + man + "\", model=\"" + model + "\",  product=\"" + product + "\"");
-    	//Toast.makeText(ReLaunch.this,
-    	//		"dev=\"" + dev + "\", man=\"" + man + "\", model=\"" + model + "\",  product=\"" + product + "\"", 
-    	//		Toast.LENGTH_LONG).show();
         if (checkField(allowedModels, model))
             return;
         if (checkField(allowedDevices, dev))
@@ -140,16 +132,19 @@ public class ReLaunch extends Activity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             WebView wv = new WebView(this);
             wv.loadData(getResources().getString(R.string.model_warning), "text/html", "utf-8");
-            builder.setTitle("Wrong model !");
+            //builder.setTitle("Wrong model !");
+            builder.setTitle(getResources().getString(R.string.jv_relaunch_wrong_model));            
             builder.setView(wv);
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.jv_relaunch_yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean("allowDevice", true);
                     editor.commit();
                     dialog.dismiss();
                 }});
-            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_no), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     finish();
                 }});
@@ -409,7 +404,8 @@ public class ReLaunch extends Activity {
         activityManager.getMemoryInfo(mi);
         if (memLevel != null)
         {
-            memLevel.setText(mi.availMem / 1048576L + "M free");
+            //memLevel.setText(mi.availMem / 1048576L + "M free");
+        	memLevel.setText(mi.availMem / 1048576L + getResources().getString(R.string.jv_relaunch_m_free));
             memLevel.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ram), null);
         }
 
@@ -425,7 +421,8 @@ public class ReLaunch extends Activity {
             }
             else
             {
-                battTitle.setText("WiFi is off");
+                //battTitle.setText("WiFi is off");
+            	battTitle.setText(getResources().getString(R.string.jv_relaunch_wifi_is_off));
                 battTitle.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_off), null, null, null);
             }
         }
@@ -544,7 +541,7 @@ public class ReLaunch extends Activity {
         final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
-        if (prefs.getBoolean("customScroll", app.customScrollDef))
+        if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
             {
@@ -611,7 +608,8 @@ public class ReLaunch extends Activity {
                                     final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
                                     final String rdr1 = item.get("fname");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
-                                    builder.setTitle("Select application");
+                                    //builder.setTitle("Select application");
+                                    builder.setTitle(getResources().getString(R.string.jv_relaunch_select_application));
                                     builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int i) {
                                                 start(app.launchReader((String)applications[i], rdr1));
@@ -822,7 +820,8 @@ public class ReLaunch extends Activity {
                         {
                             Intent intent = new Intent(ReLaunch.this, AllApplications.class);
                             intent.putExtra("list", "app_last");
-                            intent.putExtra("title", "Last recently used applications");
+                            //intent.putExtra("title", "Last recently used applications");
+                            intent.putExtra("title", getResources().getString(R.string.jv_relaunch_lru_a));
                             startActivity(intent);
                         }
                     });
@@ -831,7 +830,8 @@ public class ReLaunch extends Activity {
                         {
                             Intent intent = new Intent(ReLaunch.this, AllApplications.class);
                             intent.putExtra("list", "app_all");
-                            intent.putExtra("title", "All applications");
+                            //intent.putExtra("title", "All applications");
+                            intent.putExtra("title", getResources().getString(R.string.jv_relaunch_all_a));
                             startActivity(intent);
                         }
                     });
@@ -840,7 +840,8 @@ public class ReLaunch extends Activity {
                         {
                             Intent intent = new Intent(ReLaunch.this, AllApplications.class);
                             intent.putExtra("list", "app_favorites");
-                            intent.putExtra("title", "Favorite applications");
+                            //intent.putExtra("title", "Favorite applications");
+                            intent.putExtra("title", getResources().getString(R.string.jv_relaunch_fav_a));
                             startActivity(intent);
                         }
                     });
@@ -898,10 +899,7 @@ public class ReLaunch extends Activity {
                     }});
             batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-            // Check the device and set some defaults accordingly
             checkDevice(Build.DEVICE, Build.MANUFACTURER, Build.MODEL, Build.PRODUCT);
-            if (Build.MODEL.equals("PRS-T1"))
-            	app.customScrollDef = false;
 
             // What's new processing
             final int latestVersion = prefs.getInt("latestVersion", 0);
@@ -911,9 +909,10 @@ public class ReLaunch extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 WebView wv = new WebView(this);
                 wv.loadData(getResources().getString(R.string.whats_new), "text/html", "utf-8");
-                builder.setTitle("What's new");
+                //builder.setTitle("What's new");
+                builder.setTitle(getResources().getString(R.string.jv_relaunch_whats_new));
                 builder.setView(wv);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_relaunch_ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putInt("latestVersion", currentVersion);
@@ -1023,35 +1022,47 @@ public class ReLaunch extends Activity {
         if (tp.equals("file"))
         {
             if (!app.contains("favorites", dr, fn))
-                menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
+                //menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
+            	menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, getResources().getString(R.string.jv_relaunch_add));
             if (app.history.containsKey(fullName))
             {
                 if (app.history.get(fullName) == app.READING)
-                    menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                    //menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                	menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, getResources().getString(R.string.jv_relaunch_mark));
                 else if (app.history.get(fullName) == app.FINISHED)
-                    menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
-                menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+                    //menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, "Remove \"read\" mark");
+                	menu.add(Menu.NONE, CNTXT_MENU_MARK_READING, Menu.NONE, getResources().getString(R.string.jv_relaunch_unmark));
+                //menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, "Forget all marks");
+                menu.add(Menu.NONE, CNTXT_MENU_MARK_FORGET, Menu.NONE, getResources().getString(R.string.jv_relaunch_unmarkall));
             }
             else
-                menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+                //menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, "Mark as read");
+            	menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE, getResources().getString(R.string.jv_relaunch_mark));
             if (prefs.getBoolean("openWith", true))
-                menu.add(Menu.NONE, CNTXT_MENU_OPENWITH, Menu.NONE, "Open with ...");
+                //menu.add(Menu.NONE, CNTXT_MENU_OPENWITH, Menu.NONE, "Open with ...");
+            	menu.add(Menu.NONE, CNTXT_MENU_OPENWITH, Menu.NONE, getResources().getString(R.string.jv_relaunch_openwith));
             if (prefs.getBoolean("createIntent", true))
-                menu.add(Menu.NONE, CNTXT_MENU_INTENT, Menu.NONE, "Create Intent ...");
-            menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, "Delete");
+                //menu.add(Menu.NONE, CNTXT_MENU_INTENT, Menu.NONE, "Create Intent ...");
+            	menu.add(Menu.NONE, CNTXT_MENU_INTENT, Menu.NONE, getResources().getString(R.string.jv_relaunch_createintent));
+            //menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, "Delete");
+            menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete));
         }
         else
         {
             File   d = new File(fullName);
             String[] allEntries = d.list();
             if (!app.contains("favorites", fullName, app.DIR_TAG))
-                menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
+                //menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
+            	menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, getResources().getString(R.string.jv_relaunch_add));
             if (allEntries.length > 0)
-                menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, "Delete NON-EMPTY directory!");
+                //menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, "Delete NON-EMPTY directory!");
+            	menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete_non_emp_dir));
             else
-                menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, "Delete empty directory");
+                //menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, "Delete empty directory");
+            	menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete_emp_dir));
         }
-        menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+        //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+        menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_relaunch_cancel));
     }
 
     @Override
@@ -1091,14 +1102,15 @@ public class ReLaunch extends Activity {
         {
             final CharSequence[] applications = app.getApps().toArray(new CharSequence[app.getApps().size()]);
             AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
-            builder.setTitle("Select application");
+            //builder.setTitle("Select application");
+            builder.setTitle(getResources().getString(R.string.jv_relaunch_select_application));
             builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int i) {
                         start(app.launchReader((String)applications[i], fullName));
                         dialog.dismiss();
                     }
                 });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     dialog.dismiss();
                 }});
@@ -1134,7 +1146,8 @@ public class ReLaunch extends Activity {
 
             final CharSequence[] intents = ilist.toArray(new CharSequence[ilist.size()]);
             AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
-            builder.setTitle("Select intent type");
+            //builder.setTitle("Select intent type");
+            builder.setTitle(getResources().getString(R.string.jv_relaunch_select_intent_type));
             builder.setSingleChoiceItems(intents, -1, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int i) {
                     Intent in = new Intent();
@@ -1145,23 +1158,28 @@ public class ReLaunch extends Activity {
                         startActivity(in);
                     } catch (ActivityNotFoundException e) {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(ReLaunch.this);
-                        builder1.setTitle("Activity not found");
-                        builder1.setMessage("Activity for file \"" + fullName + "\" with type \"" + intents[i] + "\" not found");
-                        builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        //builder1.setTitle("Activity not found");
+                        builder1.setTitle(getResources().getString(R.string.jv_relaunch_activity_not_found_title));
+                        //builder1.setMessage("Activity for file \"" + fullName + "\" with type \"" + intents[i] + "\" not found");
+                        builder1.setMessage(getResources().getString(R.string.jv_relaunch_activity_not_found_title) + " \"" + fullName + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text2) + " \"" + intents[i] + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text3));
+                        builder1.setPositiveButton(getResources().getString(R.string.jv_relaunch_ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }});
                         builder1.show();
                     }
                 }
             });
-            builder.setPositiveButton("Other", new DialogInterface.OnClickListener() {
+            //builder.setPositiveButton("Other", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.jv_relaunch_other), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(ReLaunch.this);
-                    builder1.setTitle("Intent type");
+                    //builder1.setTitle("Intent type");
+                    builder1.setTitle(getResources().getString(R.string.jv_relaunch_intent_type));
                     final EditText input = new EditText(ReLaunch.this);
                     input.setText("application/");
                     builder1.setView(input);
-                    builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    builder1.setPositiveButton(getResources().getString(R.string.jv_relaunch_ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Intent in = new Intent();
                             in.setAction(Intent.ACTION_VIEW);
@@ -1171,9 +1189,12 @@ public class ReLaunch extends Activity {
                                 startActivity(in);
                             } catch (ActivityNotFoundException e) {
                                 AlertDialog.Builder builder2 = new AlertDialog.Builder(ReLaunch.this);
-                                builder2.setTitle("Activity not found");
-                                builder2.setMessage("Activity for file \"" + fullName + "\" with type \"" + input.getText() + "\" not found");
-                                builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                //builder2.setTitle("Activity not found");
+                                builder2.setTitle(getResources().getString(R.string.jv_relaunch_activity_not_found_title));
+                                //builder2.setMessage("Activity for file \"" + fullName + "\" with type \"" + input.getText() + "\" not found");
+                                builder2.setMessage(getResources().getString(R.string.jv_relaunch_activity_not_found_text1) + " \"" + fullName + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text2) + " \"" + input.getText() + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text3));
+                                //builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                builder2.setPositiveButton(getResources().getString(R.string.jv_relaunch_ok), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                     }});
                                 builder2.show();
@@ -1181,7 +1202,8 @@ public class ReLaunch extends Activity {
                         }});
                     builder1.show();
                 }});
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            //builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     dialog.dismiss();
                 }});
@@ -1193,9 +1215,12 @@ public class ReLaunch extends Activity {
             if (prefs.getBoolean("confirmFileDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete file warning");
-                builder.setMessage("Are you sure to delete file \"" + fname + "\" ?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                //builder.setTitle("Delete file warning");
+                builder.setTitle(getResources().getString(R.string.jv_relaunch_del_file_title));
+                //builder.setMessage("Are you sure to delete file \"" + fname + "\" ?");
+                builder.setMessage(getResources().getString(R.string.jv_relaunch_del_file_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_relaunch_del_file_text2));
+                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_relaunch_yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                             if (app.removeFile(dname, fname))
@@ -1204,7 +1229,8 @@ public class ReLaunch extends Activity {
                                 redrawList();
                             }
                         }});
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                         }});
@@ -1220,9 +1246,12 @@ public class ReLaunch extends Activity {
             if (prefs.getBoolean("confirmDirDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete empty directory warning");
-                builder.setMessage("Are you sure to delete empty directory \"" + fname + "\" ?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                //builder.setTitle("Delete empty directory warning");
+                builder.setTitle(getResources().getString(R.string.jv_relaunch_del_em_dir_title));
+                //builder.setMessage("Are you sure to delete empty directory \"" + fname + "\" ?");
+                builder.setMessage(getResources().getString(R.string.jv_relaunch_del_em_dir_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_relaunch_del_em_dir_text2));
+                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_relaunch_yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                             if (app.removeFile(dname, fname))
@@ -1231,7 +1260,8 @@ public class ReLaunch extends Activity {
                                 redrawList();
                             }
                         }});
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                         }});
@@ -1247,9 +1277,12 @@ public class ReLaunch extends Activity {
             if (prefs.getBoolean("confirmNonEmptyDirDelete", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete non empty directory warning");
-                builder.setMessage("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                //builder.setTitle("Delete non empty directory warning");
+                builder.setTitle(getResources().getString(R.string.jv_relaunch_del_ne_dir_title));
+                //builder.setMessage("Are you sure to delete non-empty directory \"" + fname + "\" (dangerous) ?");
+                builder.setMessage(getResources().getString(R.string.jv_relaunch_del_ne_dir_text1) + " \"" + fname + "\" " + getResources().getString(R.string.jv_relaunch_del_ne_dir_text2));
+                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.jv_relaunch_yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                             if (app.removeDirectory(dname, fname))
@@ -1258,7 +1291,8 @@ public class ReLaunch extends Activity {
                                 redrawList();
                             }
                         }});
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_no), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                         }});
@@ -1322,14 +1356,18 @@ public class ReLaunch extends Activity {
             //Ask the user if they want to quit
             new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("This is a launcher!")
-                .setMessage("Are you sure you want to quit ?")
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                //.setTitle("This is a launcher!")
+                .setTitle(getResources().getString(R.string.jv_relaunch_launcher))
+                //.setMessage("Are you sure you want to quit ?")
+                .setMessage(getResources().getString(R.string.jv_relaunch_launcher_text))
+                //.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.jv_relaunch_yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
                     })
-                .setNegativeButton("NO", null)
+                //.setNegativeButton("NO", null)
+                .setNegativeButton(getResources().getString(R.string.jv_relaunch_no), null)
                 .show();
 
             return true;
@@ -1357,7 +1395,8 @@ public class ReLaunch extends Activity {
     private void menuLastopened() {
         Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
         intent.putExtra("list", "lastOpened");
-        intent.putExtra("title", "Last opened");
+        //intent.putExtra("title", "Last opened");
+        intent.putExtra("title", getResources().getString(R.string.jv_relaunch_lru));
         intent.putExtra("rereadOnStart", true);
         startActivity(intent);
     }
@@ -1365,7 +1404,8 @@ public class ReLaunch extends Activity {
     private void menuFavorites() {
         Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
         intent.putExtra("list", "favorites");
-        intent.putExtra("title", "Favorites");
+        //intent.putExtra("title", "Favorites");
+        intent.putExtra("title", getResources().getString(R.string.jv_relaunch_fav));
         intent.putExtra("rereadOnStart", true);
         startActivity(intent);
     }

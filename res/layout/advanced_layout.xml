@@ -13,13 +13,14 @@
     </LinearLayout>
 
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.5">
-        <Button android:text="Scan" android:drawableTop="@android:drawable/ic_menu_help" android:drawableLeft="@drawable/wifi_on" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/wifi_scan_btn" android:layout_height="fill_parent"></Button>    
-        <Button android:text="Switch WiFi off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn" android:layout_height="fill_parent"></Button>    
+        <Button android:text="@string/advanced_layout_scan" android:drawableTop="@android:drawable/ic_menu_help" android:drawableLeft="@drawable/wifi_on" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/wifi_scan_btn" android:layout_height="fill_parent"></Button>    
+        <Button android:text="@string/advanced_layout_switch_wifi_off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn" android:layout_height="fill_parent"></Button>    
     </LinearLayout>
 
     <WebView android:id="@+id/webview1" android:layout_marginTop="28dp" android:fadeScrollbars="false"
              android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.4"/>
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_marginTop="16dp" android:layout_height="fill_parent" android:layout_weight="0.5">
-        <Button android:text="Reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:drawableRight="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="wrap_content"></Button>
+        <Button android:text="@string/advanced_layout_reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="wrap_content"></Button>
+        <Button android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/poweroff_btn" android:drawableRight="@android:drawable/ic_lock_power_off" android:layout_gravity="center" android:text="@string/advanced_layout_poweroff"></Button>
     </LinearLayout>
 </LinearLayout>

@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +29,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -221,7 +219,7 @@ public class AllApplications extends Activity {
         lv = (GridView) findViewById(R.id.app_grid);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-        if (prefs.getBoolean("customScroll", app.customScrollDef))
+        if (prefs.getBoolean("customScroll", true))
         {
             if (addSView)
             {
@@ -256,16 +254,16 @@ public class AllApplications extends Activity {
                 String item = itemsArray.get(position);
                 Intent i = app.getIntentByLabel(item);
                 if (i == null)
-                    Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
+                	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + item + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
                 else
                 {
                     boolean ok = true;
                     try {
                         startActivity(i);
-                        if (prefs.getBoolean("returnToMain", false))
-                        	finish();
                     } catch (ActivityNotFoundException e) {
-                        Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
+                    	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + item + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
                         ok = false;
                     }
                     if (ok)
@@ -309,12 +307,17 @@ public class AllApplications extends Activity {
         if (listName.equals("app_favorites"))
         {
             if (pos > 0)
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, getResources().getString(R.string.jv_allapp_move_up));            	
             if (pos < (itemsArray.size()-1))
-                menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
-            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
-            menu.add(Menu.NONE, CNTXT_MENU_UNINSTALL, Menu.NONE, "Uninstall");
-            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+                //menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, "Move one position down");
+            	menu.add(Menu.NONE, CNTXT_MENU_MOVEDOWN, Menu.NONE, getResources().getString(R.string.jv_allapp_move_down));
+            //menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, "Remove from favorites");
+            menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, getResources().getString(R.string.jv_allapp_remove));
+            //menu.add(Menu.NONE, CNTXT_MENU_UNINSTALL, Menu.NONE, "Uninstall");
+            menu.add(Menu.NONE, CNTXT_MENU_UNINSTALL, Menu.NONE, getResources().getString(R.string.jv_allapp_uninstall));
+            //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_allapp_cancel));
         }
         else
         {
@@ -329,9 +332,12 @@ public class AllApplications extends Activity {
                 }
             }
             if (!in_fav)
-                menu.add(Menu.NONE, CNTXT_MENU_ADDFAV, Menu.NONE, "Add to favorites");
-            menu.add(Menu.NONE, CNTXT_MENU_UNINSTALL, Menu.NONE, "Uninstall");
-            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+                //menu.add(Menu.NONE, CNTXT_MENU_ADDFAV, Menu.NONE, "Add to favorites");
+            	menu.add(Menu.NONE, CNTXT_MENU_ADDFAV, Menu.NONE, getResources().getString(R.string.jv_allapp_add));
+            //menu.add(Menu.NONE, CNTXT_MENU_UNINSTALL, Menu.NONE, "Uninstall");
+            menu.add(Menu.NONE, CNTXT_MENU_UNINSTALL, Menu.NONE, getResources().getString(R.string.jv_allapp_uninstall));
+            //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
+            menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_allapp_cancel));
         }
     }
 
@@ -416,7 +422,8 @@ public class AllApplications extends Activity {
             }
 
             if (pi == null)
-                Toast.makeText(AllApplications.this, "PackageInfo not found for label \"" + it + "\"", Toast.LENGTH_LONG).show();
+                //Toast.makeText(AllApplications.this, "PackageInfo not found for label \"" + it + "\"", Toast.LENGTH_LONG).show();
+            	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_package_info_not_found) + " \"" + it + "\"", Toast.LENGTH_LONG).show();
             else
             {
                 //Toast.makeText(AllApplications.this, "Package name is \"" + pi.packageName + "\" for label \"" + it + "\"", Toast.LENGTH_LONG).show();
@@ -424,7 +431,8 @@ public class AllApplications extends Activity {
                 try {
                     startActivityForResult(intent, UNINSTALL_ACT);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(AllApplications.this, "Activity \"" + pi.packageName + "\" not found", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(AllApplications.this, "Activity \"" + pi.packageName + "\" not found", Toast.LENGTH_LONG).show();
+                	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + pi.packageName + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
                     return true;
                 }
             }
