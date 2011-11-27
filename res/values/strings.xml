@@ -6,30 +6,30 @@
     <string name="whats_new">&lt;h2&gt;What\'s new:&lt;/h2&gt;
     	&lt;b&gt;1.2.4&lt;/b&gt;&lt;br&gt;
     	- Sony PRS-T1 support is added, some layout changes.&lt;br&gt;
-    	- Optional return to main widnow after application starts from \"All Aapplications\" window&lt;br&gt;
+    	- Optional return to main widnow after application starts from \"All Applications\" window.&lt;br&gt;
         - Source code cleaned, now compiled without warnings.&lt;br&gt;
         - Source code prepared to i18n.&lt;br&gt;
         - Reading Lists (i.e. FAVs, LRUs) with full UTF8 support.&lt;br&gt;
 		- Writing Lists (i.e. FAVs, LRUs) now is more frequent.&lt;br&gt;        
-		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.&lt;br&gt;        
+		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.        
         &lt;br&gt;
         &lt;b&gt;1.2.3&lt;/b&gt;&lt;br&gt;
         - Context menu items \'Open with ...\' and \'Create intent ...\' added. Note that these items can be disabled via configuration settings.&lt;br&gt;
-        - Search root can be comma separated directories list as well as a single directory
+        - Search root can be comma separated directories list as well as a single directory.
         &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.2.2&lt;/b&gt;&lt;br&gt;
-        - All configured networks now are present in advanced screen
+        - All configured networks now are present in advanced screen.
         &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.2.1&lt;/b&gt;&lt;br&gt;
          - New buttons: scroll up/down by big steps. Note that the step length is configurable.&lt;br&gt;
          - New advanced information screen (marked with \'#\' character).
         &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.2.0&lt;/b&gt;&lt;br&gt;
-        - New directory navigation, visible scrollbar (see settings)&lt;br&gt;
-        - gl16 mode (eInk refresh mode) may be set now via settings
+        - New directory navigation, visible scrollbar (see settings).&lt;br&gt;
+        - gl16 mode (eInk refresh mode) may be set now via settings.
         &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.3&lt;/b&gt;&lt;br&gt;
-        - Check HW and warn if it isn\'t NookSimpleTouch
+        - Check HW and warn if it isn\'t NookSimpleTouch.
         &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.2&lt;/b&gt;&lt;br&gt;
         - Associations settings allows now to configure explicit applications invocation  as well as general intent creation.&lt;br&gt;
@@ -39,7 +39,7 @@
         - New Cancel/Revert buttons in settings screen.
         &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.0&lt;/b&gt;&lt;br&gt;
-        - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only)
+        - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only).
     </string>
     <string name="model_warning">
     &lt;h2&gt;The tool is for Nook Simple Touch only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
@@ -263,7 +263,7 @@
     <string name="jv_types_cancel">Cancel</string>
     <string name="jv_types_cant_be_empty">Can\'t be empty!</string>
     <string name="jv_types_app_or_int_title">Explicit application or general intent?</string>
-    <string name="jv_types_app_or_int_text">When you tap on file with specified suffix ReLaunch may call explicit application or just generate intent with application type you specify (ACTION_VIEW). Which method do you want\?</string>
+    <string name="jv_types_app_or_int_text">When you tap on file with specified suffix ReLaunch may call explicit application or just generate intent with application type you specify (ACTION_VIEW). Which method do you want ?</string>
     <string name="jv_types_explicit_application">Explicit application</string>
     <string name="jv_types_select_application">Select application</string>
     <string name="jv_types_general_intent">General intent</string>
