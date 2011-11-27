@@ -541,7 +541,8 @@ public class ReLaunch extends Activity {
         final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
-        if (prefs.getBoolean("customScroll", true))
+        //if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))	
         {
             if (addSView)
             {

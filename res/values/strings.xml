@@ -42,7 +42,7 @@
         - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only).
     </string>
     <string name="model_warning">
-    &lt;h2&gt;The tool is for Nook Simple Touch only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
+    &lt;h2&gt;The tool is for Nook Simple Touch or Sony PRS-T1 only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
     
     <string-array name="allowed_devices">
         <item>zoom2</item>
@@ -83,7 +83,7 @@
     <string name="prefs_layout_save_restart">Save settings and restart ReLaunch (some settings work only after restart)</string>
     <string name="prefs_layout_revert_default">Revert all settings to default values</string>
     <string name="search_layout_case_sensitive">Case sensitive</string>
-    <string name="search_layout_search_known">Seacrh known extensions only</string>
+    <string name="search_layout_search_known">Search known extensions only</string>
     <string name="search_layout_sort_search">Sort search results</string>
     <string name="search_layout_search_as">Search as</string>
     <string name="search_layout_search_in">Search in</string>

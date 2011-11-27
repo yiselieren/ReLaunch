@@ -70,7 +70,8 @@ public class PrefsActivity extends PreferenceActivity {
 
         // Scrollbar appearance settings
         defItems.add(new PrefItem("scrollPerc", "10"));
-        defItems.add(new PrefItem("customScroll", true));
+        //defItems.add(new PrefItem("customScroll", true));
+        defItems.add(new PrefItem("customScroll", app.customScrollDef));
         defItems.add(new PrefItem("scrollWidth", "25"));
         defItems.add(new PrefItem("scrollPad", "10"));
 

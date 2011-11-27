@@ -43,6 +43,7 @@ public class ReLaunchApp extends Application {
     // Miscellaneous public flags/settings
     public boolean                          fullScreen = false;
     public Boolean                          askIfAmbiguous;
+    public boolean                          customScrollDef = true;
 
     // Search values
     final String                            DIR_TAG = ".DIR..";

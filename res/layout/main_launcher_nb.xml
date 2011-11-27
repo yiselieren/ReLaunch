@@ -8,15 +8,49 @@
         <requestFocus></requestFocus>
     </EditText>
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="56dp">
-        <Button android:text="@string/main_launcher_nb_layout_go_one_level_up" android:drawableLeft="@drawable/arrow_up" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/goup_btn" android:drawableRight="@drawable/arrow_up" android:layout_weight="0.6"></Button>
-        <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_up" android:text="0%" android:layout_width="fill_parent" android:id="@+id/upscroll_btn"></Button>
-        <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_down" android:text="0%" android:layout_width="fill_parent" android:id="@+id/downscroll_btn"></Button>
-        <ImageButton android:layout_width="fill_parent" android:src="@drawable/su" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn"></ImageButton>
+<Button
+            android:id="@+id/goup_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.6"
+            android:drawableLeft="@drawable/arrow_up"
+            android:drawableRight="@drawable/arrow_up" android:text="@string/main_launcher_nb_layout_go_one_level_up">
+</Button>
+
+        <Button
+            android:id="@+id/upscroll_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/arrow_up"
+            android:text="0%" >
+</Button>
+
+        <Button
+            android:id="@+id/downscroll_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/arrow_down"
+            android:text="0%" >
+</Button>
+        <ImageButton
+            android:id="@+id/advanced_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/su" >
+</ImageButton>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fl_layout">
         <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_weight="1" android:fadeScrollbars="false" android:layout_height="fill_parent"></ListView>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_weight="0.0">
+<LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.0" >    
         <LinearLayout android:layout_height="fill_parent" android:id="@+id/linearLayout3" android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1">
             <Button android:id="@+id/mem_title" android:textColor="#000000" android:background="#ffffff" android:text="@string/main_launcher_nb_layout_memory" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>
             <Button android:id="@+id/mem_level" android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/main_launcher_nb_layout_mem" android:layout_gravity="center" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="center"></Button>

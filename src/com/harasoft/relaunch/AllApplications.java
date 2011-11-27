@@ -219,7 +219,8 @@ public class AllApplications extends Activity {
         lv = (GridView) findViewById(R.id.app_grid);
         lv.setAdapter(adapter);
         registerForContextMenu(lv);
-        if (prefs.getBoolean("customScroll", true))
+        //if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))        	
         {
             if (addSView)
             {
@@ -261,6 +262,8 @@ public class AllApplications extends Activity {
                     boolean ok = true;
                     try {
                         startActivity(i);
+                        if (prefs.getBoolean("returnToMain", false))
+                        	finish();
                     } catch (ActivityNotFoundException e) {
                         //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
                     	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + item + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
