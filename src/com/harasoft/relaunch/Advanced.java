@@ -735,7 +735,7 @@ public class Advanced extends Activity {
                 + "<td>" + (i.ro ? getResources().getString(R.string.jv_advanced_mount_ro) : getResources().getString(R.string.jv_advanced_mount_rw)) + "</b></td>"
                 + "</tr>";
         s += "</table>";
-        wv.loadData(s, "text/html", "utf-8");
+        wv.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
     }
 
     @Override

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="search_as_values">
-        <item>Substring</item>
-        <item>Regexp</item>
+        <item>Подстроку</item>
+        <item>Регулярное выражение</item>
     </string-array>
 
     <integer name="SEARCH_FILE">    0 </integer>
@@ -10,10 +10,10 @@
     <integer name="SEARCH_FPATH">   2 </integer>
     <integer name="SEARCH_PATH">    3 </integer>
     <string-array name="search_in_values">
-        <item>File name</item>
-        <item>Innermost directory name</item>
-        <item>Full path including file name</item>
-        <item>Path only, without file</item>
+        <item>Имени файла</item>
+        <item>Ближайшем имени папки</item>
+        <item>Полном маршруте, включая файл</item>
+        <item>Маршруте, исключая файл</item>
     </string-array>
 
     <integer name="FLT_SELECT">          0 </integer>
@@ -24,13 +24,13 @@
     <integer name="FLT_NEW">             5 </integer>
     <integer name="FLT_NEW_AND_READING"> 6 </integer>
     <string-array name="filter_values">
-        <item>Select filter method</item>
-        <item>Filename starts with</item>
-        <item>Filename ends with</item>
-        <item>Filename contains</item>
-        <item>Filename matches regexp</item>
-        <item>New books</item>
-        <item>New books and books you are reading now</item>
+        <item>Выберите метод отбора</item>
+        <item>Имя файла начинается с</item>
+        <item>Имя файла заканчивается на</item>
+        <item>Имя файла содержит</item>
+        <item>Имя файла подходит под рег.выражение</item>
+        <item>Новые книги</item>
+        <item>Новые и читаемые сейчас книги</item>
     </string-array>
 
     <string-array name="do_not_kill_names">
@@ -59,9 +59,9 @@
         <item >6</item>
     </string-array>
     <string-array name="GL16_modes_names">
-        <item >CLEAR (mode 3)</item>
-        <item >ACTIVE_ALL (mode 4)</item>
-        <item >ONESHOT_ALL (mode 5)</item>
-        <item >CLEAR_ALL (mode 6)</item>
+        <item >Качественный, мерц. (CLEAR mode 3)</item>
+        <item >Качественный, медл. (ACTIVE_ALL mode 4)</item>
+        <item >Быстрый (ONESHOT_ALL mode 5)</item>
+        <item >Качественный, мерц. (CLEAR_ALL mode 6)</item>
     </string-array>
 </resources>

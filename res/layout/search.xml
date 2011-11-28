@@ -40,9 +40,9 @@
         <ImageButton android:layout_width="0dp" android:src="@android:drawable/ic_delete" android:layout_weight="0.2" android:id="@+id/search_txt_delete" android:layout_height="fill_parent"></ImageButton>
     </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout5" android:layout_height="86dp" android:layout_width="fill_parent">
-        <Button android:text="Search" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></Button>
-        <Button android:text="Cancel" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel" android:layout_height="fill_parent"></Button>
+        <Button android:text="@string/search_layout_search" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></Button>
+        <Button android:text="@string/search_layout_cancel" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel" android:layout_height="fill_parent"></Button>
     </LinearLayout>
-    <Button android:text="Show all books (known extensions) from root" android:layout_height="86dp" android:layout_width="fill_parent" android:layout_marginTop="20dp" android:id="@+id/search_all"></Button>
+    <Button android:text="@string/search_layout_show_all_books" android:layout_height="86dp" android:layout_width="fill_parent" android:layout_marginTop="20dp" android:id="@+id/search_all"></Button>
     
 </LinearLayout>
