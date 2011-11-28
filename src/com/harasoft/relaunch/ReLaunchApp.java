@@ -689,7 +689,12 @@ public class ReLaunchApp extends Application {
     
     public void About(final Activity a)
     {
-        String vers = getResources().getString(R.string.app_version);
+        //String vers = getResources().getString(R.string.app_version);
+    	String vers = "<version>";
+    	try {
+    		vers = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+    	}
+    	catch(Exception e) { }
         AlertDialog.Builder builder = new AlertDialog.Builder(a);
         WebView wv = new WebView(a);
         
@@ -699,7 +704,7 @@ public class ReLaunchApp extends Application {
         //    + "<center>Version: <b>" + vers + "</b></center><br>"
         //    + "<center>Source code: <a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git</a></center>";
         String str = getResources().getString(R.string.jv_rla_about_prev) + vers + getResources().getString(R.string.jv_rla_about_post);
-        wv.loadData(str, "text/html", "utf-8");
+        wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
         builder.setView(wv);
         //builder.setPositiveButton(("Ok", new DialogInterface.OnClickListener() {
         builder.setPositiveButton(getResources().getString(R.string.jv_rla_ok), new DialogInterface.OnClickListener() {
@@ -711,7 +716,7 @@ public class ReLaunchApp extends Application {
             public void onClick(DialogInterface dialog, int whichButton) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(a);
                 WebView wv = new WebView(a);
-                wv.loadData(getResources().getString(R.string.whats_new), "text/html", "utf-8");
+                wv.loadDataWithBaseURL(null, getResources().getString(R.string.whats_new), "text/html", "utf-8", null);
                 //builder1.setTitle("What's new");
                 builder1.setTitle(getResources().getString(R.string.jv_rla_whats_new_title));
                 builder1.setView(wv);

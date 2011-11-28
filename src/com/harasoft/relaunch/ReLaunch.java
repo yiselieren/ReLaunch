@@ -131,7 +131,7 @@ public class ReLaunch extends Activity {
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             WebView wv = new WebView(this);
-            wv.loadData(getResources().getString(R.string.model_warning), "text/html", "utf-8");
+            wv.loadDataWithBaseURL(null,getResources().getString(R.string.model_warning), "text/html", "utf-8",null);
             //builder.setTitle("Wrong model !");
             builder.setTitle(getResources().getString(R.string.jv_relaunch_wrong_model));            
             builder.setView(wv);
@@ -416,7 +416,13 @@ public class ReLaunch extends Activity {
         {
             if (wfm.isWifiEnabled())
             {
-                battTitle.setText(wfm.getConnectionInfo().getSSID());
+            	String nowConnected = wfm.getConnectionInfo().getSSID();
+            	if(nowConnected!=null && !nowConnected.equals("")) {
+            		battTitle.setText(nowConnected);
+            	}
+            	else {
+            		battTitle.setText(getResources().getString(R.string.jv_relaunch_wifi_is_on));
+            	}
                 battTitle.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.wifi_on), null, null, null);
             }
             else
@@ -904,12 +910,18 @@ public class ReLaunch extends Activity {
 
             // What's new processing
             final int latestVersion = prefs.getInt("latestVersion", 0);
-            final int currentVersion = getResources().getInteger(R.integer.app_iversion);
+            //final int currentVersion = getResources().getInteger(R.integer.app_iversion);
+            int tCurrentVersion = 0;
+            try {
+            	tCurrentVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        	}
+        	catch(Exception e) { }
+            final int currentVersion = tCurrentVersion;
             if (currentVersion > latestVersion)
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 WebView wv = new WebView(this);
-                wv.loadData(getResources().getString(R.string.whats_new), "text/html", "utf-8");
+                wv.loadDataWithBaseURL(null,getResources().getString(R.string.whats_new), "text/html", "utf-8",null);
                 //builder.setTitle("What's new");
                 builder.setTitle(getResources().getString(R.string.jv_relaunch_whats_new));
                 builder.setView(wv);
