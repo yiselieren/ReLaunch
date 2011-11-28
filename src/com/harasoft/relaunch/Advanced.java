@@ -69,8 +69,10 @@ public class Advanced extends Activity {
     IntentFilter                  i2;
     BroadcastReceiver             b1;
     BroadcastReceiver             b2;
-
+    String 						  connectedSSID;			
+    
     static class NetInfo {
+    	static int unknownLevel = -5000;
         String  SSID;
         String  extra;
         int     level;
@@ -80,7 +82,7 @@ public class Advanced extends Activity {
         NetInfo(String s, int id, boolean in, boolean conf) {
             SSID = s;
             extra = "";
-            level = 0;
+            level = unknownLevel;
             netId = id;
             inrange = in;
             configured = conf;
@@ -88,7 +90,7 @@ public class Advanced extends Activity {
         NetInfo(String s, boolean in, boolean conf) {
             SSID = s;
             extra = "";
-            level = 0;
+            level = unknownLevel;
             netId = 0;
             inrange = in;
             configured = conf;
@@ -96,7 +98,7 @@ public class Advanced extends Activity {
         NetInfo(String s, String e, int id, boolean in, boolean conf) {
             SSID = s;
             extra = e;
-            level = 0;
+            level = unknownLevel;
             netId = id;
             inrange = in;
             configured = conf;
@@ -104,20 +106,31 @@ public class Advanced extends Activity {
         NetInfo(String s, String e, boolean in, boolean conf) {
             SSID = s;
             extra = e;
-            level = 0;
+            level = unknownLevel;
             netId = 0;
             inrange = in;
             configured = conf;
         }
     }
+    
     public class NetInfoComparator implements java.util.Comparator<NetInfo>
     {
         public int compare(NetInfo o1, NetInfo o2)
         {
-            if (o1.inrange  &&  !o1.inrange)
+        	if(connectedSSID!=null && connectedSSID.equals(o1.SSID)) {
+        		return -1;
+        	}
+        	if(connectedSSID!=null && connectedSSID.equals(o2.SSID)) {
+        		return 1;
+        	} 
+        	if (o1.inrange  &&  !o2.inrange)
                 return -1;
-            if (!o1.inrange  &&  o1.inrange)
+            if (!o1.inrange  &&  o2.inrange)
                 return 1;
+            if (o1.level < o2.level)
+            	return 1;
+            if (o1.level > o2.level)
+            	return -1;            
             return o1.SSID.compareToIgnoreCase(o2.SSID);
         }
     }
@@ -194,7 +207,6 @@ public class Advanced extends Activity {
             TextView  tv2 = holder.tv2;
             TextView  tv3 = holder.tv3;
             ImageView iv = holder.iv;
-
             final WifiInfo  winfo = wfm.getConnectionInfo();
             final NetInfo item = wifiNetworks.get(position);
             if (item != null)
@@ -242,7 +254,7 @@ public class Advanced extends Activity {
                             (ipAddress >> 24 & 0xff));
                     int sl1 = s.length();
                     //s += ", Level: " + item.level;
-                    s += ", " + getResources().getString(R.string.jv_advanced_level) + " " + item.level;
+                    s += ", " + getResources().getString(R.string.jv_advanced_level) + " " + item.level + "dBm " +levelToString(item.level);
                     SpannableString s3 = new SpannableString(s);
                     s3.setSpan(Typeface.BOLD, 0, sl1, 0);
                     tv3.setText(s3);
@@ -256,7 +268,7 @@ public class Advanced extends Activity {
                     String s;
                     if (item.inrange)
                         //s = "Level: " + item.level;
-                    	s = getResources().getString(R.string.jv_advanced_level) + " " + item.level;
+                    	s = getResources().getString(R.string.jv_advanced_level) + " " + item.level + "dBm " +levelToString(item.level);
                     else
                         //s = "Not in range";
                     	s = getResources().getString(R.string.jv_advanced_notrange);
@@ -270,6 +282,15 @@ public class Advanced extends Activity {
         }
     }
 
+    private String levelToString(int level) {
+    	if(level>=-56) return "[\u25A0\u25A0\u25A0\u25A0\u25A0]";
+    	if(level>=-63) return "[\u25A0\u25A0\u25A0\u25A0\u25A1]";
+    	if(level>=-70) return "[\u25A0\u25A0\u25A0\u25A1\u25A1]";
+    	if(level>=-77) return "[\u25A0\u25A0\u25A1\u25A1\u25A1]";
+    	if(level>=-84) return "[\u25A0\u25A1\u25A1\u25A1\u25A1]";
+    	return "[\u25A1\u25A1\u25A1\u25A1\u25A1]";
+    }
+    
     private String sp(int n)
     {
         String rc = "";
@@ -418,6 +439,8 @@ public class Advanced extends Activity {
         List<ScanResult> rc1 = w.getScanResults();
         List<WifiConfiguration> rc2 = w.getConfiguredNetworks();
 
+        connectedSSID=w.getConnectionInfo().getSSID();
+        
         if (rc1 == null)
         {
             // No scan results - just copy configured networks to returned value
@@ -435,6 +458,7 @@ public class Advanced extends Activity {
                 if (s1.SSID.equals(s.SSID))
                 {
                     alreadyHere = true;
+                    s1.level = s.level;
                     break;
                 }
             if (!alreadyHere)
@@ -448,6 +472,7 @@ public class Advanced extends Activity {
                     if (ssid.equals(s.SSID))
                     {
                         rc.add(new NetInfo(ssid, s.capabilities, wc.networkId, true, true));
+                        rc.get(rc.size()-1).level=s.level;
                         in = true;
                         break;
                     }
@@ -455,6 +480,7 @@ public class Advanced extends Activity {
                 if (!in)
                     // In range but not configured
                     rc.add(new NetInfo(s.SSID, s.capabilities, true, false));
+                	rc.get(rc.size()-1).level=s.level;
             }
         }
         
@@ -473,7 +499,6 @@ public class Advanced extends Activity {
                 }
             if (!alreadyHere)
                 rc.add(new NetInfo(ssid, false, true));
- 
         }
         Collections.sort(rc, new NetInfoComparator());
         return rc;
