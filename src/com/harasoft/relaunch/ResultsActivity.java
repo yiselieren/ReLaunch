@@ -370,11 +370,17 @@ public class ResultsActivity extends Activity {
                                     else
                                     {
                                         final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
+                                        CharSequence[] happlications = app.getApps().toArray(new CharSequence[app.getApps().size()]);
+                                        for(int j=0;j<happlications.length;j++) {
+                                        	String happ = (String)happlications[j];
+                                        	String[] happp = happ.split("\\%"); 
+                                        	happlications[j] = happp[2];
+                                        }
                                         final String rdr1 = fullName;
                                         AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
                                         //builder.setTitle("Select application");
                                         builder.setTitle(getResources().getString(R.string.jv_results_select_application));
-                                        builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                                        builder.setSingleChoiceItems(happlications, -1, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int i) {
                                                     start(app.launchReader((String)applications[i], rdr1));
                                                     dialog.dismiss();

@@ -92,10 +92,12 @@ public class AllApplications extends Activity {
                 ImageView iv = holder.iv;
 
                 String item = itemsArray.get(position);
+                
             if (item != null)
             {
-                tv.setText(item);
-                        iv.setImageDrawable(app.getIcons().get(item));
+            	String[] itemp = item.split("\\%");
+                tv.setText(itemp[2]);
+                iv.setImageDrawable(app.getIcons().get(item));
             }
             return v;
         }
@@ -162,7 +164,7 @@ public class AllApplications extends Activity {
         return rc;
     }
 
-        // REREAD application list, check that  favorites and last lists don't contain extra applications
+    // REREAD application list, check that  favorites and last lists don't contain extra applications
     private void rereadAppList()
     {
         app.setApps(ReLaunch.createAppList(getPackageManager()));
@@ -254,6 +256,7 @@ public class AllApplications extends Activity {
 
                 String item = itemsArray.get(position);
                 Intent i = app.getIntentByLabel(item);
+                // i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (i == null)
                     //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
                 	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + item + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();

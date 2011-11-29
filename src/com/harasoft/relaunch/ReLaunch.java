@@ -7,20 +7,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ActivityManager.MemoryInfo;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -58,14 +58,14 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ReLaunch extends Activity {
 
-    final String                  TAG = "ReLaunch";
+    final static String           TAG = "ReLaunch";
     static public final String    APP_LRU_FILE = "AppLruFile.txt";
     static public final String    APP_FAV_FILE = "AppFavorites.txt";
     static public final String    LRU_FILE = "LruFile.txt";
     static public final String    FAV_FILE = "Favorites.txt";
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
-    final String                  defReaders = ".fb2,.fb2.zip:Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg"
+    final String                  defReaders = ".fb2,.fb2.zip:org.coolreader%org.coolreader.CoolReader%Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg"
         + "|.png:Intent:image/png|.pdf:Intent:application/pdf";
     final static public String    defReader = "Cool Reader";
     final static public int       TYPES_ACT = 1;
@@ -93,7 +93,8 @@ public class ReLaunch extends Activity {
     boolean                       useLibrary = false;
     boolean                       useDirViewer = false;
     static public boolean         filterMyself = true;
-    static public String          selfName = "ReLaunch";
+    //static public String          selfName = "ReLaunch";
+    static public String          selfName = "com.harasoft.relaunch.Main";
     String[]                      allowedModels;
     String[]                      allowedDevices;
     String[]                      allowedManufacts;
@@ -108,7 +109,7 @@ public class ReLaunch extends Activity {
     Button                        battTitle;
     Button                        battLevel;
     IntentFilter                  batteryLevelFilter;
-
+    
     private boolean checkField(String[] a, String f)
     {
         for (int i=0; i<a.length; i++)
@@ -668,36 +669,105 @@ public class ReLaunch extends Activity {
 
     private HashMap<String, Drawable> createIconsList(PackageManager pm)
     {
+    	Drawable d = null;
         HashMap<String, Drawable> rc = new HashMap<String, Drawable>();
-
-        for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
-        {
-            Drawable d = null;
-            try {
-                d = pm.getApplicationIcon(packageInfo.packageName);
-            } catch(PackageManager.NameNotFoundException e) { }
-
-            if (d != null)
-                rc.put((String)pm.getApplicationLabel(packageInfo), d);
-        }
+        Intent componentSearchIntent = new Intent();
+        componentSearchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        componentSearchIntent.setAction(Intent.ACTION_MAIN);
+        List<ResolveInfo> ril = pm.queryIntentActivities(componentSearchIntent, 0);
+        String pname="";
+        String aname="";
+        String hname="";
+        for (ResolveInfo ri : ril) {
+            if (ri.activityInfo != null) {
+                pname = ri.activityInfo.packageName;
+                aname = ri.activityInfo.name;
+                ComponentName cn = new ComponentName(pname,aname);
+                try {
+                	if(ri.activityInfo.labelRes!=0) {
+                		//Log.d(TAG, "Found installed2: " + pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
+                		hname=pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes);
+                		}
+                	else {
+                		//Log.d(TAG, "Found installed2: " + pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0)) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
+                		hname=(String)pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0));
+                		}
+                	}
+                catch(Exception e) { 
+                }
+                if (aname != null)
+                {
+                    if (!filterMyself  ||  !aname.equals(selfName))
+                    	try {
+                    		d = pm.getApplicationIcon(pname);
+                    	} 
+                	catch(PackageManager.NameNotFoundException e) {d = null; }
+                    else {
+                        d = null;
+                    	}
+                    if (d != null)	{ 
+                    	rc.put(pname + "%" + aname + "%" + hname,d);
+                    	}
+                    }
+                }
+            }
         return rc;
     }
 
+    private static class AppComparator implements java.util.Comparator<String>
+    {
+        public int compare(String a, String b)
+        {
+        	if(a==null && b==null) {
+        		return 0;
+        	}
+        	if(a==null && b!=null) {
+        		return 1;
+        	}
+        	if(a!=null && b==null) {
+        		return -1;
+        	}
+        	String[] ap = a.split("\\%");
+        	String[] bp = b.split("\\%");
+            return ap[2].compareToIgnoreCase(bp[2]);
+        }
+    }
+    
     static public List<String> createAppList(PackageManager pm)
     {
         List<String> rc = new ArrayList<String>();
-
-        for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
-        {
-            Intent aIntent = pm.getLaunchIntentForPackage(packageInfo.packageName);
-            String aLabel = (String)pm.getApplicationLabel(packageInfo);
-            if (aIntent != null  &&  aLabel != null)
-            {
-                if (!filterMyself  ||  !aLabel.equals(selfName))
-                    rc.add(aLabel);
+        Intent componentSearchIntent = new Intent();
+        componentSearchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        componentSearchIntent.setAction(Intent.ACTION_MAIN);
+        List<ResolveInfo> ril = pm.queryIntentActivities(componentSearchIntent, 0);
+        String pname="";
+        String aname="";
+        String hname="";
+        for (ResolveInfo ri : ril) {
+            if (ri.activityInfo != null) {
+                pname = ri.activityInfo.packageName;
+                aname = ri.activityInfo.name;
+                ComponentName cn = new ComponentName(pname,aname);
+                try {
+                	if(ri.activityInfo.labelRes!=0) {
+                		//Log.d(TAG, "Found installed2: " + pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
+                		hname=pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes);
+                		}
+                	else {
+                		//Log.d(TAG, "Found installed2: " + pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0)) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
+                		hname=(String)pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0));
+                		}
+                	}
+                catch(Exception e) { 
+                }
+                if (aname != null)
+                {
+                    if (!filterMyself  ||  !aname.equals(selfName))
+                        rc.add(pname + "%" + aname + "%" + hname);
+                }
             }
         }
-        Collections.sort(rc);
+        Collections.sort(rc,new AppComparator());
         return rc;
     }
 
@@ -1114,10 +1184,16 @@ public class ReLaunch extends Activity {
         case CNTXT_MENU_OPENWITH:
         {
             final CharSequence[] applications = app.getApps().toArray(new CharSequence[app.getApps().size()]);
+            CharSequence[] happlications = app.getApps().toArray(new CharSequence[app.getApps().size()]);
+            for(int j=0;j<happlications.length;j++) {
+            	String happ = (String)happlications[j];
+            	String[] happp = happ.split("\\%"); 
+            	happlications[j] = happp[2];
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
             //builder.setTitle("Select application");
             builder.setTitle(getResources().getString(R.string.jv_relaunch_select_application));
-            builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+            builder.setSingleChoiceItems(happlications, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int i) {
                         start(app.launchReader((String)applications[i], fullName));
                         dialog.dismiss();
@@ -1165,6 +1241,7 @@ public class ReLaunch extends Activity {
                 public void onClick(DialogInterface dialog, int i) {
                     Intent in = new Intent();
                     in.setAction(Intent.ACTION_VIEW);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     in.setDataAndType(Uri.parse("file://" + fullName), (String) intents[i]);
                     dialog.dismiss();
                     try {
@@ -1174,7 +1251,7 @@ public class ReLaunch extends Activity {
                         //builder1.setTitle("Activity not found");
                         builder1.setTitle(getResources().getString(R.string.jv_relaunch_activity_not_found_title));
                         //builder1.setMessage("Activity for file \"" + fullName + "\" with type \"" + intents[i] + "\" not found");
-                        builder1.setMessage(getResources().getString(R.string.jv_relaunch_activity_not_found_title) + " \"" + fullName + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text2) + " \"" + intents[i] + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text3));
+                        builder1.setMessage(getResources().getString(R.string.jv_relaunch_activity_not_found_text1) + " \"" + fullName + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text2) + " \"" + intents[i] + "\" " + getResources().getString(R.string.jv_relaunch_activity_not_found_text3));
                         builder1.setPositiveButton(getResources().getString(R.string.jv_relaunch_ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }});
@@ -1196,6 +1273,7 @@ public class ReLaunch extends Activity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Intent in = new Intent();
                             in.setAction(Intent.ACTION_VIEW);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             in.setDataAndType(Uri.parse("file://" + fullName), input.getText().toString());
                             dialog.dismiss();
                             try {

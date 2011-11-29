@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new">
-    	&lt;b&gt;1.2.6&lt;/b&gt;&lt;br&gt;
+    	&lt;b&gt;1.2.6b&lt;/b&gt;&lt;br&gt;
         - Source code and resources reformatted, caused by i18n.&lt;br&gt;
         - Russian translation.&lt;br&gt;
 		- WiFi signal strength receive fixed, now with dBm level and "classic" visual output.&lt;br&gt;        

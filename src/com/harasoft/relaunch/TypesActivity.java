@@ -30,6 +30,7 @@ public class TypesActivity extends Activity {
     PackageManager                pm;
     List<String>                  applicationsArray;
     CharSequence[]                applications;
+    CharSequence[]                happlications;    
     List<HashMap<String,String>>  itemsArray;
     TPAdapter                     adapter;
     ReLaunchApp                   app;
@@ -168,7 +169,13 @@ public class TypesActivity extends Activity {
                 // Setting application name
                 Button  appName = (Button) v.findViewById(R.id.types_app);
                 String    app = item.get("rdr");
-                appName.setText(app);
+                String[]  appp = app.split("\\%");
+                if(appp.length>2) {
+                	appName.setText(appp[2]);
+                }
+                else {
+                	appName.setText(app);
+                }
                 if(icons.containsKey(app))
                     iv.setImageDrawable(icons.get(app));
                 else
@@ -190,7 +197,7 @@ public class TypesActivity extends Activity {
                                     AlertDialog.Builder builder2 = new AlertDialog.Builder(cntx);
                                     //builder2.setTitle("Select application");
                                     builder2.setTitle(getResources().getString(R.string.jv_types_select_application));
-                                    builder2.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                                    builder2.setSingleChoiceItems(happlications, -1, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int i) {
                                                 itemsArray.get(position).put("rdr", (String)applications[i]);
                                                 adapter.notifyDataSetChanged();
@@ -270,7 +277,12 @@ public class TypesActivity extends Activity {
 
         applicationsArray = app.getApps();
         applications = applicationsArray.toArray(new CharSequence[applicationsArray.size()]);
-
+        happlications = app.getApps().toArray(new CharSequence[app.getApps().size()]);
+        for(int j=0;j<happlications.length;j++) {
+        	String happ = (String)happlications[j];
+        	String[] happp = happ.split("\\%"); 
+        	happlications[j] = happp[2];
+        }
 
         // Fill listview with our info
         ListView lv = (ListView) findViewById(R.id.types_lv);

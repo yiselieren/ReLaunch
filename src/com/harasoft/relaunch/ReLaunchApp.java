@@ -16,12 +16,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -539,14 +538,11 @@ public class ReLaunchApp extends Application {
     // common utility - get intent by label, null if not found
     public Intent getIntentByLabel(String label)
     {
-        PackageManager pm = getPackageManager();
-
-        for (ApplicationInfo packageInfo : pm.getInstalledApplications(PackageManager.GET_META_DATA))
-        {
-            if (label.equals(pm.getApplicationLabel(packageInfo)))
-                return pm.getLaunchIntentForPackage(packageInfo.packageName);
-        }
-        return null;
+    	String[] labelp = label.split("\\%");
+    	Intent i = new Intent();
+    	i.setComponent(new ComponentName(labelp[0], labelp[1]));
+    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	return i;
     }
 
     // common utility - return intent to launch reader by reader name and full file name. Null if not found
@@ -557,6 +553,7 @@ public class ReLaunchApp extends Application {
         {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setDataAndType(Uri.parse("file://" + file), re[1]);
             addToList("lastOpened", file, false);
             if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
