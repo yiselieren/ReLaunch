@@ -2,12 +2,15 @@
 <resources>
     <string-array name="allowed_devices">
         <item>zoom2</item>
+        <item>EBX-5047</item>
     </string-array>
     <string-array name="allowed_manufacturers">
         <item>BarnesAndNobble</item>
+        <item>sony</item>
     </string-array>
     <string-array name="allowed_models">
         <item>NOOK</item>
+        <item>PRS-T1</item>
     </string-array>
     <string-array name="allowed_products">
         <item>NOOK</item>
