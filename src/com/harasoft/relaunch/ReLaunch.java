@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.app.ActivityManager.MemoryInfo;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -682,32 +681,24 @@ public class ReLaunch extends Activity {
             if (ri.activityInfo != null) {
                 pname = ri.activityInfo.packageName;
                 aname = ri.activityInfo.name;
-                ComponentName cn = new ComponentName(pname,aname);
                 try {
                 	if(ri.activityInfo.labelRes!=0) {
-                		//Log.d(TAG, "Found installed2: " + pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
-                		hname=pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes);
+                		hname=(String)ri.activityInfo.loadLabel(pm);
                 		}
                 	else {
-                		//Log.d(TAG, "Found installed2: " + pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0)) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
-                		hname=(String)pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0));
+                		hname=(String)ri.loadLabel(pm);
                 		}
+                	if(ri.activityInfo.icon!=0) {
+                		d=ri.activityInfo.loadIcon(pm);
+                		}
+                	else {
+                		d=ri.loadIcon(pm);                		
                 	}
+                }
                 catch(Exception e) { 
                 }
-                if (aname != null)
-                {
-                    if (!filterMyself  ||  !aname.equals(selfName))
-                    	try {
-                    		d = pm.getApplicationIcon(pname);
-                    	} 
-                	catch(PackageManager.NameNotFoundException e) {d = null; }
-                    else {
-                        d = null;
-                    	}
-                    if (d != null)	{ 
-                    	rc.put(pname + "%" + aname + "%" + hname,d);
-                    	}
+                if (d != null)	{ 
+                	rc.put(pname + "%" + aname + "%" + hname,d);
                     }
                 }
             }
@@ -747,26 +738,20 @@ public class ReLaunch extends Activity {
             if (ri.activityInfo != null) {
                 pname = ri.activityInfo.packageName;
                 aname = ri.activityInfo.name;
-                ComponentName cn = new ComponentName(pname,aname);
                 try {
                 	if(ri.activityInfo.labelRes!=0) {
-                		//Log.d(TAG, "Found installed2: " + pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
-                		hname=pm.getResourcesForActivity(cn).getString(ri.activityInfo.labelRes);
+                		hname=(String)ri.activityInfo.loadLabel(pm);
                 		}
                 	else {
-                		//Log.d(TAG, "Found installed2: " + pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0)) + " " + ri.activityInfo.packageName + " " + ri.activityInfo.name);
-                		hname=(String)pm.getApplicationLabel(pm.getApplicationInfo(ri.activityInfo.packageName, 0));
+                		hname=(String)ri.loadLabel(pm);
                 		}
                 	}
                 catch(Exception e) { 
                 }
-                if (aname != null)
-                {
-                    if (!filterMyself  ||  !aname.equals(selfName))
-                        rc.add(pname + "%" + aname + "%" + hname);
+                if (!filterMyself  ||  !aname.equals(selfName))
+                	rc.add(pname + "%" + aname + "%" + hname);
                 }
-            }
-        }
+        	}
         Collections.sort(rc,new AppComparator());
         return rc;
     }
@@ -1242,6 +1227,7 @@ public class ReLaunch extends Activity {
                     Intent in = new Intent();
                     in.setAction(Intent.ACTION_VIEW);
                     in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     in.setDataAndType(Uri.parse("file://" + fullName), (String) intents[i]);
                     dialog.dismiss();
                     try {
@@ -1274,6 +1260,7 @@ public class ReLaunch extends Activity {
                             Intent in = new Intent();
                             in.setAction(Intent.ACTION_VIEW);
                             in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                             in.setDataAndType(Uri.parse("file://" + fullName), input.getText().toString());
                             dialog.dismiss();
                             try {

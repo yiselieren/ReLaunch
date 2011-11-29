@@ -542,6 +542,7 @@ public class ReLaunchApp extends Application {
     	Intent i = new Intent();
     	i.setComponent(new ComponentName(labelp[0], labelp[1]));
     	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
     	return i;
     }
 
@@ -554,6 +555,7 @@ public class ReLaunchApp extends Application {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             i.setDataAndType(Uri.parse("file://" + file), re[1]);
             addToList("lastOpened", file, false);
             if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
@@ -569,6 +571,8 @@ public class ReLaunchApp extends Application {
             else
             {
                 i.setAction(Intent.ACTION_VIEW);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);                
                 i.setData(Uri.parse("file://" + file));
                 addToList("lastOpened", file, false);
                 if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
@@ -671,6 +675,8 @@ public class ReLaunchApp extends Application {
             // Install application
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.parse("file://" + s), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);            
             a.startActivity(intent);
             return true;
         }

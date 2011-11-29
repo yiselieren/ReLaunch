@@ -256,7 +256,6 @@ public class AllApplications extends Activity {
 
                 String item = itemsArray.get(position);
                 Intent i = app.getIntentByLabel(item);
-                // i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (i == null)
                     //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
                 	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + item + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
@@ -412,24 +411,14 @@ public class AllApplications extends Activity {
             //Toast.makeText(AllApplications.this, "Uninstall is not implemented yet", Toast.LENGTH_LONG).show();
             PackageManager pm = getPackageManager();
             PackageInfo    pi = null;
-
-            //try {
-            //      pi = pm.getPackageInfo(it, PackageManager.GET_ACTIVITIES);
-            //} catch (PackageManager.NameNotFoundException e) {
-            //      pi = null;
-            //}
-            for (PackageInfo packageInfo : pm.getInstalledPackages(0))
-            {
-                if (it.equals(pm.getApplicationLabel(packageInfo.applicationInfo)))
-                {
-                    pi = packageInfo;
-                    break;
-                }
+            String[]	   itp = it.split("\\%");
+            try{
+            	pi = pm.getPackageInfo(itp[0], 0);
             }
-
+            catch(Exception e) { }
             if (pi == null)
                 //Toast.makeText(AllApplications.this, "PackageInfo not found for label \"" + it + "\"", Toast.LENGTH_LONG).show();
-            	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_package_info_not_found) + " \"" + it + "\"", Toast.LENGTH_LONG).show();
+            	Toast.makeText(AllApplications.this, getResources().getString(R.string.jv_allapp_package_info_not_found) + " \"" + itp[2] + "\"", Toast.LENGTH_LONG).show();
             else
             {
                 //Toast.makeText(AllApplications.this, "Package name is \"" + pi.packageName + "\" for label \"" + it + "\"", Toast.LENGTH_LONG).show();
@@ -442,7 +431,6 @@ public class AllApplications extends Activity {
                     return true;
                 }
             }
-
             break;
         }
         return true;
