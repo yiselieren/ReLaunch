@@ -22,10 +22,10 @@
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="56dp">
 <Button
             android:id="@+id/goup_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:drawableLeft="@drawable/arrow_up"
-            android:drawableRight="@drawable/arrow_up" android:text="@string/main_launcher_nb_layout_go_one_level_up">
+            android:drawableRight="@drawable/arrow_up" android:text="@string/main_launcher_nb_layout_go_one_level_up" android:layout_weight="0.6">
 </Button>        
         <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_up" android:text="0%" android:layout_width="fill_parent" android:id="@+id/upscroll_btn"></Button>
         <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_down" android:text="0%" android:layout_width="fill_parent" android:id="@+id/downscroll_btn"></Button>

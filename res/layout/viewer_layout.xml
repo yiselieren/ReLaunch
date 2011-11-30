@@ -13,7 +13,7 @@
                <requestFocus></requestFocus>
            </EditText>
        </LinearLayout>
-       <ImageButton android:src="@drawable/arrow_left" android:id="@+id/view_btn" android:layout_weight="0" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_width="56dp"></ImageButton>
+       <ImageButton android:src="@android:drawable/ic_menu_revert" android:id="@+id/view_btn" android:layout_weight="0" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_width="56dp"></ImageButton>
     </LinearLayout>
     <TextView android:background="#000000" android:textColor="#000000" android:text="TextView" android:layout_width="fill_parent" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_height="2dp" android:layout_weight="0"></TextView>
 

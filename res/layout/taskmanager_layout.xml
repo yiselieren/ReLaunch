@@ -13,7 +13,7 @@
             <TextView android:layout_height="wrap_content" android:textColor="#000000" android:background="#ffffff" android:text="Memory" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/title1_txt" android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
             <TextView android:layout_height="wrap_content" android:textColor="#000000" android:background="#ffffff" android:text="CPU"  android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/title2_txt" android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
         </LinearLayout>
-        <ImageButton android:src="@drawable/arrow_left" android:layout_height="64dp" android:id="@+id/tm_back" android:layout_width="64dp" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="64dp" android:id="@+id/tm_back" android:layout_width="64dp" android:layout_gravity="center"></ImageButton>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
         <Button android:text="@string/taskmanager_layout_sort_by_size" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_size"></Button>
