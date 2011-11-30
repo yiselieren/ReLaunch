@@ -38,7 +38,7 @@
     <string name="search_layout_search_string">Строка поиска</string>
     <string name="search_layout_search">Начать поиск</string>
     <string name="search_layout_cancel">Отмена</string>
-    <string name="search_layout_show_all_books">Показать все книги (известных расширений) в папках для поиска</string>    
+    <string name="search_layout_show_all_books">Показать все книги (известных расширений)\nв папках для поиска</string>    
     <string name="service_details_layout_kill">Завершить</string>
     <string name="service_details_layout_ok">OK</string>
     <string name="service_details_layout_piduid">PID / UID:</string>

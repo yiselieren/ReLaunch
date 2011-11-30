@@ -37,7 +37,7 @@
     <string name="search_layout_search_string">Search string</string>
     <string name="search_layout_search">Search</string>
     <string name="search_layout_cancel">Cancel</string>
-    <string name="search_layout_show_all_books">Show all books (known extensions) from root</string>
+    <string name="search_layout_show_all_books">Show all books (known extensions)\nfrom search root</string>
     <string name="service_details_layout_kill">Kill</string>
     <string name="service_details_layout_ok">OK</string>
     <string name="service_details_layout_piduid">PID/UID:</string>
