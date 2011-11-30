@@ -11,11 +11,13 @@ import android.view.View;
 public class SView extends View {
     final String                  TAG = "SView";
     int                           lpad;
+    int							  scrollW;
 
     SharedPreferences             prefs;
     ReLaunchApp                   app;
     Paint                         busyPaint;
     Paint                         freePaint;
+    Paint                         outlinePaint;    
     
     public int                    total;
     public int                    first;
@@ -25,15 +27,17 @@ public class SView extends View {
         super(context, attrs, defStyle);
         commonConstructor(context);
     }
+    
     public SView(Context context, AttributeSet attrs) {
         super(context, attrs);
         commonConstructor(context);
     }
+    
     public SView(Context context) {
         super(context);
         commonConstructor(context);
     }
-
+    
     private void commonConstructor(Context context)
     {
         app = (ReLaunchApp)context.getApplicationContext();
@@ -42,7 +46,9 @@ public class SView extends View {
         busyPaint.setColor(getResources().getColor(R.color.scrollbar_busy));
         freePaint = new Paint();
         freePaint.setColor(getResources().getColor(R.color.scrollbar_free));
-        int scrollW;
+        outlinePaint = new Paint();
+        outlinePaint.setColor(getResources().getColor(R.color.scrollbar_outline));
+        // int scrollW;
         try {
             lpad = Integer.parseInt(prefs.getString("scrollPad", "10"));
             scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
@@ -51,36 +57,41 @@ public class SView extends View {
             scrollW = 25;
         }
         if (lpad >= scrollW)
-            lpad = scrollW-2;
+            lpad = 2;
         if (lpad < 0)
             lpad = 0;
-        
-
     }
+    
     @Override
     protected void onDraw(Canvas canvas) {
-        int h = getHeight();
-        int w = getWidth() - lpad;
+    	float h = getMeasuredHeight() - 1;
+        //int w = getWidth() - lpad;
+        float w = getMeasuredWidth() - 1;
+        float clpad = w * lpad / scrollW;
         //Log.d(TAG, "SV --  first:" + first + " count:" + count + " total:" + total + " (" + w + " x " + h + ")");
         if (total == 0)
-            canvas.drawRect(lpad, 0, w, h, busyPaint);
+            canvas.drawRect(clpad, 0, w, h, busyPaint);
         else
         {
-            int curr = 0;
+            float curr = 0;
             if (first > 0)
             {
-                int n = (h * first) / total;
-                canvas.drawRect(lpad, curr, w, h, freePaint);
+                float n = (h * first) / total;
+                canvas.drawRect(clpad, curr, w, h, freePaint);
                 curr += n;
             }
             if (count > 0)
             {
-                int n = (h * count) / total;
-                canvas.drawRect(lpad, curr, w, h, busyPaint);
+                float n = (h * count) / total;
+                canvas.drawRect(clpad, curr, w, h, busyPaint);
                 curr += n;
            }
             if ((first + count) < (total - 1))
-                canvas.drawRect(lpad, curr, w, h, freePaint);
+                canvas.drawRect(clpad, curr, w, h, freePaint);
         }
+        canvas.drawLine(clpad,0, w,0,outlinePaint);
+        canvas.drawLine(w,0,w,h,outlinePaint);
+        canvas.drawLine(w,h,clpad,h,outlinePaint);
+        canvas.drawLine(clpad,h,clpad,0,outlinePaint);
     }
 }

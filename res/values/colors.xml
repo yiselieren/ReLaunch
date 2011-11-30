@@ -18,6 +18,7 @@
     <color name="backgorund_task_fg">#FF404040</color>
     <color name="nonactive_task_bg">#FFFFFFFF</color>
     <color name="nonactive_task_fg">#FF808080</color>
-    <color name="scrollbar_free">#FF000000</color>
-    <color name="scrollbar_busy">#FFFFFFFF</color>
+    <color name="scrollbar_free">#FFE0E0E0</color>
+    <color name="scrollbar_busy">#FFA0A0A0</color>
+    <color name="scrollbar_outline">#FF606060</color>
 </resources>
