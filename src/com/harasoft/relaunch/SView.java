@@ -70,7 +70,7 @@ public class SView extends View {
         float clpad = w * lpad / scrollW;
         //Log.d(TAG, "SV --  first:" + first + " count:" + count + " total:" + total + " (" + w + " x " + h + ")");
         if (total == 0)
-            canvas.drawRect(clpad, 0, w, h, busyPaint);
+            canvas.drawRect(clpad, 0, w, h, freePaint);
         else
         {
             float curr = 0;

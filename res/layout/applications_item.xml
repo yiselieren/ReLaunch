@@ -4,18 +4,37 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:background="#000000" android:layout_gravity="center" android:gravity="center">
+  android:background="@color/normal_bg" android:layout_gravity="center" android:gravity="center">
 
   <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#000000" android:layout_gravity="center" android:layout_weight="1">
+    android:background="@color/normal_bg" android:layout_gravity="center" android:layout_weight="1">
 
-    <ImageView android:src="@drawable/dir_ok" android:background="#ffffff" android:id="@+id/app_icon" android:layout_width="0dp" android:layout_height="64dp" android:layout_weight="0.2"></ImageView>
-    <TextView android:gravity="center_vertical" android:text="App.name" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#000000" android:background="#ffffff" android:id="@+id/app_name" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></TextView>
-    <TextView android:text="" android:background="#000000" android:textColor="#000000" android:layout_width="2dp" android:layout_height="fill_parent" android:textAppearance="?android:attr/textAppearanceSmall" android:id="@+id/textView1"></TextView>
+    <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:id="@+id/app_icon" android:layout_height="64dp" android:layout_marginLeft="4dp" android:layout_width="64dp"></ImageView>
+    <TextView android:gravity="center_vertical" android:text="App.name" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="@color/normal_fg" android:background="@color/normal_bg" android:id="@+id/app_name" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp"></TextView>
+
+    <TextView
+        android:id="@+id/verticalDivider"
+        android:layout_width="2dp"
+        android:layout_height="fill_parent"
+        android:background="@color/normal_bg"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#000000" >
+</TextView>
   </LinearLayout>
-  <TextView android:text="" android:background="#000000" android:textColor="#000000" android:layout_width="fill_parent" android:layout_height="2dp" android:textAppearance="?android:attr/textAppearanceSmall" android:id="@+id/textView2" android:layout_weight="1"></TextView>
+
+  <TextView
+      android:id="@+id/horizontalDivider"
+      android:layout_width="fill_parent"
+      android:layout_height="2dp"
+      android:layout_weight="1"
+      android:background="@color/normal_bg"
+      android:text=""
+      android:textAppearance="?android:attr/textAppearanceSmall"
+      android:textColor="#000000" >
+</TextView>
 </LinearLayout>

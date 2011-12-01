@@ -2,21 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical">
+              android:orientation="vertical" android:background="@color/normal_bg" android:padding="8dp">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="72dp">
         <Button android:text="@string/prefs_layout_filter_setting"
                 android:layout_width="fill_parent"
                 android:layout_gravity="center" android:id="@+id/filter_settings" android:layout_height="fill_parent" android:layout_weight="1"/>
-        <Button android:text="@string/prefs_layout_associations" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/associations"></Button>
-        <Button android:text="@string/prefs_layout_cancel" android:layout_height="fill_parent" android:id="@+id/cancel_btn" android:layout_weight="1" android:layout_width="fill_parent"></Button>
+        <Button android:text="@string/prefs_layout_associations" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/associations" android:layout_marginLeft="4dp"></Button>
+        <Button android:text="@string/prefs_layout_cancel" android:layout_height="fill_parent" android:id="@+id/cancel_btn" android:layout_weight="1" android:layout_width="fill_parent" android:layout_marginLeft="4dp"></Button>
         <Button android:text="@string/prefs_layout_ok"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/prefs_ok"/>
+                android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/prefs_ok" android:layout_marginLeft="4dp"/>
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_height="wrap_content">
+    <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
         <Button android:text="@string/prefs_layout_save_restart" android:minHeight="72dp" android:layout_gravity="center" android:id="@+id/restart_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
-        <Button android:text="@string/prefs_layout_revert_default" android:id="@+id/revert_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent"></Button>
+        <Button android:text="@string/prefs_layout_revert_default" android:id="@+id/revert_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:layout_marginLeft="4dp"></Button>
     </LinearLayout>
     <ListView android:id="@android:id/list" android:fadeScrollbars="false"
-              android:layout_width="fill_parent" android:layout_height="fill_parent"/>
+              android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="8dp" android:background="@color/normal_bg"/>
 </LinearLayout>

@@ -3,45 +3,44 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_gravity="center" android:paddingTop="30dp">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:text="@string/search_layout_case_sensitive" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:layout_width="0dp" android:layout_weight="1"></TextView>
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:text="@string/search_layout_case_sensitive" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="center" android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
         <CheckBox android:text="" android:layout_height="wrap_content" android:id="@+id/search_case" android:layout_width="0dp" android:layout_weight="1"></CheckBox>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout6">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView6" android:text="@string/search_layout_search_known" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView6" android:text="@string/search_layout_search_known" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
         <CheckBox android:id="@+id/search_books_only" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout8">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView8" android:text="@string/search_layout_sort_search" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView8" android:text="@string/search_layout_sort_search" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
         <CheckBox android:id="@+id/search_sort" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/search_layout_search_as" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/search_layout_search_as" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
         <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_as"></Spinner>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/search_layout_search_in" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center"></TextView>
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/search_layout_search_in" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
         <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_in"></Spinner>
     </LinearLayout>
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_width="fill_parent">
         <LinearLayout android:orientation="vertical" android:layout_height="wrap_content" android:layout_weight="1"  android:id="@+id/linearLayout3" android:layout_width="0dp">
-            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="@string/search_layout_search_root" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:layout_gravity="center"></TextView>
-            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="@string/search_layout_search_root_comment" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="fill_parent" android:layout_gravity="center"></TextView>
+            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="@string/search_layout_search_root" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
+            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="@string/search_layout_search_root_comment" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="fill_parent" android:layout_gravity="center" android:textColor="@color/normal_bg_gray"></TextView>
         </LinearLayout>
         <EditText android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_root" android:layout_height="fill_parent">
             <requestFocus></requestFocus>
         </EditText>
     </LinearLayout>
-    <TextView android:layout_height="wrap_content" android:text="Separator" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#000000" android:background="#000000" android:id="@+id/textView4" android:layout_width="fill_parent"></TextView>
-    <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/search_layout_search_string" android:id="@+id/textView5" android:layout_gravity="center" android:layout_width="wrap_content"></TextView>
+    <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/search_layout_search_string" android:id="@+id/textView5" android:layout_gravity="center" android:layout_width="wrap_content" android:textColor="@color/normal_fg" android:layout_marginTop="36dp" android:textStyle="bold"></TextView>
     <LinearLayout android:layout_height="86dp" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:paddingTop="0dp" android:paddingBottom="30dp">
         <EditText android:imeOptions="actionSearch" android:id="@+id/search_txt" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></EditText>
-        <ImageButton android:layout_width="0dp" android:src="@android:drawable/ic_delete" android:layout_weight="0.2" android:id="@+id/search_txt_delete" android:layout_height="fill_parent"></ImageButton>
+        <ImageButton android:layout_width="0dp" android:src="@android:drawable/ic_delete" android:layout_weight="0.2" android:id="@+id/search_txt_delete" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton>
     </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout5" android:layout_height="86dp" android:layout_width="fill_parent">
         <Button android:text="@string/search_layout_search" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></Button>
-        <Button android:text="@string/search_layout_cancel" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel" android:layout_height="fill_parent"></Button>
+        <Button android:text="@string/search_layout_cancel" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></Button>
     </LinearLayout>
     <Button android:text="@string/search_layout_show_all_books" android:layout_height="86dp" android:layout_width="fill_parent" android:layout_marginTop="20dp" android:id="@+id/search_all"></Button>
     

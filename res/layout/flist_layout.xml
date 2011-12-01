@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="horizontal"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-  <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:layout_width="wrap_content" android:id="@+id/fl_icon" android:layout_height="fill_parent"></ImageView>
-  <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:background="@color/normal_bg" android:textColor="@color/normal_fg" android:text="TextView" android:layout_width="fill_parent" android:id="@+id/fl_text" android:gravity="center_vertical" android:layout_height="fill_parent"></TextView>
+  android:layout_height="fill_parent" android:background="@color/normal_bg" android:paddingTop="2dp" android:paddingBottom="2dp">
+  <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:layout_width="wrap_content" android:id="@+id/fl_icon" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageView>
+  <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:background="@color/normal_bg" android:textColor="@color/normal_fg" android:text="TextView" android:layout_width="fill_parent" android:id="@+id/fl_text" android:gravity="center_vertical" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></TextView>
 </LinearLayout>

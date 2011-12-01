@@ -3,12 +3,12 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_weight="0.08" android:layout_height="0dp">
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="fill_parent" android:text="TextView" android:layout_gravity="center" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/app_title" android:textStyle="bold" android:focusable="false" android:gravity="center" android:inputType="textMultiLine"></TextView>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="4" android:id="@+id/app_btn"></ImageButton>
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="fill_parent" android:text="TextView" android:layout_gravity="center" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/app_title" android:textStyle="bold" android:focusable="false" android:gravity="center" android:inputType="textMultiLine" android:background="@color/normal_bg_gray" android:textColor="@color/normal_fg"></TextView>
+        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="4" android:id="@+id/app_btn" android:layout_marginLeft="4dp"></ImageButton>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/app_grid_layout">
-        <GridView android:background="#000000" android:layout_height="fill_parent" android:layout_width="fill_parent" android:numColumns="2" android:id="@+id/app_grid" android:layout_gravity="center" android:layout_weight="1" android:stretchMode="columnWidth"></GridView>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/app_grid_layout" android:layout_marginTop="8dp">
+        <GridView android:layout_height="fill_parent" android:layout_width="fill_parent" android:numColumns="2" android:id="@+id/app_grid" android:layout_gravity="center" android:layout_weight="1" android:stretchMode="columnWidth"></GridView>
     </LinearLayout>
 </LinearLayout>

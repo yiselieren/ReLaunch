@@ -3,35 +3,45 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:background="@color/normal_bg" android:padding="8dp">
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent">
-        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="center" android:layout_width="100dp">
-            <TextView android:text="@string/taskmanager_layout_memory" android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="right"></TextView>
-            <TextView android:text="@string/taskmanager_layout_cpu"  android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp" android:gravity="right"></TextView>
+        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="center" android:layout_width="100dp" android:background="@color/normal_bg_gray">
+            <TextView android:text="@string/taskmanager_layout_memory" android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right|center_vertical" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="right" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
+            <TextView android:text="@string/taskmanager_layout_cpu"  android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_gravity="right|center_vertical" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content" android:gravity="right" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
         </LinearLayout>
-        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="center">
-            <TextView android:layout_height="wrap_content" android:textColor="#000000" android:background="#ffffff" android:text="Memory" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/title1_txt" android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
-            <TextView android:layout_height="wrap_content" android:textColor="#000000" android:background="#ffffff" android:text="CPU"  android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/title2_txt" android:layout_width="fill_parent" android:layout_gravity="center" android:gravity="center"></TextView>
+        <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_gravity="center" android:gravity="center" android:background="@color/normal_bg_gray">
+
+            <TextView
+                android:id="@+id/title1_txt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Memory"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000000" >
+</TextView>
+            <TextView android:layout_height="wrap_content" android:textColor="#000000" android:text="CPU"  android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/title2_txt" android:layout_width="fill_parent" android:layout_gravity="center_vertical" android:gravity="center"></TextView>
         </LinearLayout>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="64dp" android:id="@+id/tm_back" android:layout_width="64dp" android:layout_gravity="center"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="64dp" android:id="@+id/tm_back" android:layout_gravity="center" android:layout_width="128dp" android:layout_marginLeft="4dp"></ImageButton>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_marginTop="8dp">
         <Button android:text="@string/taskmanager_layout_sort_by_size" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_size"></Button>
-        <Button android:text="@string/taskmanager_layout_sort_by_cpu" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_cpu"></Button>
-        <Button android:text="@string/taskmanager_layout_sort_by_alpha" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_abc"></Button>
+        <Button android:text="@string/taskmanager_layout_sort_by_cpu" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_cpu" android:layout_marginLeft="4dp"></Button>
+        <Button android:text="@string/taskmanager_layout_sort_by_alpha" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_abc" android:layout_marginLeft="4dp"></Button>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/taskmanager_layout_tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_tasks_title"></TextView>
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/taskmanager_layout_services" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_services_title"></TextView>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_marginTop="4dp">
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/taskmanager_layout_tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_tasks_title" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/taskmanager_layout_services" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_services_title" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout4">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout4" android:layout_marginTop="4dp">
 
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/tasks_lv_layout">
-            <ListView android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/tasks_lv" android:fadeScrollbars="false"></ListView>
+            <ListView android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/tasks_lv" android:fadeScrollbars="false" android:divider="@color/normal_transparent" android:layout_marginRight="8dp"></ListView>
         </LinearLayout>
         
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/services_lv_layout">
-            <ListView android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/services_lv" android:fadeScrollbars="false"></ListView>
+            <ListView android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/services_lv" android:fadeScrollbars="false" android:layout_marginLeft="8dp" android:divider="@color/normal_transparent"></ListView>
         </LinearLayout>
 
     </LinearLayout>

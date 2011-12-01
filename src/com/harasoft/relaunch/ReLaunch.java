@@ -558,7 +558,6 @@ public class ReLaunch extends Activity {
                 } catch(NumberFormatException e) {
                     scrollW = 25;
                 }
-
                 LinearLayout ll = (LinearLayout)findViewById(useDirViewer ? R.id.results_fl : R.id.fl_layout);
                 final SView sv = new SView(getBaseContext());
                 LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
@@ -930,6 +929,7 @@ public class ReLaunch extends Activity {
                 memLevel.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
+                    	findViewById(R.id.linearLayout3).setPressed(true);
                         Intent intent = new Intent(ReLaunch.this, TaskManager.class);
                         startActivity(intent);
                     }});
@@ -938,6 +938,7 @@ public class ReLaunch extends Activity {
                 memTitle.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
+                    	findViewById(R.id.linearLayout3).setPressed(true);
                         Intent intent = new Intent(ReLaunch.this, TaskManager.class);
                         startActivity(intent);
                     }});
@@ -948,6 +949,7 @@ public class ReLaunch extends Activity {
                 battLevel.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
+                    	findViewById(R.id.linearLayout4).setPressed(true);
                         Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
                         startActivity(intent);
                     }});
@@ -956,6 +958,7 @@ public class ReLaunch extends Activity {
                 battTitle.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v)
                     {
+                    	findViewById(R.id.linearLayout4).setPressed(true);
                         Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
                         startActivity(intent);
                     }});
