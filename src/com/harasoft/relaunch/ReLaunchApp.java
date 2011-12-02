@@ -205,16 +205,17 @@ public class ReLaunchApp extends Application {
             this.writeFile("app_favorites", ReLaunch.APP_FAV_FILE, appFavMax, ":");    		
     	}
     	if(listName.equals("history")) {
-        List<String[]> h = new ArrayList<String[]>();
-        for (String k : this.history.keySet())
-        {
-            if (this.history.get(k) == this.READING)
-                h.add(new String[] {k, "READING"});
-            else if (this.history.get(k) == this.FINISHED)
-                h.add(new String[] {k, "FINISHED"});
-        }
-        this.setList("history", h);
-        this.writeFile("history", ReLaunch.HIST_FILE, 0, ":");
+    		List<String[]> h = new ArrayList<String[]>();
+    		for (String k : this.history.keySet())
+    		{
+    			if (this.history.get(k) == this.READING)
+    				h.add(new String[] {k, "READING"});
+    			else if (this.history.get(k) == this.FINISHED)
+    				h.add(new String[] {k, "FINISHED"});
+    		}
+    		this.setList("history", h);
+    		this.writeFile("history", ReLaunch.HIST_FILE, 0, ":");
+    		
     	}	
     }
     
@@ -497,6 +498,7 @@ public class ReLaunchApp extends Application {
         removeFromList("favorites", dr, fn);
         removeFromList("history", dr, fn);
         history.remove(fullName);
+        saveList("history");
         File f = new File(fullName);
         if (f.exists())
         {
@@ -541,8 +543,7 @@ public class ReLaunchApp extends Application {
     	String[] labelp = label.split("\\%");
     	Intent i = new Intent();
     	i.setComponent(new ComponentName(labelp[0], labelp[1]));
-    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
     	return i;
     }
 
@@ -554,12 +555,13 @@ public class ReLaunchApp extends Application {
         {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
             i.setDataAndType(Uri.parse("file://" + file), re[1]);
             addToList("lastOpened", file, false);
-            if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
+            if (!history.containsKey(file)  ||  history.get(file) == FINISHED) {
                 history.put(file, READING);
+                saveList("history");
+            	}
             return i;       
         }
         else
@@ -571,12 +573,13 @@ public class ReLaunchApp extends Application {
             else
             {
                 i.setAction(Intent.ACTION_VIEW);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);                
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
                 i.setData(Uri.parse("file://" + file));
                 addToList("lastOpened", file, false);
-                if (!history.containsKey(file)  ||  history.get(file) == FINISHED)
+                if (!history.containsKey(file)  ||  history.get(file) == FINISHED) {
                     history.put(file, READING);
+                    saveList("history");
+                	}
                 return i;
             }
         }
@@ -675,8 +678,7 @@ public class ReLaunchApp extends Application {
             // Install application
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.parse("file://" + s), "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);            
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
             a.startActivity(intent);
             return true;
         }

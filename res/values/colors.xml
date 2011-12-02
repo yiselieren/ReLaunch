@@ -2,7 +2,9 @@
 <resources>      
     <color name="normal_bg">#FFFFFFFF</color>
     <color name="normal_fg">#FF000000</color>
-    <color name="normal_bg_gray">#FFD0D0D0</color><color name="normal_transparent">#00FFFFFF</color><color name="dir_bg">#FFFFFFFF</color>
+    <color name="normal_bg_gray">#FFD0D0D0</color>
+    <color name="normal_transparent">#00FFFFFF</color>
+    <color name="dir_bg">#FFFFFFFF</color>
     <color name="dir_fg">#FF000000</color>
     <color name="file_new_bg">#FFFFFFFF</color>
     <color name="file_new_fg">#FF000000</color>
@@ -21,6 +23,4 @@
     <color name="scrollbar_free">#FFFFFFFF</color>
     <color name="scrollbar_busy">#FF808080</color>
     <color name="scrollbar_outline">#FF000000</color>
-    
-    
 </resources>

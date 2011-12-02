@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.harasoft.relaunch"
-      android:versionName="1.2.6b2" android:versionCode="100200607">
+      android:versionName="1.2.6b3" android:versionCode="100200608">
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+        
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".ReLaunchApp" >
 
         <activity android:name=".Home"
@@ -117,5 +118,13 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+
+	<receiver android:name="BootReceiver">
+		<intent-filter>
+			<action android:name="android.intent.action.BOOT_COMPLETED" />
+			<category android:name="android.intent.category.HOME" />
+		</intent-filter>
+	</receiver>
+            
     </application>
 </manifest>

@@ -285,13 +285,14 @@ public class ReLaunch extends Activity {
 
             for (HashMap<String, String> item : itemsArray)
             {
-                if (item.get("type").equals("dir")   ||  app.filterFile(item.get("dname"), item.get("name")))
+                if (item.get("type").equals("dir") || app.filterFile(item.get("dname"), item.get("name")))
                     newItemsArray.add(item);
             }
             itemsArray = newItemsArray;
         }
         adapter.notifyDataSetChanged();
     }
+    
     private static List<HashMap<String, String>> parseReadersString(String readerList)
     {
         List<HashMap<String, String>> rc = new ArrayList<HashMap<String,String>>();
@@ -795,7 +796,7 @@ public class ReLaunch extends Activity {
         allowedProducts = getResources().getStringArray(R.array.allowed_products);
 
         // Create global storage with values
-        app = (ReLaunchApp)getApplicationContext();
+        app = (ReLaunchApp) getApplicationContext();
 
         app.FLT_SELECT = getResources().getInteger(R.integer.FLT_SELECT);
         app.FLT_STARTS = getResources().getInteger(R.integer.FLT_STARTS);
@@ -923,7 +924,7 @@ public class ReLaunch extends Activity {
                         public void onClick(View v) { menuAbout(); }});
             }
 
-            // Memory buttons (task manager activity
+            // Memory buttons (task manager activity)
             memLevel = (Button)findViewById(R.id.mem_level);
             if (memLevel != null)
                 memLevel.setOnClickListener(new View.OnClickListener() {
@@ -993,14 +994,17 @@ public class ReLaunch extends Activity {
                 builder.show();
             }
     
-            int gl16Mode;
+            Integer gl16Mode;
             try {
                 gl16Mode = Integer.parseInt(prefs.getString("gl16Mode", "5"));
             } catch (NumberFormatException e) {
                 gl16Mode = 5;
             }
             N2EpdController.setGL16Mode(gl16Mode);
-             // First directory to get to
+            
+            // Log.d(TAG,"Set GL16MODE=" + gl16Mode.toString());
+            // First directory to get to
+            
             if (prefs.getBoolean("saveDir", true))
                 drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
             else
@@ -1012,7 +1016,7 @@ public class ReLaunch extends Activity {
     protected void onStart() {
         super.onStart();
 
-                // Reread preferences
+        // Reread preferences
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String typesString = prefs.getString("types", defReaders);
         //Log.d(TAG, "Types string: \"" + typesString + "\"");
@@ -1159,14 +1163,17 @@ public class ReLaunch extends Activity {
             break;
         case CNTXT_MENU_MARK_READING:
             app.history.put(fullName, app.READING);
+            app.saveList("history");
             redrawList();
             break;
         case CNTXT_MENU_MARK_FINISHED:
             app.history.put(fullName, app.FINISHED);
+            app.saveList("history");
             redrawList();
             break;
         case CNTXT_MENU_MARK_FORGET:
             app.history.remove(fullName);
+            app.saveList("history");
             redrawList();
             break;
         case CNTXT_MENU_OPENWITH:
@@ -1229,8 +1236,7 @@ public class ReLaunch extends Activity {
                 public void onClick(DialogInterface dialog, int i) {
                     Intent in = new Intent();
                     in.setAction(Intent.ACTION_VIEW);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
                     in.setDataAndType(Uri.parse("file://" + fullName), (String) intents[i]);
                     dialog.dismiss();
                     try {
@@ -1262,8 +1268,7 @@ public class ReLaunch extends Activity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Intent in = new Intent();
                             in.setAction(Intent.ACTION_VIEW);
-                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            in.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
                             in.setDataAndType(Uri.parse("file://" + fullName), input.getText().toString());
                             dialog.dismiss();
                             try {
@@ -1393,8 +1398,8 @@ public class ReLaunch extends Activity {
     protected void onResume() {
         super.onResume();
         app.generalOnResume(TAG, this);
-
         refreshBottomInfo();
+        redrawList();
     }
 
     @Override
@@ -1413,7 +1418,6 @@ public class ReLaunch extends Activity {
         app.writeFile("favorites",  FAV_FILE, favMax);
         app.writeFile("app_last", APP_LRU_FILE, appLruMax, ":");
         app.writeFile("app_favorites", APP_FAV_FILE, appFavMax, ":");
-
         List<String[]> h = new ArrayList<String[]>();
         for (String k : app.history.keySet())
         {
