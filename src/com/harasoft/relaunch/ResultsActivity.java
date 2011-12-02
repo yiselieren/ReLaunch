@@ -217,8 +217,9 @@ public class ResultsActivity extends Activity {
 
     private void start(Intent i)
     {
-        if (i != null)
+        if (i != null) {
             startActivity(i);
+        }
     }
 
     private void createItemsArray()

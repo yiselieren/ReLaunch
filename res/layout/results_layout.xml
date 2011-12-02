@@ -18,6 +18,14 @@
         <ImageButton android:layout_width="fill_parent" android:src="@drawable/su" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn" android:layout_marginLeft="4dp"></ImageButton>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/results_fl" android:background="@color/normal_bg" android:layout_marginTop="4dp">
-        <ListView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/results_list" android:layout_weight="1" android:fadeScrollbars="false"></ListView>
+
+        <ListView
+            android:id="@+id/results_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fadeScrollbars="false" android:divider="@color/normal_transparent">
+        </ListView>
+
     </LinearLayout>
 </LinearLayout>

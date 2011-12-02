@@ -3,11 +3,35 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-    <ListView android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/types_lv" android:fadeScrollbars="false"></ListView>
-    <LinearLayout android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:baselineAligned="false" android:layout_height="86dp">
-        <Button android:id="@+id/types_ok" android:layout_gravity="center" android:text="@string/types_view_layout_ok" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></Button>
-        <Button android:layout_weight="1" android:id="@+id/types_new" android:layout_gravity="center" android:text="@string/types_view_layout_add_new" android:layout_width="0dp" android:layout_height="fill_parent"></Button>
-        <Button android:layout_weight="1" android:text="@string/types_view_layout_cancel" android:layout_width="0dp" android:id="@+id/types_cancel" android:layout_gravity="center" android:layout_height="fill_parent"></Button>
+  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
+      <LinearLayout
+        android:id="@+id/LinearLayoutTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:minHeight="32dp" >
+
+        <EditText
+            android:id="@+id/types_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:text="@string/types_view_layout_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+    <ListView android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/types_lv" android:fadeScrollbars="false" android:divider="@color/normal_transparent" android:layout_marginTop="8dp"></ListView>
+    <LinearLayout android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:baselineAligned="false" android:layout_height="wrap_content" android:layout_weight="0.02" android:layout_marginTop="4dp">
+        <Button android:id="@+id/types_ok" android:layout_gravity="center" android:text="@string/types_view_layout_ok" android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent"></Button>
+        <Button android:layout_weight="1" android:id="@+id/types_new" android:layout_gravity="center" android:text="@string/types_view_layout_add_new" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></Button>
+        <Button android:layout_weight="1" android:text="@string/types_view_layout_cancel" android:layout_width="fill_parent" android:id="@+id/types_cancel" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></Button>
     </LinearLayout>
 </LinearLayout>

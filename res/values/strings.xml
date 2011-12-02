@@ -12,6 +12,7 @@
     <string name="filters_item_layout_rule">Rule:</string>
     <string name="filters_item_layout_value">Value:</string>
     <string name="filters_item_layout_and">AND</string>
+    <string name="filters_view_layout_title">Filter Settings</string>    
     <string name="filters_view_layout_ok">OK</string>
     <string name="filters_view_layout_add_new">Add new</string>
     <string name="filters_view_layout_and">AND</string>
@@ -21,6 +22,7 @@
     <string name="main_launcher_nb_layout_mem">Mem:</string>
     <string name="main_launcher_nb_layout_battery">Battery</string>
     <string name="main_launcher_nb_layout_b">B</string>
+    <string name="prefs_layout_title">Settings</string>
     <string name="prefs_layout_filter_setting">Filter setting</string>
     <string name="prefs_layout_associations">Associations</string>
     <string name="prefs_layout_cancel">Cancel</string>
@@ -38,6 +40,7 @@
     <string name="search_layout_search">Search</string>
     <string name="search_layout_cancel">Cancel</string>
     <string name="search_layout_show_all_books">Show all books (known extensions)\nfrom search root</string>
+	<string name="search_layout_title">Search</string>    
     <string name="service_details_layout_kill">Kill</string>
     <string name="service_details_layout_ok">OK</string>
     <string name="service_details_layout_piduid">PID/UID:</string>
@@ -57,11 +60,13 @@
     <string name="taskmanager_layout_sort_by_alpha">Sort alphabetically</string>
     <string name="taskmanager_layout_tasks">Tasks</string>
     <string name="taskmanager_layout_services">Services</string>
+    <string name="taskmanager_layout_wait">Wait...</string>
     <string name="types_layout_file_suffix">File suffix:</string>
     <string name="types_layout_application">Application:</string>
     <string name="types_view_layout_ok">OK</string>
     <string name="types_view_layout_add_new">Add new</string>
     <string name="types_view_layout_cancel">Cancel</string>
+    <string name="types_view_layout_title">Associations Settings</string>
     <string name="viewer_layout_edit">Edit</string>
     <string name="viewer_layout_title">VIEWER   --   VIEWER   --   VIEWER</string>
 	<string name="reboot_layout_text">Reboot now, wait...</string>
