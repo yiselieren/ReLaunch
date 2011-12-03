@@ -64,6 +64,7 @@ public class ResultsActivity extends Activity {
     static class ViewHolder {
         TextView  tv1;
         TextView  tv2;
+        LinearLayout tvHolder;
         ImageView iv;
     }
     class FLSimpleAdapter extends ArrayAdapter<HashMap<String, String>> {
@@ -87,6 +88,7 @@ public class ResultsActivity extends Activity {
                 holder = new ViewHolder();
                 holder.tv1 = (TextView) v.findViewById(R.id.res_dname);
                 holder.tv2 = (TextView) v.findViewById(R.id.res_fname);
+                holder.tvHolder = (LinearLayout) v.findViewById(R.id.res_holder);
                 holder.iv  = (ImageView) v.findViewById(R.id.res_icon);
                 v.setTag(holder);
             }
@@ -95,6 +97,7 @@ public class ResultsActivity extends Activity {
 
             TextView  tv1 = holder.tv1;
             TextView  tv2 = holder.tv2;
+            LinearLayout tvHolder = holder.tvHolder;
             ImageView iv = holder.iv;
 
             if (position >= itemsArray.size())
@@ -119,31 +122,35 @@ public class ResultsActivity extends Activity {
                     {
                         if (app.history.get(fullName) == app.READING)
                         {
-                            tv1.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                        	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                            //tv1.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
                             tv1.setTextColor(getResources().getColor(R.color.file_reading_fg));
-                            tv2.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                            //tv2.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
                             tv2.setTextColor(getResources().getColor(R.color.file_reading_fg));
                         }
                         else if (app.history.get(fullName) == app.FINISHED)
                         {
-                            tv1.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                        	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                            //tv1.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
                             tv1.setTextColor(getResources().getColor(R.color.file_finished_fg));
-                            tv2.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                            //tv2.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
                             tv2.setTextColor(getResources().getColor(R.color.file_finished_fg));
                         }
                         else
                         {
-                            tv1.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+                        	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+                            //tv1.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
                             tv1.setTextColor(getResources().getColor(R.color.file_unknown_fg));
-                            tv2.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+                            //tv2.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
                             tv2.setTextColor(getResources().getColor(R.color.file_unknown_fg));
                         }
                     }
                     else
                     {
-                        tv1.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+                    	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+                        // tv1.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
                         tv1.setTextColor(getResources().getColor(R.color.file_new_fg));
-                        tv2.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+                        // tv2.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
                         tv2.setTextColor(getResources().getColor(R.color.file_new_fg));
                         if (getResources().getBoolean(R.bool.show_new_as_bold))
                             setBold = true;
@@ -185,9 +192,10 @@ public class ResultsActivity extends Activity {
                 }
                 else
                 {
-                    tv1.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+                	tvHolder.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+                    //tv1.setBackgroundColor(getResources().getColor(R.color.normal_bg));
                     tv1.setTextColor(getResources().getColor(R.color.normal_fg));
-                    tv2.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+                    //tv2.setBackgroundColor(getResources().getColor(R.color.normal_bg));
                     tv2.setTextColor(getResources().getColor(R.color.normal_fg));
                     tv1.setText(dname);
                     tv2.setText(fname);
@@ -592,21 +600,28 @@ public class ResultsActivity extends Activity {
         {
         case CNTXT_MENU_MARK_READING:
             app.history.put(fullName, app.READING);
+            app.saveList("history");
             redrawList();
             break;
         case CNTXT_MENU_MARK_FINISHED:
             app.history.put(fullName, app.FINISHED);
+            app.saveList("history");
             redrawList();
             break;
         case CNTXT_MENU_MARK_FORGET:
             app.history.remove(fullName);
+            app.saveList("history");
             redrawList();
             break;
         case CNTXT_MENU_RMFAV:
-            if (i.get("type").equals("dir"))
+            if (i.get("type").equals("dir")) {
                 app.removeFromList("favorites", fullName, app.DIR_TAG);
-            else
+                app.saveList("favorites");
+            	}
+            else {
                 app.removeFromList("favorites", dname, fname);
+                app.saveList("favorites");
+            }
             itemsArray.remove(pos);
             redrawList();
             break;

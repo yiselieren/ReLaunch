@@ -10,7 +10,7 @@
     <color name="file_new_fg">#FF000000</color>
     <color name="file_reading_bg">#FFFFFFFF</color>
     <color name="file_reading_fg">#FF000000</color>
-    <color name="file_finished_bg">#FFA0A0A0</color>
+    <color name="file_finished_bg">#FFD0D0D0</color>
     <color name="file_finished_fg">#FF000000</color>
     <color name="file_unknown_bg">#FF000000</color>
     <color name="file_unknown_fg">#FF808080</color>

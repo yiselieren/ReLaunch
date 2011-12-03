@@ -33,6 +33,9 @@ import android.widget.Toast;
 public class ReLaunchApp extends Application {
     final String                            TAG = "ReLaunchApp";
 
+    // booting state
+    public boolean							booted = false;
+    
     // Reading files
     final int                               FileBufferSize = 1024;
     
@@ -215,7 +218,6 @@ public class ReLaunchApp extends Application {
     		}
     		this.setList("history", h);
     		this.writeFile("history", ReLaunch.HIST_FILE, 0, ":");
-    		
     	}	
     }
     
@@ -264,9 +266,9 @@ public class ReLaunchApp extends Application {
             {
                 // Special case - delimiter is not "/" but we need to check file existence anyway.
                 // directory name is a full file name in such case. filename is a READ/NEW mark
-                File f = new File(dname);
-                if (!f.exists())
-                    return;
+                // File f = new File(dname);
+                //if (!f.exists())
+                    // return;
                 addToList_internal(listName, dname, fname, addToEnd);
             }
             else
@@ -295,7 +297,7 @@ public class ReLaunchApp extends Application {
             resultList.add(entry);
         else
             resultList.add(0, entry);
-        saveList(listName);
+        // saveList(listName);
     }
 
     // Remove from list
@@ -495,7 +497,9 @@ public class ReLaunchApp extends Application {
         boolean rc = false;
         String fullName = dr + "/" + fn;
         removeFromList("lastOpened", dr, fn);
+        saveList("lastOpened");
         removeFromList("favorites", dr, fn);
+        saveList("favorites");
         removeFromList("history", dr, fn);
         history.remove(fullName);
         saveList("history");
@@ -558,6 +562,7 @@ public class ReLaunchApp extends Application {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
             i.setDataAndType(Uri.parse("file://" + file), re[1]);
             addToList("lastOpened", file, false);
+            saveList("lastOpened");
             if (!history.containsKey(file)  ||  history.get(file) == FINISHED) {
                 history.put(file, READING);
                 saveList("history");
@@ -576,6 +581,7 @@ public class ReLaunchApp extends Application {
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
                 i.setData(Uri.parse("file://" + file));
                 addToList("lastOpened", file, false);
+                saveList("lastOpened");
                 if (!history.containsKey(file)  ||  history.get(file) == FINISHED) {
                     history.put(file, READING);
                     saveList("history");

@@ -347,7 +347,7 @@ public class Advanced extends Activity {
 
         return rc;
     }
-
+    
     // Execute foreground command and return result as list of strings
     private List<String> execFg(String cmd)
     {

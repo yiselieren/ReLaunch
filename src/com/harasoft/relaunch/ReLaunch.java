@@ -87,9 +87,9 @@ public class ReLaunch extends Activity {
     SharedPreferences             prefs;
     ReLaunchApp                   app;
     static public boolean         useHome = false;
-    boolean                       useHome1 = false;
-    boolean                       useShop = false;
-    boolean                       useLibrary = false;
+    static boolean                       useHome1 = false;
+    static boolean                       useShop = false;
+    static boolean                       useLibrary = false;
     boolean                       useDirViewer = false;
     static public boolean         filterMyself = true;
     //static public String          selfName = "ReLaunch";
@@ -156,6 +156,7 @@ public class ReLaunch extends Activity {
     static class ViewHolder {
         TextView  tv;
         ImageView iv;
+        LinearLayout tvHolder;
     }
     class FLSimpleAdapter extends SimpleAdapter {
 
@@ -179,6 +180,7 @@ public class ReLaunch extends Activity {
                 holder = new ViewHolder();
                 holder.tv = (TextView) v.findViewById(R.id.fl_text);
                 holder.iv  = (ImageView) v.findViewById(R.id.fl_icon);
+                holder.tvHolder = (LinearLayout) v.findViewById(R.id.fl_holder);
                 v.setTag(holder);
             }
             else
@@ -187,6 +189,7 @@ public class ReLaunch extends Activity {
             HashMap<String, String> item = itemsArray.get(position);
             if (item != null) {
                 TextView  tv = holder.tv;
+                LinearLayout tvHolder = holder.tvHolder;
                 ImageView iv = holder.iv;
                 String    sname = item.get("name");
                 String    fname = item.get("fname");
@@ -198,7 +201,8 @@ public class ReLaunch extends Activity {
                 {
                     if (useFaces)
                     {
-                        tv.setBackgroundColor(getResources().getColor(R.color.dir_bg));
+                    	tvHolder.setBackgroundColor(getResources().getColor(R.color.dir_bg));
+                        // tv.setBackgroundColor(getResources().getColor(R.color.dir_bg));
                         tv.setTextColor(getResources().getColor(R.color.dir_fg));
                     }
                     iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
@@ -211,23 +215,27 @@ public class ReLaunch extends Activity {
                         {
                             if (app.history.get(fname) == app.READING)
                             {
-                                tv.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                            	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
+                                // tv.setBackgroundColor(getResources().getColor(R.color.file_reading_bg));
                                 tv.setTextColor(getResources().getColor(R.color.file_reading_fg));
                             }
                             else if (app.history.get(fname) == app.FINISHED)
                             {
-                                tv.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                            	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
+                                //tv.setBackgroundColor(getResources().getColor(R.color.file_finished_bg));
                                 tv.setTextColor(getResources().getColor(R.color.file_finished_fg));
                             }
                             else
                             {
-                                tv.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+                            	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
+                                // tv.setBackgroundColor(getResources().getColor(R.color.file_unknown_bg));
                                 tv.setTextColor(getResources().getColor(R.color.file_unknown_fg));
                             }
                         }
                         else
                         {
-                            tv.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+                        	tvHolder.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
+                            //tv.setBackgroundColor(getResources().getColor(R.color.file_new_bg));
                             tv.setTextColor(getResources().getColor(R.color.file_new_fg));
                             if (getResources().getBoolean(R.bool.show_new_as_bold))
                                 setBold = true;
@@ -268,7 +276,8 @@ public class ReLaunch extends Activity {
                 }
                 else
                 {
-                    tv.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+                	tvHolder.setBackgroundColor(getResources().getColor(R.color.normal_bg));
+                    //tv.setBackgroundColor(getResources().getColor(R.color.normal_bg));
                     tv.setTextColor(getResources().getColor(R.color.normal_fg));
                     tv.setText(sname);
                 }
@@ -766,6 +775,20 @@ public class ReLaunch extends Activity {
             }
     }
 
+    private BroadcastReceiver SDReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	// Code to react to SD mounted goes here
+       		Intent i = new Intent(context, ReLaunch.class);
+        	//	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+       		i.putExtra("home", useHome);
+       		i.putExtra("home1", useHome1);
+       		i.putExtra("shop", useShop);
+       		i.putExtra("library", useLibrary);
+       		startActivity(i);
+        }
+     }; 
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1010,6 +1033,13 @@ public class ReLaunch extends Activity {
             else
                 drawDirectory(prefs.getString("startDir", "/sdcard"), -1);
         }
+        
+        app.booted = true;
+       
+        IntentFilter filter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
+        filter.addDataScheme("file"); 
+        registerReceiver(this.SDReceiver, new IntentFilter(filter));
+        
     }
 
     @Override
@@ -1024,8 +1054,26 @@ public class ReLaunch extends Activity {
         // Recreate readers list
         app.setReaders(parseReadersString(typesString));
         //Log.d(TAG, "Readers string: \"" + createReadersString(readers) + "\"");
-
+                
         app.askIfAmbiguous = prefs.getBoolean("askAmbig", false);
+
+        // reread
+        /*
+        app.readFile("lastOpened", LRU_FILE);
+        app.readFile("favorites", FAV_FILE);
+        app.readFile("filters", FILT_FILE, ":");
+        app.filters_and = prefs.getBoolean("filtersAnd", true);
+        app.readFile("history", HIST_FILE, ":");
+        app.history.clear();
+        for (String[] r : app.getList("history"))
+        {
+            if (r[1].equals("READING"))
+                app.history.put(r[0], app.READING);
+            else if (r[1].equals("FINISHED"))
+                app.history.put(r[0], app.FINISHED);
+        }        
+        */
+        
         drawDirectory(currentRoot, currentPosition);
     }
 

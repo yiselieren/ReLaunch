@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new">
-    	&lt;b&gt;1.2.6b3&lt;/b&gt;&lt;br&gt;
+    	&lt;b&gt;1.2.6&lt;/b&gt;&lt;br&gt;
         - Source code and resources reformatted, caused by i18n.&lt;br&gt;
         - Russian translation.&lt;br&gt;
 		- WiFi signal strength receive fixed, now with dBm level and "classic" visual output.&lt;br&gt;
 		- Application and readers detection and invocation code rewritten, many bugfixes.&lt;br&gt;
-		- Fully redesigned to original NOOK ST "look and feel".&lt;br&gt;		        
+		- Fully redesigned to original White NOOK ST "look and feel".&lt;br&gt;
+        - Startup as launcher at boot fixes.&lt;br&gt;
+        - History supporting fixes.&lt;br&gt;
 		&lt;br&gt;    
     	&lt;b&gt;1.2.5&lt;/b&gt;&lt;br&gt;
         - Source code cleaned, now compiled without warnings.&lt;br&gt;

@@ -13,7 +13,7 @@
     android:layout_height="wrap_content"
     android:background="@color/normal_bg" android:layout_gravity="center" android:layout_weight="1">
 
-    <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:id="@+id/app_icon" android:layout_height="64dp" android:layout_marginLeft="4dp" android:layout_width="64dp"></ImageView>
+    <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:id="@+id/app_icon" android:layout_height="48dp" android:layout_marginLeft="4dp" android:layout_width="48dp" android:layout_marginBottom="2dp" android:layout_marginRight="2dp" android:layout_marginTop="2dp"></ImageView>
     <TextView android:gravity="center_vertical" android:text="App.name" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="@color/normal_fg" android:background="@color/normal_bg" android:id="@+id/app_name" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp"></TextView>
 
     <TextView
