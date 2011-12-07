@@ -263,6 +263,8 @@ public class AllApplications extends Activity {
                 {
                     boolean ok = true;
                     try {
+                    	i.setAction(Intent.ACTION_MAIN);
+                    	i.addCategory(Intent.CATEGORY_LAUNCHER);
                         startActivity(i);
                         if (prefs.getBoolean("returnToMain", false))
                         	finish();

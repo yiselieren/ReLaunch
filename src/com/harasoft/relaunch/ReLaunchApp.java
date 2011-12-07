@@ -353,65 +353,6 @@ public class ReLaunchApp extends Application {
     {
         return readFile(listName, fileName, "/");
     }
-
-    /*
-    public boolean readFile(String listName, String fileName, String delimiter)
-    {
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(fileName);
-        } catch (FileNotFoundException e) { }
-        if (fis == null)
-            return false;
-        else
-        {
-            String l = new String();
-
-            while (true)
-            {
-                byte[] buf = new byte[FileBufferSize];
-                int rc = -1;
-                try {
-                    rc = fis.read(buf, 0, FileBufferSize);
-                } catch (IOException e)
-                {
-                    rc = -1;
-                }
-
-                if (rc < 0)
-                {
-                    if (!l.equals(""))
-                    {
-                        //Log.d(TAG, "ADD (last) \"" + l + "\"");
-                        addToList(listName, l, true, delimiter);
-                    }
-                    break;
-                }
-
-                for (int i=0; i<rc; i++)
-                {
-                    byte ch = buf[i];
-                    if (ch == '\n')
-                    {
-                        if (!l.equals(""))
-                        {
-                            //Log.d(TAG, "ADD \"" + l + "\"");
-                            addToList(listName, l, true, delimiter);
-                            l = new String();
-                        }
-                    }
-                    else
-                        l = l + (char)ch;
-                }
-            }
-
-            try {
-                fis.close();
-            } catch (IOException e) { }
-        }
-        return true;
-    }
-	*/
     
     public boolean readFile(String listName, String fileName, String delimiter)
     {
@@ -547,7 +488,9 @@ public class ReLaunchApp extends Application {
     	String[] labelp = label.split("\\%");
     	Intent i = new Intent();
     	i.setComponent(new ComponentName(labelp[0], labelp[1]));
-    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+    	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+    	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	//i = addSpecialFlags(i, labelp[0]+"%"+labelp[1]);
     	return i;
     }
 
@@ -559,7 +502,9 @@ public class ReLaunchApp extends Application {
         {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_VIEW);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i = addSpecialFlags(i, re[1]);
             i.setDataAndType(Uri.parse("file://" + file), re[1]);
             addToList("lastOpened", file, false);
             saveList("lastOpened");
@@ -578,7 +523,7 @@ public class ReLaunchApp extends Application {
             else
             {
                 i.setAction(Intent.ACTION_VIEW);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+                // i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); - ALREADY DONE!
                 i.setData(Uri.parse("file://" + file));
                 addToList("lastOpened", file, false);
                 saveList("lastOpened");
@@ -684,7 +629,8 @@ public class ReLaunchApp extends Application {
             // Install application
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.parse("file://" + s), "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             a.startActivity(intent);
             return true;
         }
@@ -739,6 +685,60 @@ public class ReLaunchApp extends Application {
                 builder1.show();
                 }});
         builder.show();
+    }
+    
+    public Intent addSpecialFlags(Intent i, String checkAppOrInt) {
+    	// Log.d(TAG,checkAppOrInt);
+    	String specFlags="application/pdf:+FLAG_ACTIVITY_CLEAR_TOP";
+        specFlags=specFlags+"|org.ebookdroid%org.ebookdroid.core.RecentActivity:+FLAG_ACTIVITY_CLEAR_TOP";
+        // next not working, so - commented
+        // specFlags=specFlags+"|com.speedsoftware.rootexplorer%com.speedsoftware.rootexplorer.RootExplorer:+FLAG_ACTIVITY_CLEAR_TOP";        
+    	String[] specFlagsA = specFlags.split("\\|");
+    	for(int j=0;j<specFlagsA.length;j++) {
+    		String[] specFlag = specFlagsA[j].split("\\:");
+    		if(specFlag[0].equals(checkAppOrInt)) {
+    			if(specFlag[1].equals("FLAG_ACTIVITY_CLEAR_TOP")) { // now only one flag
+    				// Log.d(TAG,"FLAG_ACTIVITY_CLEAR_TOP");
+    				// i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    				i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    				}
+    			if(specFlag[1].equals("+FLAG_ACTIVITY_CLEAR_TOP")) { // now only one flag
+    				// Log.d(TAG,"+FLAG_ACTIVITY_CLEAR_TOP");
+    				// i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    				i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    				}    			
+    			if(specFlag[1].equals("-FLAG_ACTIVITY_CLEAR_TOP")) { // now only one flag
+    				// Log.d(TAG,"-FLAG_ACTIVITY_CLEAR_TOP");
+    				// i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    				i.setFlags(i.getFlags() & ~Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    				}    			
+    			if(specFlag[1].equals("FLAG_ACTIVITY_NO_HISTORY")) { // now only one flag
+    				// Log.d(TAG,"FLAG_ACTIVITY_NO_HISTORY");
+    				i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+    				}    			
+    			if(specFlag[1].equals("+FLAG_ACTIVITY_NO_HISTORY")) { // now only one flag
+    				// Log.d(TAG,"+FLAG_ACTIVITY_NO_HISTORY");
+    				i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+    				}
+    			if(specFlag[1].equals("-FLAG_ACTIVITY_NO_HISTORY")) { // now only one flag
+    				// Log.d(TAG,"-FLAG_ACTIVITY_NO_HISTORY");
+    				i.setFlags(i.getFlags() & ~Intent.FLAG_ACTIVITY_NO_HISTORY);
+    				}
+    			if(specFlag[1].equals("FLAG_ACTIVITY_NEW_TASK")) { // now only one flag
+    				// Log.d(TAG,"FLAG_ACTIVITY_NEW_TASK");
+    				i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
+    				}    			
+    			if(specFlag[1].equals("+FLAG_ACTIVITY_NEW_TASK")) { // now only one flag
+    				// Log.d(TAG,"+FLAG_ACTIVITY_NEW_TASK");
+    				i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK);
+    				}
+    			if(specFlag[1].equals("-FLAG_ACTIVITY_NEW_TASK")) { // now only one flag
+    				// Log.d(TAG,"-FLAG_ACTIVITY_NEW_TASK");
+    				i.setFlags(i.getFlags() & ~Intent.FLAG_ACTIVITY_NEW_TASK);
+    				}    			
+    			}
+    		}
+    	return i;
     }
     
     public void setFullScreenIfNecessary(Activity a)

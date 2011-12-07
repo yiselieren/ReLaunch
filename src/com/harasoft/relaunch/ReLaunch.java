@@ -780,7 +780,7 @@ public class ReLaunch extends Activity {
         public void onReceive(Context context, Intent intent) {
         	// Code to react to SD mounted goes here
        		Intent i = new Intent(context, ReLaunch.class);
-        	//	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        	// i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
        		i.putExtra("home", useHome);
        		i.putExtra("home1", useHome1);
        		i.putExtra("shop", useShop);
@@ -1284,7 +1284,10 @@ public class ReLaunch extends Activity {
                 public void onClick(DialogInterface dialog, int i) {
                     Intent in = new Intent();
                     in.setAction(Intent.ACTION_VIEW);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    in=app.addSpecialFlags(in, (String) intents[i]);
                     in.setDataAndType(Uri.parse("file://" + fullName), (String) intents[i]);
                     dialog.dismiss();
                     try {
@@ -1316,7 +1319,9 @@ public class ReLaunch extends Activity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Intent in = new Intent();
                             in.setAction(Intent.ACTION_VIEW);
-                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            in=app.addSpecialFlags(in, input.getText().toString());
                             in.setDataAndType(Uri.parse("file://" + fullName), input.getText().toString());
                             dialog.dismiss();
                             try {
