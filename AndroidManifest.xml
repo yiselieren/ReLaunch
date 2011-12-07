@@ -83,7 +83,7 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name="PrefsActivity">
+        <activity android:name="PrefsActivity" android:theme="@android:style/Theme.Light">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>

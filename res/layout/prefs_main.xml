@@ -44,5 +44,5 @@
         <Button android:text="@string/prefs_layout_revert_default" android:id="@+id/revert_btn" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:layout_marginLeft="4dp"></Button>
     </LinearLayout>
     <ListView android:id="@android:id/list" android:fadeScrollbars="false"
-              android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="8dp" android:background="@color/normal_bg"/>
+              android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="8dp"/>
 </LinearLayout>
