@@ -169,6 +169,7 @@
     <string name="jv_relaunch_launcher_text">Вы действительно хотите выйти?</string>
     <string name="jv_relaunch_lru">Недавно открытые</string>
     <string name="jv_relaunch_fav">Избранное</string>
+    <string name="jv_relaunch_home">Домашние папки</string>
     <string name="jv_rla_activity">Действие</string>
     <string name="jv_rla_not_found">не найдено!</string>
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>

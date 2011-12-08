@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -182,7 +183,17 @@ public class ResultsActivity extends Activity {
                             iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                     }
                 }
-
+                
+                // special cases in dname & fname
+                // dname empty - in root dir
+                // fname empty with dname empty - root dir as is
+                if(dname.equals("")) {
+                	dname="/";
+                	if(fname.equals("")) {
+                		fname="<Root>";
+                		dname="/";
+                	}
+                }
                 if (useFaces)
                 {
                     SpannableString s = new SpannableString(fname);
@@ -256,7 +267,6 @@ public class ResultsActivity extends Activity {
                 }
                 else
                     item.put("type", "file");
-
                 itemsArray.add(item);
             }
         }
@@ -354,10 +364,16 @@ public class ResultsActivity extends Activity {
                     if (item.get("type").equals("dir"))
                     {
                         Intent intent = new Intent(ResultsActivity.this, ReLaunch.class);
-                        intent.putExtra("dirviewer", true);
+                        intent.putExtra("dirviewer", false);
                         intent.putExtra("start_dir", fullName);
+                        intent.putExtra("home", ReLaunch.useHome);
+                        intent.putExtra("home1", ReLaunch.useHome1);
+                        intent.putExtra("shop", ReLaunch.useShop);
+                        intent.putExtra("library", ReLaunch.useLibrary);
                         oldHome = ReLaunch.useHome;
+                        Log.d(TAG,"HERE");
                         startActivityForResult(intent, ReLaunch.DIR_ACT);
+                        // startActivity(intent);
                     }
                     else
                     {
@@ -502,8 +518,11 @@ public class ResultsActivity extends Activity {
         final String dr = i.get("dname");
         final String fn = i.get("fname");
         String fullName = dr + "/" + fn;
-
-        if (i.get("type").equals("dir"))
+        
+        if (listName.equals("homeList")) {
+        	return;
+        }
+        else if (i.get("type").equals("dir"))
         {
             if (pos > 0)
                 //menu.add(Menu.NONE, CNTXT_MENU_MOVEUP, Menu.NONE, "Move one position up");

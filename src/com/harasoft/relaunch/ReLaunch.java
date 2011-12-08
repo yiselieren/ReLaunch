@@ -32,11 +32,15 @@ import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -935,6 +939,42 @@ public class ReLaunch extends Activity {
                 setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main : R.layout.main_nobuttons);
             if (prefs.getBoolean("showButtons", true))
             {
+            	
+            	final ImageButton home_button = (ImageButton)findViewById(R.id.home_btn);
+            	class HomeSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	openHome(0);
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                    	openHome(1);
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(home_button.hasWindowFocus()) {
+                    		menuHome();
+                    		}
+                    	}
+                };
+                HomeSimpleOnGestureListener home_gl = new HomeSimpleOnGestureListener();
+                final GestureDetector home_gd = new GestureDetector(home_gl);
+               
+                home_button.setOnTouchListener(new OnTouchListener() {
+                   
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	home_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });
+                
+            	/*
+                ((ImageButton)findViewById(R.id.home_btn)).setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) { menuHome(); }});
+                */
+                
                 ((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSettings(); }});
                 ((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
@@ -943,8 +983,10 @@ public class ReLaunch extends Activity {
                         public void onClick(View v) { menuLastopened(); }});
                 ((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuFavorites(); }});
+                /*
                 ((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuAbout(); }});
+                */
             }
 
             // Memory buttons (task manager activity)
@@ -1028,10 +1070,19 @@ public class ReLaunch extends Activity {
             // Log.d(TAG,"Set GL16MODE=" + gl16Mode.toString());
             // First directory to get to
             
+            if(data.getExtras() != null) {
+            	if(data.getExtras().getString("start_dir")!=null) {
+            		drawDirectory(data.getExtras().getString("start_dir"), -1);
+            	}
+            }
+            else {
             if (prefs.getBoolean("saveDir", true))
                 drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
-            else
-                drawDirectory(prefs.getString("startDir", "/sdcard"), -1);
+            else {
+            	String[] startDirs = prefs.getString("startDir", "/sdcard").split("\\,");
+                drawDirectory(prefs.getString(startDirs[0], "/sdcard"), -1);
+            	}
+            }
         }
         
         app.booted = true;
@@ -1547,8 +1598,34 @@ public class ReLaunch extends Activity {
         intent.putExtra("rereadOnStart", true);
         startActivity(intent);
     }
+    
+    private void openHome(Integer order_num) {
+    	String[] startDirs = prefs.getString("startDir", "/sdcard").split("\\,");
+    	if(order_num<startDirs.length) {
+    		drawDirectory(startDirs[order_num], -1);
+    	}
+    }
+    
+    private void menuHome() {
+    	// make home list
+    	List<String[]> homeList = new ArrayList<String[]>();
+    	String[] startDirs = prefs.getString("startDir", "/sdcard").split("\\,");
+    	for(Integer i=0;i<startDirs.length;i++) {
+    		String[] homeEl = new String[2];
+    		homeEl[0]=startDirs[i];
+    		homeEl[1]=app.DIR_TAG;
+    		homeList.add(homeEl);
+    		}
+    	app.setList("homeList", homeList);
+        Intent intent = new Intent(ReLaunch.this, ResultsActivity.class);
+        intent.putExtra("list", "homeList");
+        intent.putExtra("title", getResources().getString(R.string.jv_relaunch_home));
+        intent.putExtra("rereadOnStart", true);
+        startActivity(intent);
+    }    
 
     private void menuAbout() {
         app.About(this);
     }
+    
 }
