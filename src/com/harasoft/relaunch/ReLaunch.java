@@ -369,11 +369,24 @@ public class ReLaunch extends Activity {
         currentPosition = p1;
     }
     
-    private void setUpButton(Button up, final String upDir)
+    private void setUpButton(Button up, final String upDir, String currDir)
     {
         if (up != null)
         {
-            up.setEnabled(!upDir.equals(""));
+        	// more versatile check against home, if needed
+        	boolean enabled = !upDir.equals("");
+        	Log.d(TAG,upDir);
+        	if(enabled && !currDir.equals("/") && prefs.getBoolean("notLeaveStartDir", false)) {
+        		enabled=false;
+        		String[] homes = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
+        		for(int i=0;i<homes.length;i++) {
+        			if(homes[i].length()<currDir.length() && currDir.startsWith(homes[i])) {
+        				enabled=true;
+        				break;
+        			}
+        		}
+        	}
+            up.setEnabled(enabled);
             up.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
@@ -556,7 +569,7 @@ public class ReLaunch extends Activity {
 
         String[] from = new String[] { "name" };
         int[]    to   = new int[] { R.id.fl_text };
-        setUpButton(up, upDir);
+        setUpButton(up, upDir, currentRoot);
         
         final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
@@ -944,18 +957,51 @@ public class ReLaunch extends Activity {
             	class HomeSimpleOnGestureListener extends SimpleOnGestureListener {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
-                    	openHome(0);
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}                    	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-                    	openHome(1);
+                    	if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}
                         return true;
                     }                    
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(home_button.hasWindowFocus()) {
-                    		menuHome();
+                        	if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPEN1")) {
+                        		openHome(0);
+                        	}
+                        	else if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPEN2")) {
+                        		openHome(1);
+                        	}
+                        	else if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPENMENU")) {
+                        		menuHome();
+                        	}
+                        	else if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPENSCREEN")) {
+                        		screenHome();
+                        	}
                     		}
                     	}
                 };
@@ -1070,17 +1116,15 @@ public class ReLaunch extends Activity {
             // Log.d(TAG,"Set GL16MODE=" + gl16Mode.toString());
             // First directory to get to
             
-            if(data.getExtras() != null) {
-            	if(data.getExtras().getString("start_dir")!=null) {
+            if(data.getExtras() != null && data.getExtras().getString("start_dir") != null) {
             		drawDirectory(data.getExtras().getString("start_dir"), -1);
-            	}
             }
             else {
             if (prefs.getBoolean("saveDir", true))
                 drawDirectory(prefs.getString("lastdir", "/sdcard"), -1);
             else {
-            	String[] startDirs = prefs.getString("startDir", "/sdcard").split("\\,");
-                drawDirectory(prefs.getString(startDirs[0], "/sdcard"), -1);
+            	String[] startDirs = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
+                drawDirectory(startDirs[0], -1);
             	}
             }
         }
@@ -1600,16 +1644,49 @@ public class ReLaunch extends Activity {
     }
     
     private void openHome(Integer order_num) {
-    	String[] startDirs = prefs.getString("startDir", "/sdcard").split("\\,");
+    	String[] startDirs = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
     	if(order_num<startDirs.length) {
     		drawDirectory(startDirs[order_num], -1);
     	}
     }
     
     private void menuHome() {
+    	final String[] homesList = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
+        final CharSequence[] hhomes = new CharSequence[homesList.length];
+        for(int j=0;j<homesList.length;j++) {
+        	int ind = homesList[j].lastIndexOf('/');
+            if (ind == -1)
+            {
+                hhomes[j]="";
+            }
+            else
+            {
+                hhomes[j]=homesList[j].substring(ind+1);
+                if(hhomes[j].equals("")) {
+                	hhomes[j]="/";
+                }
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+        //builder.setTitle("Select home directory");
+        builder.setTitle(R.string.jv_relaunch_home);
+        builder.setSingleChoiceItems(hhomes, -1, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int i) {
+            		drawDirectory(homesList[i], -1);
+                    dialog.dismiss();
+                }
+            });
+        builder.setNegativeButton(getResources().getString(R.string.jv_relaunch_cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }});
+        builder.show();    	
+    }
+    
+    private void screenHome() {
     	// make home list
     	List<String[]> homeList = new ArrayList<String[]>();
-    	String[] startDirs = prefs.getString("startDir", "/sdcard").split("\\,");
+    	String[] startDirs = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
     	for(Integer i=0;i<startDirs.length;i++) {
     		String[] homeEl = new String[2];
     		homeEl[0]=startDirs[i];

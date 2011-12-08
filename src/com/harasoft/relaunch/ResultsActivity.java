@@ -190,8 +190,8 @@ public class ResultsActivity extends Activity {
                 if(dname.equals("")) {
                 	dname="/";
                 	if(fname.equals("")) {
-                		fname="<Root>";
-                		dname="/";
+                		fname="/";
+                		dname="";                		
                 	}
                 }
                 if (useFaces)

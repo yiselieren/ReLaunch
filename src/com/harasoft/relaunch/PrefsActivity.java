@@ -7,14 +7,18 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class PrefsActivity extends PreferenceActivity {
+public class PrefsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
     final String                  TAG = "PreferenceActivity";
     final static public int       TYPES_ACT = 1;
 
@@ -56,18 +60,27 @@ public class PrefsActivity extends PreferenceActivity {
         defItems.add(new PrefItem("filterResults", false));
         defItems.add(new PrefItem("fullScreen", true));
         defItems.add(new PrefItem("showButtons", true));
-        defItems.add(new PrefItem("startDir", "/sdcard"));
+        defItems.add(new PrefItem("startDir", "/sdcard,/media/My Files"));
+        defItems.add(new PrefItem("notLeaveStartDir", false));
         defItems.add(new PrefItem("saveDir", true));
         defItems.add(new PrefItem("askAmbig", false));
         defItems.add(new PrefItem("showNew", true));
+        defItems.add(new PrefItem("openWith", true));
+        defItems.add(new PrefItem("createIntent", true));
         defItems.add(new PrefItem("gl16Mode", "5"));
 
+        // Buttons settings
+        defItems.add(new PrefItem("homeButtonST","OPEN1"));
+        defItems.add(new PrefItem("homeButtonDT","OPENMENU"));
+        defItems.add(new PrefItem("homeButtonLT","OPENSCREEN"));
+        
         // Launcher mode settings
-        defItems.add(new PrefItem("filterSelf", true));
-        defItems.add(new PrefItem("shopMode", true));
-        defItems.add(new PrefItem("dateUS", false));
-        defItems.add(new PrefItem("libraryMode", true));
         defItems.add(new PrefItem("homeMode", true));
+        defItems.add(new PrefItem("libraryMode", true));
+        defItems.add(new PrefItem("shopMode", true));
+        defItems.add(new PrefItem("returnToMain", false));
+        defItems.add(new PrefItem("filterSelf", true));
+        defItems.add(new PrefItem("dateUS", false));
 
         // Scrollbar appearance settings
         defItems.add(new PrefItem("scrollPerc", "10"));
@@ -79,7 +92,7 @@ public class PrefsActivity extends PreferenceActivity {
         // Search setting
         defItems.add(new PrefItem("searchSize", "5000"));
         defItems.add(new PrefItem("searchReport", "100"));
-        defItems.add(new PrefItem("searchRoot", "/media,/sdcard"));
+        defItems.add(new PrefItem("searchRoot", "/sdcard,/media/My Files"));
 
         // Viewer/editor settings
         defItems.add(new PrefItem("viewerMaxSize", "1048576"));
@@ -122,7 +135,30 @@ public class PrefsActivity extends PreferenceActivity {
         }
         editor.commit();
     }
+   
+    private void updatePrefSummary(Preference p){
+        if (p instanceof ListPreference) {
+            ListPreference listPref = (ListPreference) p; 
+            p.setSummary(listPref.getEntry()); 
+        }
+        //if (p instanceof EditTextPreference) {
+        //    EditTextPreference editTextPref = (EditTextPreference) p; 
+        //    p.setSummary(editTextPref.getText()); 
+        //}
+    }
+    
+    private void initSummary(Preference p){
+        if (p instanceof PreferenceCategory){
+             PreferenceCategory pCat = (PreferenceCategory)p;
+             for(int i=0;i<pCat.getPreferenceCount();i++){
+                 initSummary(pCat.getPreference(i));
+             }
+         }else{
+             updatePrefSummary(p);
+         }
 
+     }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -131,6 +167,7 @@ public class PrefsActivity extends PreferenceActivity {
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);
+
         setContentView(R.layout.prefs_main);
 
         // Save items value
@@ -182,14 +219,28 @@ public class PrefsActivity extends PreferenceActivity {
                 cancel();
                 finish();
             }});
+
+        for(int i=0;i<getPreferenceScreen().getPreferenceCount();i++){
+            initSummary(getPreferenceScreen().getPreference(i));
+           }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         app.generalOnResume(TAG, this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Unregister the listener whenever a key changes            
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);    
+    }
+
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
@@ -209,4 +260,14 @@ public class PrefsActivity extends PreferenceActivity {
             return;
         }
     }
+    
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Preference pref = findPreference(key);
+
+        if (pref instanceof ListPreference) {
+            ListPreference listPref = (ListPreference) pref;
+            pref.setSummary(listPref.getEntry());
+        }
+    }
+
 }

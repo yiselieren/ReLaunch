@@ -189,7 +189,7 @@ public class SearchActivity extends Activity {
                     for (File entry : allEntries)
                     {
                         filesCount++;
-                        String entryFullName = root + "/" + entry.getName();
+                        String entryFullName = root + (root.equals("/")?"":"/") + entry.getName();
                         if ((filesCount % searchReport) == 0)
                             publishProgress(filesCount);
 

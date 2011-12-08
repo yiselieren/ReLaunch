@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="search_as_values">
         <item>Подстроку</item>
         <item>Регулярное выражение</item>
@@ -9,6 +10,7 @@
     <integer name="SEARCH_LASTDIR"> 1 </integer>
     <integer name="SEARCH_FPATH">   2 </integer>
     <integer name="SEARCH_PATH">    3 </integer>
+
     <string-array name="search_in_values">
         <item>Имени файла</item>
         <item>Ближайшем имени папки</item>
@@ -23,6 +25,7 @@
     <integer name="FLT_MATCHES">         4 </integer>
     <integer name="FLT_NEW">             5 </integer>
     <integer name="FLT_NEW_AND_READING"> 6 </integer>
+
     <string-array name="filter_values">
         <item>Выберите метод отбора</item>
         <item>Имя файла начинается с</item>
@@ -32,18 +35,17 @@
         <item>Новые книги</item>
         <item>Новые и читаемые сейчас книги</item>
     </string-array>
-
     <string-array name="do_not_kill_names">
         <item>android.process.</item>
         <item>com.android.</item>
         <item>com.bn.</item>
     </string-array>
-
     <string-array name="do_not_kill_labels">
         <item>Android System</item>
     </string-array>
+
     <bool name="do_not_kill_empty_labels">true</bool>
-    
+
     <string-array name="filesystems_to_ignore">
         <item>rootfs</item>
         <item>tmpfs</item>
@@ -53,15 +55,30 @@
         <item>cgroup</item>
     </string-array>
     <string-array name="GL16_modes_values">
-        <item >3</item>
-        <item >4</item>
-        <item >5</item>
-        <item >6</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
     </string-array>
     <string-array name="GL16_modes_names">
-        <item >Качественный, мерц. (CLEAR mode 3)</item>
-        <item >Качественный, медл. (ACTIVE_ALL mode 4)</item>
-        <item >Быстрый (ONESHOT_ALL mode 5)</item>
-        <item >Качественный, мерц. (CLEAR_ALL mode 6)</item>
+        <item>Качественный, мерц. (CLEAR mode 3)</item>
+        <item>Качественный, медл. (ACTIVE_ALL mode 4)</item>
+        <item>Быстрый (ONESHOT_ALL mode 5)</item>
+        <item>Качественный, мерц. (CLEAR_ALL mode 6)</item>
     </string-array>
+    <string-array name="home_button_actions_values">
+        <item>NOTHING</item>
+        <item>OPEN1</item>
+        <item>OPEN2</item>
+        <item>OPENMENU</item>
+        <item>OPENSCREEN</item>
+    </string-array>
+    <string-array name="home_button_actions_names">
+        <item>Ничего не делать</item>
+        <item>Открыть первую начальную папку</item>
+        <item>Открыть вторую начальную папку</item>
+        <item>Открыть меню выбора начальной папки</item>
+        <item>Открыть окно списка начальных папок</item>
+    </string-array>
+
 </resources>

@@ -1,58 +1,380 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="General">
-       <CheckBoxPreference android:key="filterResults" android:summaryOff="Show all files" android:summaryOn="Filter results according to filter definitions" android:title="Filter results" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
-       <CheckBoxPreference android:key="fullScreen"    android:summaryOff="Show upper title bar" android:summaryOn="Work in full screen mode" android:title="Full screen" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="showButtons"   android:summaryOff="Do not show buttons on main screen" android:summaryOn="Show buttons on main screen" android:title="Show buttons on main screen" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <EditTextPreference android:key="startDir"      android:enabled="true" android:title="Start directory" android:selectable="true" android:persistent="true" android:defaultValue="/sdcard" android:summary="Start here or last visited (see next)"></EditTextPreference>
-       <CheckBoxPreference android:key="saveDir"       android:summaryOff="Always start from start directory" android:summaryOn="Start from last visited directory" android:title="Save last visited directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="askAmbig"      android:summaryOff="Run first association" android:summaryOn="Ask if association is ambiguous" android:title="Ambiguous associations" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
-       <CheckBoxPreference android:key="showNew"       android:summaryOff="Show all files in a normal way" android:summaryOn="Use color/bold fonts to show new and finished books" android:title="Show new/read books" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="openWith"      android:summaryOff="Do not show \'Open with...\' context menu item" android:summaryOn="Show \'Open with...\' context menu item" android:title="\'Open with...\' context menu item" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="createIntent"  android:summaryOff="Do not show \'Create intent...\' context menu item" android:summaryOn="Show \'Create intent...\' context menu item" android:title="\'Create intent...\' context menu item" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <ListPreference android:defaultValue="5" android:title="Screen update mode (GL16 mode)" android:enabled="true" android:summary="GL16 mode" android:entries="@array/GL16_modes_names" android:selectable="true" android:persistent="true" android:entryValues="@array/GL16_modes_values" android:key="gl16Mode"/>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="General" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="filterResults"
+            android:persistent="true"
+            android:summaryOff="Show all files"
+            android:summaryOn="Filter results according to filter definitions"
+            android:title="Filter results" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="fullScreen"
+            android:persistent="true"
+            android:summaryOff="Show upper title bar"
+            android:summaryOn="Work in full screen mode"
+            android:title="Full screen" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showButtons"
+            android:persistent="true"
+            android:summaryOff="Do not show buttons on main screen"
+            android:summaryOn="Show buttons on main screen"
+            android:title="Show buttons on main screen" >
+        </CheckBoxPreference>
+
+        <EditTextPreference
+            android:defaultValue="/sdcard,/media/My Files"
+            android:enabled="true"
+            android:key="startDir"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Start here or last visited (see next)"
+            android:title="Start directory(s)" >
+        </EditTextPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notLeaveStartDir"
+            android:persistent="true"
+            android:summaryOff="You can go up from start directory(s)"
+            android:summaryOn="You can\&apos;t go up from start directory(s)"
+            android:title="Don\&apos;t leave start directory(s)" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="saveDir"
+            android:persistent="true"
+            android:summaryOff="Always start from start directory"
+            android:summaryOn="Start from last visited directory"
+            android:title="Save last visited directory" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="askAmbig"
+            android:persistent="true"
+            android:summaryOff="Run first association"
+            android:summaryOn="Ask if association is ambiguous"
+            android:title="Ambiguous associations" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showNew"
+            android:persistent="true"
+            android:summaryOff="Show all files in a normal way"
+            android:summaryOn="Use color/bold fonts to show new and finished books"
+            android:title="Show new/read books" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="openWith"
+            android:persistent="true"
+            android:summaryOff="Do not show \&apos;Open with...\&apos; context menu item"
+            android:summaryOn="Show \&apos;Open with...\&apos; context menu item"
+            android:title="\&apos;Open with...\&apos; context menu item" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="createIntent"
+            android:persistent="true"
+            android:summaryOff="Do not show \&apos;Create intent...\&apos; context menu item"
+            android:summaryOn="Show \&apos;Create intent...\&apos; context menu item"
+            android:title="\&apos;Create intent...\&apos; context menu item" >
+        </CheckBoxPreference>
+
+        <ListPreference
+            android:defaultValue="5"
+            android:enabled="true"
+            android:entries="@array/GL16_modes_names"
+            android:entryValues="@array/GL16_modes_values"
+            android:key="gl16Mode"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="GL16 mode"
+            android:title="Screen update mode (GL16 mode)" />
     </PreferenceCategory>
 
-      <PreferenceCategory android:title="Launcher mode settings">
-       <CheckBoxPreference android:key="filterSelf"    android:summaryOff="Show all apps, including myself" android:summaryOn="Filter out my name from apps list" android:title="Filter selfname from apps list" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="returnToMain"  android:summaryOn="When launched appl. exits return to main screen" android:title="Application invocation behavior" android:persistent="true" android:defaultValue="false" android:summaryOff="When launched appl. exits return to original screen"></CheckBoxPreference>
-       <CheckBoxPreference android:key="shopMode"      android:summaryOff="Work as application when invoked by Shop button" android:summaryOn="Work as launcher when invoked by Shop button" android:title="Work mode when invoked by Shop button" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="dateUS"        android:summaryOff="European style date and time" android:summaryOn="US style date and time" android:title="Date and time presentation style" android:persistent="true" android:defaultValue="false"></CheckBoxPreference>
-       <CheckBoxPreference android:key="libraryMode"   android:summaryOff="Work as application when invoked by Library button" android:summaryOn="Work as launcher when invoked by Library button" android:title="Work mode when invoked by Library button" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="homeMode"      android:summaryOff="Work as application when invoked by Home button" android:summaryOn="Work as launcher when invoked by Home button" android:title="Work mode when invoked by Home button" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-      </PreferenceCategory>
+    <PreferenceCategory android:title="Main screen buttons behavior" >
 
-      <PreferenceCategory android:title="Scrollbar appearance ">
-       <EditTextPreference android:key="scrollPerc"    android:enabled="true" android:title="Fast scrolling step (percents)" android:selectable="true" android:persistent="true" android:defaultValue="10" android:summary="Fast scroll step" android:numeric="integer"></EditTextPreference>
-       <CheckBoxPreference android:key="customScroll"  android:summaryOff="System scrollbar indication" android:summaryOn="Draw custom scrollbar" android:title="Custom scrollbar indication" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <EditTextPreference android:key="scrollWidth"   android:enabled="true" android:title="Custom scrollbar width" android:selectable="true" android:persistent="true" android:defaultValue="25" android:summary="Scrollbar width" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="scrollPad"     android:enabled="true" android:title="Custom scrollbar left margin" android:selectable="true" android:persistent="true" android:defaultValue="10" android:summary="Scrollbar left margin" android:numeric="integer"></EditTextPreference>
-      </PreferenceCategory>
+        <ListPreference
+            android:defaultValue="OPEN1"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Home Button Single Tap" />
 
-      <PreferenceCategory android:title="Search settings">
-       <EditTextPreference android:key="searchSize"    android:enabled="true" android:title="Maximal amount of search results" android:selectable="true" android:persistent="true" android:defaultValue="5000" android:summary="Maximal size of search results list" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="searchReport"  android:enabled="true" android:title="How often report search progress" android:selectable="true" android:persistent="true" android:defaultValue="100" android:summary="Report search progress every ... times" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="searchRoot"    android:enabled="true" android:title="Root search directory" android:selectable="true" android:persistent="true" android:defaultValue="/media,/sdcard" android:summary="Search always start here"></EditTextPreference>
-      </PreferenceCategory>
+        <ListPreference
+            android:defaultValue="OPENMENU"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Home Button Double Tap" />
 
-      <PreferenceCategory android:title="Internal viewer/editor settings">
-       <EditTextPreference android:key="viewerMaxSize" android:enabled="true" android:title="Maximal file size for viewer" android:selectable="true" android:persistent="true" android:defaultValue="1048576" android:summary="Maximal file size allowed for viewer" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="editorMaxSize" android:enabled="true" android:title="Maximal file size for editor" android:selectable="true" android:persistent="true" android:defaultValue="262144" android:summary="Maximal file size allowed for editor" android:numeric="integer"></EditTextPreference>
-      </PreferenceCategory>
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Home Button Long Tap" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="Launcher mode settings" >
 
-      <PreferenceCategory android:title="Maximal size of misc. persistent lists">
-       <EditTextPreference android:key="lruSize"       android:enabled="true" android:title="Last opened list size" android:selectable="true" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened list" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="favSize"       android:enabled="true" android:title="Favorites list size" android:selectable="true" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of favorites list" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="appLruSize"    android:enabled="true" android:title="Applications last opened list size" android:selectable="true" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of last opened applications list" android:numeric="integer"></EditTextPreference>
-       <EditTextPreference android:key="appFavSize"    android:enabled="true" android:title="Application favorites list size" android:selectable="true" android:persistent="true" android:defaultValue="30" android:summary="Maximal size of applications favorites list" android:numeric="integer"></EditTextPreference>
-      </PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="homeMode"
+            android:persistent="true"
+            android:summaryOff="Work as application when invoked by Home button"
+            android:summaryOn="Work as launcher when invoked by Home button"
+            android:title="Work mode when invoked by Home button" >
+        </CheckBoxPreference>
 
-	 <PreferenceCategory android:title="Confirmations">
-       <CheckBoxPreference android:key="confirmFileDelete"        android:summaryOff="Delete file without confirmation" android:summaryOn="Ask confirmation for file deletion" android:title="Confirm file deletion" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="confirmDirDelete"         android:summaryOff="Delete directories without confirmation" android:summaryOn="Ask confirmation for directory deletion" android:title="Confirm deletion of every directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-       <CheckBoxPreference android:key="confirmNonEmptyDirDelete" android:summaryOff="Recoursive delete non empty directories without confirmation (dangerous!)" android:summaryOn="Ask confirmation for recoursive directory deletion" android:title="Confirm deletion of non empty directory" android:persistent="true" android:defaultValue="true"></CheckBoxPreference>
-     </PreferenceCategory>
-     
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="libraryMode"
+            android:persistent="true"
+            android:summaryOff="Work as application when invoked by Library button"
+            android:summaryOn="Work as launcher when invoked by Library button"
+            android:title="Work mode when invoked by Library button" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shopMode"
+            android:persistent="true"
+            android:summaryOff="Work as application when invoked by Shop button"
+            android:summaryOn="Work as launcher when invoked by Shop button"
+            android:title="Work mode when invoked by Shop button" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="returnToMain"
+            android:persistent="true"
+            android:summaryOff="When launched appl. exits return to original screen"
+            android:summaryOn="When launched appl. exits return to main screen"
+            android:title="Application invocation behavior" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="filterSelf"
+            android:persistent="true"
+            android:summaryOff="Show all apps, including myself"
+            android:summaryOn="Filter out my name from apps list"
+            android:title="Filter selfname from apps list" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="dateUS"
+            android:persistent="true"
+            android:summaryOff="European style date and time"
+            android:summaryOn="US style date and time"
+            android:title="Date and time presentation style" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Scrollbar appearance " >
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="scrollPerc"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Fast scroll step"
+            android:title="Fast scrolling step (percents)" >
+        </EditTextPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="customScroll"
+            android:persistent="true"
+            android:summaryOff="System scrollbar indication"
+            android:summaryOn="Draw custom scrollbar"
+            android:title="Custom scrollbar indication" >
+        </CheckBoxPreference>
+
+        <EditTextPreference
+            android:defaultValue="25"
+            android:enabled="true"
+            android:key="scrollWidth"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Scrollbar width"
+            android:title="Custom scrollbar width" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="scrollPad"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Scrollbar left margin"
+            android:title="Custom scrollbar left margin" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Search settings" >
+
+        <EditTextPreference
+            android:defaultValue="5000"
+            android:enabled="true"
+            android:key="searchSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal size of search results list"
+            android:title="Maximal amount of search results" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="100"
+            android:enabled="true"
+            android:key="searchReport"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Report search progress every ... files"
+            android:title="How often report search progress" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="/media,/sdcard"
+            android:enabled="true"
+            android:key="searchRoot"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Search always start here"
+            android:title="Root search directory" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Internal viewer/editor settings" >
+
+        <EditTextPreference
+            android:defaultValue="1048576"
+            android:enabled="true"
+            android:key="viewerMaxSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal file size allowed for viewer"
+            android:title="Maximal file size for viewer" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="262144"
+            android:enabled="true"
+            android:key="editorMaxSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal file size allowed for editor"
+            android:title="Maximal file size for editor" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Maximal size of misc. persistent lists" >
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="lruSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal size of last opened list"
+            android:title="Last opened list size" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="favSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal size of favorites list"
+            android:title="Favorites list size" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="appLruSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal size of last opened applications list"
+            android:title="Applications last opened list size" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="appFavSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Maximal size of applications favorites list"
+            android:title="Application favorites list size" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Confirmations" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmFileDelete"
+            android:persistent="true"
+            android:summaryOff="Delete file without confirmation"
+            android:summaryOn="Ask confirmation for file deletion"
+            android:title="Confirm file deletion" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmDirDelete"
+            android:persistent="true"
+            android:summaryOff="Delete directories without confirmation"
+            android:summaryOn="Ask confirmation for directory deletion"
+            android:title="Confirm deletion of every directory" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmNonEmptyDirDelete"
+            android:persistent="true"
+            android:summaryOff="Recoursive delete non empty directories without confirmation (dangerous!)"
+            android:summaryOn="Ask confirmation for recoursive directory deletion"
+            android:title="Confirm deletion of non empty directory" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
 </PreferenceScreen>
