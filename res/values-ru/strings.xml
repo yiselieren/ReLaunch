@@ -70,7 +70,7 @@
 	<string name="types_view_layout_title">Настройка ассоциаций</string>    
     <string name="viewer_layout_edit">Редактировать</string>
     <string name="viewer_layout_title">ПРОСМОТР</string>
-	<string name="reboot_layout_text">Выполняется перезагрузка, ожидайте...</string>
+	<string name="reboot_layout_text">ПЕРЕЗАГРУЗКА\n\nОжидайте...</string>
 	<string name="poweroff_layout_text">ВЫКЛЮЧЕНО\n\nНажмите кнопку Power для включения...</string>    
     <string name="jv_advanced_connected">Подключено, IP:</string>
     <string name="jv_advanced_level">Сигнал:</string>

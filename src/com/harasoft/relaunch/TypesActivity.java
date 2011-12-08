@@ -342,6 +342,17 @@ public class TypesActivity extends Activity {
                     finish();
                 }
             });
+        
+        // back btn - work as cancel
+        ImageButton    backBtn = (ImageButton) findViewById(R.id.back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
+                }
+            });
+        
     }
     
     @Override

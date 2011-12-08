@@ -12,6 +12,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class PrefsActivity extends PreferenceActivity {
     final String                  TAG = "PreferenceActivity";
@@ -169,6 +170,13 @@ public class PrefsActivity extends PreferenceActivity {
                 finish();
             }});
         ((Button)findViewById(R.id.cancel_btn)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                cancel();
+                finish();
+            }});
+        // back button - work as cancel
+        ((ImageButton)findViewById(R.id.back_btn)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
                 cancel();

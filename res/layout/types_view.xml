@@ -8,8 +8,7 @@
         android:id="@+id/LinearLayoutTitle"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
-        android:minHeight="32dp" >
-
+        android:minHeight="32dp" >
         <EditText
             android:id="@+id/types_title"
             android:layout_width="fill_parent"
@@ -26,8 +25,22 @@
             android:textStyle="bold" >
 
             <requestFocus />
+
+
+
         </EditText>
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="4"
+            android:src="@android:drawable/ic_menu_revert" />
+
     </LinearLayout>
+
     <ListView android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/types_lv" android:fadeScrollbars="false" android:divider="@color/normal_transparent" android:layout_marginTop="8dp"></ListView>
     <LinearLayout android:background="#ffffff" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:baselineAligned="false" android:layout_height="wrap_content" android:layout_weight="0.02" android:layout_marginTop="4dp">
         <Button android:id="@+id/types_ok" android:layout_gravity="center" android:text="@string/types_view_layout_ok" android:layout_weight="1" android:layout_width="fill_parent" android:layout_height="fill_parent"></Button>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new">
+        &lt;b&gt;1.2.7&lt;/b&gt;&lt;br&gt;
+        - Preferences Light Theme for Sony reader and mobiles.&lt;br&gt;
+        - Application and readers invocation code fixes.&lt;br&gt;
+        - Small layout and visual fixes.&lt;br&gt;
     	&lt;b&gt;1.2.6&lt;/b&gt;&lt;br&gt;
         - Source code and resources reformatted, caused by i18n.&lt;br&gt;
         - Russian translation.&lt;br&gt;

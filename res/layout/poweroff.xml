@@ -4,5 +4,12 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:background="@color/normal_bg" android:gravity="center" android:padding="8dp">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:gravity="center" android:textColor="@color/normal_fg" android:text="@string/poweroff_layout_text"></TextView>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/poweroff_128x128"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:gravity="center" android:textColor="@color/normal_fg" android:text="@string/poweroff_layout_text" android:layout_marginTop="16dp" android:textStyle="bold"></TextView>
 </LinearLayout>

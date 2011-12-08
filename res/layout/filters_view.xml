@@ -28,6 +28,16 @@
 
             <requestFocus />
         </EditText>
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="4"
+            android:src="@android:drawable/ic_menu_revert" />
+
     </LinearLayout>
 
     <ListView android:id="@+id/filters_lv" android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:fadeScrollbars="false" android:background="@color/normal_bg" android:divider="@color/normal_transparent" android:layout_marginTop="8dp"></ListView>

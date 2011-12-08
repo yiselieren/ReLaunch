@@ -1238,7 +1238,7 @@ public class ReLaunch extends Activity {
             builder.setTitle(getResources().getString(R.string.jv_relaunch_select_application));
             builder.setSingleChoiceItems(happlications, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int i) {
-                        start(app.launchReader((String)applications[i], fullName));
+                    	start(app.launchReader((String)applications[i], fullName));
                         dialog.dismiss();
                     }
                 });
@@ -1285,9 +1285,9 @@ public class ReLaunch extends Activity {
                     Intent in = new Intent();
                     in.setAction(Intent.ACTION_VIEW);
                     //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    in=app.addSpecialFlags(in, (String) intents[i]);
+                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // in=app.addSpecialFlags(in, (String) intents[i]);
                     in.setDataAndType(Uri.parse("file://" + fullName), (String) intents[i]);
                     dialog.dismiss();
                     try {
@@ -1319,9 +1319,9 @@ public class ReLaunch extends Activity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Intent in = new Intent();
                             in.setAction(Intent.ACTION_VIEW);
-                            //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            in=app.addSpecialFlags(in, input.getText().toString());
+                            in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            //in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            //in=app.addSpecialFlags(in, input.getText().toString());
                             in.setDataAndType(Uri.parse("file://" + fullName), input.getText().toString());
                             dialog.dismiss();
                             try {

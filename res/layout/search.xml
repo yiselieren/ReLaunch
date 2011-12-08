@@ -25,6 +25,15 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="4"
+            android:src="@android:drawable/ic_menu_revert" />
 
     </LinearLayout>
 

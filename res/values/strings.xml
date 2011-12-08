@@ -69,7 +69,7 @@
     <string name="types_view_layout_title">Associations Settings</string>
     <string name="viewer_layout_edit">Edit</string>
     <string name="viewer_layout_title">VIEWER   --   VIEWER   --   VIEWER</string>
-	<string name="reboot_layout_text">Reboot now, wait...</string>
+	<string name="reboot_layout_text">REBOOT\n\nWait...</string>
 	<string name="poweroff_layout_text">Powered Off\n\nUse Power button to start again...</string>    
     <string name="jv_advanced_connected">Connected, IP:</string>
     <string name="jv_advanced_level">Level:</string>

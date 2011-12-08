@@ -239,6 +239,15 @@ public class FiltersActivity  extends Activity {
                     setResult(Activity.RESULT_CANCELED);
                     finish();
                 }});
+        
+        // Back button - work as cancel
+        ImageButton backBtn = (ImageButton) findViewById(R.id.back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            }});
     }
     
     @Override

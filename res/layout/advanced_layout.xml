@@ -14,7 +14,7 @@
 
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.5" android:layout_marginTop="4dp">
         <Button android:text="@string/advanced_layout_scan" android:drawableTop="@android:drawable/ic_menu_help" android:drawableLeft="@drawable/wifi_on" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/wifi_scan_btn" android:layout_height="fill_parent" android:padding="16dp"></Button>    
-        <Button android:text="@string/advanced_layout_switch_wifi_off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn" android:layout_height="fill_parent" android:layout_marginLeft="4dp" android:padding="16dp"></Button>
+        <Button android:text="@string/advanced_layout_switch_wifi_off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn" android:layout_height="fill_parent" android:layout_marginLeft="4dp" android:paddingTop="24dp" android:paddingBottom="16dp" android:paddingLeft="16dp" android:paddingRight="16dp" android:drawablePadding="6dp"></Button>
     
     </LinearLayout>
 

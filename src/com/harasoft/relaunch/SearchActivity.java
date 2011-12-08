@@ -344,6 +344,10 @@ public class SearchActivity extends Activity {
         // Cancel button
         ((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { finish(); }});
+        
+        // Back button - work as cancel
+        ((ImageButton)findViewById(R.id.back_btn)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) { finish(); }});
     }
 
     @Override

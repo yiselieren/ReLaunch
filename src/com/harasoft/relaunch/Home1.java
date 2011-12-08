@@ -21,6 +21,7 @@ public class Home1 extends Activity {
         intent.putExtra("home1", true);
         intent.putExtra("shop", false);
         intent.putExtra("library", false);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivityForResult(intent, 0);
     }
 
