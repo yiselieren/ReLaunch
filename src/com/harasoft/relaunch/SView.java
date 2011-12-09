@@ -68,8 +68,9 @@ public class SView extends View {
         //int w = getWidth() - lpad;
         float w = getMeasuredWidth() - 1;
         float clpad = w * lpad / scrollW;
-        //Log.d(TAG, "SV --  first:" + first + " count:" + count + " total:" + total + " (" + w + " x " + h + ")");
-        if (total == 0)
+        // Log.d(TAG, "SV --  first:" + first + " count:" + count + " total:" + total + " (" + w + " x " + h + ")");
+        if (total == 0) // for phones with smooth scroll? may be make choice
+        //if (total == 0 || (first==0 && total<=count))        	
             canvas.drawRect(clpad, 0, w, h, freePaint);
         else
         {
@@ -86,9 +87,10 @@ public class SView extends View {
                 canvas.drawRect(clpad, curr, w, h, busyPaint);
                 curr += n;
            }
-            if ((first + count) < (total - 1))
+            if ((first + count) < total)
                 canvas.drawRect(clpad, curr, w, h, freePaint);
         }
+        // may be here fully go away (make choice) ?
         canvas.drawLine(clpad,0, w,0,outlinePaint);
         canvas.drawLine(w,0,w,h,outlinePaint);
         canvas.drawLine(w,h,clpad,h,outlinePaint);

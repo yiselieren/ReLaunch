@@ -4,20 +4,20 @@
   android:orientation="horizontal"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:background="@color/normal_bg" android:paddingTop="2dp" android:paddingBottom="2dp">
-  <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:layout_width="wrap_content" android:id="@+id/fl_icon" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageView>
+  <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:layout_width="wrap_content" android:id="@+id/fl_icon" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_gravity="top|left"></ImageView>
 
   <LinearLayout
       android:id="@+id/fl_holder"
       android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
+      android:layout_height="wrap_content"
       android:layout_marginLeft="4dp"
       android:background="@color/normal_bg"
-      android:orientation="vertical" >
+      android:orientation="vertical" android:layout_gravity="top|left">
 
       <TextView
           android:id="@+id/fl_text"
           android:layout_width="fill_parent"
-          android:layout_height="fill_parent"
+          android:layout_height="wrap_content"
           android:layout_marginLeft="4dp"
           android:background="@color/normal_transparent"
           android:gravity="center_vertical"
