@@ -49,10 +49,11 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+// import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -571,13 +572,14 @@ public class ReLaunch extends Activity {
         int[]    to   = new int[] { R.id.fl_text };
         setUpButton(up, upDir, currentRoot);
         
+        /*
         final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         lv.setAdapter(adapter);
         //if (prefs.getBoolean("customScroll", true))
         if (prefs.getBoolean("customScroll", app.customScrollDef))	
         {
-            if (addSView)
+          if (addSView)
             {
                 int scrollW;
                 try {
@@ -602,10 +604,11 @@ public class ReLaunch extends Activity {
                 });         
                 addSView = false;
             }
+            
         }
+		
 
-
-        registerForContextMenu(lv);
+        //registerForContextMenu(lv);
         if (startPosition != -1)
             lv.setSelection(startPosition);
         lv.setOnItemClickListener(new OnItemClickListener() {
@@ -658,18 +661,114 @@ public class ReLaunch extends Activity {
                         }
                     }
                 }});
+		*/
+        // ======================= 12345
+        final GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
+        if(getDirectoryColumns(currentRoot)!=0) {
+        	gv.setNumColumns(getDirectoryColumns(currentRoot));
+        }
+        else {
+        	gv.setNumColumns(Integer.parseInt(prefs.getString("columnsDirsFiles", "-1")));
+        }
+        adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
+        gv.setAdapter(adapter);
+        //if (prefs.getBoolean("customScroll", true))
+        if (prefs.getBoolean("customScroll", app.customScrollDef))	
+        {
+            if (addSView)
+            {
+                int scrollW;
+                try {
+                    scrollW = Integer.parseInt(prefs.getString("scrollWidth", "25"));
+                } catch(NumberFormatException e) {
+                    scrollW = 25;
+                }
+                LinearLayout ll = (LinearLayout)findViewById(useDirViewer ? R.id.results_fl : R.id.gl_layout);
+                final SView sv = new SView(getBaseContext());
+                LinearLayout.LayoutParams pars = new LinearLayout.LayoutParams(scrollW, ViewGroup.LayoutParams.FILL_PARENT, 1f);
+                sv.setLayoutParams(pars);
+                ll.addView(sv);
+                gv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                        sv.total = totalItemCount;
+                        sv.count = visibleItemCount;
+                        sv.first = firstVisibleItem;
+                        sv.invalidate();
+                    }
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                    }
+                });         
+                addSView = false;
+            }
+        }
 
+
+        registerForContextMenu(gv);
+        if (startPosition != -1)
+            gv.setSelection(startPosition);
+        gv.setOnItemClickListener(new OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    HashMap<String, String> item = itemsArray.get(position);
+
+                    if (item.get("type").equals("dir"))
+                    {
+                        // Goto directory
+                        pushCurrentPos(parent, true);
+                        drawDirectory(item.get("fname"), -1);
+                    }
+                    else if (app.specialAction(ReLaunch.this, item.get("fname")))
+                        pushCurrentPos(parent, false);
+                    else
+                    {
+                        pushCurrentPos(parent, false);
+                        if (item.get("reader").equals("Nope"))
+                            app.defaultAction(ReLaunch.this, item.get("fname"));
+                        else
+                        {
+                            // Launch reader
+                            if (app.askIfAmbiguous)
+                            {
+                                List<String> rdrs = app.readerNames(item.get("fname"));
+                                if (rdrs.size() < 1)
+                                    return;
+                                else if (rdrs.size() == 1)
+                                    start(app.launchReader(rdrs.get(0), item.get("fname")));
+                                else
+                                {
+                                    final CharSequence[] applications = rdrs.toArray(new CharSequence[rdrs.size()]);
+                                    final String rdr1 = item.get("fname");
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+                                    //builder.setTitle("Select application");
+                                    builder.setTitle(getResources().getString(R.string.jv_relaunch_select_application));
+                                    builder.setSingleChoiceItems(applications, -1, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int i) {
+                                                start(app.launchReader((String)applications[i], rdr1));
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
+                                }
+                            }
+                            else
+                                start(app.launchReader(item.get("reader"), item.get("fname")));
+                        }
+                    }
+                }});
+        
+        // ======================= 12345
         final Button upScroll = (Button)findViewById(R.id.upscroll_btn);
         upScroll.setText(app.scrollStep + "%");
         upScroll.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                int first = lv.getFirstVisiblePosition();
+                int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 first -= (total * app.scrollStep) / 100;
                 if (first < 0)
                     first = 0;
-                lv.setSelection(first);
+                gv.setSelection(first);
             }});
 
         final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
@@ -677,16 +776,16 @@ public class ReLaunch extends Activity {
         downScroll.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                int first = lv.getFirstVisiblePosition();
+                int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
-                int last = lv.getLastVisiblePosition();
+                int last = gv.getLastVisiblePosition();
                 //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
                 first += (total * app.scrollStep) / 100;
                 if (first <= last)
                     first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
                 if (first > (total-1))
                     first = total-1;
-                lv.setSelection(first);
+                gv.setSelection(first);
             }});
         
         refreshBottomInfo();
@@ -788,7 +887,7 @@ public class ReLaunch extends Activity {
             try {
                 startActivity(i);
             } catch (ActivityNotFoundException e) {
-                Toast.makeText(ReLaunch.this, "Activity not found", Toast.LENGTH_LONG).show();
+                Toast.makeText(ReLaunch.this, getResources().getString(R.string.jv_relaunch_activity_not_found), Toast.LENGTH_LONG).show();
             }
     }
 
@@ -1703,6 +1802,12 @@ public class ReLaunch extends Activity {
 
     private void menuAbout() {
         app.About(this);
+    }
+    
+    private Integer getDirectoryColumns(String dir) {
+    	Integer columns = 0;
+    	// TODO implement in some way...
+    	return columns;
     }
     
 }

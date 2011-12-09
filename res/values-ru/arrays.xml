@@ -80,5 +80,20 @@
         <item>Открыть меню выбора начальной папки</item>
         <item>Открыть окно списка начальных папок</item>
     </string-array>
-
+<string-array name="output_columns_values">
+        <item >-1</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+    </string-array>
+    <string-array name="output_columns_names">
+        <item >Количество колонок вывода определяется автоматически</item>
+        <item >Выводить в 1 колонку</item>
+        <item >Выводить в 2 колонки</item>
+        <item >Выводить в 3 колонки</item>
+        <item >Выводить в 4 колонки</item>
+        <item >Выводить в 5 колонок</item>
+    </string-array>
 </resources>

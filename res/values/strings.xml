@@ -149,6 +149,7 @@
     <string name="jv_relaunch_delete_emp_dir">Delete empty directory</string>
     <string name="jv_relaunch_cancel">Cancel</string>
     <string name="jv_relaunch_select_intent_type">Select intent type</string>
+    <string name="jv_relaunch_activity_not_found">Activity not found</string>
     <string name="jv_relaunch_activity_not_found_title">Activity not found</string>
     <string name="jv_relaunch_activity_not_found_text1">Activity for file</string>
     <string name="jv_relaunch_activity_not_found_text2">with type</string>
@@ -200,6 +201,7 @@
     <string name="jv_results_delete_ne_dir_title">Delete non empty directory warning</string>
     <string name="jv_results_delete_ne_dir_text1">Are you sure to delete non-empty directory</string>
     <string name="jv_results_delete_ne_dir_text2">(dangerous) \?</string>
+    <string name="jv_results_activity_not_found">Activity not found</string>
     <string name="jv_search_in_progress">Search in progress</string>
     <string name="jv_search_cancel">Cancel</string>
     <string name="jv_search_results">Search results</string>

@@ -2,7 +2,7 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="horizontal"
-  android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingBottom="2dp" android:paddingTop="2dp" android:background="@color/normal_bg">
+  android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingBottom="2dp" android:paddingTop="2dp" android:background="@color/normal_bg" android:layout_gravity="top|left">
 
   <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:layout_width="wrap_content" android:id="@+id/res_icon" android:layout_height="wrap_content" android:layout_marginLeft="4dp" android:layout_gravity="top|left"></ImageView>
 
@@ -12,7 +12,7 @@
       android:layout_height="wrap_content"
       android:layout_marginLeft="4dp"
       android:background="@color/normal_bg"
-      android:orientation="vertical" android:layout_gravity="top|left">
+      android:orientation="vertical" android:layout_gravity="top|left" android:layout_marginRight="4dp">
 
       <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="Filename" android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="@color/normal_fg" android:background="@color/normal_transparent" android:id="@+id/res_fname" android:layout_width="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp" android:layout_gravity="top|left"></TextView>
       <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="Full path" android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#000000" android:background="@color/normal_transparent"  android:id="@+id/res_dname" android:layout_width="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp" android:layout_gravity="top|left"></TextView>

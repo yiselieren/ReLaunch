@@ -150,6 +150,7 @@
     <string name="jv_relaunch_delete_emp_dir">Удалить пустую папку</string>
     <string name="jv_relaunch_cancel">Отмена</string>
     <string name="jv_relaunch_select_intent_type">Выберите вид события</string>
+    <string name="jv_relaunch_activity_not_found">Действие не найдено</string>
     <string name="jv_relaunch_activity_not_found_title">Действие не найдено</string>
     <string name="jv_relaunch_activity_not_found_text1">Действие для файла</string>
     <string name="jv_relaunch_activity_not_found_text2">типа</string>
@@ -201,6 +202,7 @@
     <string name="jv_results_delete_ne_dir_title">Предупреждение</string>
     <string name="jv_results_delete_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
     <string name="jv_results_delete_ne_dir_text2">(потенциально опасное действие)\?</string>
+	<string name="jv_results_activity_not_found">Действие не найдено</string>    
     <string name="jv_search_in_progress">Производится поиск</string>
     <string name="jv_search_cancel">Отмена</string>
     <string name="jv_search_results">Результаты поиска</string>

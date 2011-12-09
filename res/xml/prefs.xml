@@ -105,6 +105,55 @@
             android:title="Screen update mode (GL16 mode)" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Appearance" >
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsDirsFiles"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Files and directories list" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsHomeList"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Home directories list" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsLRU"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Last recent used list" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsFAV"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Favorites list" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsSearch"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Search results list" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Main screen buttons behavior" >
 
         <ListPreference

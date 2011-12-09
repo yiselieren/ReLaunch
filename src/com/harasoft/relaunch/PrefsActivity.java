@@ -69,6 +69,13 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("createIntent", true));
         defItems.add(new PrefItem("gl16Mode", "5"));
 
+        // Columns settings
+        defItems.add(new PrefItem("columnsDirsFiles","-1"));
+        defItems.add(new PrefItem("columnsHomeList","-1"));
+        defItems.add(new PrefItem("columnsLRU","-1"));
+        defItems.add(new PrefItem("columnsFAV","-1"));
+        defItems.add(new PrefItem("columnsSearch","-1"));
+        
         // Buttons settings
         defItems.add(new PrefItem("homeButtonST","OPEN1"));
         defItems.add(new PrefItem("homeButtonDT","OPENMENU"));
