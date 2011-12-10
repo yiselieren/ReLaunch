@@ -9,7 +9,7 @@
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/reboot_128x128"/>
+        android:src="@drawable/reboot_screen_240x240"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceLarge" android:gravity="center" android:textColor="@color/normal_fg" android:text="@string/reboot_layout_text" android:layout_marginTop="16dp" android:textStyle="bold"></TextView>
 </LinearLayout>
