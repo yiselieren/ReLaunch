@@ -1,4 +1,9 @@
-- add close fav, searchres, lru after file launched functionality
+URGENT (GRID MULTICOLUMN)
+- check columns height align
+- check columns quantity in align by param and remove autocolumn, so it don't have sense (by analysis of android sources) 
+CASUAL
+- (DONE) add close fav, searchres, lru after file launched functionality
+- add font size settings
 - add "Not show known extensions" functionality
 - add more "smart" buttons (change first screen buttons behavior and configuration)
 	-- for LRU button: open first, open second, open as menu(?), open as screen

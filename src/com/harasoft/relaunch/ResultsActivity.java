@@ -19,12 +19,14 @@ import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
@@ -104,6 +106,10 @@ public class ResultsActivity extends Activity {
 
 			TextView tv1 = holder.tv1;
 			TextView tv2 = holder.tv2;
+			
+			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PT,8);
+			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PT,6);
+			
 			LinearLayout tvHolder = holder.tvHolder;
 			ImageView iv = holder.iv;
 
@@ -220,6 +226,25 @@ public class ResultsActivity extends Activity {
 					tv2.setText(fname);
 				}
 			}
+			// fixes on columns height in grid
+			GridView pgv = (GridView) parent;
+			Integer gcols=3; // from param !!!!!
+			Integer between_columns = 0;
+			Integer some_space = 0;
+			Integer colw = (pgv.getWidth() - (gcols - 1) * between_columns) / gcols;
+			Integer recalc_num  = position;
+			Integer recalc_height=0;
+			while(recalc_num % gcols != 0) {
+				recalc_num = recalc_num - 1;
+				View temp_v = getView(recalc_num,null,parent);
+				temp_v.measure(MeasureSpec.EXACTLY | colw, MeasureSpec.UNSPECIFIED);
+				Integer p_height = temp_v.getMeasuredHeight();
+				if(p_height>recalc_height) recalc_height = p_height;
+				}
+			if(recalc_height>0) {
+				// 2 as some value
+				v.setMinimumHeight(recalc_height + some_space); // may be + some
+			}
 			return v;
 		}
 	}
@@ -234,6 +259,20 @@ public class ResultsActivity extends Activity {
 			}
 			itemsArray = newItemsArray;
 		}
+		Integer colsNum = -1;
+		if(listName.equals("homeList")) {
+			colsNum = Integer.parseInt(prefs.getString("columnsHomeList", "-1"));
+		}
+		if(listName.equals("favorites")) {
+			colsNum = Integer.parseInt(prefs.getString("columnsFAV", "-1"));
+		}
+		if(listName.equals("lastOpened")) {
+			colsNum = Integer.parseInt(prefs.getString("columnsLRU", "-1"));
+		}		
+		if(listName.equals("searchResults")) {
+			colsNum = Integer.parseInt(prefs.getString("columnsSearch", "-1"));
+		}		
+		gv.setNumColumns(colsNum);		
 		adapter.notifyDataSetChanged();
 		if (currentPosition != -1)
 			// lv.setSelection(currentPosition);
@@ -320,16 +359,108 @@ public class ResultsActivity extends Activity {
 		currentPosition = -1;
 		// lv = (ListView) findViewById(R.id.results_list);
 		gv = (GridView) findViewById(R.id.results_list);
+		gv.setHorizontalSpacing(0);
+		Button rt = (Button) findViewById(R.id.results_title);
 		if (total == -1)
-			((Button) findViewById(R.id.results_title)).setText(title + " ("
+			rt.setText(title + " ("
 					+ app.getList(listName).size() + ")");
 		else
-			((Button) findViewById(R.id.results_title)).setText(title + " ("
+			rt.setText(title + " ("
 					+ app.getList(listName).size() + "/" + total + ")");
-
+		rt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	final String[] columns = getResources().getStringArray(R.array.output_columns_names);
+            	final CharSequence[] columnsmode = new CharSequence[columns.length];
+            	for(int i=0;i<columns.length;i++) {
+            		columnsmode[i]=columns[i];
+            	}
+            	boolean show_select = false;
+            	Integer checked = -1;
+        		if(listName.equals("homeList")) {
+        			checked = Integer.parseInt(prefs.getString("columnsHomeList", "-1"));
+        			if(checked==-1) checked=0;
+        			show_select = true;
+        		}
+        		if(listName.equals("favorites")) {
+        			checked = Integer.parseInt(prefs.getString("columnsFAV", "-1"));
+        			if(checked==-1) checked=0;
+        			show_select = true;
+        		}
+        		if(listName.equals("lastOpened")) {
+        			checked = Integer.parseInt(prefs.getString("columnsLRU", "-1"));
+        			if(checked==-1) checked=0;
+        			show_select = true;
+        		}		
+        		if(listName.equals("searchResults")) {
+        			checked = Integer.parseInt(prefs.getString("columnsSearch", "-1"));
+        			if(checked==-1) checked=0;
+        			show_select = true;
+        		}
+            	// get checked
+                AlertDialog.Builder builder = new AlertDialog.Builder(ResultsActivity.this);
+                //builder.setTitle("Select application");
+                builder.setTitle(getResources().getString(R.string.jv_relaunch_select_columns));
+                builder.setSingleChoiceItems(columnsmode, checked, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int i) {
+                        	if(i==0) {
+                        		if(listName.equals("homeList")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsHomeList", "-1");
+                        			editor.commit();                        			
+                        		}
+                        		if(listName.equals("favorites")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsFAV", "-1");
+                        			editor.commit();
+                        		}
+                        		if(listName.equals("lastOpened")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsLRU", "-1");
+                        			editor.commit();
+                        		}		
+                        		if(listName.equals("searchResults")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsSearch", "-1");
+                        			editor.commit();
+                        		}       		
+                        	}
+                        	else {
+                        		if(listName.equals("homeList")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsHomeList", Integer.toString(i));
+                        			editor.commit();                        			
+                        		}
+                        		if(listName.equals("favorites")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsFAV", Integer.toString(i));
+                        			editor.commit();
+                        		}
+                        		if(listName.equals("lastOpened")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsLRU", Integer.toString(i));
+                        			editor.commit();
+                        		}		
+                        		if(listName.equals("searchResults")) {
+                            		SharedPreferences.Editor editor = prefs.edit();
+                        			editor.putString("columnsSearch", Integer.toString(i));
+                        			editor.commit();
+                        		}       		
+                        	}
+                        	redrawList();
+                            dialog.dismiss();
+                        }
+                    });
+                if(show_select) {
+                	AlertDialog alert = builder.create();
+                	alert.show();
+                	}
+            	}
+            });
+		
 		createItemsArray();
 		adapter = new FLSimpleAdapter(this, R.layout.results_item, itemsArray);
 		gv.setAdapter(adapter);
+		/*
 		Integer colsNum = -1;
 		if(listName.equals("homeList")) {
 			colsNum = Integer.parseInt(prefs.getString("columnsHomeList", "-1"));
@@ -344,6 +475,7 @@ public class ResultsActivity extends Activity {
 			colsNum = Integer.parseInt(prefs.getString("columnsSearch", "-1"));
 		}		
 		gv.setNumColumns(colsNum);
+		*/
 		registerForContextMenu(gv);
 		// if (prefs.getBoolean("customScroll", true))
 		if (prefs.getBoolean("customScroll", app.customScrollDef)) {
@@ -457,6 +589,8 @@ public class ResultsActivity extends Activity {
 										app.readerName(fileName), fullName));
 						}
 					}
+					// close in needed
+					if (prefs.getBoolean("returnFileToMain", false)) finish();
 				}
 			}
 		});

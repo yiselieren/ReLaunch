@@ -59,6 +59,14 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="returnFileToMain"
+            android:persistent="true"
+            android:summaryOff="When launched reader, return to original screen"
+            android:summaryOn="When launched reader, exits to main screen"
+            android:title="Reader invocation behavior" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="askAmbig"
             android:persistent="true"
             android:summaryOff="Run first association"
@@ -115,7 +123,8 @@
             android:key="columnsDirsFiles"
             android:persistent="true"
             android:selectable="true"
-            android:title="Files and directories list" />
+            android:title="Files and directories list (default)" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -125,6 +134,7 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Home directories list" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -134,6 +144,7 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Last recent used list" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -143,6 +154,7 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Favorites list" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"

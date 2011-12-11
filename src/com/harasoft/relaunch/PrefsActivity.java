@@ -63,6 +63,7 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("startDir", "/sdcard,/media/My Files"));
         defItems.add(new PrefItem("notLeaveStartDir", false));
         defItems.add(new PrefItem("saveDir", true));
+        defItems.add(new PrefItem("returnFileToMain", false));
         defItems.add(new PrefItem("askAmbig", false));
         defItems.add(new PrefItem("showNew", true));
         defItems.add(new PrefItem("openWith", true));

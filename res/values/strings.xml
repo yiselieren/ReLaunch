@@ -169,7 +169,9 @@
     <string name="jv_relaunch_launcher_text">Are you sure you want to quit ?</string>
     <string name="jv_relaunch_lru">Last opened</string>
     <string name="jv_relaunch_fav">Favorites</string>
-	<string name="jv_relaunch_home">Home</string>    
+	<string name="jv_relaunch_home">Home</string>
+	<string name="jv_relaunch_select_columns">Select columns</string>
+	<string name="jv_relaunch_default">Default</string>	    
     <string name="jv_rla_activity">Activity</string>
     <string name="jv_rla_not_found">not found!</string>
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Reader launcher for Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>

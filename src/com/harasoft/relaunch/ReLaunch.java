@@ -31,6 +31,7 @@ import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -40,6 +41,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -205,7 +207,7 @@ public class ReLaunch extends Activity {
                 boolean   setBold = false;
                 boolean   useFaces  = prefs.getBoolean("showNew", true);
 
-
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PT,8);
                 if (item.get("type").equals("dir"))
                 {
                     if (useFaces)
@@ -281,6 +283,7 @@ public class ReLaunch extends Activity {
                 {
                     SpannableString s = new SpannableString(sname);
                     s.setSpan(new StyleSpan(setBold ? Typeface.BOLD : Typeface.NORMAL), 0, sname.length(), 0);
+                    // String ddd=new String(new char[100]).replace("\0", "\u00A0\u0020");
                     tv.setText(s);
                 }
                 else
@@ -288,10 +291,30 @@ public class ReLaunch extends Activity {
                 	tvHolder.setBackgroundColor(getResources().getColor(R.color.normal_bg));
                     //tv.setBackgroundColor(getResources().getColor(R.color.normal_bg));
                     tv.setTextColor(getResources().getColor(R.color.normal_fg));
+                    //String ddd=new String(new char[100]).replace("\0", "\u00A0\u0020");
                     tv.setText(sname);
                 }
             }
-            return v;
+            // fixes on columns height in grid
+			GridView pgv = (GridView) parent;
+			Integer gcols=3; // from param !!!!!
+			Integer between_columns = 0;
+			Integer some_space = 0;
+			Integer colw = (pgv.getWidth() - (gcols - 1) * between_columns) / gcols;
+			Integer recalc_num  = position;
+			Integer recalc_height=0;
+			while(recalc_num % gcols != 0) {
+				recalc_num = recalc_num - 1;
+				View temp_v = getView(recalc_num,null,parent);
+				temp_v.measure(MeasureSpec.EXACTLY | colw, MeasureSpec.UNSPECIFIED);
+				Integer p_height = temp_v.getMeasuredHeight();
+				if(p_height>recalc_height) recalc_height = p_height;
+				}
+			if(recalc_height>0) {
+				// 2 as some value
+				v.setMinimumHeight(recalc_height + some_space); // may be + some
+			}
+			return v;
         }
     }
 
@@ -522,7 +545,7 @@ public class ReLaunch extends Activity {
             public void onClick(View v){
             	final String[] columns = getResources().getStringArray(R.array.output_columns_names);
             	final CharSequence[] columnsmode = new CharSequence[columns.length+1];
-            	columnsmode[0]="Default";
+            	columnsmode[0]=getResources().getString(R.string.jv_relaunch_default);
             	for(int i=0;i<columns.length;i++) {
             		columnsmode[i+1]=columns[i];
             	}
@@ -539,7 +562,7 @@ public class ReLaunch extends Activity {
             	// get checked
                 AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
                 //builder.setTitle("Select application");
-                builder.setTitle("Select columns");
+                builder.setTitle(getResources().getString(R.string.jv_relaunch_select_columns));
                 builder.setSingleChoiceItems(columnsmode, checked, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int i) {
                         	if(i==0) {
@@ -715,6 +738,7 @@ public class ReLaunch extends Activity {
 		*/
         // ======================= 12345
         final GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
+        gv.setHorizontalSpacing(0);
         if(getDirectoryColumns(currentRoot)!=0) {
         	gv.setNumColumns(getDirectoryColumns(currentRoot));
         }

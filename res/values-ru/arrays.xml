@@ -89,11 +89,11 @@
         <item >5</item>
     </string-array>
     <string-array name="output_columns_names">
-        <item >Количество колонок вывода определяется автоматически</item>
-        <item >Выводить в 1 колонку</item>
-        <item >Выводить в 2 колонки</item>
-        <item >Выводить в 3 колонки</item>
-        <item >Выводить в 4 колонки</item>
-        <item >Выводить в 5 колонок</item>
+        <item >Автоматическое число колонок</item>
+        <item >1 колонка</item>
+        <item >2 колонки</item>
+        <item >3 колонки</item>
+        <item >4 колонки</item>
+        <item >5 колонок</item>
     </string-array>
 </resources>

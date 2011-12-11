@@ -42,6 +42,14 @@
 			android:title="Сохранять последнюю посещенную папку">
 		</CheckBoxPreference>
 
+		<CheckBoxPreference
+            android:defaultValue="false"
+            android:key="returnFileToMain"
+            android:persistent="true"
+            android:summaryOff='Остаться на предыдущей странице (напр. \"Избранное\" и т.п.)'
+            android:summaryOn='Вернуться к списку файлов (со страниц \"Избранное\" и т.д.)'
+            android:title="После запуска программы чтения" />
+		    
 		<CheckBoxPreference android:defaultValue="false"
 			android:key="askAmbig" android:persistent="true"
 			android:summaryOff="Использовать первую найденную" android:summaryOn="Предложить выбор пользователю"
@@ -79,7 +87,7 @@
 	<PreferenceCategory android:title="Внешний вид">
 		<ListPreference android:entryValues="@array/output_columns_values"
 			android:key="columnsDirsFiles" android:entries="@array/output_columns_names"
-			android:title="Список папок и файлов" android:selectable="true"
+			android:title="Список папок и файлов (по умолчанию)" android:selectable="true"
 			android:enabled="true" android:defaultValue="-1" android:persistent="true" />
         <ListPreference
             android:defaultValue="-1"
