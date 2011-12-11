@@ -72,6 +72,7 @@ public class ReLaunchApp extends Application {
     public boolean                    filters_and;
 
     public  HashMap<String, Integer>        history = new HashMap<String, Integer>();
+    public  HashMap<String, Integer>        columns = new HashMap<String, Integer>();
     private HashMap<String, List<String[]>> m = new HashMap<String, List<String[]>>();
     private HashMap<String, Drawable>       icons;
     private List<HashMap<String, String>>   readers;
@@ -218,7 +219,16 @@ public class ReLaunchApp extends Application {
     		}
     		this.setList("history", h);
     		this.writeFile("history", ReLaunch.HIST_FILE, 0, ":");
-    	}	
+    	}
+    	if(listName.equals("columns")) {
+    		List<String[]> c = new ArrayList<String[]>();
+    		for (String k : this.columns.keySet())
+    		{
+    			c.add(new String[] {k, Integer.toString(this.columns.get(k)) } );
+    		}
+    		this.setList("columns", c);
+    		this.writeFile("columns", ReLaunch.COLS_FILE, 0, ":");
+    	}    	
     }
     
     // Add to list

@@ -1,21 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/normal_bg" android:padding="8dp">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="56dp">
-        <EditText android:id="@+id/results_title" android:textColor="@color/normal_fg" android:background="@color/normal_bg_gray"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:text="Text View" android:gravity="center" android:textStyle="bold">
-            <requestFocus></requestFocus>
-        </EditText>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:id="@+id/results_btn" android:layout_height="fill_parent" android:layout_weight="4" android:layout_width="fill_parent" android:layout_marginLeft="4dp"></ImageButton>
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp" >
+
+        <Button
+            android:id="@+id/results_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:text="Text View"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </Button>
+
+        <ImageButton
+            android:id="@+id/results_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="4"
+            android:src="@android:drawable/ic_menu_revert" >
+        </ImageButton>
     </LinearLayout>
-    <TextView android:background="@color/normal_transparent" android:textColor="@color/normal_transparent" android:text="TextView" android:layout_width="fill_parent" android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_height="0dp"></TextView>
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="56dp" android:layout_marginTop="8dp">
-        <Button android:text="@string/main_launcher_nb_layout_go_one_level_up" android:drawableLeft="@drawable/arrow_up" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/goup_btn" android:drawableRight="@drawable/arrow_up" android:layout_weight="0.6"></Button>
-        <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_up" android:text="0%" android:layout_width="fill_parent" android:id="@+id/upscroll_btn" android:layout_marginLeft="4dp"></Button>
-        <Button android:layout_weight="1" android:layout_height="fill_parent" android:drawableLeft="@drawable/arrow_down" android:text="0%" android:layout_width="fill_parent" android:id="@+id/downscroll_btn" android:layout_marginLeft="4dp"></Button>
-        <ImageButton android:layout_width="fill_parent" android:src="@drawable/su" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/advanced_btn" android:layout_marginLeft="4dp"></ImageButton>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@color/normal_transparent"
+        android:text="TextView"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/normal_transparent" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp" >
+
+        <Button
+            android:id="@+id/goup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.6"
+            android:drawableLeft="@drawable/arrow_up"
+            android:drawableRight="@drawable/arrow_up"
+            android:text="@string/main_launcher_nb_layout_go_one_level_up" >
+        </Button>
+
+        <Button
+            android:id="@+id/upscroll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/arrow_up"
+            android:text="0%" >
+        </Button>
+
+        <Button
+            android:id="@+id/downscroll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/arrow_down"
+            android:text="0%" >
+        </Button>
+
+        <ImageButton
+            android:id="@+id/advanced_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:src="@drawable/su" >
+        </ImageButton>
     </LinearLayout>
     <!--
     <LinearLayout android:layout_width="fill_parent" 
@@ -33,21 +107,23 @@
             android:fadeScrollbars="false" android:divider="@color/normal_transparent">
         </ListView>
 
-    </LinearLayout>
+    </LinearLayout>
     -->
+
     <LinearLayout
         android:id="@+id/results_fl"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp" >
 
         <GridView
             android:id="@+id/results_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:numColumns="3" 
-            android:duplicateParentState="true">
+            android:duplicateParentState="true"
+            android:numColumns="3" >
         </GridView>
-    </LinearLayout>    
+    </LinearLayout>
+
 </LinearLayout>

@@ -69,6 +69,7 @@ public class ReLaunch extends Activity {
     static public final String    FAV_FILE = "Favorites.txt";
     static public final String    HIST_FILE = "History.txt";
     static public final String    FILT_FILE = "Filters.txt";
+    static public final String    COLS_FILE = "Columns.txt";
     final String                  defReaders = ".fb2,.fb2.zip:org.coolreader%org.coolreader.CoolReader%Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg"
         + "|.png:Intent:image/png|.pdf:Intent:application/pdf";
     final static public String    defReader = "Cool Reader";
@@ -92,18 +93,21 @@ public class ReLaunch extends Activity {
     SharedPreferences             prefs;
     ReLaunchApp                   app;
     static public boolean         useHome = false;
-    static boolean                       useHome1 = false;
-    static boolean                       useShop = false;
-    static boolean                       useLibrary = false;
+    static boolean                useHome1 = false;
+    static boolean                useShop = false;
+    static boolean                useLibrary = false;
     boolean                       useDirViewer = false;
     static public boolean         filterMyself = true;
-    //static public String          selfName = "ReLaunch";
+    //static public String        selfName = "ReLaunch";
     static public String          selfName = "com.harasoft.relaunch.Main";
     String[]                      allowedModels;
     String[]                      allowedDevices;
     String[]                      allowedManufacts;
     String[]                      allowedProducts;
     boolean                       addSView = true;
+    
+    // multicolumns per directory configuration
+    List<String[]>                columnsArray = new ArrayList<String[]>();
     
     // Bottom info panel
     BroadcastReceiver             batteryLevelReceiver = null;
@@ -510,9 +514,55 @@ public class ReLaunch extends Activity {
         editor.putString("lastdir", currentRoot);
         editor.commit();
 
-        final EditText  tv = (EditText)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
+        //final EditText  tv = (EditText)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
+        final Button  tv = (Button)findViewById(useDirViewer ? R.id.results_title : R.id.title_txt);
         final String dirAbsPath = dir.getAbsolutePath();
         tv.setText(dirAbsPath + " (" + ((allEntries == null) ? 0 : allEntries.length) + ")");
+        tv.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+            	final String[] columns = getResources().getStringArray(R.array.output_columns_names);
+            	final CharSequence[] columnsmode = new CharSequence[columns.length+1];
+            	columnsmode[0]="Default";
+            	for(int i=0;i<columns.length;i++) {
+            		columnsmode[i+1]=columns[i];
+            	}
+            	Integer checked = -1;
+            	if(app.columns.containsKey(currentRoot)) {
+            		if(app.columns.get(currentRoot).equals("-1")) { checked=1;}
+            		else {
+            			checked=app.columns.get(currentRoot)+1;
+            		}
+            	}
+            	else {
+            		checked=0;
+            	}
+            	// get checked
+                AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
+                //builder.setTitle("Select application");
+                builder.setTitle("Select columns");
+                builder.setSingleChoiceItems(columnsmode, checked, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int i) {
+                        	if(i==0) {
+                        		app.columns.remove(currentRoot);
+                        	}
+                        	else {
+                        		if(i==1) {
+                        			app.columns.put(currentRoot,-1);
+                        		}
+                        		else {
+                        			app.columns.put(currentRoot,i-1);
+                        		}
+                        	}
+                        	app.saveList("columns");
+                        	drawDirectory(currentRoot, currentPosition);
+                            dialog.dismiss();
+                        }
+                    });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+        
         final Button up = (Button)findViewById(R.id.goup_btn);
         final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
@@ -571,6 +621,7 @@ public class ReLaunch extends Activity {
         String[] from = new String[] { "name" };
         int[]    to   = new int[] { R.id.fl_text };
         setUpButton(up, upDir, currentRoot);
+     
         
         /*
         final ListView lv = (ListView) findViewById(useDirViewer ? R.id.results_list : R.id.fl_list);
@@ -987,6 +1038,12 @@ public class ReLaunch extends Activity {
         app.readFile("favorites", FAV_FILE);
         app.readFile("filters", FILT_FILE, ":");
         app.filters_and = prefs.getBoolean("filtersAnd", true);
+        app.readFile("columns", COLS_FILE, ":");
+        app.columns.clear();
+        for (String[] r : app.getList("columns"))
+        {
+        	app.columns.put(r[0],Integer.parseInt(r[1]));
+        }        
         app.readFile("history", HIST_FILE, ":");
         app.history.clear();
         for (String[] r : app.getList("history"))
@@ -1675,6 +1732,13 @@ public class ReLaunch extends Activity {
         }
         app.setList("history", h);
         app.writeFile("history", HIST_FILE, 0, ":");
+		List<String[]> c = new ArrayList<String[]>();
+		for (String k : app.columns.keySet())
+		{
+			c.add(new String[] {k, Integer.toString(app.columns.get(k)) } );
+		}
+		app.setList("columns", c);
+		app.writeFile("columns", ReLaunch.COLS_FILE, 0, ":");        
         super.onStop();
     }
 
@@ -1806,7 +1870,9 @@ public class ReLaunch extends Activity {
     
     private Integer getDirectoryColumns(String dir) {
     	Integer columns = 0;
-    	// TODO implement in some way...
+    	if(app.columns.containsKey(dir)) {
+    		columns=app.columns.get(dir);
+    	}
     	return columns;
     }
     

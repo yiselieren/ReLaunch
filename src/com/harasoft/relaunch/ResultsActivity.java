@@ -321,10 +321,10 @@ public class ResultsActivity extends Activity {
 		// lv = (ListView) findViewById(R.id.results_list);
 		gv = (GridView) findViewById(R.id.results_list);
 		if (total == -1)
-			((TextView) findViewById(R.id.results_title)).setText(title + " ("
+			((Button) findViewById(R.id.results_title)).setText(title + " ("
 					+ app.getList(listName).size() + ")");
 		else
-			((TextView) findViewById(R.id.results_title)).setText(title + " ("
+			((Button) findViewById(R.id.results_title)).setText(title + " ("
 					+ app.getList(listName).size() + "/" + total + ")");
 
 		createItemsArray();

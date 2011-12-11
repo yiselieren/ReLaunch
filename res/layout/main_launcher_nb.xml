@@ -6,25 +6,20 @@
     android:orientation="vertical"
     android:padding="8dp" >
 
-    <EditText
+    <Button
         android:id="@+id/title_txt"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/normal_bg_gray"
-        android:editable="false"
-        android:focusable="false"
         android:gravity="center"
-        android:inputType="textMultiLine"
         android:padding="2dp"
         android:text="TITLE"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/normal_fg"
-        android:textStyle="bold" >
+        android:textStyle="bold">
 
-        <requestFocus >
-        </requestFocus>
-    </EditText>
+    </Button>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
