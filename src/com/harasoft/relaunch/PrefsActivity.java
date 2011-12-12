@@ -71,6 +71,8 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("gl16Mode", "5"));
 
         // Columns settings
+        defItems.add(new PrefItem("firstLineFontSize","8"));
+        defItems.add(new PrefItem("secondLineFontSize","6"));
         defItems.add(new PrefItem("columnsDirsFiles","-1"));
         defItems.add(new PrefItem("columnsHomeList","-1"));
         defItems.add(new PrefItem("columnsLRU","-1"));

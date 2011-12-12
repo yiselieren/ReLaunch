@@ -1,15 +1,12 @@
-URGENT (GRID MULTICOLUMN)
-- check columns height align
-- check columns quantity in align by param and remove autocolumn, so it don't have sense (by analysis of android sources) 
 CASUAL
 - (DONE) add close fav, searchres, lru after file launched functionality
-- add font size settings
+- (DONE) add font size settings
 - add "Not show known extensions" functionality
 - add more "smart" buttons (change first screen buttons behavior and configuration)
 	-- for LRU button: open first, open second, open as menu(?), open as screen
 	-- for FAV button: open first, open second, open as menu(?), open as screen
 	-- for search button: search with input only serach string, repeat last search, open search window
-	-- may be some "smart" functionality for other buttons
+	-- may be some "smart" functionality for other buttons (bottom buttons too)
 - may be some extended functionality for advanced screen
 - reimport EInk support from CoolReader
 - icons in Nook style, some redesign of layouts to more usabilility (for example, search

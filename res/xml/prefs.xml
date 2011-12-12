@@ -115,6 +115,24 @@
 
     <PreferenceCategory android:title="Appearance" >
 
+        <EditTextPreference
+            android:defaultValue="8"
+            android:enabled="true"
+            android:key="firstLineFontSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Font size for files and directories names in all lists"
+            android:title="Files and directories names font size" />
+
+        <EditTextPreference
+            android:defaultValue="6"
+            android:enabled="true"
+            android:key="secondLineFontSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Font size for additional directories names in Favorites and so on lists"
+            android:title="Additional directories names font size" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"

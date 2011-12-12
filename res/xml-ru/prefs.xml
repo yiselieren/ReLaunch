@@ -1,94 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<PreferenceCategory android:title="Общие">
+    <PreferenceCategory android:title="Общие" >
 
-		<CheckBoxPreference android:defaultValue="false"
-			android:key="filterResults" android:persistent="true"
-			android:summaryOff="Показывать все файлы" android:summaryOn="Показывать только файлы, соответствующие фильтру"
-			android:title="Файловый фильтр">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="filterResults"
+            android:persistent="true"
+            android:summaryOff="Показывать все файлы"
+            android:summaryOn="Показывать только файлы, соответствующие фильтру"
+            android:title="Файловый фильтр" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="fullScreen" android:persistent="true"
-			android:summaryOff="Показывать системный заголовок"
-			android:summaryOn="Использовать весь экран" android:title="Полноэкранный режим">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="fullScreen"
+            android:persistent="true"
+            android:summaryOff="Показывать системный заголовок"
+            android:summaryOn="Использовать весь экран"
+            android:title="Полноэкранный режим" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="showButtons" android:persistent="true"
-			android:summaryOff="Не показывать кнопки на главной странице"
-			android:summaryOn="Показывать кнопки на главной странице"
-			android:title="Кнопки на главной странице">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showButtons"
+            android:persistent="true"
+            android:summaryOff="Не показывать кнопки на главной странице"
+            android:summaryOn="Показывать кнопки на главной странице"
+            android:title="Кнопки на главной странице" >
+        </CheckBoxPreference>
 
-		<EditTextPreference android:defaultValue="/sdcard,/media/My Files"
-			android:enabled="true" android:key="startDir" android:persistent="true"
-			android:selectable="true"
-			android:summary="Начинать просмотр отсюда, если указано (см. ниже)"
-			android:title="Начальная папка(и)">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="/sdcard,/media/My Files"
+            android:enabled="true"
+            android:key="startDir"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Начинать просмотр отсюда, если указано (см. ниже)"
+            android:title="Начальная папка(и)" >
+        </EditTextPreference>
 
-		<CheckBoxPreference android:defaultValue="false"
-			android:key="notLeaveStartDir" android:persistent="true"
-			android:summaryOff="Вы можете выйти из любой папки"
-			android:summaryOn="Вы не сможете выйти из начальной папки"
-			android:title="Не покидать начальную папку(и)" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notLeaveStartDir"
+            android:persistent="true"
+            android:summaryOff="Вы можете выйти из любой папки"
+            android:summaryOn="Вы не сможете выйти из начальной папки"
+            android:title="Не покидать начальную папку(и)" />
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="saveDir" android:persistent="true"
-			android:summaryOff="Начинать с указанной папки (см. выше)"
-			android:summaryOn="Начинать с последней посещенной папки"
-			android:title="Сохранять последнюю посещенную папку">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="saveDir"
+            android:persistent="true"
+            android:summaryOff="Начинать с указанной папки (см. выше)"
+            android:summaryOn="Начинать с последней посещенной папки"
+            android:title="Сохранять последнюю посещенную папку" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="returnFileToMain"
             android:persistent="true"
-            android:summaryOff='Остаться на предыдущей странице (напр. \"Избранное\" и т.п.)'
-            android:summaryOn='Вернуться к списку файлов (со страниц \"Избранное\" и т.д.)'
+            android:summaryOff='Остаться на предыдущей странице (напр. на \"Избранном")'
+            android:summaryOn='Вернуться к списку файлов (со страниц \"Избранное" и т.д.)'
             android:title="После запуска программы чтения" />
-		    
-		<CheckBoxPreference android:defaultValue="false"
-			android:key="askAmbig" android:persistent="true"
-			android:summaryOff="Использовать первую найденную" android:summaryOn="Предложить выбор пользователю"
-			android:title="Несколько ассоциаций для файла">
-		</CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="showNew" android:persistent="true"
-			android:summaryOff="Показывать все файлы как обычно"
-			android:summaryOn="Использовать цвет/шрифт для отображения новых и прочитанных книг"
-			android:title="Отображать новые/прочитанные книги">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="askAmbig"
+            android:persistent="true"
+            android:summaryOff="Использовать первую найденную"
+            android:summaryOn="Предложить выбор пользователю"
+            android:title="Несколько ассоциаций для файла" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="openWith" android:persistent="true"
-			android:summaryOff="Не показывать пункт \&quot;Открыть с помощью...\&quot; в контекстом меню файла"
-			android:summaryOn="Показывать пункт \&quot;Открыть с помощью...\&quot; в контекстом меню файла"
-			android:title="Пункт меню \&quot;Открыть с помощью...\&quot;">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showNew"
+            android:persistent="true"
+            android:summaryOff="Показывать все файлы как обычно"
+            android:summaryOn="Использовать цвет/шрифт для отображения новых и прочитанных книг"
+            android:title="Отображать новые/прочитанные книги" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="createIntent" android:persistent="true"
-			android:summaryOff="Не показывать пункт \&quot;Создать событие...\&quot; в контекстном меню файла"
-			android:summaryOn="Показывать пункт \&quot;Создать событие...\&quot; в контекстном меню файла"
-			android:title="Пункт меню \&quot;Создать событие...\&quot;">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="openWith"
+            android:persistent="true"
+            android:summaryOff="Не показывать пункт \&quot;Открыть с помощью...\&quot; в контекстом меню файла"
+            android:summaryOn="Показывать пункт \&quot;Открыть с помощью...\&quot; в контекстом меню файла"
+            android:title="Пункт меню \&quot;Открыть с помощью...\&quot;" >
+        </CheckBoxPreference>
 
-		<ListPreference android:defaultValue="5"
-			android:enabled="true" android:entries="@array/GL16_modes_names"
-			android:entryValues="@array/GL16_modes_values" android:key="gl16Mode"
-			android:persistent="true" android:selectable="true" android:summary="Режим GL16"
-			android:title="Режим обновления экрана (GL16 mode)" />
-	</PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="createIntent"
+            android:persistent="true"
+            android:summaryOff="Не показывать пункт \&quot;Создать событие...\&quot; в контекстном меню файла"
+            android:summaryOn="Показывать пункт \&quot;Создать событие...\&quot; в контекстном меню файла"
+            android:title="Пункт меню \&quot;Создать событие...\&quot;" >
+        </CheckBoxPreference>
 
-	<PreferenceCategory android:title="Внешний вид">
-		<ListPreference android:entryValues="@array/output_columns_values"
-			android:key="columnsDirsFiles" android:entries="@array/output_columns_names"
-			android:title="Список папок и файлов (по умолчанию)" android:selectable="true"
-			android:enabled="true" android:defaultValue="-1" android:persistent="true" />
+        <ListPreference
+            android:defaultValue="5"
+            android:enabled="true"
+            android:entries="@array/GL16_modes_names"
+            android:entryValues="@array/GL16_modes_values"
+            android:key="gl16Mode"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Режим GL16"
+            android:title="Режим обновления экрана (GL16 mode)" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Внешний вид" >
+
+        <EditTextPreference
+            android:defaultValue="8"
+            android:enabled="true"
+            android:key="firstLineFontSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Размер шрифта для имен файлов и папок во всех списках"
+            android:title="Размер шрифта имен файлов/папок" />
+
+        <EditTextPreference
+            android:defaultValue="6"
+            android:enabled="true"
+            android:key="secondLineFontSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary='Размер шрифта имен папок в списках \"Избранного\" и т.п.'
+            android:title="Размер шрифта дополнительных имен папок" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsDirsFiles"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Список папок и файлов (по умолчанию)" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -98,6 +152,7 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Список Начальных папок" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -107,6 +162,7 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Список Недавно открытых" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -116,6 +172,7 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Список Избранного" />
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -124,195 +181,279 @@
             android:key="columnsSearch"
             android:persistent="true"
             android:selectable="true"
-            android:title="Список результатов поиска" />		
-	</PreferenceCategory>
+            android:title="Список результатов поиска" />
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="Кнопки рабочего стола">
+    <PreferenceCategory android:title="Кнопки рабочего стола" >
 
-		<ListPreference android:defaultValue="OPEN1"
-			android:enabled="true" android:entries="@array/home_button_actions_names"
-			android:entryValues="@array/home_button_actions_values" android:key="homeButtonST"
-			android:persistent="true" android:selectable="true"
-			android:title="Одиночное нажатие кнопки \&quot;К Началу\&quot;" />
+        <ListPreference
+            android:defaultValue="OPEN1"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;К Началу\&quot;" />
 
-		<ListPreference android:defaultValue="OPENMENU"
-			android:enabled="true" android:entries="@array/home_button_actions_names"
-			android:entryValues="@array/home_button_actions_values" android:key="homeButtonDT"
-			android:persistent="true" android:selectable="true"
-			android:title="Двойное нажатие кнопки \&quot;К Началу\&quot;" />
+        <ListPreference
+            android:defaultValue="OPENMENU"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;К Началу\&quot;" />
 
-		<ListPreference android:defaultValue="OPENSCREEN"
-			android:enabled="true" android:entries="@array/home_button_actions_names"
-			android:entryValues="@array/home_button_actions_values" android:key="homeButtonLT"
-			android:persistent="true" android:selectable="true"
-			android:title="Длительное нажатие кнопки \&quot;К Началу\&quot;" />
-	</PreferenceCategory>
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;К Началу\&quot;" />
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="Режим рабочего стола">
+    <PreferenceCategory android:title="Режим рабочего стола" >
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="homeMode" android:persistent="true"
-			android:summaryOff="Запускаться как обычное приложение"
-			android:summaryOn="Запускаться как рабочий стол" android:title="Режим работы при вызове кнопкой Home">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="homeMode"
+            android:persistent="true"
+            android:summaryOff="Запускаться как обычное приложение"
+            android:summaryOn="Запускаться как рабочий стол"
+            android:title="Режим работы при вызове кнопкой Home" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="libraryMode" android:persistent="true"
-			android:summaryOff="Запускаться как обычное приложение"
-			android:summaryOn="Запускаться как рабочий стол" android:title="Режим работы при вызове кнопкой Library">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="libraryMode"
+            android:persistent="true"
+            android:summaryOff="Запускаться как обычное приложение"
+            android:summaryOn="Запускаться как рабочий стол"
+            android:title="Режим работы при вызове кнопкой Library" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="shopMode" android:persistent="true"
-			android:summaryOff="Запускаться как обычное приложение"
-			android:summaryOn="Запускаться как рабочий стол" android:title="Режим работы при вызове кнопкой Shop">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shopMode"
+            android:persistent="true"
+            android:summaryOff="Запускаться как обычное приложение"
+            android:summaryOn="Запускаться как рабочий стол"
+            android:title="Режим работы при вызове кнопкой Shop" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="false"
-			android:key="returnToMain" android:persistent="true"
-			android:summaryOff="Остаться на странице с приложениями"
-			android:summaryOn="Вернуться на главную страницу" android:title="После запуска приложения">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="returnToMain"
+            android:persistent="true"
+            android:summaryOff="Остаться на странице с приложениями"
+            android:summaryOn="Вернуться на главную страницу"
+            android:title="После запуска приложения" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="filterSelf" android:persistent="true"
-			android:summaryOff="Показывать все приложения, включая себя"
-			android:summaryOn="Не показывать себя в списке приложений"
-			android:title="Убрать себя из списка приложений">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="filterSelf"
+            android:persistent="true"
+            android:summaryOff="Показывать все приложения, включая себя"
+            android:summaryOn="Не показывать себя в списке приложений"
+            android:title="Убрать себя из списка приложений" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="false"
-			android:key="dateUS" android:persistent="true"
-			android:summaryOff="&quot;Европейский&quot; (dd.mm.yyyy)"
-			android:summaryOn="&quot;Американский&quot; (mm/dd/yyyy)"
-			android:title="Формат отображения даты/времени">
-		</CheckBoxPreference>
-	</PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="dateUS"
+            android:persistent="true"
+            android:summaryOff="&quot;Европейский&quot; (dd.mm.yyyy)"
+            android:summaryOn="&quot;Американский&quot; (mm/dd/yyyy)"
+            android:title="Формат отображения даты/времени" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="Прокрутка">
+    <PreferenceCategory android:title="Прокрутка" >
 
-		<EditTextPreference android:defaultValue="10"
-			android:enabled="true" android:key="scrollPerc" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Шаг &quot;быстрой&quot; прокрутки кнопками (проценты)"
-			android:title="Шаг &quot;быстрой&quot; прокрутки">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="scrollPerc"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Шаг &quot;быстрой&quot; прокрутки кнопками (проценты)"
+            android:title="Шаг &quot;быстрой&quot; прокрутки" >
+        </EditTextPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="customScroll" android:persistent="true"
-			android:summaryOff="Использовать системную полосу прокрутки"
-			android:summaryOn="Использовать собственную полосу прокрутки"
-			android:title="Собственная полоса прокрутки">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="customScroll"
+            android:persistent="true"
+            android:summaryOff="Использовать системную полосу прокрутки"
+            android:summaryOn="Использовать собственную полосу прокрутки"
+            android:title="Собственная полоса прокрутки" >
+        </CheckBoxPreference>
 
-		<EditTextPreference android:defaultValue="25"
-			android:enabled="true" android:key="scrollWidth" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Ширина собственной полосы прокрутки... (пикс.)"
-			android:title="Ширина полосы прокрутки">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="25"
+            android:enabled="true"
+            android:key="scrollWidth"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Ширина собственной полосы прокрутки... (пикс.)"
+            android:title="Ширина полосы прокрутки" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="10"
-			android:enabled="true" android:key="scrollPad" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Левый отступ собственной полосы прокрутки... (пикс.)"
-			android:title="Отступ полосы прокрутки">
-		</EditTextPreference>
-	</PreferenceCategory>
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="scrollPad"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Левый отступ собственной полосы прокрутки... (пикс.)"
+            android:title="Отступ полосы прокрутки" >
+        </EditTextPreference>
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="Поиск">
+    <PreferenceCategory android:title="Поиск" >
 
-		<EditTextPreference android:defaultValue="5000"
-			android:enabled="true" android:key="searchSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Количество выдаваемых результатов поиска, не более чем... (файлов)"
-			android:title="Количество результатов поиска">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="5000"
+            android:enabled="true"
+            android:key="searchSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Количество выдаваемых результатов поиска, не более чем... (файлов)"
+            android:title="Количество результатов поиска" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="100"
-			android:enabled="true" android:key="searchReport" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Сообщать о состоянии поиска каждые... (файлов)"
-			android:title="Уведомление о состоянии поиска">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="100"
+            android:enabled="true"
+            android:key="searchReport"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Сообщать о состоянии поиска каждые... (файлов)"
+            android:title="Уведомление о состоянии поиска" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="/media,/sdcard"
-			android:enabled="true" android:key="searchRoot" android:persistent="true"
-			android:selectable="true" android:summary="Поиск всегда начинается с папок..."
-			android:title="Начальные папки поиска">
-		</EditTextPreference>
-	</PreferenceCategory>
+        <EditTextPreference
+            android:defaultValue="/media,/sdcard"
+            android:enabled="true"
+            android:key="searchRoot"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Поиск всегда начинается с папок..."
+            android:title="Начальные папки поиска" >
+        </EditTextPreference>
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="Внутренний просмотр/редактирование">
+    <PreferenceCategory android:title="Внутренний просмотр/редактирование" >
 
-		<EditTextPreference android:defaultValue="1048576"
-			android:enabled="true" android:key="viewerMaxSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Размер просматриваемого файла не может быть больше чем... (байт)"
-			android:title="Ограничение просмотра файлов">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="1048576"
+            android:enabled="true"
+            android:key="viewerMaxSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Размер просматриваемого файла не может быть больше чем... (байт)"
+            android:title="Ограничение просмотра файлов" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="262144"
-			android:enabled="true" android:key="editorMaxSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Размер редактируемого файла не может быть больше чем... (байт)"
-			android:title="Ограничение редактирования файлов">
-		</EditTextPreference>
-	</PreferenceCategory>
+        <EditTextPreference
+            android:defaultValue="262144"
+            android:enabled="true"
+            android:key="editorMaxSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Размер редактируемого файла не может быть больше чем... (байт)"
+            android:title="Ограничение редактирования файлов" >
+        </EditTextPreference>
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="История и избранное">
+    <PreferenceCategory android:title="История и избранное" >
 
-		<EditTextPreference android:defaultValue="30"
-			android:enabled="true" android:key="lruSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Сохранять в списке &quot;Недавно открытых&quot; последние... (файлов)"
-			android:title="Недавно открытые">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="lruSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Сохранять в списке &quot;Недавно открытых&quot; последние... (файлов)"
+            android:title="Недавно открытые" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="30"
-			android:enabled="true" android:key="favSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Сохранять в списке &quot;Избранного&quot;... (файлов)"
-			android:title="Избранное">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="favSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Сохранять в списке &quot;Избранного&quot;... (файлов)"
+            android:title="Избранное" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="30"
-			android:enabled="true" android:key="appLruSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Сохранять в списке &quot;Недавно запущенных приложений&quot; последние... (приложений)"
-			android:title="Недавно запущенные приложения">
-		</EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="appLruSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Сохранять в списке &quot;Недавно запущенных приложений&quot; последние... (приложений)"
+            android:title="Недавно запущенные приложения" >
+        </EditTextPreference>
 
-		<EditTextPreference android:defaultValue="30"
-			android:enabled="true" android:key="appFavSize" android:numeric="integer"
-			android:persistent="true" android:selectable="true"
-			android:summary="Сохранять в списке &quot;Избранных приложений&quot;... (приложений)"
-			android:title="Избранные приложения">
-		</EditTextPreference>
-	</PreferenceCategory>
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="appFavSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Сохранять в списке &quot;Избранных приложений&quot;... (приложений)"
+            android:title="Избранные приложения" >
+        </EditTextPreference>
+    </PreferenceCategory>
 
-	<PreferenceCategory android:title="Подтверждения">
+    <PreferenceCategory android:title="Подтверждения" >
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="confirmFileDelete" android:persistent="true"
-			android:summaryOff="Удалять файлы без подтверждения"
-			android:summaryOn="Запрашивать подтверждение при удалении файла"
-			android:title="Удаление файла">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmFileDelete"
+            android:persistent="true"
+            android:summaryOff="Удалять файлы без подтверждения"
+            android:summaryOn="Запрашивать подтверждение при удалении файла"
+            android:title="Удаление файла" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="confirmDirDelete" android:persistent="true"
-			android:summaryOff="Удалять папки без подтверждения"
-			android:summaryOn="Запрашивать подтверждение при удалении папки"
-			android:title="Удаление папки">
-		</CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmDirDelete"
+            android:persistent="true"
+            android:summaryOff="Удалять папки без подтверждения"
+            android:summaryOn="Запрашивать подтверждение при удалении папки"
+            android:title="Удаление папки" >
+        </CheckBoxPreference>
 
-		<CheckBoxPreference android:defaultValue="true"
-			android:key="confirmNonEmptyDirDelete" android:persistent="true"
-			android:summaryOff="Рекурсивно удалять не пустые папки без подтверждения (потенциально опасное действие)"
-			android:summaryOn="Запрашивать подтверждение при рекурсивном удалении не пустой папки"
-			android:title="Удаление не пустой папки">
-		</CheckBoxPreference>
-	</PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmNonEmptyDirDelete"
+            android:persistent="true"
+            android:summaryOff="Рекурсивно удалять не пустые папки без подтверждения (потенциально опасное действие)"
+            android:summaryOn="Запрашивать подтверждение при рекурсивном удалении не пустой папки"
+            android:title="Удаление не пустой папки" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
 
 </PreferenceScreen>

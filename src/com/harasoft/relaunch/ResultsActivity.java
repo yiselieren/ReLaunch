@@ -63,6 +63,7 @@ public class ResultsActivity extends Activity {
 	FLSimpleAdapter adapter;
 	ListView lv;
 	GridView gv;
+	Integer currentColsNum = -1;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 	Integer currentPosition = -1;
 	boolean addSView = true;
@@ -107,8 +108,8 @@ public class ResultsActivity extends Activity {
 			TextView tv1 = holder.tv1;
 			TextView tv2 = holder.tv2;
 			
-			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PT,8);
-			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PT,6);
+			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("firstLineFontSize", "8")));
+			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("secondLineFontSize", "8")));
 			
 			LinearLayout tvHolder = holder.tvHolder;
 			ImageView iv = holder.iv;
@@ -226,11 +227,12 @@ public class ResultsActivity extends Activity {
 					tv2.setText(fname);
 				}
 			}
-			// fixes on columns height in grid
+			// fixes on rows height in grid
+			if(currentColsNum!=1) {
 			GridView pgv = (GridView) parent;
-			Integer gcols=3; // from param !!!!!
-			Integer between_columns = 0;
-			Integer some_space = 0;
+			Integer gcols = currentColsNum;
+			Integer between_columns = 0; // configure ???
+			Integer after_row_space = 0; // configure ???
 			Integer colw = (pgv.getWidth() - (gcols - 1) * between_columns) / gcols;
 			Integer recalc_num  = position;
 			Integer recalc_height=0;
@@ -242,13 +244,29 @@ public class ResultsActivity extends Activity {
 				if(p_height>recalc_height) recalc_height = p_height;
 				}
 			if(recalc_height>0) {
-				// 2 as some value
-				v.setMinimumHeight(recalc_height + some_space); // may be + some
+				v.setMinimumHeight(recalc_height + after_row_space);
+			}
 			}
 			return v;
 		}
 	}
 
+	private Integer getAutoColsNum() {
+		// implementation - by content avg len
+		// may be median
+		Integer auto_cols = 1;
+		Integer avg = 0;
+		for(Integer i=0;i<itemsArray.size();i++) {
+			avg = avg + itemsArray.get(i).get("fname").length();
+		}
+		if(itemsArray.size()>0) avg = avg / itemsArray.size();
+		if(avg<4) return 5;
+		if(avg<6) return 4;
+		if(avg<10) return 3;
+		if(avg<32) return 2;
+		return auto_cols;
+	}
+	
 	private void redrawList() {
 		if (prefs.getBoolean("filterResults", false)) {
 			List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
@@ -271,8 +289,13 @@ public class ResultsActivity extends Activity {
 		}		
 		if(listName.equals("searchResults")) {
 			colsNum = Integer.parseInt(prefs.getString("columnsSearch", "-1"));
-		}		
-		gv.setNumColumns(colsNum);		
+		}
+		// override auto (not working fine in adnroid)
+		if(colsNum==-1) {
+			colsNum=getAutoColsNum();
+		}
+		currentColsNum=colsNum;
+		gv.setNumColumns(colsNum);
 		adapter.notifyDataSetChanged();
 		if (currentPosition != -1)
 			// lv.setSelection(currentPosition);

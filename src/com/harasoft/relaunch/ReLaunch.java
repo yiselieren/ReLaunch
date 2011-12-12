@@ -110,6 +110,7 @@ public class ReLaunch extends Activity {
     
     // multicolumns per directory configuration
     List<String[]>                columnsArray = new ArrayList<String[]>();
+    Integer 				      currentColsNum = -1;
     
     // Bottom info panel
     BroadcastReceiver             batteryLevelReceiver = null;
@@ -207,7 +208,8 @@ public class ReLaunch extends Activity {
                 boolean   setBold = false;
                 boolean   useFaces  = prefs.getBoolean("showNew", true);
 
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_PT,8);
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("firstLineFontSize", "8")));
+                
                 if (item.get("type").equals("dir"))
                 {
                     if (useFaces)
@@ -295,29 +297,46 @@ public class ReLaunch extends Activity {
                     tv.setText(sname);
                 }
             }
-            // fixes on columns height in grid
-			GridView pgv = (GridView) parent;
-			Integer gcols=3; // from param !!!!!
-			Integer between_columns = 0;
-			Integer some_space = 0;
-			Integer colw = (pgv.getWidth() - (gcols - 1) * between_columns) / gcols;
-			Integer recalc_num  = position;
-			Integer recalc_height=0;
-			while(recalc_num % gcols != 0) {
-				recalc_num = recalc_num - 1;
-				View temp_v = getView(recalc_num,null,parent);
-				temp_v.measure(MeasureSpec.EXACTLY | colw, MeasureSpec.UNSPECIFIED);
-				Integer p_height = temp_v.getMeasuredHeight();
-				if(p_height>recalc_height) recalc_height = p_height;
-				}
-			if(recalc_height>0) {
-				// 2 as some value
-				v.setMinimumHeight(recalc_height + some_space); // may be + some
-			}
+			// fixes on rows height in grid
+            if(currentColsNum != 1) {
+            	GridView pgv = (GridView) parent;
+            	Integer gcols = currentColsNum;
+            	Integer between_columns = 0; // configure ???
+            	Integer after_row_space = 0; // configure ???
+            	Integer colw = (pgv.getWidth() - (gcols - 1) * between_columns) / gcols;
+            	Integer recalc_num  = position;
+            	Integer recalc_height=0;
+            	while(recalc_num % gcols != 0) {
+            		recalc_num = recalc_num - 1;
+            		View temp_v = getView(recalc_num,null,parent);
+            		temp_v.measure(MeasureSpec.EXACTLY | colw, MeasureSpec.UNSPECIFIED);
+            		Integer p_height = temp_v.getMeasuredHeight();
+            		if(p_height>recalc_height) recalc_height = p_height;
+					}
+            	if(recalc_height>0) {
+            		v.setMinimumHeight(recalc_height + after_row_space);
+            	}
+            }
 			return v;
         }
     }
 
+	private Integer getAutoColsNum() {
+		// implementation - by content avg len
+		// may be median
+		Integer auto_cols = 1;
+		Integer avg = 0;
+		for(Integer i=0;i<itemsArray.size();i++) {
+			avg = avg + itemsArray.get(i).get("name").length();
+		}
+		if(itemsArray.size()>0) avg = avg / itemsArray.size();
+		if(avg<4) return 5;
+		if(avg<6) return 4;
+		if(avg<10) return 3;
+		if(avg<32) return 2;
+		return auto_cols;
+	}
+    
     private void redrawList()
     {
         if (prefs.getBoolean("filterResults", false))
@@ -551,7 +570,7 @@ public class ReLaunch extends Activity {
             	}
             	Integer checked = -1;
             	if(app.columns.containsKey(currentRoot)) {
-            		if(app.columns.get(currentRoot).equals("-1")) { checked=1;}
+            		if(app.columns.get(currentRoot) == -1) { checked=1;}
             		else {
             			checked=app.columns.get(currentRoot)+1;
             		}
@@ -738,15 +757,22 @@ public class ReLaunch extends Activity {
 		*/
         // ======================= 12345
         final GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
-        gv.setHorizontalSpacing(0);
-        if(getDirectoryColumns(currentRoot)!=0) {
-        	gv.setNumColumns(getDirectoryColumns(currentRoot));
-        }
-        else {
-        	gv.setNumColumns(Integer.parseInt(prefs.getString("columnsDirsFiles", "-1")));
-        }
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         gv.setAdapter(adapter);
+        gv.setHorizontalSpacing(0);
+        Integer colsNum = -1;
+        if(getDirectoryColumns(currentRoot)!=0) {
+        	colsNum=getDirectoryColumns(currentRoot);
+        }
+        else {
+        	colsNum=Integer.parseInt(prefs.getString("columnsDirsFiles", "-1"));
+        }
+		// override auto (not working fine in adnroid)
+		if(colsNum == -1) {
+			colsNum = getAutoColsNum();
+		}
+		currentColsNum = colsNum;
+        gv.setNumColumns(colsNum);
         //if (prefs.getBoolean("customScroll", true))
         if (prefs.getBoolean("customScroll", app.customScrollDef))	
         {

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new">
+        &lt;b&gt;1.2.8b2&lt;/b&gt;&lt;br&gt;
+        - Multi-column output.&lt;br&gt;
+        - Close Fav, Lru and so on windows after start reader (configurable).&lt;br&gt;
+        - Font size for files and directory names (configurable).&lt;br&gt;
         &lt;b&gt;1.2.8b1&lt;/b&gt;&lt;br&gt;
         - Fixed invocation dir from favorites and search results, now shown in main window.&lt;br&gt;
         - Fixed search results representation when search from root.&lt;br&gt;
