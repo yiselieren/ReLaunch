@@ -123,12 +123,29 @@ public class ReLaunch extends Activity {
     
     private void setEinkController() {
     	if(prefs!=null) {
+    		Integer einkUpdateMode = 1;
     		try {
-    			EinkScreen.UpdateMode=Integer.parseInt(prefs.getString("einkUpdateMode", "2"));
-    			EinkScreen.UpdateModeInterval=Integer.parseInt(prefs.getString("einkUpdateInterval", "0"));            
+    			einkUpdateMode = Integer.parseInt(prefs.getString("einkUpdateMode", "1"));
+    		}
+    		catch(Exception e) {
+    			einkUpdateMode = 1;
+    		}
+    		if(einkUpdateMode<-1 || einkUpdateMode>2) einkUpdateMode=1;
+    		if(einkUpdateMode>=0) {
+    			EinkScreen.UpdateMode=einkUpdateMode;
+
+    			Integer einkUpdateInterval = 10;
+    			try {
+    				einkUpdateInterval = Integer.parseInt(prefs.getString("einkUpdateInterval", "10"));
+    			}
+    			catch(Exception e) {
+    				einkUpdateInterval = 10;
+    			}
+    			if(einkUpdateInterval<0 || einkUpdateInterval>100) einkUpdateInterval = 10;
+    			EinkScreen.UpdateModeInterval = einkUpdateInterval;            
+
     			EinkScreen.PrepareController(null, false);
     		}
-    		catch(Exception e) { }
     	}
     }
     
@@ -332,20 +349,39 @@ public class ReLaunch extends Activity {
         }
     }
 
+    private Integer Percentile(ArrayList<Integer> values, Integer Quantile)
+    // not fully "mathematical proof", but not too difficult and working
+    {
+        Collections.sort(values);
+        Log.d(TAG,values.toString());
+        Integer index = (values.size()*Quantile)/100;
+        Log.d(TAG,index.toString());
+        return values.get(index);
+    }    
+    
 	private Integer getAutoColsNum() {
-		// implementation - by content avg len
-		// may be median
-		Integer auto_cols = 1;
-		Integer avg = 0;
-		for(Integer i=0;i<itemsArray.size();i++) {
-			avg = avg + itemsArray.get(i).get("name").length();
-		}
-		if(itemsArray.size()>0) avg = avg / itemsArray.size();
-		if(avg<4) return 5;
-		if(avg<6) return 4;
-		if(avg<10) return 3;
-		if(avg<32) return 2;
-		return auto_cols;
+		// implementation - via percentiles len
+		ArrayList<Integer> tmp = new ArrayList<Integer>();
+		if(itemsArray.size()>0) {
+			Integer factor = 0;
+			for(Integer i=0;i<itemsArray.size();i++) {
+				tmp.add(itemsArray.get(i).get("name").length());
+				}
+			String pattern = prefs.getString("columnsAlgIntensity", "70 3:5 7:4 15:3 48:2"); // default - medium
+			Log.d(TAG,"Pattern = " + pattern);
+			String[] spat = pattern.split("[\\s\\:]+");
+			Integer quantile = Integer.parseInt(spat[0]);
+			factor = Percentile(tmp,quantile);
+			for(Integer i=1;i<spat.length;i=i+2) {
+				try {
+					double fval=Double.parseDouble(spat[i]);
+					int cval=Integer.parseInt(spat[i+1]);
+					if(factor<=fval) return cval;
+					}
+				catch(Exception e) { }
+				}
+			}
+		return 1;
 	}
     
     private void redrawList()
@@ -818,6 +854,15 @@ public class ReLaunch extends Activity {
                 addSView = false;
             }
         }
+        else {
+            gv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                    setEinkController();
+                }
+                public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                }
+            });
+        }
 
         registerForContextMenu(gv);
         if (startPosition != -1)
@@ -1080,6 +1125,7 @@ public class ReLaunch extends Activity {
 
         filterMyself = prefs.getBoolean("filterSelf", true);
         if (useHome1  &&  prefs.getBoolean("homeMode", true))
+        	useHome = true;
         if (useShop  &&  prefs.getBoolean("shopMode", true))
             useHome = true;
         if (useLibrary  &&  prefs.getBoolean("libraryMode", true))
@@ -1136,6 +1182,7 @@ public class ReLaunch extends Activity {
             {
                 app.readFile("app_last", APP_LRU_FILE, ":");
                 app.readFile("app_favorites", APP_FAV_FILE, ":");
+                setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
                 ((ImageButton)findViewById(R.id.app_last)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v)
                         {

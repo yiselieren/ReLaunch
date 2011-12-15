@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="whats_new">
+        &lt;b&gt;1.2.8b3&lt;/b&gt;&lt;br&gt;
+        - Support for Eink Nook display reintegrated.&lt;br&gt;
+        - New auto multicolumn algorithm with some configuration.&lt;br&gt;
         &lt;b&gt;1.2.8b2&lt;/b&gt;&lt;br&gt;
         - Multi-column output.&lt;br&gt;
         - Close Fav, Lru and so on windows after start reader (configurable).&lt;br&gt;

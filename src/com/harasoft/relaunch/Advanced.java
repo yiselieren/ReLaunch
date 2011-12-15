@@ -71,6 +71,34 @@ public class Advanced extends Activity {
     BroadcastReceiver             b2;
     String 						  connectedSSID;			
     
+    private void setEinkController() {
+    	if(prefs!=null) {
+    		Integer einkUpdateMode = 1;
+    		try {
+    			einkUpdateMode = Integer.parseInt(prefs.getString("einkUpdateMode", "1"));
+    		}
+    		catch(Exception e) {
+    			einkUpdateMode = 1;
+    		}
+    		if(einkUpdateMode<-1 || einkUpdateMode>2) einkUpdateMode=1;
+    		if(einkUpdateMode>=0) {
+    			EinkScreen.UpdateMode=einkUpdateMode;
+
+    			Integer einkUpdateInterval = 10;
+    			try {
+    				einkUpdateInterval = Integer.parseInt(prefs.getString("einkUpdateInterval", "10"));
+    			}
+    			catch(Exception e) {
+    				einkUpdateInterval = 10;
+    			}
+    			if(einkUpdateInterval<0 || einkUpdateInterval>100) einkUpdateInterval = 10;
+    			EinkScreen.UpdateModeInterval = einkUpdateInterval;            
+
+    			EinkScreen.PrepareController(null, false);
+    		}
+    	}
+    }
+    
     static class NetInfo {
     	static int unknownLevel = -5000;
         String  SSID;
@@ -524,6 +552,7 @@ public class Advanced extends Activity {
                     wifiOnOff.setEnabled(false);
                }});
             wifiNetworks = readScanResults(wfm);
+            setEinkController();
             adapter.notifyDataSetChanged();
             wifiScan.setEnabled(true);
         }
@@ -544,6 +573,7 @@ public class Advanced extends Activity {
                     wifiOnOff.setEnabled(false);
                 }});
             wifiNetworks.clear();
+            setEinkController();
             adapter.notifyDataSetChanged();
             wifiScan.setEnabled(false);
         }
@@ -555,6 +585,7 @@ public class Advanced extends Activity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+        setEinkController();
         
         ingnoreFs = getResources().getStringArray(R.array.filesystems_to_ignore);
 
@@ -594,6 +625,7 @@ public class Advanced extends Activity {
                         sv.total = totalItemCount;
                         sv.count = visibleItemCount;
                         sv.first = firstVisibleItem;
+                        setEinkController();
                         sv.invalidate();
                     }
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -602,7 +634,15 @@ public class Advanced extends Activity {
                 addSView = false;
             }
         }
-
+        else {
+            lv_wifi.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    setEinkController();
+                }
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                }
+            });
+        }
 
         wifiScan = (Button)findViewById(R.id.wifi_scan_btn);
         wifiScan.setOnClickListener(new View.OnClickListener() {
@@ -780,6 +820,7 @@ public class Advanced extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        setEinkController();
         app.generalOnResume(TAG, this);
     }
 }

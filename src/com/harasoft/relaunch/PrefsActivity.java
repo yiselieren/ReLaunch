@@ -69,8 +69,8 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("openWith", true));
         defItems.add(new PrefItem("createIntent", true));
         defItems.add(new PrefItem("gl16Mode", "5"));
-        defItems.add(new PrefItem("einkUpdateMode", "2"));
-        defItems.add(new PrefItem("einkUpdateInterval", "0"));        
+        defItems.add(new PrefItem("einkUpdateMode", "1"));
+        defItems.add(new PrefItem("einkUpdateInterval", "10"));        
 
         // Columns settings
         defItems.add(new PrefItem("firstLineFontSize","8"));
@@ -80,6 +80,7 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("columnsLRU","-1"));
         defItems.add(new PrefItem("columnsFAV","-1"));
         defItems.add(new PrefItem("columnsSearch","-1"));
+        defItems.add(new PrefItem("columnsAlgIntensity","70 3:5 7:4 15:3 48:2"));
         
         // Buttons settings
         defItems.add(new PrefItem("homeButtonST","OPEN1"));

@@ -126,6 +126,34 @@ public class TaskManager extends Activity {
     List<Integer>                 newServ;
     HashMap<Integer, PInfo>       newPinfo;
 
+    private void setEinkController() {
+    	if(prefs!=null) {
+    		Integer einkUpdateMode = 1;
+    		try {
+    			einkUpdateMode = Integer.parseInt(prefs.getString("einkUpdateMode", "1"));
+    		}
+    		catch(Exception e) {
+    			einkUpdateMode = 1;
+    		}
+    		if(einkUpdateMode<-1 || einkUpdateMode>2) einkUpdateMode=1;
+    		if(einkUpdateMode>=0) {
+    			EinkScreen.UpdateMode=einkUpdateMode;
+
+    			Integer einkUpdateInterval = 10;
+    			try {
+    				einkUpdateInterval = Integer.parseInt(prefs.getString("einkUpdateInterval", "10"));
+    			}
+    			catch(Exception e) {
+    				einkUpdateInterval = 10;
+    			}
+    			if(einkUpdateInterval<0 || einkUpdateInterval>100) einkUpdateInterval = 10;
+    			EinkScreen.UpdateModeInterval = einkUpdateInterval;            
+
+    			EinkScreen.PrepareController(null, false);
+    		}
+    	}
+    }    
+    
     /*
     private void dumpPinfo(HashMap<Integer, PInfo> p, String name)
     {
@@ -520,6 +548,7 @@ public class TaskManager extends Activity {
                 taskPids = newTask;
                 servPids = newServ;
                 sortLists();
+                setEinkController();
                 adapter_t.notifyDataSetChanged();
                 adapter_s.notifyDataSetChanged();
 
@@ -926,6 +955,8 @@ public class TaskManager extends Activity {
         super.onCreate(savedInstanceState);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        setEinkController();
+        
         app = ((ReLaunchApp)getApplicationContext());
         app.setFullScreenIfNecessary(this);
         pm = getPackageManager();
@@ -968,6 +999,7 @@ public class TaskManager extends Activity {
                         sv.total = totalItemCount;
                         sv.count = visibleItemCount;
                         sv.first = firstVisibleItem;
+                        setEinkController();
                         sv.invalidate();
                     }
                     public void onScrollStateChanged(AbsListView view, int scrollState) {                
@@ -988,6 +1020,7 @@ public class TaskManager extends Activity {
                         sv.total = totalItemCount;
                         sv.count = visibleItemCount;
                         sv.first = firstVisibleItem;
+                        setEinkController();
                         sv.invalidate();
                     }
                     public void onScrollStateChanged(AbsListView view, int scrollState) {                
@@ -995,6 +1028,22 @@ public class TaskManager extends Activity {
                 });         
                 addSView_s = false;
             }
+        }
+        else {
+            lv_t.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                    setEinkController();
+                }
+                public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                }
+            });    
+            lv_s.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                    setEinkController();
+                }
+                public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                }
+            });
         }
 
         // Get total memory
@@ -1043,12 +1092,14 @@ public class TaskManager extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        setEinkController();
         startCPUUpdate();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        setEinkController();
         startCPUUpdate();
         app.generalOnResume(TAG, this);
    }
@@ -1056,6 +1107,7 @@ public class TaskManager extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        setEinkController();
         startCPUUpdate();
   }
 

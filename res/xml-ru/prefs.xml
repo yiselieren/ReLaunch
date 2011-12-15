@@ -115,7 +115,7 @@
         -->
         
        <ListPreference
-            android:defaultValue="2"
+            android:defaultValue="1"
             android:enabled="true"
             android:entries="@array/einkUpdateMode_names"
             android:entryValues="@array/einkUpdateMode_values"
@@ -125,7 +125,7 @@
             android:title="Режим обновления экрана EInk" />
 
         <EditTextPreference
-            android:defaultValue="0"
+            android:defaultValue="10"
             android:enabled="true"
             android:key="einkUpdateInterval"
             android:persistent="true"
@@ -203,6 +203,17 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Список результатов поиска" />
+		
+		<ListPreference
+            android:defaultValue="70 3:5 7:4 15:3 48:2"
+            android:enabled="true"
+            android:entries="@array/output_columns_intensity_names"
+            android:entryValues="@array/output_columns_intensity_values"
+            android:key="columnsAlgIntensity"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Алгоритм определения числа колонок" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Кнопки рабочего стола" >

@@ -72,7 +72,7 @@
     <string name="viewer_layout_title">ПРОСМОТР</string>
 	<string name="reboot_layout_text">ПЕРЕЗАГРУЗКА\n\nОжидайте...</string>
 	<string name="poweroff_layout_text">ВЫКЛЮЧЕНО\n\nНажмите кнопку Power для включения...</string>    
-    <string name="jv_advanced_connected">Подключено, IP:</string>
+    <string name="jv_advanced_connected">IP:</string>
     <string name="jv_advanced_level">Сигнал:</string>
     <string name="jv_advanced_notrange">Недоступно</string>
     <string name="jv_advanced_not_configured">не подключено</string>

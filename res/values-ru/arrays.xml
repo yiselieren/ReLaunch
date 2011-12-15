@@ -67,15 +67,17 @@
         <item>Качественный, мерц. (CLEAR_ALL mode 6)</item>
     </string-array>
     <string-array name="einkUpdateMode_values">
+        <item>-1</item>
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
     <string-array name="einkUpdateMode_names">
+        <item>Не использовать</item>
         <item>Качественный (GC+ONESHOT_ALL)</item>
         <item>Быстрый (GU+ONESHOT_ALL)</item>
         <item>Быстрый (GL16+ACTIVE_ALL)</item>
-    </string-array>    
+    </string-array>
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
         <item>OPEN1</item>
@@ -90,20 +92,31 @@
         <item>Открыть меню выбора начальной папки</item>
         <item>Открыть окно списка начальных папок</item>
     </string-array>
-<string-array name="output_columns_values">
-        <item >-1</item>
-        <item >1</item>
-        <item >2</item>
-        <item >3</item>
-        <item >4</item>
-        <item >5</item>
+    <string-array name="output_columns_values">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
     <string-array name="output_columns_names">
-        <item >Автоматическое число колонок</item>
-        <item >1 колонка</item>
-        <item >2 колонки</item>
-        <item >3 колонки</item>
-        <item >4 колонки</item>
-        <item >5 колонок</item>
+        <item>Автоматическое число колонок</item>
+        <item>1 колонка</item>
+        <item>2 колонки</item>
+        <item>3 колонки</item>
+        <item>4 колонки</item>
+        <item>5 колонок</item>
     </string-array>
+    <string-array name="output_columns_intensity_values">
+        <item>60 5:5 9:4 19:3 64:2</item>
+        <item>70 3:5 7:4 15:3 48:2</item>
+        <item>80 2:5 5:4 11:3 32:2</item>
+    </string-array>
+    <string-array name="output_columns_intensity_names">
+        <item>Агрессивный (больше колонок)</item>
+        <item>Умереный</item>
+        <item>Вялый (меньше колонок)</item>
+    </string-array>
+
 </resources>

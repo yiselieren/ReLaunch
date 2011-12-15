@@ -58,6 +58,34 @@ public class AllApplications extends Activity {
     SharedPreferences             prefs;
     boolean                       addSView = true;
 
+    private void setEinkController() {
+    	if(prefs!=null) {
+    		Integer einkUpdateMode = 1;
+    		try {
+    			einkUpdateMode = Integer.parseInt(prefs.getString("einkUpdateMode", "1"));
+    		}
+    		catch(Exception e) {
+    			einkUpdateMode = 1;
+    		}
+    		if(einkUpdateMode<-1 || einkUpdateMode>2) einkUpdateMode=1;
+    		if(einkUpdateMode>=0) {
+    			EinkScreen.UpdateMode=einkUpdateMode;
+
+    			Integer einkUpdateInterval = 10;
+    			try {
+    				einkUpdateInterval = Integer.parseInt(prefs.getString("einkUpdateInterval", "10"));
+    			}
+    			catch(Exception e) {
+    				einkUpdateInterval = 10;
+    			}
+    			if(einkUpdateInterval<0 || einkUpdateInterval>100) einkUpdateInterval = 10;
+    			EinkScreen.UpdateModeInterval = einkUpdateInterval;            
+
+    			EinkScreen.PrepareController(null, false);
+    		}
+    	}
+    }
+    
     static class ViewHolder {
         TextView  tv;
         ImageView iv;
@@ -181,6 +209,7 @@ public class AllApplications extends Activity {
         super.onCreate(savedInstanceState);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        setEinkController();
         app = ((ReLaunchApp)getApplicationContext());
         app.setFullScreenIfNecessary(this);
         setContentView(R.layout.all_applications);
@@ -243,6 +272,7 @@ public class AllApplications extends Activity {
                         sv.total = totalItemCount;
                         sv.count = visibleItemCount;
                         sv.first = firstVisibleItem;
+                        setEinkController();
                         sv.invalidate();
                     }
                     public void onScrollStateChanged(AbsListView view, int scrollState) {                
@@ -250,6 +280,15 @@ public class AllApplications extends Activity {
                 });         
                 addSView = false;
             }
+        }
+        else {
+            lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { 
+                    setEinkController();
+                }
+                public void onScrollStateChanged(AbsListView view, int scrollState) {                
+                }
+            });        	
         }
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -285,6 +324,7 @@ public class AllApplications extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        setEinkController();
         if (listName.equals("app_all"))
             rereadAppList();
     }
@@ -292,6 +332,7 @@ public class AllApplications extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        setEinkController();
         if (listName.equals("app_all"))
             rereadAppList();
     }
@@ -299,6 +340,7 @@ public class AllApplications extends Activity {
     @Override
         protected void onResume() {
         super.onResume();
+        setEinkController();
         if (listName.equals("app_all"))
             rereadAppList();
         app.generalOnResume(TAG, this);
