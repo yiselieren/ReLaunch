@@ -69,6 +69,8 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("openWith", true));
         defItems.add(new PrefItem("createIntent", true));
         defItems.add(new PrefItem("gl16Mode", "5"));
+        defItems.add(new PrefItem("einkUpdateMode", "2"));
+        defItems.add(new PrefItem("einkUpdateInterval", "0"));        
 
         // Columns settings
         defItems.add(new PrefItem("firstLineFontSize","8"));

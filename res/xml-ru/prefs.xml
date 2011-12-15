@@ -100,7 +100,8 @@
             android:summaryOn="Показывать пункт \&quot;Создать событие...\&quot; в контекстном меню файла"
             android:title="Пункт меню \&quot;Создать событие...\&quot;" >
         </CheckBoxPreference>
-
+		
+		<!--
         <ListPreference
             android:defaultValue="5"
             android:enabled="true"
@@ -111,6 +112,26 @@
             android:selectable="true"
             android:summary="Режим GL16"
             android:title="Режим обновления экрана (GL16 mode)" />
+        -->
+        
+       <ListPreference
+            android:defaultValue="2"
+            android:enabled="true"
+            android:entries="@array/einkUpdateMode_names"
+            android:entryValues="@array/einkUpdateMode_values"
+            android:key="einkUpdateMode"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Режим обновления экрана EInk" />
+
+        <EditTextPreference
+            android:defaultValue="0"
+            android:enabled="true"
+            android:key="einkUpdateInterval"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Как часто экран будет обновляться полностью... (обновлений)"
+            android:title="Частота полного обновления экрана EInk" />        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Внешний вид" >

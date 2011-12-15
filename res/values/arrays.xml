@@ -66,6 +66,16 @@
         <item>ONESHOT_ALL (mode 5)</item>
         <item>CLEAR_ALL (mode 6)</item>
     </string-array>
+    <string-array name="einkUpdateMode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="einkUpdateMode_names">
+        <item>Quality (GC+ONESHOT_ALL)</item>
+        <item>Speed (GU+ONESHOT_ALL)</item>
+        <item>Speed (GL16+ACTIVE_ALL)</item>
+    </string-array>    
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
         <item>OPEN1</item>

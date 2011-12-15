@@ -553,12 +553,14 @@ public class Advanced extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        
         ingnoreFs = getResources().getStringArray(R.array.filesystems_to_ignore);
 
         app = ((ReLaunchApp)getApplicationContext());
         app.setFullScreenIfNecessary(this);
         setContentView(R.layout.advanced_layout);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         createInfo();
         //((TextView)findViewById(R.id.results_title)).setText("Advanced functions, info, etc.");

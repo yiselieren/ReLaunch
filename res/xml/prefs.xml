@@ -101,6 +101,7 @@
             android:title="\&apos;Create intent...\&apos; context menu item" >
         </CheckBoxPreference>
 
+        <!--
         <ListPreference
             android:defaultValue="5"
             android:enabled="true"
@@ -110,7 +111,27 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="GL16 mode"
-            android:title="Screen update mode (GL16 mode)" />
+            android:title="Screen update mode (GL16 mode)" />
+        -->
+
+        <ListPreference
+            android:defaultValue="2"
+            android:enabled="true"
+            android:entries="@array/einkUpdateMode_names"
+            android:entryValues="@array/einkUpdateMode_values"
+            android:key="einkUpdateMode"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="EInk Screen Update Mode" />
+
+        <EditTextPreference
+            android:defaultValue="0"
+            android:enabled="true"
+            android:key="einkUpdateInterval"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="How often EInk will be fully updated"
+            android:title="EInk Screen Full Update Interval" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Appearance" >

@@ -121,6 +121,17 @@ public class ReLaunch extends Activity {
     Button                        battLevel;
     IntentFilter                  batteryLevelFilter;
     
+    private void setEinkController() {
+    	if(prefs!=null) {
+    		try {
+    			EinkScreen.UpdateMode=Integer.parseInt(prefs.getString("einkUpdateMode", "2"));
+    			EinkScreen.UpdateModeInterval=Integer.parseInt(prefs.getString("einkUpdateInterval", "0"));            
+    			EinkScreen.PrepareController(null, false);
+    		}
+    		catch(Exception e) { }
+    	}
+    }
+    
     private boolean checkField(String[] a, String f)
     {
         for (int i=0; i<a.length; i++)
@@ -339,6 +350,8 @@ public class ReLaunch extends Activity {
     
     private void redrawList()
     {
+    	setEinkController();
+        
         if (prefs.getBoolean("filterResults", false))
         {
             List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
@@ -550,6 +563,8 @@ public class ReLaunch extends Activity {
         List<String> files = new ArrayList<String>();
         List<String> dirs = new ArrayList<String>();
 
+        setEinkController();
+        
         currentRoot = root;
         currentPosition = (startPosition == -1) ? 0 : startPosition;
         SharedPreferences.Editor editor = prefs.edit();
@@ -794,6 +809,7 @@ public class ReLaunch extends Activity {
                         sv.total = totalItemCount;
                         sv.count = visibleItemCount;
                         sv.first = firstVisibleItem;
+                        setEinkController();
                         sv.invalidate();
                     }
                     public void onScrollStateChanged(AbsListView view, int scrollState) {                
@@ -802,7 +818,6 @@ public class ReLaunch extends Activity {
                 addSView = false;
             }
         }
-
 
         registerForContextMenu(gv);
         if (startPosition != -1)
@@ -1065,7 +1080,6 @@ public class ReLaunch extends Activity {
 
         filterMyself = prefs.getBoolean("filterSelf", true);
         if (useHome1  &&  prefs.getBoolean("homeMode", true))
-            useHome = true;
         if (useShop  &&  prefs.getBoolean("shopMode", true))
             useHome = true;
         if (useLibrary  &&  prefs.getBoolean("libraryMode", true))
@@ -1122,7 +1136,6 @@ public class ReLaunch extends Activity {
             {
                 app.readFile("app_last", APP_LRU_FILE, ":");
                 app.readFile("app_favorites", APP_FAV_FILE, ":");
-                setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
                 ((ImageButton)findViewById(R.id.app_last)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v)
                         {
@@ -1311,13 +1324,15 @@ public class ReLaunch extends Activity {
                 builder.show();
             }
     
+            /*
             Integer gl16Mode;
             try {
                 gl16Mode = Integer.parseInt(prefs.getString("gl16Mode", "5"));
             } catch (NumberFormatException e) {
                 gl16Mode = 5;
             }
-            N2EpdController.setGL16Mode(gl16Mode);
+            */
+            setEinkController();
             
             // Log.d(TAG,"Set GL16MODE=" + gl16Mode.toString());
             // First directory to get to
@@ -1749,7 +1764,8 @@ public class ReLaunch extends Activity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume() {    	
+    	setEinkController();
         super.onResume();
         app.generalOnResume(TAG, this);
         refreshBottomInfo();
@@ -1853,6 +1869,7 @@ public class ReLaunch extends Activity {
         //intent.putExtra("title", "Favorites");
         intent.putExtra("title", getResources().getString(R.string.jv_relaunch_fav));
         intent.putExtra("rereadOnStart", true);
+        setEinkController(); // ??? not needed
         startActivity(intent);
     }
     

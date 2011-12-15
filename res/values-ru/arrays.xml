@@ -66,6 +66,16 @@
         <item>Быстрый (ONESHOT_ALL mode 5)</item>
         <item>Качественный, мерц. (CLEAR_ALL mode 6)</item>
     </string-array>
+    <string-array name="einkUpdateMode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="einkUpdateMode_names">
+        <item>Качественный (GC+ONESHOT_ALL)</item>
+        <item>Быстрый (GU+ONESHOT_ALL)</item>
+        <item>Быстрый (GL16+ACTIVE_ALL)</item>
+    </string-array>    
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
         <item>OPEN1</item>

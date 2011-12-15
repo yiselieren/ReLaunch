@@ -69,6 +69,17 @@ public class ResultsActivity extends Activity {
 	boolean addSView = true;
 	boolean oldHome;
 
+    private void setEinkController() {
+    	if(prefs!=null) {
+    		try {
+    			EinkScreen.UpdateMode=Integer.parseInt(prefs.getString("einkUpdateMode", "2"));
+    			EinkScreen.UpdateModeInterval=Integer.parseInt(prefs.getString("einkUpdateInterval", "0"));            
+    			EinkScreen.PrepareController(null, false);
+    		}
+    		catch(Exception e) { }
+    	}
+    }
+	
 	static class ViewHolder {
 		TextView tv1;
 		TextView tv2;
@@ -267,7 +278,8 @@ public class ResultsActivity extends Activity {
 		return auto_cols;
 	}
 	
-	private void redrawList() {
+	private	void redrawList() {
+		setEinkController();
 		if (prefs.getBoolean("filterResults", false)) {
 			List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
 
@@ -338,9 +350,12 @@ public class ResultsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		setEinkController();
+		
 		app = ((ReLaunchApp) getApplicationContext());
 		app.setFullScreenIfNecessary(this);
 		setContentView(R.layout.results_layout);
@@ -524,6 +539,7 @@ public class ResultsActivity extends Activity {
 						sv.total = totalItemCount;
 						sv.count = visibleItemCount;
 						sv.first = firstVisibleItem;
+						setEinkController();
 						sv.invalidate();
 					}
 
@@ -1050,6 +1066,7 @@ public class ResultsActivity extends Activity {
 
 	@Override
 	protected void onResume() {
+		setEinkController();
 		super.onResume();
 		app.generalOnResume(TAG, this);
 	}
