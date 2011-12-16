@@ -4,9 +4,9 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.55">
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.54">
         <TextView android:id="@+id/results_title" android:textColor="@color/normal_fg" android:background="@color/normal_bg_gray"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:gravity="center" android:textStyle="bold" android:text="Text View"/>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:id="@+id/results_btn" android:layout_weight="4" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="56dp" android:layout_marginLeft="4dp"></ImageButton>
+        <ImageButton android:src="@android:drawable/ic_menu_revert" android:id="@+id/results_btn" android:layout_weight="4" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.4" android:id="@+id/wifi_lv_layout" android:layout_marginTop="8dp" android:background="@drawable/main_button" android:padding="8dp">
         <ListView android:layout_width="fill_parent" android:id="@+id/wifi_lv" android:layout_weight="1" android:layout_height="fill_parent"/>

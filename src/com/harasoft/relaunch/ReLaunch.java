@@ -361,6 +361,7 @@ public class ReLaunch extends Activity {
     
 	private Integer getAutoColsNum() {
 		// implementation - via percentiles len
+		Integer auto_cols_num = 1;
 		ArrayList<Integer> tmp = new ArrayList<Integer>();
 		if(itemsArray.size()>0) {
 			Integer factor = 0;
@@ -376,12 +377,16 @@ public class ReLaunch extends Activity {
 				try {
 					double fval=Double.parseDouble(spat[i]);
 					int cval=Integer.parseInt(spat[i+1]);
-					if(factor<=fval) return cval;
+					if(factor<=fval) {
+						auto_cols_num = cval;
+						break;
+						}
 					}
 				catch(Exception e) { }
 				}
 			}
-		return 1;
+		if(auto_cols_num>itemsArray.size()) auto_cols_num=itemsArray.size();
+		return auto_cols_num;
 	}
     
     private void redrawList()
@@ -565,13 +570,22 @@ public class ReLaunch extends Activity {
                     batteryLevelRegistered = false;
                     int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
                     int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                    int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
                     int level = -1;
                     if (rawlevel >= 0 && scale > 0) {
                         level = (rawlevel * 100) / scale;
                     }
                     if (battLevel != null)
                     {
-                        battLevel.setText(level + "%");
+                    	String add_text="";
+                    	if(plugged==BatteryManager.BATTERY_PLUGGED_AC) {
+                    		add_text=" AC";
+                    	}
+                    	else if (plugged==BatteryManager.BATTERY_PLUGGED_USB) {
+                    		add_text=" USB";
+                    	}
+                        battLevel.setText(level + "%" + add_text);
+                        
                         if (level < 25)
                             battLevel.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.bat1), null, null, null);
                         else if (level < 50)
@@ -924,12 +938,18 @@ public class ReLaunch extends Activity {
         upScroll.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
+            	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 first -= (total * app.scrollStep) / 100;
                 if (first < 0)
                     first = 0;
                 gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }
             }});
 
         final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
@@ -937,16 +957,24 @@ public class ReLaunch extends Activity {
         downScroll.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
+            	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
-                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                if(total==last+1) return;
+                Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
                 first += (total * app.scrollStep) / 100;
                 if (first <= last)
                     first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
                 if (first > (total-1))
                     first = total-1;
+                Log.d(TAG, " new first=" + first);
                 gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }
             }});
         
         refreshBottomInfo();
@@ -1399,7 +1427,7 @@ public class ReLaunch extends Activity {
         
         app.booted = true;
        
-        IntentFilter filter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED); 
+        IntentFilter filter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED);
         filter.addDataScheme("file"); 
         registerReceiver(this.SDReceiver, new IntentFilter(filter));
         

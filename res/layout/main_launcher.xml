@@ -142,7 +142,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:numColumns="3" android:duplicateParentState="true" android:stretchMode="columnWidth">
+            android:numColumns="3" android:duplicateParentState="true" android:stretchMode="columnWidth" android:smoothScrollbar="false">
         </GridView>
     </LinearLayout>
 

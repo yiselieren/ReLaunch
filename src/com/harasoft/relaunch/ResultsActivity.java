@@ -63,7 +63,7 @@ public class ResultsActivity extends Activity {
 	SharedPreferences prefs;
 	FLSimpleAdapter adapter;
 	ListView lv;
-	GridView gv;
+	// GridView gv;
 	Integer currentColsNum = -1;
 	List<HashMap<String, String>> itemsArray = new ArrayList<HashMap<String, String>>();
 	Integer currentPosition = -1;
@@ -290,6 +290,7 @@ public class ResultsActivity extends Activity {
     
 	private Integer getAutoColsNum() {
 		// implementation - via percentiles len
+		Integer auto_cols_num = 1;
 		ArrayList<Integer> tmp = new ArrayList<Integer>();
 		if(itemsArray.size()>0) {
 			Integer factor = 0;
@@ -297,19 +298,24 @@ public class ResultsActivity extends Activity {
 				tmp.add(itemsArray.get(i).get("fname").length());
 				}
 			String pattern = prefs.getString("columnsAlgIntensity", "70 3:5 7:4 15:3 48:2"); // default - medium
-				String[] spat = pattern.split("[\\s\\:]+");
-				Integer quantile = Integer.parseInt(spat[0]);
-				factor = Percentile(tmp,quantile);
-				for(Integer i=1;i<spat.length;i=i+2) {
-					try {
-						double fval=Double.parseDouble(spat[i]);
-						int cval=Integer.parseInt(spat[i+1]);
-						if(factor<=fval) return cval;
+			Log.d(TAG,"Pattern = " + pattern);
+			String[] spat = pattern.split("[\\s\\:]+");
+			Integer quantile = Integer.parseInt(spat[0]);
+			factor = Percentile(tmp,quantile);
+			for(Integer i=1;i<spat.length;i=i+2) {
+				try {
+					double fval=Double.parseDouble(spat[i]);
+					int cval=Integer.parseInt(spat[i+1]);
+					if(factor<=fval) {
+						auto_cols_num = cval;
+						break;
+						}
 					}
-					catch(Exception e) { }
+				catch(Exception e) { }
 				}
-				}
-		return 1;
+			}
+		if(auto_cols_num>itemsArray.size()) auto_cols_num=itemsArray.size();
+		return auto_cols_num;
 	}
 	
 	private	void redrawList() {
@@ -341,6 +347,7 @@ public class ResultsActivity extends Activity {
 			colsNum=getAutoColsNum();
 		}
 		currentColsNum=colsNum;
+		final GridView gv = (GridView) findViewById(R.id.results_list);
 		gv.setNumColumns(colsNum);
 		adapter.notifyDataSetChanged();
 		if (currentPosition != -1)
@@ -430,7 +437,7 @@ public class ResultsActivity extends Activity {
 
 		currentPosition = -1;
 		// lv = (ListView) findViewById(R.id.results_list);
-		gv = (GridView) findViewById(R.id.results_list);
+		final GridView gv = (GridView) findViewById(R.id.results_list);
 		gv.setHorizontalSpacing(0);
 		Button rt = (Button) findViewById(R.id.results_title);
 		if (total == -1)
@@ -684,12 +691,18 @@ public class ResultsActivity extends Activity {
 		upScroll.setText(app.scrollStep + "%");
 		upScroll.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				// GridView gv = (GridView) findViewById(R.id.results_list);
 				int first = gv.getFirstVisiblePosition();
 				int total = itemsArray.size();
 				first -= (total * app.scrollStep) / 100;
 				if (first < 0)
 					first = 0;
 				gv.setSelection(first);
+				// some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }				
 			}
 		});
 
@@ -697,12 +710,31 @@ public class ResultsActivity extends Activity {
 		downScroll.setText(app.scrollStep + "%");
 		downScroll.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				// GridView gv = (GridView) findViewById(R.id.results_list);
+                int first = gv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return;
+                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                first += (total * app.scrollStep) / 100;
+                if (first <= last)
+                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (first > (total-1))
+                    first = total-1;
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }                
+                /*
 				int first = gv.getFirstVisiblePosition();
 				int total = itemsArray.size();
 				first += (total * app.scrollStep) / 100;
 				if (first > total)
 					first = total;
 				gv.setSelection(first);
+				*/
 			}
 		});
 	}

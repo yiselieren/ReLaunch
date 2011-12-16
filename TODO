@@ -1,19 +1,24 @@
 CASUAL
-- (DONE) add close fav, searchres, lru after file launched functionality
+- (DONE) add close fav, searches, lru after file launched functionality
 - (DONE) add font size settings
-- add "Not show known extensions" functionality
+- (DONE) external power source indication
+- (DONE) fixed somewhere "unscrolling" on scroll buttons
+- add manual scrolling for Sony devices (?)
+- add "Not show known file suffixes" functionality
+- add "Not show known directory prefixes" functionality
 - add more "smart" buttons (change first screen buttons behavior and configuration)
 	-- for LRU button: open first, open second, open as menu(?), open as screen
 	-- for FAV button: open first, open second, open as menu(?), open as screen
-	-- for search button: search with input only serach string, repeat last search, open search window
+	-- for search button: search with input only search string, repeat last search (without confirmations), open search window
 	-- may be some "smart" functionality for other buttons (bottom buttons too)
-- may be some extended functionality for advanced screen
-- reimport EInk support from CoolReader
+- (?) may be some extended functionality for advanced screen (i.e. start to configure selected WiFi net, for example)
+- (DONE) reimport EInk support from CoolReader
 - icons in Nook style, some redesign of layouts to more usabilility (for example, search
 situations where onscreen keyboard not opened for text fields (by default) and text fields not
 "autofocused" and reorganize search form, which is partially "closed" if onscreen 
 keyboard is on), etc.
 - add screens for "Help" and "Appreciation" (with links, for example, to CoolReader, icons lib pack and so on).
+FUTURE >1.3
 - (in future) save configuration to sdcard (for restore) and save library state (fav,lru and so on)
 	in library (with restore ability), so user may save state, edit library with external 
 	filemanager and then restore state.
