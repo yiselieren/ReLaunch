@@ -11,6 +11,6 @@
     </item>
     <item android:id="@+id/favorites" android:title="Favorites" android:icon="@android:drawable/btn_star">
     </item>
-    <item android:id="@+id/about" android:title="About" android:icon="@android:drawable/ic_menu_info_details">
+    <item android:id="@+id/about" android:title="Informatoin" android:icon="@android:drawable/ic_menu_info_details">
     </item>
 </menu>

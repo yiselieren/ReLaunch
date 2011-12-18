@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_help">
+        &lt;b&gt;СПРАВКА&lt;/b&gt;&lt;br&gt;
+        ... ожидайте ...&lt;br&gt;
+        &lt;br&gt;
+    </string>
+    
+</resources>

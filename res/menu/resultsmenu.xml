@@ -5,6 +5,6 @@
     </item>
     <item android:id="@+id/mime_types" android:title="Associations" android:icon="@android:drawable/ic_menu_view">
     </item>
-    <item android:id="@+id/about" android:title="About" android:icon="@android:drawable/ic_menu_info_details">
+    <item android:id="@+id/about" android:title="Informatoin" android:icon="@android:drawable/ic_menu_info_details">
     </item>
 </menu>

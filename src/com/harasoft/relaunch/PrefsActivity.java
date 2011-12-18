@@ -185,10 +185,20 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
 
         // Save items value
         setDefaults();
+        
         savedItems = new ArrayList<PrefItem>();
-        for (PrefItem p : defItems)
-            savedItems.add(new PrefItem(p));
-
+        for (PrefItem p : defItems) {
+        	if(prefs.contains(p.name)) {
+        		if(p.isBoolean) {
+        			p.bValue = prefs.getBoolean(p.name, p.bValue);
+        		}
+        		else {
+        			p.sValue = prefs.getString(p.name, p.sValue);
+        		}
+        	}
+       		savedItems.add(new PrefItem(p));
+        }
+        		
         ((Button)findViewById(R.id.filter_settings)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -248,11 +258,9 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
     @Override
     protected void onPause() {
         super.onPause();
-
         // Unregister the listener whenever a key changes            
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);    
     }
-
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -273,7 +281,7 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
             return;
         }
     }
-    
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference pref = findPreference(key);
 

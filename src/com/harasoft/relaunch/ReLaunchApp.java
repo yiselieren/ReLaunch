@@ -684,7 +684,11 @@ public class ReLaunchApp extends Application {
             public void onClick(DialogInterface dialog, int whichButton) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(a);
                 WebView wv = new WebView(a);
-                wv.loadDataWithBaseURL(null, getResources().getString(R.string.whats_new), "text/html", "utf-8", null);
+                wv.loadDataWithBaseURL(null, 
+                		getResources().getString(R.string.about_help)+
+                		getResources().getString(R.string.about_appr)+
+                		getResources().getString(R.string.whats_new)
+                		, "text/html", "utf-8", null);
                 //builder1.setTitle("What's new");
                 builder1.setTitle(getResources().getString(R.string.jv_rla_whats_new_title));
                 builder1.setView(wv);

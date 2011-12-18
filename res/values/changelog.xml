@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="about_help">
+        &lt;b&gt;HELP&lt;/b&gt;&lt;br&gt;
+        ... coming soon ...&lt;br&gt;
+        &lt;br&gt;
+    </string>
+    <string name="about_appr">
+        &lt;b&gt;APPRECIATIONS&lt;/b&gt;&lt;br&gt;
+        - CoolReader Engine project (Eink support code) (&lt;a href=&quot;http://sourceforge.net/projects/crengine/&quot;&gt;http://sourceforge.net/projects/crengine/&lt;/a&gt;).&lt;br&gt;
+        &lt;br&gt;
+        </string>
     <string name="whats_new">
-        &lt;b&gt;1.2.8b4&lt;/b&gt;&lt;br&gt;
-        - Fixes in "scrolling by buttons".&lt;br&gt;
+        &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.2.8&lt;/b&gt;&lt;br&gt;
         - Added USB or AC adapter connection information.&lt;br&gt;
-        &lt;b&gt;1.2.8b3&lt;/b&gt;&lt;br&gt;
-        - Support for Eink Nook display reintegrated.&lt;br&gt;
-        - New auto multicolumn algorithm with some configuration.&lt;br&gt;
-        &lt;b&gt;1.2.8b2&lt;/b&gt;&lt;br&gt;
-        - Multi-column output.&lt;br&gt;
+        - Redone support for Eink Nook display.&lt;br&gt;
+        - Configurable multicolumn output.&lt;br&gt;
         - Close Fav, Lru and so on windows after start reader (configurable).&lt;br&gt;
         - Font size for files and directory names (configurable).&lt;br&gt;
-        &lt;b&gt;1.2.8b1&lt;/b&gt;&lt;br&gt;
-        - Fixed invocation dir from favorites and search results, now shown in main window.&lt;br&gt;
-        - Fixed search results representation when search from root.&lt;br&gt;
         - User may have now many home folders.&lt;br&gt;
-		- User may disable to go up from home folders.&lt;br&gt;
-		- Smart configurable Home button with distinct reaction to tap, double tap and long tap introduced.&lt;br&gt;
+        - User may disable to go up from home folders.&lt;br&gt;
+		- Smart configurable Home button with distinct reaction to tap, double tap and long tap introduced.&lt;br&gt;                
+        - Fixes: "scroll buttons" sometimes not working; invocation dir from favorites and search results, now shown in main window; search results representation when search from root.&lt;br&gt;
         &lt;b&gt;1.2.7&lt;/b&gt;&lt;br&gt;
         - Preferences Light Theme for Sony reader and mobiles.&lt;br&gt;
         - Application and readers invocation code fixes.&lt;br&gt;
@@ -29,44 +34,35 @@
 		- Fully redesigned to original White NOOK ST "look and feel".&lt;br&gt;
         - Startup as launcher at boot fixes.&lt;br&gt;
         - History supporting fixes.&lt;br&gt;
-		&lt;br&gt;    
     	&lt;b&gt;1.2.5&lt;/b&gt;&lt;br&gt;
         - Source code cleaned, now compiled without warnings.&lt;br&gt;
         - Source code prepared to i18n.&lt;br&gt;
         - Reading Lists (i.e. FAVs, LRUs) with full UTF8 support.&lt;br&gt;
 		- Writing Lists (i.e. FAVs, LRUs) now is more frequent.&lt;br&gt;        
 		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.&lt;br&gt;
-		&lt;br&gt;    	
     	&lt;b&gt;1.2.4&lt;/b&gt;&lt;br&gt;
     	- Sony PRS-T1 support is added, some layout changes.&lt;br&gt;
     	- Optional return to main window after application starts from \"All Applications\" window.&lt;br&gt;
-        &lt;br&gt;
         &lt;b&gt;1.2.3&lt;/b&gt;&lt;br&gt;
         - Context menu items \'Open with ...\' and \'Create intent ...\' added. Note that these items can be disabled via configuration settings.&lt;br&gt;
         - Search root can be comma separated directories list as well as a single directory.
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.2.2&lt;/b&gt;&lt;br&gt;
         - All configured networks now are present in advanced screen.
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.2.1&lt;/b&gt;&lt;br&gt;
          - New buttons: scroll up/down by big steps. Note that the step length is configurable.&lt;br&gt;
          - New advanced information screen (marked with \'#\' character).
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.2.0&lt;/b&gt;&lt;br&gt;
         - New directory navigation, visible scrollbar (see settings).&lt;br&gt;
         - gl16 mode (eInk refresh mode) may be set now via settings.
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.3&lt;/b&gt;&lt;br&gt;
         - Check HW and warn if it isn\'t NookSimpleTouch.
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.2&lt;/b&gt;&lt;br&gt;
         - Associations settings allows now to configure explicit applications invocation  as well as general intent creation.&lt;br&gt;
         - Obsolete \'how to call readers\' setting removed.
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.1&lt;/b&gt;&lt;br&gt;
         - New Cancel/Revert buttons in settings screen.
-        &lt;br&gt;
         &lt;br&gt;&lt;b&gt;1.1.0&lt;/b&gt;&lt;br&gt;
-        - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only).</string>
+        - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only).
+        </string>
     
 </resources>

@@ -1385,7 +1385,11 @@ public class ReLaunch extends Activity {
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 WebView wv = new WebView(this);
-                wv.loadDataWithBaseURL(null,getResources().getString(R.string.whats_new), "text/html", "utf-8",null);
+                wv.loadDataWithBaseURL(null,
+                		getResources().getString(R.string.about_help)+
+                		getResources().getString(R.string.about_appr)+
+                		getResources().getString(R.string.whats_new)                		
+                		, "text/html", "utf-8", null);
                 //builder.setTitle("What's new");
                 builder.setTitle(getResources().getString(R.string.jv_relaunch_whats_new));
                 builder.setView(wv);

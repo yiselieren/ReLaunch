@@ -177,8 +177,8 @@
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Reader launcher for Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>
     <string name="jv_rla_about_post">&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Source code: &lt;a href=\"https://github.com/yiselieren/ReLaunch\"&gt;git://github.com/yiselieren/ReLaunch.git&lt;/a&gt;&lt;/center&gt;</string>
     <string name="jv_rla_ok">OK</string>
-    <string name="jv_rla_see_changelog">See changelog</string>
-    <string name="jv_rla_whats_new_title">What\'s new</string>
+    <string name="jv_rla_see_changelog">Information</string>
+    <string name="jv_rla_whats_new_title">Information</string>
     <string name="jv_allapp_activity">Activity</string>
     <string name="jv_allapp_not_found">not found!</string>
     <string name="jv_allapp_package_info_not_found">PackageInfo not found for label</string>

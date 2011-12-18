@@ -3,6 +3,6 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/setting" android:title="Settings" android:icon="@android:drawable/ic_menu_preferences">
     </item>
-    <item android:id="@+id/about" android:title="About" android:icon="@android:drawable/ic_menu_info_details">
+    <item android:id="@+id/about" android:title="Information" android:icon="@android:drawable/ic_menu_info_details">
     </item>
 </menu>
