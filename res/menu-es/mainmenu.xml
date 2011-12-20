@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/setting" android:title="Opciones" android:icon="@android:drawable/ic_menu_preferences">
+    </item>
+    <item android:id="@+id/mime_types" android:title="Asociación" android:icon="@android:drawable/ic_menu_view">
+    </item>
+    <item android:id="@+id/search" android:title="Buscar" android:icon="@android:drawable/ic_menu_search">
+    </item>
+    <item android:id="@+id/lastopened" android:title="Último abierto" android:icon="@android:drawable/ic_menu_myplaces">
+    </item>
+    <item android:id="@+id/favorites" android:title="Favoritos" android:icon="@android:drawable/btn_star">
+    </item>
+    <item android:id="@+id/about" android:title="Acerca de" android:icon="@android:drawable/ic_menu_info_details">
+    </item>
+</menu>

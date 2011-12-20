@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="General" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="filterResults"
+            android:persistent="true"
+            android:summaryOff="Mostrar todos los archivos"
+            android:summaryOn="Filtrar resultados de acuerdo a definiciones de filtros"
+            android:title="Resultados filtrados" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="fullScreen"
+            android:persistent="true"
+            android:summaryOff="Mostrar barra de título superior"
+            android:summaryOn="Trabajar en modo de pantalla completa"
+            android:title="Pantalla completa" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showButtons"
+            android:persistent="true"
+            android:summaryOff="Ocultar botones en pantalla principal"
+            android:summaryOn="Mostrar botones en pantalla principal"
+            android:title="Botones en pantalla principal" >
+        </CheckBoxPreference>
+
+        <EditTextPreference
+            android:defaultValue="/sdcard,/media/My Files"
+            android:enabled="true"
+            android:key="startDir"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Iniciar aquí o en último visitado (ver siguiente)"
+            android:title="Directorio/s de inicio" >
+        </EditTextPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notLeaveStartDir"
+            android:persistent="true"
+            android:summaryOff="Acceder al directorio/s de inicio"
+            android:summaryOn="No puede acceder al directorio/s de inicio"
+            android:title="No permite acceder al directorio/s de inicio" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="saveDir"
+            android:persistent="true"
+            android:summaryOff="Comenzar desde el directorio de inicio especificado"
+            android:summaryOn="Comenzar desde el último directorio visitado"
+            android:title="Guardar el último directorio visitado" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="returnFileToMain"
+            android:persistent="true"
+            android:summaryOff="Volver a la pantalla original"
+            android:summaryOn="Volver a la pantalla principal"
+            android:title="Después de iniciar la aplicación de lectura" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="askAmbig"
+            android:persistent="true"
+            android:summaryOff="Asociar con la primera aplicación que se abra"
+            android:summaryOn="Ofrecer opciones al usuario"
+            android:title="Varias asociaciones para el archivo" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showNew"
+            android:persistent="true"
+            android:summaryOff="Mostrar todos los archivos como de costumbre"
+            android:summaryOn="Usar color/negrita para identificar libros nuevos y terminados"
+            android:title="Mostrar libros nuevos/leídos" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="openWith"
+            android:persistent="true"
+            android:summaryOff="No volver a mostrar \&apos;Abrir con...\&apos; en menú contextual de archivo"
+            android:summaryOn="Mostrar \&apos;Abrir con...\&apos; en menú contextual"
+            android:title="Elemento de menú contextual \&apos;Abrir con...\&apos;" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="createIntent"
+            android:persistent="true"
+            android:summaryOff="Ocultar \&apos;Crear evento...\&apos; en menú contextual de archivo"
+            android:summaryOn="Mostrar \&apos;Crear evento...\&apos; en menú contextual"
+            android:title="Elemento de menú contextual \&apos;Crear evento...\&apos;" >
+        </CheckBoxPreference>
+
+        <!--
+        <ListPreference
+            android:defaultValue="5"
+            android:enabled="true"
+            android:entries="@array/GL16_modes_names"
+            android:entryValues="@array/GL16_modes_values"
+            android:key="gl16Mode"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="GL16 mode"
+            android:title="Actualizar el modo de pantalla (GL16 mode)" />
+        -->
+
+        <ListPreference
+            android:defaultValue="1"
+            android:enabled="true"
+            android:entries="@array/einkUpdateMode_names"
+            android:entryValues="@array/einkUpdateMode_values"
+            android:key="einkUpdateMode"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Modo de refresco de pantalla eInk" />
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="einkUpdateInterval"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Con qué frecuencia la pantalla se actualiza por completo"
+            android:title="Frecuencia de una completa actualización de la pantalla eInk" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Aspecto" >
+
+        <EditTextPreference
+            android:defaultValue="8"
+            android:enabled="true"
+            android:key="firstLineFontSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño de fuente en nobres de archivos y directorios de cualquer lista"
+            android:title="Tamaño de fuente en nombres de archivos/carpetas" />
+
+        <EditTextPreference
+            android:defaultValue="6"
+            android:enabled="true"
+            android:key="secondLineFontSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño de fuente para de otros directorios como Favoritos y otras listas"
+            android:title="Tamaño de fuente para nombres de directorios adicionales" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsDirsFiles"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Lista de archivos y carpetas (por defecto)" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsHomeList"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Lista de carpetas inicial" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsLRU"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Lista de reciente apertura" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsFAV"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Lista de favoritos" />
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:enabled="true"
+            android:entries="@array/output_columns_names"
+            android:entryValues="@array/output_columns_values"
+            android:key="columnsSearch"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Lista de resultados de búsqueda" />
+		
+		<ListPreference
+            android:defaultValue="70 3:5 7:4 15:3 48:2"
+            android:enabled="true"
+            android:entries="@array/output_columns_intensity_names"
+            android:entryValues="@array/output_columns_intensity_values"
+            android:key="columnsAlgIntensity"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Algoritmo para determinar el número de columnas" />
+		        
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Comportamiento de botones en pantalla principal" >
+
+        <ListPreference
+            android:defaultValue="OPEN1"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Un sólo clic en botón \&apos;Home\&apos;" />
+
+        <ListPreference
+            android:defaultValue="OPENMENU"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Doble clic en botón \&apos;Home\&apos;" />
+
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/home_button_actions_names"
+            android:entryValues="@array/home_button_actions_values"
+            android:key="homeButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Pulsación larga del botón \&apos;Home\&apos;" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Ajustes del modo lanzador" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="homeMode"
+            android:persistent="true"
+            android:summaryOff="Ejecutar como una aplicación normal"
+            android:summaryOn="Ejecutar como lanzador"
+            android:title="Modo de ejecución al pulsar el botón \&apos;Home\&apos;" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="libraryMode"
+            android:persistent="true"
+            android:summaryOff="Ejecutar como una aplicación normal"
+            android:summaryOn="Ejecutar como lanzador"
+            android:title="Modo de ejecución al pulsar el botón \&apos;Library\&apos;" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="shopMode"
+            android:persistent="true"
+            android:summaryOff="Ejecutar como una aplicación normal"
+            android:summaryOn="Ejecutar como lanzador"
+            android:title="Modo de ejecución al pulsar el botón \&apos;Shop\&apos;" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="returnToMain"
+            android:persistent="true"
+            android:summaryOff="Permanecer en la página de aplicaciones"
+            android:summaryOn="Volver a la página psrincipal"
+            android:title="Después de ejecutar la aplicación" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="filterSelf"
+            android:persistent="true"
+            android:summaryOff="Mostrar todas las aplicaciones, repetidas tb."
+            android:summaryOn="Ocultar nombres de aplicaciones repetidas"
+            android:title="Filtrar nombres idénticos de la lista de aplicaciones" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="dateUS"
+            android:persistent="true"
+            android:summaryOff="Europeo (dd.mm.aaaa)"
+            android:summaryOn="Americano (dd/mm/aaaa)"
+            android:title="Formato de fecha/hora" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Apariencia de la barra de desplazamiento" >
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="scrollPerc"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Paso rápido"
+            android:title="Desplazamiento rápido (porcentajes)" >
+        </EditTextPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="customScroll"
+            android:persistent="true"
+            android:summaryOff="Usar barra de desplazamiento de sistema"
+            android:summaryOn="Usar barra de desplazamiento personalizada"
+            android:title="Personalizar barra de desplazamiento" >
+        </CheckBoxPreference>
+
+        <EditTextPreference
+            android:defaultValue="25"
+            android:enabled="true"
+            android:key="scrollWidth"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Ancho de la barra de desplazamiento en pixeles"
+            android:title="Personalizar ancho de la barra de desplazamiento" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:enabled="true"
+            android:key="scrollPad"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="barra desplazamiento del margen izquierdo (píxeles)"
+            android:title="Personalizar barra desplazamiento a margen izquierdo" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Ajustes de búsqueda" >
+
+        <EditTextPreference
+            android:defaultValue="5000"
+            android:enabled="true"
+            android:key="searchSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo de resultado en la lista de búsqueda"
+            android:title="Cantidad máxima de sultados de la búsqueda" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="100"
+            android:enabled="true"
+            android:key="searchReport"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Informe sobre el estado de búsqueda cada ... archivos"
+            android:title="Notificación del estado de la búsqueda" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="/media,/sdcard"
+            android:enabled="true"
+            android:key="searchRoot"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Comenzar búsquedas desde aquí"
+            android:title="Carpeta de búsqueda inicial" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Ajustes del editor/visor internos" >
+
+        <EditTextPreference
+            android:defaultValue="1048576"
+            android:enabled="true"
+            android:key="viewerMaxSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo permitido de archivo (bytes)"
+            android:title="Tamaño máximo de archivo abierto con visor interno" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="262144"
+            android:enabled="true"
+            android:key="editorMaxSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo permitido de archivo (bytes)"
+            android:title="Tamaño máximo de archivo abierto con editor interno" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Tamaño máximo de extras. Listas persistentes" >
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="lruSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo del historial"
+            android:title="Tamaño del historial" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="favSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo del listado de favoritos"
+            android:title="Tamaño del listado de favoritos" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="appLruSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo de la lista de últimas aplicaciones abiertas"
+            android:title="Tamaño del listado de aplicaciones recientes" >
+        </EditTextPreference>
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:enabled="true"
+            android:key="appFavSize"
+            android:numeric="integer"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño máximo del listado de aplicaciones favoritas"
+            android:title="Tamaño del listado de aplicaciones favoritas" >
+        </EditTextPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Confirmaciones" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmFileDelete"
+            android:persistent="true"
+            android:summaryOff="Eliminar archivos sin preguntar"
+            android:summaryOn="Pedir confirmación al eliminar un archivo"
+            android:title="Confirmar eliminar archivos" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmDirDelete"
+            android:persistent="true"
+            android:summaryOff="Borrar carpetas sin pedir confirmaciónn"
+            android:summaryOn="Pedir confirmación al borrar una carpeta"
+            android:title="Confirmar eliminar carpeta" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirmNonEmptyDirDelete"
+            android:persistent="true"
+            android:summaryOff="Eliminar carpetas vacías recursivamente sin confirmación (¡peligroso!)"
+            android:summaryOn="Pedir confirmación recursivamente para eliminar carpetas no vacías"
+            android:title="Confirmar eliminación de carpetas no vacias" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
