@@ -188,15 +188,16 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         
         savedItems = new ArrayList<PrefItem>();
         for (PrefItem p : defItems) {
+        	PrefItem s = new PrefItem(p); 
         	if(prefs.contains(p.name)) {
         		if(p.isBoolean) {
-        			p.bValue = prefs.getBoolean(p.name, p.bValue);
+        			s.bValue = prefs.getBoolean(p.name, p.bValue);
         		}
         		else {
-        			p.sValue = prefs.getString(p.name, p.sValue);
+        			s.sValue = prefs.getString(p.name, p.sValue);
         		}
         	}
-       		savedItems.add(new PrefItem(p));
+       		savedItems.add(s);
         }
         		
         ((Button)findViewById(R.id.filter_settings)).setOnClickListener(new View.OnClickListener() {
