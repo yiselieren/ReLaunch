@@ -12,6 +12,9 @@
         </string>
     <string name="whats_new">
         &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.2.9&lt;/b&gt;&lt;br&gt;
+        - Home icon changed.&lt;br&gt;
+        - Spanish translation added.&lt;br&gt;
         &lt;b&gt;1.2.8&lt;/b&gt;&lt;br&gt;
         - Added USB or AC adapter connection information.&lt;br&gt;
         - Redone support for Eink Nook display.&lt;br&gt;

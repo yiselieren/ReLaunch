@@ -19,7 +19,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_compass" >
+            android:src="@drawable/homebcb" >
         </ImageButton>
 
         <ImageButton
