@@ -66,6 +66,8 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("returnFileToMain", false));
         defItems.add(new PrefItem("askAmbig", false));
         defItems.add(new PrefItem("showNew", true));
+        defItems.add(new PrefItem("hideKnownExts", false));
+        defItems.add(new PrefItem("hideKnownDirs", false));
         defItems.add(new PrefItem("openWith", true));
         defItems.add(new PrefItem("createIntent", true));
         defItems.add(new PrefItem("gl16Mode", "5"));
@@ -118,6 +120,7 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("appFavSize", "30"));
 
         // Confirmations
+        defItems.add(new PrefItem("useFileManagerFunctions", true));
         defItems.add(new PrefItem("confirmFileDelete", true));
         defItems.add(new PrefItem("confirmDirDelete", true));
         defItems.add(new PrefItem("confirmNonEmptyDirDelete", true));

@@ -61,8 +61,8 @@
             android:defaultValue="false"
             android:key="returnFileToMain"
             android:persistent="true"
-            android:summaryOff='Остаться на предыдущей странице (напр. на \"Избранном")'
-            android:summaryOn='Вернуться к списку файлов (со страниц \"Избранное" и т.д.)'
+            android:summaryOff="Остаться на предыдущей странице (напр. на \&quot;Избранном&quot;)"
+            android:summaryOn="Вернуться к списку файлов (со страниц \&quot;Избранное&quot; и т.д.)"
             android:title="После запуска программы чтения" />
 
         <CheckBoxPreference
@@ -84,6 +84,24 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="hideKnownExts"
+            android:persistent="true"
+            android:summaryOff="Всегда показывать полные имена файлов с расширенимя"
+            android:summaryOn="Для известных по ассоциациям файлов показывать только имена"
+            android:title="Не показывать известные расширения файлов" >
+        </CheckBoxPreference>            
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="hideKnownDirs"
+            android:persistent="true"
+            android:summaryOff="Всегда показывать полные имена папок"
+            android:summaryOn="Для папок внутри начальных не показывать первую часть имени"
+            android:title="Не показывать часть имени известных папок" >
+        </CheckBoxPreference>            
+            
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
             android:persistent="true"
@@ -100,8 +118,8 @@
             android:summaryOn="Показывать пункт \&quot;Создать событие...\&quot; в контекстном меню файла"
             android:title="Пункт меню \&quot;Создать событие...\&quot;" >
         </CheckBoxPreference>
-		
-		<!--
+
+        <!--
         <ListPreference
             android:defaultValue="5"
             android:enabled="true"
@@ -111,10 +129,10 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="Режим GL16"
-            android:title="Режим обновления экрана (GL16 mode)" />
+            android:title="Режим обновления экрана (GL16 mode)" />
         -->
-        
-       <ListPreference
+
+        <ListPreference
             android:defaultValue="1"
             android:enabled="true"
             android:entries="@array/einkUpdateMode_names"
@@ -131,7 +149,7 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="Как часто экран будет обновляться полностью... (обновлений)"
-            android:title="Частота полного обновления экрана EInk" />        
+            android:title="Частота полного обновления экрана EInk" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Внешний вид" >
@@ -151,7 +169,7 @@
             android:key="secondLineFontSize"
             android:persistent="true"
             android:selectable="true"
-            android:summary='Размер шрифта имен папок в списках \"Избранного\" и т.п.'
+            android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п."
             android:title="Размер шрифта дополнительных имен папок" />
 
         <ListPreference
@@ -203,8 +221,8 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Список результатов поиска" />
-		
-		<ListPreference
+
+        <ListPreference
             android:defaultValue="70 3:5 7:4 15:3 48:2"
             android:enabled="true"
             android:entries="@array/output_columns_intensity_names"
@@ -213,7 +231,6 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Алгоритм определения числа колонок" />
-        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Кнопки рабочего стола" >
@@ -458,7 +475,16 @@
         </EditTextPreference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Подтверждения" >
+    <PreferenceCategory android:title="Функции файлового менеджера" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="useFileManagerFunctions"
+            android:persistent="true"
+            android:summaryOff="Не показывать пункты меню файлового менеджера"
+            android:summaryOn="Показывать пункты меню файлового менеджера"
+            android:title="Использовать функции файлового менеджера" >
+        </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -466,7 +492,7 @@
             android:persistent="true"
             android:summaryOff="Удалять файлы без подтверждения"
             android:summaryOn="Запрашивать подтверждение при удалении файла"
-            android:title="Удаление файла" >
+            android:title="Подтверждение удаления файла" >
         </CheckBoxPreference>
 
         <CheckBoxPreference
@@ -475,7 +501,7 @@
             android:persistent="true"
             android:summaryOff="Удалять папки без подтверждения"
             android:summaryOn="Запрашивать подтверждение при удалении папки"
-            android:title="Удаление папки" >
+            android:title="Подтверждение удаления папки" >
         </CheckBoxPreference>
 
         <CheckBoxPreference
@@ -484,7 +510,7 @@
             android:persistent="true"
             android:summaryOff="Рекурсивно удалять не пустые папки без подтверждения (потенциально опасное действие)"
             android:summaryOn="Запрашивать подтверждение при рекурсивном удалении не пустой папки"
-            android:title="Удаление не пустой папки" >
+            android:title="Подтверждение удаления не пустой папки" >
         </CheckBoxPreference>
     </PreferenceCategory>
 

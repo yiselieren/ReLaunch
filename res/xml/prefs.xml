@@ -84,6 +84,24 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="hideKnownExts"
+            android:persistent="true"
+            android:summaryOff="Show full file names, with extensions"
+            android:summaryOn="Hide known extensions (by associaciations)"
+            android:title="Hide known extensions" >
+        </CheckBoxPreference>            
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="hideKnownDirs"
+            android:persistent="true"
+            android:summaryOff="Show full dirs names (even in start dirs)"
+            android:summaryOn="Hide known part (start dir) from dir name"
+            android:title="Hide known part of directories" >
+        </CheckBoxPreference>            
+            
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
             android:persistent="true"
@@ -111,7 +129,7 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="GL16 mode"
-            android:title="Screen update mode (GL16 mode)" />
+            android:title="Screen update mode (GL16 mode)" />
         -->
 
         <ListPreference
@@ -203,8 +221,8 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Search results list" />
-		
-		<ListPreference
+
+        <ListPreference
             android:defaultValue="70 3:5 7:4 15:3 48:2"
             android:enabled="true"
             android:entries="@array/output_columns_intensity_names"
@@ -213,7 +231,6 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Determining the number of columns" />
-		        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Main screen buttons behavior" >
@@ -458,7 +475,16 @@
         </EditTextPreference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Confirmations" >
+    <PreferenceCategory android:title="File manager functions" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="useFileManagerFunctions"
+            android:persistent="true"
+            android:summaryOff="Show file manager menu items"
+            android:summaryOn="Don&apos;t show file manager menu items"
+            android:title="Use file management functions" >
+        </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="true"

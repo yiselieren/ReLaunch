@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -74,7 +76,7 @@ public class ReLaunch extends Activity {
     static public final String    COLS_FILE = "Columns.txt";
     final String                  defReaders = ".fb2,.fb2.zip:org.coolreader%org.coolreader.CoolReader%Cool Reader|.epub:Intent:application/epub|.jpg,.jpeg:Intent:image/jpeg"
         + "|.png:Intent:image/png|.pdf:Intent:application/pdf";
-    final static public String    defReader = "Cool Reader";
+    final static public String    defReader = "org.coolreader%org.coolreader.CoolReader%Cool Reader";
     final static public int       TYPES_ACT = 1;
     final static public int       DIR_ACT = 2;
     final static int              CNTXT_MENU_DELETE_F=1;
@@ -115,6 +117,7 @@ public class ReLaunch extends Activity {
     // Bottom info panel
     BroadcastReceiver             batteryLevelReceiver = null;
     boolean                       batteryLevelRegistered = false;
+    boolean                       mountReceiverRegistered = false;
     Button                        memTitle;
     Button                        memLevel;
     Button                        battTitle;
@@ -226,12 +229,50 @@ public class ReLaunch extends Activity {
             else
                 holder = (ViewHolder) v.getTag();
 
+            // known extensions
+            List<HashMap<String, String>> rc;
+            ArrayList<String> exts = new ArrayList<String>();
+            
+            if(prefs.getBoolean("hideKnownExts", false)) {
+            rc = app.getReaders();
+            Set<String> tkeys = new HashSet<String>();
+            for(int i=0;i<rc.size();i++) {
+            	Object[] keys = rc.get(i).keySet().toArray();
+            	for(int j=0;j<keys.length;j++) {
+            		tkeys.add(keys[j].toString());
+            	}
+            }
+            exts = new ArrayList<String>(tkeys);
+            final class ExtsComparator implements java.util.Comparator<String>
+            {
+                public int compare(String a, String b)
+                {
+                if(a==null && b==null) return 0;
+                if(a==null && b!=null) return 1;
+                if(a!=null && b==null) return -1;
+                if(a.length() < b.length()) return 1;
+                if(a.length() > b.length()) return -1;
+                return a.compareTo(b);
+                }
+            }
+            Collections.sort(exts,new ExtsComparator());
+            }
+            
             HashMap<String, String> item = itemsArray.get(position);
             if (item != null) {
                 TextView  tv = holder.tv;
                 LinearLayout tvHolder = holder.tvHolder;
                 ImageView iv = holder.iv;
                 String    sname = item.get("name");
+                // clean extension, if needed
+                if(prefs.getBoolean("hideKnownExts", false)) {
+                	for(int i=0;i<exts.size();i++) {
+                		if(sname.endsWith(exts.get(i))) {
+                			sname = sname.substring(0, sname.length()-exts.get(i).length());
+                		}
+                	}
+                }
+                
                 String    fname = item.get("fname");
                 boolean   setBold = false;
                 boolean   useFaces  = prefs.getBoolean("showNew", true);
@@ -1431,9 +1472,12 @@ public class ReLaunch extends Activity {
         
         app.booted = true;
        
-        IntentFilter filter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED);
-        filter.addDataScheme("file"); 
-        registerReceiver(this.SDReceiver, new IntentFilter(filter));
+        if(!mountReceiverRegistered) {
+            IntentFilter filter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED);
+            filter.addDataScheme("file");
+        	registerReceiver(this.SDReceiver, new IntentFilter(filter));
+        	mountReceiverRegistered = true;
+        }
         
     }
 
@@ -1563,7 +1607,8 @@ public class ReLaunch extends Activity {
                 //menu.add(Menu.NONE, CNTXT_MENU_INTENT, Menu.NONE, "Create Intent ...");
             	menu.add(Menu.NONE, CNTXT_MENU_INTENT, Menu.NONE, getResources().getString(R.string.jv_relaunch_createintent));
             //menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, "Delete");
-            menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete));
+            if (prefs.getBoolean("useFileManagerFunctions", true))
+            	menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete));
         }
         else
         {
@@ -1572,12 +1617,16 @@ public class ReLaunch extends Activity {
             if (!app.contains("favorites", fullName, app.DIR_TAG))
                 //menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, "Add to favorites");
             	menu.add(Menu.NONE, CNTXT_MENU_ADD, Menu.NONE, getResources().getString(R.string.jv_relaunch_add));
-            if (allEntries.length > 0)
+            if (allEntries!=null && allEntries.length > 0) {
                 //menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, "Delete NON-EMPTY directory!");
-            	menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete_non_emp_dir));
-            else
+            	if (prefs.getBoolean("useFileManagerFunctions", true))
+            		menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_NON_EMPTY, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete_non_emp_dir));
+            }
+            else {
                 //menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, "Delete empty directory");
-            	menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete_emp_dir));
+            	if (prefs.getBoolean("useFileManagerFunctions", true))
+            		menu.add(Menu.NONE, CNTXT_MENU_DELETE_D_EMPTY, Menu.NONE, getResources().getString(R.string.jv_relaunch_delete_emp_dir));
+            }
         }
         //menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
         menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources().getString(R.string.jv_relaunch_cancel));
@@ -1853,6 +1902,7 @@ public class ReLaunch extends Activity {
 
     @Override
     protected void onStop() {
+
         int lruMax = 30;
         int favMax = 30;
         int appLruMax = 30;
@@ -1883,7 +1933,8 @@ public class ReLaunch extends Activity {
 			c.add(new String[] {k, Integer.toString(app.columns.get(k)) } );
 		}
 		app.setList("columns", c);
-		app.writeFile("columns", ReLaunch.COLS_FILE, 0, ":");        
+		app.writeFile("columns", ReLaunch.COLS_FILE, 0, ":");
+		// unregisterReceiver(this.SDReceiver);
         super.onStop();
     }
 

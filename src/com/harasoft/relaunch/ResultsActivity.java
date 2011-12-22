@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -134,6 +136,42 @@ public class ResultsActivity extends Activity {
 			} else
 				holder = (ViewHolder) v.getTag();
 
+			// exts dirs sorter
+            final class ExtsComparator implements java.util.Comparator<String>
+            {
+                public int compare(String a, String b)
+                {
+                if(a==null && b==null) return 0;
+                if(a==null && b!=null) return 1;
+                if(a!=null && b==null) return -1;
+                if(a.length() < b.length()) return 1;
+                if(a.length() > b.length()) return -1;
+                return a.compareTo(b);
+                }
+            }
+            // known extensions
+            List<HashMap<String, String>> rc;
+            ArrayList<String> exts = new ArrayList<String>();
+            if(prefs.getBoolean("hideKnownExts", false)) {
+            	rc = app.getReaders();
+            	Set<String> tkeys = new HashSet<String>();
+            	for(int i=0;i<rc.size();i++) {
+            		Object[] keys = rc.get(i).keySet().toArray();
+            		for(int j=0;j<keys.length;j++) {
+            			tkeys.add(keys[j].toString());
+            		}
+            	}
+            	exts = new ArrayList<String>(tkeys);
+            	Collections.sort(exts,new ExtsComparator());
+            	}
+            // known dirs
+            ArrayList<String> dirs = new ArrayList<String>();
+            if(prefs.getBoolean("hideKnownDirs", false)) {
+            	String[] home_dirs = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,"); 
+            	for(int i=0;i<home_dirs.length;i++) dirs.add(home_dirs[i]);
+            	Collections.sort(dirs,new ExtsComparator());
+            	}
+			
 			TextView tv1 = holder.tv1;
 			TextView tv2 = holder.tv2;
 			
@@ -153,11 +191,30 @@ public class ResultsActivity extends Activity {
 			HashMap<String, String> item = itemsArray.get(position);
 			if (item != null) {
 				String fname = item.get("fname");
+				String sname = item.get("fname");
 				String dname = item.get("dname");
+				String sdname = item.get("dname");
 				String fullName = dname + "/" + fname;
 				boolean setBold = false;
 				boolean useFaces = prefs.getBoolean("showNew", true);
-
+                
+				// clean extension, if needed
+				if(prefs.getBoolean("hideKnownExts", false)) {
+					for(int i=0;i<exts.size();i++) {
+						if(sname.endsWith(exts.get(i))) {
+							sname = sname.substring(0, sname.length()-exts.get(i).length());
+						}
+					}
+				}
+                // clean start prefixes, if need
+				if(prefs.getBoolean("hideKnownDirs", false)) {
+					for(int i=0;i<dirs.size();i++) {
+						if(sdname.startsWith(dirs.get(i))) {
+							sdname = "~" + sdname.substring(dirs.get(i).length());
+						}
+					}
+				}
+                
 				if (useFaces) {
 					if (app.history.containsKey(fullName)) {
 						if (app.history.get(fullName) == app.READING) {
@@ -234,16 +291,19 @@ public class ResultsActivity extends Activity {
 				// fname empty with dname empty - root dir as is
 				if (dname.equals("")) {
 					dname = "/";
+					sdname = "/";
 					if (fname.equals("")) {
 						fname = "/";
+						sname = "/";
 						dname = "";
+						sdname = "";
 					}
 				}
 				if (useFaces) {
-					SpannableString s = new SpannableString(fname);
+					SpannableString s = new SpannableString(sname);
 					s.setSpan(new StyleSpan(setBold ? Typeface.BOLD
-							: Typeface.NORMAL), 0, fname.length(), 0);
-					tv1.setText(dname);
+							: Typeface.NORMAL), 0, sname.length(), 0);
+					tv1.setText(sdname);
 					tv2.setText(s);
 				} else {
 					tvHolder.setBackgroundColor(getResources().getColor(
@@ -252,8 +312,8 @@ public class ResultsActivity extends Activity {
 					tv1.setTextColor(getResources().getColor(R.color.normal_fg));
 					// tv2.setBackgroundColor(getResources().getColor(R.color.normal_bg));
 					tv2.setTextColor(getResources().getColor(R.color.normal_fg));
-					tv1.setText(dname);
-					tv2.setText(fname);
+					tv1.setText(sdname);
+					tv2.setText(sname);
 				}
 			}
 			// fixes on rows height in grid
@@ -829,7 +889,8 @@ public class ResultsActivity extends Activity {
 					.getString(R.string.jv_results_remove));
 			// menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE,
 			// "Delete directory");
-			menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, getResources()
+			if (prefs.getBoolean("useFileManagerFunctions", true))
+				menu.add(Menu.NONE, CNTXT_MENU_RMDIR, Menu.NONE, getResources()
 					.getString(R.string.jv_results_delete_dir));
 			// menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
 			menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources()
@@ -850,7 +911,8 @@ public class ResultsActivity extends Activity {
 			menu.add(Menu.NONE, CNTXT_MENU_RMFAV, Menu.NONE, getResources()
 					.getString(R.string.jv_results_remove));
 			// menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
-			menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources()
+			if (prefs.getBoolean("useFileManagerFunctions", true))
+				menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources()
 					.getString(R.string.jv_results_delete_file));
 			// menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
 			menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources()
@@ -879,7 +941,8 @@ public class ResultsActivity extends Activity {
 				menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE,
 						getResources().getString(R.string.jv_results_mark));
 			// menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
-			menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources()
+			if (prefs.getBoolean("useFileManagerFunctions", true))
+				menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources()
 					.getString(R.string.jv_results_delete_file));
 			// menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
 			menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources()
@@ -918,7 +981,8 @@ public class ResultsActivity extends Activity {
 				menu.add(Menu.NONE, CNTXT_MENU_MARK_FINISHED, Menu.NONE,
 						getResources().getString(R.string.jv_results_mark));
 			// menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, "Delete file");
-			menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources()
+			if (prefs.getBoolean("useFileManagerFunctions", true))
+				menu.add(Menu.NONE, CNTXT_MENU_RMFILE, Menu.NONE, getResources()
 					.getString(R.string.jv_results_delete_file));
 			// menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, "Cancel");
 			menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources()

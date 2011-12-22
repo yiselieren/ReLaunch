@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.harasoft.relaunch"
-      android:versionName="1.2.9" android:versionCode="100200900">
+      android:versionName="1.2.10b1" android:versionCode="100201001">
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_TASKS" />

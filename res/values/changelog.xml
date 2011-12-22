@@ -12,6 +12,11 @@
         </string>
     <string name="whats_new">
         &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.2.10b1&lt;/b&gt;&lt;br&gt;
+        - Configurable File Manager (now implemented deletion only, sorry) menu items (user can disable).&lt;br&gt;
+        - Configurable hiding of known (via associations) file extensions (user can enable).&lt;br&gt;
+		- Configurable hiding of known (via home dirs) parts of directories names (user can enable).&lt;br&gt;
+		- Fixes in context menu creation for empty dir and leaking of mount sdcard broadcast receiver.&lt;br&gt;
         &lt;b&gt;1.2.9&lt;/b&gt;&lt;br&gt;
         - Home icon changed.&lt;br&gt;
         - Spanish translation added.&lt;br&gt;
