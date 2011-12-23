@@ -24,14 +24,18 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -481,18 +485,65 @@ public class ResultsActivity extends Activity {
 					}
 				});
 
+		// may be "dead end" of code now(?) now UP functionality in this screens?
+		// so force to DISABLED
 		final Button up = (Button) findViewById(R.id.goup_btn);
+		/*
 		if (up != null)
 			up.setEnabled(false);
+		*/
+		up.setEnabled(false);
+		// end of (possible) "dead end" code
 		final ImageButton adv = (ImageButton) findViewById(R.id.advanced_btn);
 		if (adv != null) {
+        	class advSimpleOnGestureListener extends SimpleOnGestureListener {
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+					Intent i = new Intent(ResultsActivity.this, Advanced.class);
+					startActivity(i);                	
+                    /*
+                	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                		openHome(0);
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                		openHome(1);
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                		menuHome();
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                		screenHome();
+                	}
+                	*/                 	
+                    return true;
+                }
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    return true;
+                }                    
+                @Override
+                public void onLongPress(MotionEvent e) {
+                	if(adv.hasWindowFocus()) {
+
+                		}
+                	}
+            };
+            advSimpleOnGestureListener adv_gl = new advSimpleOnGestureListener();
+            final GestureDetector adv_gd = new GestureDetector(adv_gl);
+            adv.setOnTouchListener(new OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                	adv_gd.onTouchEvent(event);
+               		return false;
+                }
+            });			
+            /*
 			adv.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					Intent i = new Intent(ResultsActivity.this, Advanced.class);
 					startActivity(i);
 				}
 			});
-
+			*/
 		}
 
 		currentPosition = -1;
@@ -749,6 +800,57 @@ public class ResultsActivity extends Activity {
 
 		final Button upScroll = (Button) findViewById(R.id.upscroll_btn);
 		upScroll.setText(app.scrollStep + "%");
+    	class upScrlSimpleOnGestureListener extends SimpleOnGestureListener {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+				// GridView gv = (GridView) findViewById(R.id.results_list);
+				int first = gv.getFirstVisiblePosition();
+				int total = itemsArray.size();
+				first -= (total * app.scrollStep) / 100;
+				if (first < 0)
+					first = 0;
+				gv.setSelection(first);
+				// some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }            	
+                /*
+            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+            		openHome(0);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+            		openHome(1);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+            		menuHome();
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+            		screenHome();
+            	}
+            	*/                 	
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                return true;
+            }                    
+            @Override
+            public void onLongPress(MotionEvent e) {
+            	if(upScroll.hasWindowFocus()) {
+
+            		}
+            	}
+        };
+        upScrlSimpleOnGestureListener upscrl_gl = new upScrlSimpleOnGestureListener();
+        final GestureDetector upscrl_gd = new GestureDetector(upscrl_gl);
+        upScroll.setOnTouchListener(new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+            	upscrl_gd.onTouchEvent(event);
+           		return false;
+            }
+        });		
+		/*
 		upScroll.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// GridView gv = (GridView) findViewById(R.id.results_list);
@@ -765,9 +867,66 @@ public class ResultsActivity extends Activity {
                 }				
 			}
 		});
-
+		*/
+		
 		final Button downScroll = (Button) findViewById(R.id.downscroll_btn);
 		downScroll.setText(app.scrollStep + "%");
+    	class dnScrlSimpleOnGestureListener extends SimpleOnGestureListener {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+				// GridView gv = (GridView) findViewById(R.id.results_list);
+                int first = gv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return true;
+                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                first += (total * app.scrollStep) / 100;
+                if (first <= last)
+                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (first > (total-1))
+                    first = total-1;
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }            	
+                /*
+            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+            		openHome(0);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+            		openHome(1);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+            		menuHome();
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+            		screenHome();
+            	}
+            	*/                 	
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                return true;
+            }                    
+            @Override
+            public void onLongPress(MotionEvent e) {
+            	if(downScroll.hasWindowFocus()) {
+
+            		}
+            	}
+        };
+        dnScrlSimpleOnGestureListener dnscrl_gl = new dnScrlSimpleOnGestureListener();
+        final GestureDetector dnscrl_gd = new GestureDetector(dnscrl_gl);
+        downScroll.setOnTouchListener(new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+            	dnscrl_gd.onTouchEvent(event);
+           		return false;
+            }
+        });		
+		/*
 		downScroll.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// GridView gv = (GridView) findViewById(R.id.results_list);
@@ -787,16 +946,15 @@ public class ResultsActivity extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }                
-                /*
-				int first = gv.getFirstVisiblePosition();
-				int total = itemsArray.size();
-				first += (total * app.scrollStep) / 100;
-				if (first > total)
-					first = total;
-				gv.setSelection(first);
-				*/
+                //int first = gv.getFirstVisiblePosition();
+				//int total = itemsArray.size();
+				//first += (total * app.scrollStep) / 100;
+				//if (first > total)
+				//first = total;
+				//gv.setSelection(first);
 			}
 		});
+		*/
 	}
 
 	@Override

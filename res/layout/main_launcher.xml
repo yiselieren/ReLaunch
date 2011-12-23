@@ -154,14 +154,14 @@
         android:layout_marginTop="8dp" >
 
         <LinearLayout
-            android:id="@+id/linearLayout3"
+            android:id="@+id/mem_layout"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:clickable="true">
 
-            <Button
+            <TextView
                 android:id="@+id/mem_title"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
@@ -174,9 +174,9 @@
                 android:text="@string/main_launcher_nb_layout_memory"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/normal_fg" >
-            </Button>
+            </TextView>
 
-            <Button
+            <TextView
                 android:id="@+id/mem_level"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
@@ -190,7 +190,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/normal_fg"
                 android:textStyle="bold" >
-            </Button>
+            </TextView>
+
         </LinearLayout>
 
         <ImageButton
@@ -225,15 +226,15 @@
         </ImageButton>
 
         <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/bat_layout"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:clickable="true">
 
-            <Button
+            <TextView
                 android:id="@+id/bat_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -245,10 +246,10 @@
                 android:drawableRight="@drawable/wifi_on"
                 android:text="@string/main_launcher_nb_layout_battery"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/normal_fg" >
-            </Button>
+                android:textColor="@color/normal_fg" android:gravity="center">
+            </TextView>
 
-            <Button
+            <TextView
                 android:id="@+id/bat_level"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -262,7 +263,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/normal_fg"
                 android:textStyle="bold" >
-            </Button>
+            </TextView>
         </LinearLayout>
     </LinearLayout>
 

@@ -118,10 +118,11 @@ public class ReLaunch extends Activity {
     BroadcastReceiver             batteryLevelReceiver = null;
     boolean                       batteryLevelRegistered = false;
     boolean                       mountReceiverRegistered = false;
-    Button                        memTitle;
-    Button                        memLevel;
-    Button                        battTitle;
-    Button                        battLevel;
+    boolean                       powerReceiverRegistered = false;
+    TextView                      memTitle;
+    TextView                      memLevel;
+    TextView                      battTitle;
+    TextView                      battLevel;
     IntentFilter                  batteryLevelFilter;
     
     private void setEinkController() {
@@ -511,7 +512,7 @@ public class ReLaunch extends Activity {
         currentPosition = p1;
     }
     
-    private void setUpButton(Button up, final String upDir, String currDir)
+    private void setUpButton(final Button up, final String upDir, String currDir)
     {
         if (up != null)
         {
@@ -529,6 +530,53 @@ public class ReLaunch extends Activity {
         		}
         	}
             up.setEnabled(enabled);
+            // gesture listener
+        	class UpSimpleOnGestureListener extends SimpleOnGestureListener {
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    if (!upDir.equals(""))
+                    {
+                        Integer p = -1;
+                        if (!positions.empty())
+                            p = positions.pop();
+                        drawDirectory(upDir, p);
+                    }                	
+                    /*
+                	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                		openHome(0);
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                		openHome(1);
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                		menuHome();
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                		screenHome();
+                	}
+                	*/                 	
+                    return true;
+                }
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    return true;
+                }                    
+                @Override
+                public void onLongPress(MotionEvent e) {
+                	if(up.hasWindowFocus()) {
+
+                		}
+                	}
+            };
+            UpSimpleOnGestureListener up_gl = new UpSimpleOnGestureListener();
+            final GestureDetector up_gd = new GestureDetector(up_gl);
+            up.setOnTouchListener(new OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                	up_gd.onTouchEvent(event);
+               		return false;
+                }
+            });
+            /*
             up.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
@@ -540,6 +588,7 @@ public class ReLaunch extends Activity {
                         drawDirectory(upDir, p);
                     }
                 }});
+             */
         }
     }
 
@@ -715,12 +764,54 @@ public class ReLaunch extends Activity {
         final ImageButton adv = (ImageButton)findViewById(R.id.advanced_btn);
         if (adv != null)
         {
+        	class advSimpleOnGestureListener extends SimpleOnGestureListener {
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    Intent i = new Intent(ReLaunch.this, Advanced.class);
+                    startActivity(i);                	
+                    /*
+                	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                		openHome(0);
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                		openHome(1);
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                		menuHome();
+                	}
+                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                		screenHome();
+                	}
+                	*/                 	
+                    return true;
+                }
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    return true;
+                }                    
+                @Override
+                public void onLongPress(MotionEvent e) {
+                	if(adv.hasWindowFocus()) {
+
+                		}
+                	}
+            };
+            advSimpleOnGestureListener adv_gl = new advSimpleOnGestureListener();
+            final GestureDetector adv_gd = new GestureDetector(adv_gl);
+            adv.setOnTouchListener(new OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                	adv_gd.onTouchEvent(event);
+               		return false;
+                }
+            });
+            /*
             adv.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
                     Intent i = new Intent(ReLaunch.this, Advanced.class);
                     startActivity(i);
                 }});
+              */
         }
 
         itemsArray = new ArrayList<HashMap<String,String>>();
@@ -861,7 +952,6 @@ public class ReLaunch extends Activity {
                     }
                 }});
 		*/
-        // ======================= 12345
         final GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
         adapter = new FLSimpleAdapter(this, itemsArray, useDirViewer ? R.layout.results_layout : R.layout.flist_layout, from, to);
         gv.setAdapter(adapter);
@@ -973,9 +1063,59 @@ public class ReLaunch extends Activity {
                     }
                 }});
         
-        // ======================= 12345
         final Button upScroll = (Button)findViewById(R.id.upscroll_btn);
         upScroll.setText(app.scrollStep + "%");
+    	class upScrlSimpleOnGestureListener extends SimpleOnGestureListener {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+            	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
+                int first = gv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                first -= (total * app.scrollStep) / 100;
+                if (first < 0)
+                    first = 0;
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }
+                /*
+            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+            		openHome(0);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+            		openHome(1);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+            		menuHome();
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+            		screenHome();
+            	}
+            	*/                 	
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                return true;
+            }                    
+            @Override
+            public void onLongPress(MotionEvent e) {
+            	if(upScroll.hasWindowFocus()) {
+
+            		}
+            	}
+        };
+        upScrlSimpleOnGestureListener upscrl_gl = new upScrlSimpleOnGestureListener();
+        final GestureDetector upscrl_gd = new GestureDetector(upscrl_gl);
+        upScroll.setOnTouchListener(new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+            	upscrl_gd.onTouchEvent(event);
+           		return false;
+            }
+        });        
+        /*
         upScroll.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -992,9 +1132,67 @@ public class ReLaunch extends Activity {
                 	gv.setSelection(first);
                 }
             }});
-
+		*/
+        
         final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
         downScroll.setText(app.scrollStep + "%");
+    	class dnScrlSimpleOnGestureListener extends SimpleOnGestureListener {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+            	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
+                int first = gv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return true;
+                Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                first += (total * app.scrollStep) / 100;
+                if (first <= last)
+                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (first > (total-1))
+                    first = total-1;
+                Log.d(TAG, " new first=" + first);
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }            	
+                /*
+            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+            		openHome(0);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+            		openHome(1);
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+            		menuHome();
+            	}
+            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+            		screenHome();
+            	}
+            	*/                 	
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                return true;
+            }                    
+            @Override
+            public void onLongPress(MotionEvent e) {
+            	if(downScroll.hasWindowFocus()) {
+
+            		}
+            	}
+        };
+        dnScrlSimpleOnGestureListener dnscrl_gl = new dnScrlSimpleOnGestureListener();
+        final GestureDetector dnscrl_gd = new GestureDetector(dnscrl_gl);
+        downScroll.setOnTouchListener(new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+            	dnscrl_gd.onTouchEvent(event);
+           		return false;
+            }
+        });
+        /*
         downScroll.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
@@ -1017,6 +1215,7 @@ public class ReLaunch extends Activity {
                 	gv.setSelection(first);
                 }
             }});
+        */
         
         refreshBottomInfo();
     }
@@ -1121,7 +1320,7 @@ public class ReLaunch extends Activity {
             }
     }
 
-    private BroadcastReceiver SDReceiver = new BroadcastReceiver(){
+    private BroadcastReceiver SDCardChangeReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context context, Intent intent) {
         	// Code to react to SD mounted goes here
@@ -1134,7 +1333,14 @@ public class ReLaunch extends Activity {
        		startActivity(i);
         }
      }; 
-    
+
+     private BroadcastReceiver PowerChangeReceiver = new BroadcastReceiver(){
+         @Override
+         public void onReceive(Context context, Intent intent) {
+        	 refreshBottomInfo();
+         }
+      };
+     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1252,6 +1458,52 @@ public class ReLaunch extends Activity {
                 app.readFile("app_last", APP_LRU_FILE, ":");
                 app.readFile("app_favorites", APP_FAV_FILE, ":");
                 setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher : R.layout.main_launcher_nb);
+                
+                final ImageButton lrua_button = ((ImageButton)findViewById(R.id.app_last));
+            	class LruaSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                        Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+                        intent.putExtra("list", "app_last");
+                        //intent.putExtra("title", "Last recently used applications");
+                        intent.putExtra("title", getResources().getString(R.string.jv_relaunch_lru_a));
+                        startActivity(intent);
+                        /*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}
+                    	*/                 	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(lrua_button.hasWindowFocus()) {
+
+                    		}
+                    	}
+                };
+                LruaSimpleOnGestureListener lrua_gl = new LruaSimpleOnGestureListener();
+                final GestureDetector lrua_gd = new GestureDetector(lrua_gl);
+                lrua_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	lrua_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });
+                /*
                 ((ImageButton)findViewById(R.id.app_last)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v)
                         {
@@ -1262,6 +1514,52 @@ public class ReLaunch extends Activity {
                             startActivity(intent);
                         }
                     });
+                */
+                final ImageButton alla_button = ((ImageButton)findViewById(R.id.all_applications_btn));
+            	class AllaSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                        Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+                        intent.putExtra("list", "app_all");
+                        //intent.putExtra("title", "All applications");
+                        intent.putExtra("title", getResources().getString(R.string.jv_relaunch_all_a));
+                        startActivity(intent);
+                        /*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}
+                    	*/                 	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(alla_button.hasWindowFocus()) {
+
+                    		}
+                    	}
+                };
+                AllaSimpleOnGestureListener alla_gl = new AllaSimpleOnGestureListener();
+                final GestureDetector alla_gd = new GestureDetector(alla_gl);
+                alla_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	alla_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });         
+                /*
                 ((ImageButton)findViewById(R.id.all_applications_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v)
                         {
@@ -1272,6 +1570,52 @@ public class ReLaunch extends Activity {
                             startActivity(intent);
                         }
                     });
+                */
+                final ImageButton fava_button = ((ImageButton)findViewById(R.id.app_favorites));
+            	class FavaSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                        Intent intent = new Intent(ReLaunch.this, AllApplications.class);
+                        intent.putExtra("list", "app_favorites");
+                        //intent.putExtra("title", "Favorite applications");
+                        intent.putExtra("title", getResources().getString(R.string.jv_relaunch_fav_a));
+                        startActivity(intent);
+                        /*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}
+                    	*/                 	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(fava_button.hasWindowFocus()) {
+
+                    		}
+                    	}
+                };
+                FavaSimpleOnGestureListener fava_gl = new FavaSimpleOnGestureListener();
+                final GestureDetector fava_gd = new GestureDetector(fava_gl);
+                fava_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	fava_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });
+                /*
                 ((ImageButton)findViewById(R.id.app_favorites)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v)
                         {
@@ -1282,6 +1626,7 @@ public class ReLaunch extends Activity {
                             startActivity(intent);
                         }
                     });
+                 */
             }
             else
                 setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main : R.layout.main_nobuttons);
@@ -1342,28 +1687,186 @@ public class ReLaunch extends Activity {
                 };
                 HomeSimpleOnGestureListener home_gl = new HomeSimpleOnGestureListener();
                 final GestureDetector home_gd = new GestureDetector(home_gl);
-               
                 home_button.setOnTouchListener(new OnTouchListener() {
-                   
                     public boolean onTouch(View v, MotionEvent event) {
                     	home_gd.onTouchEvent(event);
                    		return false;
                     }
                 });
-                
             	/*
                 ((ImageButton)findViewById(R.id.home_btn)).setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) { menuHome(); }});
                 */
                 
-                ((ImageButton)findViewById(R.id.settings_btn)).setOnClickListener(new View.OnClickListener() {
+                final ImageButton settings_button = (ImageButton)findViewById(R.id.settings_btn);
+            	class SettingsSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	menuSettings();
+                    	/*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	} */                    	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(settings_button.hasWindowFocus()) {
+                    		}
+                    	}
+                };
+                SettingsSimpleOnGestureListener settings_gl = new SettingsSimpleOnGestureListener();
+                final GestureDetector settings_gd = new GestureDetector(settings_gl);
+                settings_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	settings_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });
+                /*
+                settings_button.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSettings(); }});
-                ((ImageButton)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
+                */
+                
+                final ImageButton search_button = (ImageButton)findViewById(R.id.search_btn);
+            	class SearchSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	menuSearch();
+                    	/*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	} */                    	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(search_button.hasWindowFocus()) {
+                    		}
+                    	}
+                };
+                SearchSimpleOnGestureListener search_gl = new SearchSimpleOnGestureListener();
+                final GestureDetector search_gd = new GestureDetector(search_gl);
+                search_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	search_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });
+                /*
+                search_button.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuSearch(); }});
-                ((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) { menuLastopened(); }});
+                */
+                final ImageButton lru_button = (ImageButton)findViewById(R.id.lru_btn);
+            	class LruSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	menuLastopened();
+                    	/*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	} */                    	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(lru_button.hasWindowFocus()) {
+                    		}
+                    	}
+                };
+                LruSimpleOnGestureListener lru_gl = new LruSimpleOnGestureListener();
+                final GestureDetector lru_gd = new GestureDetector(lru_gl);
+                lru_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	lru_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });                
+                /*((ImageButton)findViewById(R.id.lru_btn)).setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) { menuLastopened(); }});*/
+                
+                final ImageButton fav_button = (ImageButton)findViewById(R.id.favor_btn);
+            	class FavSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	menuFavorites();
+                    	/*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	} */                    	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(fav_button.hasWindowFocus()) {
+                    		}
+                    	}
+                };
+                FavSimpleOnGestureListener fav_gl = new FavSimpleOnGestureListener();
+                final GestureDetector fav_gd = new GestureDetector(fav_gl);
+                fav_button.setOnTouchListener(new OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	fav_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });        
+                /*
                 ((ImageButton)findViewById(R.id.favor_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuFavorites(); }});
+                        */
+                
                 /*
                 ((ImageButton)findViewById(R.id.about_btn)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) { menuAbout(); }});
@@ -1371,47 +1874,166 @@ public class ReLaunch extends Activity {
             }
 
             // Memory buttons (task manager activity)
-            memLevel = (Button)findViewById(R.id.mem_level);
-            if (memLevel != null)
-                memLevel.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-                    	findViewById(R.id.linearLayout3).setPressed(true);
-                        Intent intent = new Intent(ReLaunch.this, TaskManager.class);
-                        startActivity(intent);
-                    }});
-            memTitle = (Button)findViewById(R.id.mem_title);
-            if (memTitle != null)
-                memTitle.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-                    	findViewById(R.id.linearLayout3).setPressed(true);
-                        Intent intent = new Intent(ReLaunch.this, TaskManager.class);
-                        startActivity(intent);
-                    }});
+            final LinearLayout mem_l = (LinearLayout)findViewById(R.id.mem_layout);
+            if(mem_l != null) {
+            	class MemlSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+            			//findViewById(R.id.mem_layout).setPressed(true);
+            			Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+            			startActivity(intent);
+                        /*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}
+                    	*/                 	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(mem_l.hasWindowFocus()) {
 
+                    		}
+                    	}
+                };
+                MemlSimpleOnGestureListener meml_gl = new MemlSimpleOnGestureListener();
+                final GestureDetector meml_gd = new GestureDetector(meml_gl);
+                mem_l.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	meml_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });
+            	/*
+            	mem_l.setOnTouchListener(new OnTouchListener() {
+            		public boolean onTouch(View v, MotionEvent E)
+            		{
+            			findViewById(R.id.mem_layout).setPressed(true);
+            			Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+            			startActivity(intent);
+            			return true;
+            		}});
+            	*/
+            	}
+            memLevel = (TextView)findViewById(R.id.mem_level);
+            //if (memLevel != null)
+            //	memLevel.setOnTouchListener(new OnTouchListener() {
+            //        public boolean onTouch(View v, MotionEvent event) {
+             //       	mem_l.onTouchEvent(event);
+              //      	return false;
+               //     }
+                //});  
+                //memLevel.setOnClickListener(new View.OnClickListener() {
+                //    public void onClick(View v)
+                //   {
+                //    	findViewById(R.id.mem_layout).setPressed(true);
+                //        Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                //        startActivity(intent);
+                //    }});
+            memTitle = (TextView)findViewById(R.id.mem_title);
+            //if (memTitle != null)
+            //	memTitle.setOnTouchListener(new OnTouchListener() {
+            //        public boolean onTouch(View v, MotionEvent event) {
+            //       		mem_l.onTouchEvent(event);
+            //       		return false;
+            //        }
+            //    });
+                //memTitle.setOnClickListener(new View.OnClickListener() {
+                //    public void onClick(View v)
+                //    {
+                //    	findViewById(R.id.mem_layout).setPressed(true);
+                //        Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                //        startActivity(intent);
+                //   }});
+            
+            // Battery Layout
+            final LinearLayout bat_l = (LinearLayout)findViewById(R.id.bat_layout);
+            if(bat_l != null) {
+            	class BatlSimpleOnGestureListener extends SimpleOnGestureListener {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	// findViewById(R.id.bat_layout).setPressed(true);
+                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                        startActivity(intent);
+                        /*
+                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
+                    		openHome(0);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
+                    		openHome(1);
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    		menuHome();
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    		screenHome();
+                    	}
+                    	*/                 	
+                        return true;
+                    }
+                    @Override
+                    public boolean onDoubleTap(MotionEvent e) {
+                        return true;
+                    }                    
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                    	if(mem_l.hasWindowFocus()) {
+
+                    		}
+                    	}
+                };
+                BatlSimpleOnGestureListener batl_gl = new BatlSimpleOnGestureListener();
+                final GestureDetector batl_gd = new GestureDetector(batl_gl);
+                bat_l.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                    	batl_gd.onTouchEvent(event);
+                   		return false;
+                    }
+                });            	
+                /*
+            	bat_l.setOnTouchListener(new OnTouchListener() {
+            		public boolean onTouch(View v, MotionEvent E)
+            		{
+                    	findViewById(R.id.bat_layout).setPressed(true);
+                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                        startActivity(intent);
+                        return true;
+            		}});
+            	*/
+            	}
             // Battery buttons
-            battLevel = (Button)findViewById(R.id.bat_level);
-            if (battLevel != null)
-                battLevel.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-                    	findViewById(R.id.linearLayout4).setPressed(true);
-                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
-                        startActivity(intent);
-                    }});
-            battTitle = (Button)findViewById(R.id.bat_title);
-            if (battTitle != null)
-                battTitle.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v)
-                    {
-                    	findViewById(R.id.linearLayout4).setPressed(true);
-                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
-                        startActivity(intent);
-                    }});
+            battLevel = (TextView)findViewById(R.id.bat_level);
+            //if (battLevel != null)
+            //    battLevel.setOnClickListener(new View.OnClickListener() {
+            //        public void onClick(View v)
+            //        {
+            //        	findViewById(R.id.bat_layout).setPressed(true);
+            //            Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+            //            startActivity(intent);
+            //        }});
+            battTitle = (TextView)findViewById(R.id.bat_title);
+            //if (battTitle != null)
+            //    battTitle.setOnClickListener(new View.OnClickListener() {
+            //        public void onClick(View v)
+            //        {
+            //        	findViewById(R.id.bat_layout).setPressed(true);
+            //            Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+            //            startActivity(intent);
+            //        }});
             batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-
-            checkDevice(Build.DEVICE, Build.MANUFACTURER, Build.MODEL, Build.PRODUCT);
 
             // What's new processing
             final int latestVersion = prefs.getInt("latestVersion", 0);
@@ -1443,7 +2065,10 @@ public class ReLaunch extends Activity {
                     }});
                 builder.show();
             }
-    
+
+            // incorrect device warning
+            checkDevice(Build.DEVICE, Build.MANUFACTURER, Build.MODEL, Build.PRODUCT);    
+
             /*
             Integer gl16Mode;
             try {
@@ -1475,9 +2100,18 @@ public class ReLaunch extends Activity {
         if(!mountReceiverRegistered) {
             IntentFilter filter = new IntentFilter (Intent.ACTION_MEDIA_MOUNTED);
             filter.addDataScheme("file");
-        	registerReceiver(this.SDReceiver, new IntentFilter(filter));
+        	registerReceiver(this.SDCardChangeReceiver, new IntentFilter(filter));
         	mountReceiverRegistered = true;
         }
+        
+        if(!powerReceiverRegistered) {
+            IntentFilter filter = new IntentFilter(); 
+            filter.addAction(Intent.ACTION_POWER_CONNECTED);
+            filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+            // filter.addDataScheme("file");
+        	registerReceiver(this.PowerChangeReceiver, new IntentFilter(filter));
+        	powerReceiverRegistered = true;
+        }        
         
     }
 
