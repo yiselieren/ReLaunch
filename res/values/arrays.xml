@@ -80,15 +80,20 @@
     </string-array>
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
-        <item>OPEN1</item>
+        <item>OPENN</item>
+        <!--
         <item>OPEN2</item>
+        -->
         <item>OPENMENU</item>
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="home_button_actions_names">
         <item>Nothing</item>
+        <item>Open home directory #</item>
+        <!--
         <item>Open first home directory</item>
         <item>Open second home directory</item>
+        -->
         <item>Open home directories menu</item>
         <item>Open home directories screen</item>
     </string-array>

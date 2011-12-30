@@ -80,15 +80,20 @@
     </string-array>
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
-        <item>OPEN1</item>
+        <item>OPENN</item>
+        <!--
         <item>OPEN2</item>
+        -->
         <item>OPENMENU</item>
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="home_button_actions_names">
         <item>No hacer nada</item>
+        <item>Abrir carpeta incial #</item>
+        <!--
         <item>Abrir primera carpeta incial</item>
         <item>Abrir segunda carpeta incial</item>
+        -->
         <item>Abrir menú de carpetas inicial</item>
         <item>Abrir ventana de carpetas inicial</item>
     </string-array>

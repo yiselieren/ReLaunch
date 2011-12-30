@@ -80,15 +80,20 @@
     </string-array>
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
-        <item>OPEN1</item>
+        <item>OPENN</item>
+        <!--
         <item>OPEN2</item>
+        -->
         <item>OPENMENU</item>
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="home_button_actions_names">
         <item>Ничего не делать</item>
+        <item>Открыть начальную папку №</item>
+        <!--
         <item>Открыть первую начальную папку</item>
         <item>Открыть вторую начальную папку</item>
+        -->
         <item>Открыть меню выбора начальной папки</item>
         <item>Открыть окно списка начальных папок</item>
     </string-array>

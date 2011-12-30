@@ -1637,27 +1637,37 @@ public class ReLaunch extends Activity {
             	class HomeSimpleOnGestureListener extends SimpleOnGestureListener {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
+                    	/*
                     	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
                     		openHome(0);
                     	}
                     	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
                     		openHome(1);
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
+                    	*/
+                    	if(prefs.getString("homeButtonST", "OPENN").equals("OPENN")) {
+                    		openHome(Integer.parseInt(prefs.getString("homeButtonSTopenN", "1")));
+                    	}
+                    	else if(prefs.getString("homeButtonST", "OPENN").equals("OPENMENU")) {
                     		menuHome();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
+                    	else if(prefs.getString("homeButtonST", "OPENN").equals("OPENSCREEN")) {
                     		screenHome();
                     	}                    	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                    	/*
                     	if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPEN1")) {
                     		openHome(0);
                     	}
                     	else if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPEN2")) {
                     		openHome(1);
+                    	}
+                    	*/
+                    	if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPENN")) {
+                    		openHome(Integer.parseInt(prefs.getString("homeButtonDTopenN", "1")));
                     	}
                     	else if(prefs.getString("homeButtonDT", "OPENMENU").equals("OPENMENU")) {
                     		menuHome();
@@ -1670,11 +1680,16 @@ public class ReLaunch extends Activity {
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(home_button.hasWindowFocus()) {
+                    		/*
                         	if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPEN1")) {
                         		openHome(0);
                         	}
                         	else if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPEN2")) {
                         		openHome(1);
+                        	}
+                        	*/
+                        	if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPENN")) {
+                        		openHome(Integer.parseInt(prefs.getString("homeButtonLTopenN", "1")));
                         	}
                         	else if(prefs.getString("homeButtonLT", "OPENSCREEN").equals("OPENMENU")) {
                         		menuHome();
@@ -2639,7 +2654,7 @@ public class ReLaunch extends Activity {
     
     private void openHome(Integer order_num) {
     	String[] startDirs = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
-    	if(order_num<startDirs.length) {
+    	if(order_num>=0 && order_num<startDirs.length) {
     		drawDirectory(startDirs[order_num], -1);
     	}
     }

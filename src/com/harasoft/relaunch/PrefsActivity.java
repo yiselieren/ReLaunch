@@ -5,17 +5,28 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class PrefsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
@@ -85,9 +96,12 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
         defItems.add(new PrefItem("columnsAlgIntensity","70 3:5 7:4 15:3 48:2"));
         
         // Buttons settings
-        defItems.add(new PrefItem("homeButtonST","OPEN1"));
+        defItems.add(new PrefItem("homeButtonST","OPENN"));
+        defItems.add(new PrefItem("homeButtonSTopenN","1"));
         defItems.add(new PrefItem("homeButtonDT","OPENMENU"));
+        defItems.add(new PrefItem("homeButtonDTopenN","1"));
         defItems.add(new PrefItem("homeButtonLT","OPENSCREEN"));
+        defItems.add(new PrefItem("homeButtonLTopenN","1"));
         
         // Launcher mode settings
         defItems.add(new PrefItem("homeMode", true));
@@ -154,22 +168,33 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
    
     private void updatePrefSummary(Preference p){
         if (p instanceof ListPreference) {
-            ListPreference listPref = (ListPreference) p; 
-            p.setSummary(listPref.getEntry()); 
+            ListPreference listPref = (ListPreference) p;
+            if(p.getKey().equals("homeButtonST") && listPref.getValue().toString().equals("OPENN")) {
+            	p.setSummary(listPref.getEntry() + prefs.getString("homeButtonSTopenN", "1"));
+            }
+            else if(p.getKey().equals("homeButtonDT") && listPref.getValue().toString().equals("OPENN")) {
+            	p.setSummary(listPref.getEntry() + prefs.getString("homeButtonDTopenN", "1"));
+            }
+            else if(p.getKey().equals("homeButtonLT") && listPref.getValue().toString().equals("OPENN")) {
+            	p.setSummary(listPref.getEntry() + prefs.getString("homeButtonLTopenN", "1"));
+            }            
+            else {
+            	p.setSummary(listPref.getEntry());
+            }
         }
         //if (p instanceof EditTextPreference) {
         //    EditTextPreference editTextPref = (EditTextPreference) p; 
         //    p.setSummary(editTextPref.getText()); 
         //}
     }
-    
+
     private void initSummary(Preference p){
         if (p instanceof PreferenceCategory){
              PreferenceCategory pCat = (PreferenceCategory)p;
              for(int i=0;i<pCat.getPreferenceCount();i++){
                  initSummary(pCat.getPreference(i));
              }
-         }else{
+         } else {
              updatePrefSummary(p);
          }
 
@@ -287,12 +312,94 @@ public class PrefsActivity extends PreferenceActivity implements OnSharedPrefere
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Preference pref = findPreference(key);
-
+        final Preference pref = findPreference(key);
+        // update summary
         if (pref instanceof ListPreference) {
             ListPreference listPref = (ListPreference) pref;
             pref.setSummary(listPref.getEntry());
         }
-    }
 
+        // special cases
+        if (key.equals("homeButtonST")) {
+        	if(sharedPreferences.getString(key, "OPENN").equals("OPENN")) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(PrefsActivity.this);
+                //builder1.setTitle("Intent type");
+                builder1.setTitle("Select num");
+                final EditText input = new EditText(PrefsActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setText(sharedPreferences.getString("homeButtonSTopenN", "1"));
+                builder1.setView(input);
+                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // input.getText().toString()
+                    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    	imm.hideSoftInputFromWindow(input.getWindowToken(),0); 
+                        dialog.dismiss();
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("homeButtonSTopenN", input.getText().toString());
+                        editor.commit();
+                        updatePrefSummary(pref);
+                        }
+                    });
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);                
+                builder1.show();
+        	}
+        }
+        if (key.equals("homeButtonDT")) {
+        	if(sharedPreferences.getString(key, "OPENMENU").equals("OPENN")) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(PrefsActivity.this);
+                //builder1.setTitle("Intent type");
+                builder1.setTitle("Select num");
+                final EditText input = new EditText(PrefsActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setText(sharedPreferences.getString("homeButtonDTopenN", "1"));
+                builder1.setView(input);
+                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // input.getText().toString()
+                    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    	imm.hideSoftInputFromWindow(input.getWindowToken(),0); 
+                        dialog.dismiss();
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("homeButtonDTopenN", input.getText().toString());
+                        editor.commit();
+                        updatePrefSummary(pref);
+                        }
+                    });
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);                
+                builder1.show();
+        	}
+        }
+        if (key.equals("homeButtonLT")) {
+        	if(sharedPreferences.getString(key, "OPENSCREEN").equals("OPENN")) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(PrefsActivity.this);
+                //builder1.setTitle("Intent type");
+                builder1.setTitle("Select num");
+                final EditText input = new EditText(PrefsActivity.this);
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setText(sharedPreferences.getString("homeButtonLTopenN", "1"));
+                builder1.setView(input);
+                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // input.getText().toString()
+                    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    	imm.hideSoftInputFromWindow(input.getWindowToken(),0); 
+                        dialog.dismiss();
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("homeButtonLTopenN", input.getText().toString());
+                        editor.commit();
+                        updatePrefSummary(pref);
+                        }
+                    });
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);                
+                builder1.show();
+        	}
+        }        
+    }
 }
