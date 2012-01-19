@@ -133,6 +133,16 @@
         -->
 
         <ListPreference
+            android:defaultValue="NO"
+            android:enabled="true"
+            android:entries="@array/screen_orientation_names"
+            android:entryValues="@array/screen_orientation_values"
+            android:key="screenOrientation"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Orientación de la pantalla" />
+
+        <ListPreference
             android:defaultValue="1"
             android:enabled="true"
             android:entries="@array/einkUpdateMode_names"

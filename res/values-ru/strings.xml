@@ -24,8 +24,8 @@
     <string name="main_launcher_nb_layout_battery">Battery</string>
     <string name="main_launcher_nb_layout_b">B</string>
     <string name="prefs_layout_title">Настройки</string>
-    <string name="prefs_layout_filter_setting">Настройка:\nФильтр</string>
-    <string name="prefs_layout_associations">Настройка:\nАссоциац.</string>
+    <string name="prefs_layout_filter_setting">Настройка: Файловый фильтр</string>
+    <string name="prefs_layout_associations">Настройка: Ассоциации файлов</string>
     <string name="prefs_layout_cancel">Отмена</string>
     <string name="prefs_layout_ok">OK</string>
     <string name="prefs_layout_save_restart">Сохранить и рестартовать ReLaunch (некоторые настройки требуют перезапуска)</string>
@@ -127,6 +127,13 @@
     <string name="jv_filters_cancel">Отмена</string>
     <string name="jv_filters_and">И</string>
     <string name="jv_filters_or">ИЛИ</string>
+    <string name="jv_prefs_select_number">Укажите порядковый №</string>
+    <string name="jv_prefs_ok">OK</string>
+    <string name="jv_prefs_decline_changes_title">Предупреждение</string>
+    <string name="jv_prefs_decline_changes_text">Вы хотите сохранить все внесенные изменения?</string>
+    <string name="jv_prefs_yes">Да</string>
+    <string name="jv_prefs_no">Нет</string>
+    <string name="jv_prefs_cancel">Отмена</string>
     <string name="jv_relaunch_wrong_model">Не верная модель устройства!</string>
     <string name="jv_relaunch_yes">Да</string>
     <string name="jv_relaunch_no">Нет</string>

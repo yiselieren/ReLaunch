@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
 
     <LinearLayout
         android:id="@+id/LinearLayoutTitle"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
         android:minHeight="32dp" >
-
+
         <EditText
             android:id="@+id/search_title"
             android:layout_width="fill_parent"
@@ -25,7 +26,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
             android:textStyle="bold" />
-
+
         <ImageButton
             android:id="@+id/back_btn"
             android:layout_width="fill_parent"
@@ -34,47 +35,269 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="4"
             android:src="@android:drawable/ic_menu_revert" />
-
     </LinearLayout>
 
-    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_marginTop="8dp">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:text="@string/search_layout_case_sensitive" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-        <CheckBox android:text="" android:layout_height="wrap_content" android:id="@+id/search_case" android:layout_width="0dp" android:layout_weight="1"></CheckBox>
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.2"
+            android:text="@string/search_layout_case_sensitive"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </TextView>
+
+        <CheckBox
+            android:id="@+id/search_case"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" >
+        </CheckBox>
     </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout6">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView6" android:text="@string/search_layout_search_known" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-        <CheckBox android:id="@+id/search_books_only" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.2"
+            android:text="@string/search_layout_search_known"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </TextView>
+
+        <CheckBox
+            android:id="@+id/search_books_only"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" >
+        </CheckBox>
     </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout8">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView8" android:text="@string/search_layout_sort_search" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-        <CheckBox android:id="@+id/search_sort" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:layout_width="0dp"></CheckBox>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.2"
+            android:text="@string/search_layout_sort_search"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </TextView>
+
+        <CheckBox
+            android:id="@+id/search_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" >
+        </CheckBox>
     </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/search_layout_search_as" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-        <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_as"></Spinner>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.2"
+            android:text="@string/search_layout_search_as"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/search_as"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" >
+        </Spinner>
     </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="fill_parent">
-        <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/search_layout_search_in" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-        <Spinner android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_in"></Spinner>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.2"
+            android:text="@string/search_layout_search_in"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/search_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" >
+        </Spinner>
     </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_width="fill_parent">
-        <LinearLayout android:orientation="vertical" android:layout_height="wrap_content" android:layout_weight="1"  android:id="@+id/linearLayout3" android:layout_width="0dp">
-            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="@string/search_layout_search_root" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="fill_parent" android:layout_gravity="center" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-            <TextView android:layout_height="fill_parent" android:id="@+id/textView3" android:text="@string/search_layout_search_root_comment" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="fill_parent" android:layout_gravity="center" android:textColor="@color/normal_bg_gray"></TextView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:text="@string/search_layout_search_root"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:text="@string/search_layout_search_root_comment"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/normal_fg_gray" >
+            </TextView>
         </LinearLayout>
-        <EditText android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center" android:id="@+id/search_root" android:layout_height="fill_parent">
-            <requestFocus></requestFocus>
+
+        <EditText
+            android:id="@+id/search_root"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1" >
+
+            <requestFocus >
+            </requestFocus>
         </EditText>
     </LinearLayout>
-    <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/search_layout_search_string" android:id="@+id/textView5" android:layout_gravity="center" android:layout_width="wrap_content" android:textColor="@color/normal_fg" android:layout_marginTop="36dp" android:textStyle="bold"></TextView>
-    <LinearLayout android:layout_height="86dp" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:paddingTop="0dp" android:paddingBottom="30dp">
-        <EditText android:imeOptions="actionSearch" android:id="@+id/search_txt" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></EditText>
-        <ImageButton android:layout_width="0dp" android:src="@android:drawable/ic_delete" android:layout_weight="0.2" android:id="@+id/search_txt_delete" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="4dp"
+        android:text="@string/search_layout_search_string"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/normal_fg"
+        android:textStyle="bold" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/search_txt"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            android:imeOptions="actionSearch"
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </EditText>
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:text="@string/search_layout_search" >
+        </Button>
+
+        <!--
+        <ImageButton
+            android:id="@+id/search_txt_delete"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="0.2"
+            android:src="@android:drawable/ic_delete" >
+        </ImageButton>
+        -->
+
     </LinearLayout>
-    <LinearLayout android:id="@+id/linearLayout5" android:layout_height="86dp" android:layout_width="fill_parent">
-        <Button android:text="@string/search_layout_search" android:id="@+id/search_btn" android:layout_gravity="center" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent"></Button>
-        <Button android:text="@string/search_layout_cancel" android:layout_width="0dp" android:layout_weight="0.3" android:id="@+id/search_cancel" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></Button>
-    </LinearLayout>
-    <Button android:text="@string/search_layout_show_all_books" android:layout_height="86dp" android:layout_width="fill_parent" android:layout_marginTop="20dp" android:id="@+id/search_all"></Button>
-    
+
+    <!--
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="fill_parent"
+        android:layout_height="86dp" >
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/search_layout_search" >
+        </Button>
+
+        <Button
+            android:id="@+id/search_cancel"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="0.3"
+            android:text="@string/search_layout_cancel" >
+        </Button>
+    </LinearLayout>
+    -->
+
+    <Button
+        android:id="@+id/search_all"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/search_layout_show_all_books" >
+    </Button>
+
 </LinearLayout>

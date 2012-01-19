@@ -126,6 +126,13 @@
     <string name="jv_filters_cancel">Cancelar</string>
     <string name="jv_filters_and">Y</string>
     <string name="jv_filters_or">OR</string>
+    <string name="jv_prefs_select_number">Seleccione el número de</string>
+    <string name="jv_prefs_ok">OK</string>
+    <string name="jv_prefs_decline_changes_title">Cambios disminución de alerta</string>
+    <string name="jv_prefs_decline_changes_text">¿Desea guardar los cambios de configuración de todos los?</string>
+    <string name="jv_prefs_yes">Sí</string>
+    <string name="jv_prefs_no">No</string>
+    <string name="jv_prefs_cancel">Cancelar</string>
     <string name="jv_relaunch_wrong_model">¡Modelo erroneo!</string>
     <string name="jv_relaunch_yes">Sí</string>
     <string name="jv_relaunch_no">NO</string>

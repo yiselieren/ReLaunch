@@ -803,6 +803,8 @@ public class Advanced extends Activity {
                 + "</tr>";
         s += "</table>";
         wv.loadDataWithBaseURL(null, s, "text/html", "utf-8", null);
+        
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override

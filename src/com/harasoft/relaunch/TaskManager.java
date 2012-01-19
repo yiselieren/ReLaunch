@@ -1075,6 +1075,7 @@ public class TaskManager extends Activity {
             public void onClick(View v) { setSorting(sortAbc); }});
         setSorting(sortMethod);
         startCPUUpdate();
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override

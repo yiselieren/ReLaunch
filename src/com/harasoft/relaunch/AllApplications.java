@@ -319,6 +319,7 @@ public class AllApplications extends Activity {
                     }
                 }
             }});
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override

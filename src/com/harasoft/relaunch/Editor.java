@@ -12,7 +12,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -27,6 +29,7 @@ public class Editor extends Activity implements TextWatcher {
     Button                        cancelBtn;
     EditText                      editTxt;
     String                        textBuffer;
+    SharedPreferences             prefs;
 
     private boolean rereadFile(String fname, EditText editTxt)
     {
@@ -122,6 +125,8 @@ public class Editor extends Activity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
         app = (ReLaunchApp)getApplicationContext();
         app.setFullScreenIfNecessary(this);
         setContentView(R.layout.editor_layout);
@@ -222,6 +227,7 @@ public class Editor extends Activity implements TextWatcher {
             ((EditText)findViewById(R.id.edit_title)).setText(fname);
             rereadFile(fname, editTxt);
         }
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override

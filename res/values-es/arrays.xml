@@ -123,5 +123,17 @@
         <item>Moderado</item>
         <item>Lento (menos columnas)</item>
     </string-array>
-
+    
+    <string-array name="screen_orientation_values">
+        <item>NO</item>
+        <item>PORTRAIT</item>
+        <item>LANDSCAPE</item>
+    </string-array>
+    
+    <string-array name="screen_orientation_names">
+        <item>No cambie</item>
+        <item>Fuerza a vertical</item>
+        <item>Fuerza al paisaje</item>
+    </string-array>
+    
 </resources>

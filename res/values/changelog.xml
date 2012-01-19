@@ -12,6 +12,10 @@
         </string>
     <string name="whats_new">
         &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.2.10b3&lt;/b&gt;&lt;br&gt;
+        - some changes in Home button configuration.&lt;br&gt;
+        - simplify buttons on Preferences screen.&lt;br&gt;
+        - force screen orientation change (configurable).&lt;br&gt;
         &lt;b&gt;1.2.10b2&lt;/b&gt;&lt;br&gt;
         - Mostly all buttons at main screen and results screen prepared to multifunction (single, double, long taps).&lt;br&gt;
         - Some fixes in power adapter show when attached.&lt;br&gt;

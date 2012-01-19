@@ -2126,8 +2126,9 @@ public class ReLaunch extends Activity {
             // filter.addDataScheme("file");
         	registerReceiver(this.PowerChangeReceiver, new IntentFilter(filter));
         	powerReceiverRegistered = true;
-        }        
+        }
         
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override

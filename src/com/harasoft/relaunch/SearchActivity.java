@@ -330,8 +330,8 @@ public class SearchActivity extends Activity {
 
 
         // Set clean search text button
-        ((ImageButton)findViewById(R.id.search_txt_delete)).setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) { searchTxt.setText(""); }});
+        //((ImageButton)findViewById(R.id.search_txt_delete)).setOnClickListener(new View.OnClickListener() {
+        //        public void onClick(View v) { searchTxt.setText(""); }});
 
         // Set main search button
         ((Button)findViewById(R.id.search_btn)).setOnClickListener(new View.OnClickListener() {
@@ -342,12 +342,14 @@ public class SearchActivity extends Activity {
                 public void onClick(View v) { resetSearch(); createAsyncTask().execute(true); }});
 
         // Cancel button
-        ((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) { finish(); }});
+        //((Button)findViewById(R.id.search_cancel)).setOnClickListener(new View.OnClickListener() {
+        //        public void onClick(View v) { finish(); }});
         
         // Back button - work as cancel
         ((ImageButton)findViewById(R.id.back_btn)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { finish(); }});
+        
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override
@@ -355,7 +357,7 @@ public class SearchActivity extends Activity {
         super.onStart();
 
         // Set case sensitive checkbox
-        searchCase.setChecked(prefs.getBoolean("searchCase", true));
+        searchCase.setChecked(prefs.getBoolean("searchCase", false));
 
         // Set search known extensions only checkbox
         searchKnown.setChecked(prefs.getBoolean("searchKnown", true));

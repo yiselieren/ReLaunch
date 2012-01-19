@@ -6,400 +6,466 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-public class PrefsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
-    final String                  TAG = "PreferenceActivity";
-    final static public int       TYPES_ACT = 1;
+public class PrefsActivity extends PreferenceActivity implements
+		OnSharedPreferenceChangeListener {
+	final String TAG = "PreferenceActivity";
+	final static public int TYPES_ACT = 1;
 
-    ReLaunchApp                   app;
-    SharedPreferences             prefs;
+	ReLaunchApp app;
+	SharedPreferences prefs;
 
-    static class PrefItem
-    {
-        PrefItem(String n, boolean value)
-        {
-            name = n;
-            isBoolean = true;
-            bValue = value;
-        }
-        PrefItem(String n, String value)
-        {
-            name = n;
-            isBoolean = false;
-            sValue = value;        
-        }
-        PrefItem(PrefItem o)
-        {
-            name = o.name;
-            isBoolean = o.isBoolean;
-            bValue = o.bValue;
-            sValue = o.sValue;
-        }
-        String  name;
-        boolean isBoolean;
-        boolean bValue;
-        String  sValue;
-    }
-    List<PrefItem> defItems = new ArrayList<PrefItem>();
-    List<PrefItem> savedItems;
-    
-    private void setDefaults()
-    {
-        // General section
-        defItems.add(new PrefItem("filterResults", false));
-        defItems.add(new PrefItem("fullScreen", true));
-        defItems.add(new PrefItem("showButtons", true));
-        defItems.add(new PrefItem("startDir", "/sdcard,/media/My Files"));
-        defItems.add(new PrefItem("notLeaveStartDir", false));
-        defItems.add(new PrefItem("saveDir", true));
-        defItems.add(new PrefItem("returnFileToMain", false));
-        defItems.add(new PrefItem("askAmbig", false));
-        defItems.add(new PrefItem("showNew", true));
-        defItems.add(new PrefItem("hideKnownExts", false));
-        defItems.add(new PrefItem("hideKnownDirs", false));
-        defItems.add(new PrefItem("openWith", true));
-        defItems.add(new PrefItem("createIntent", true));
-        defItems.add(new PrefItem("gl16Mode", "5"));
-        defItems.add(new PrefItem("einkUpdateMode", "1"));
-        defItems.add(new PrefItem("einkUpdateInterval", "10"));        
+	boolean do_pref_subrequest = true;
 
-        // Columns settings
-        defItems.add(new PrefItem("firstLineFontSize","8"));
-        defItems.add(new PrefItem("secondLineFontSize","6"));
-        defItems.add(new PrefItem("columnsDirsFiles","-1"));
-        defItems.add(new PrefItem("columnsHomeList","-1"));
-        defItems.add(new PrefItem("columnsLRU","-1"));
-        defItems.add(new PrefItem("columnsFAV","-1"));
-        defItems.add(new PrefItem("columnsSearch","-1"));
-        defItems.add(new PrefItem("columnsAlgIntensity","70 3:5 7:4 15:3 48:2"));
-        
-        // Buttons settings
-        defItems.add(new PrefItem("homeButtonST","OPENN"));
-        defItems.add(new PrefItem("homeButtonSTopenN","1"));
-        defItems.add(new PrefItem("homeButtonDT","OPENMENU"));
-        defItems.add(new PrefItem("homeButtonDTopenN","1"));
-        defItems.add(new PrefItem("homeButtonLT","OPENSCREEN"));
-        defItems.add(new PrefItem("homeButtonLTopenN","1"));
-        
-        // Launcher mode settings
-        defItems.add(new PrefItem("homeMode", true));
-        defItems.add(new PrefItem("libraryMode", true));
-        defItems.add(new PrefItem("shopMode", true));
-        defItems.add(new PrefItem("returnToMain", false));
-        defItems.add(new PrefItem("filterSelf", true));
-        defItems.add(new PrefItem("dateUS", false));
+	static class PrefItem {
+		PrefItem(String n, boolean value) {
+			name = n;
+			isBoolean = true;
+			bValue = value;
+		}
 
-        // Scrollbar appearance settings
-        defItems.add(new PrefItem("scrollPerc", "10"));
-        //defItems.add(new PrefItem("customScroll", true));
-        defItems.add(new PrefItem("customScroll", app.customScrollDef));
-        defItems.add(new PrefItem("scrollWidth", "25"));
-        defItems.add(new PrefItem("scrollPad", "10"));
+		PrefItem(String n, String value) {
+			name = n;
+			isBoolean = false;
+			sValue = value;
+		}
 
-        // Search setting
-        defItems.add(new PrefItem("searchSize", "5000"));
-        defItems.add(new PrefItem("searchReport", "100"));
-        defItems.add(new PrefItem("searchRoot", "/sdcard,/media/My Files"));
+		PrefItem(PrefItem o) {
+			name = o.name;
+			isBoolean = o.isBoolean;
+			bValue = o.bValue;
+			sValue = o.sValue;
+		}
 
-        // Viewer/editor settings
-        defItems.add(new PrefItem("viewerMaxSize", "1048576"));
-        defItems.add(new PrefItem("editorMaxSize", "262144"));
+		String name;
+		boolean isBoolean;
+		boolean bValue;
+		String sValue;
+	}
 
-        // Maximal size of misc. persistent lists
-        defItems.add(new PrefItem("lruSize", "30"));
-        defItems.add(new PrefItem("favSize", "30"));
-        defItems.add(new PrefItem("appLruSize", "30"));
-        defItems.add(new PrefItem("appFavSize", "30"));
+	List<PrefItem> defItems = new ArrayList<PrefItem>();
+	List<PrefItem> savedItems;
 
-        // Confirmations
-        defItems.add(new PrefItem("useFileManagerFunctions", true));
-        defItems.add(new PrefItem("confirmFileDelete", true));
-        defItems.add(new PrefItem("confirmDirDelete", true));
-        defItems.add(new PrefItem("confirmNonEmptyDirDelete", true));
-    }
- 
-    private void revert()
-    {
-        SharedPreferences.Editor editor = prefs.edit();
-        for (PrefItem p : defItems)
-        {
-            if (p.isBoolean)
-                editor.putBoolean(p.name, p.bValue);
-            else
-                editor.putString(p.name, p.sValue);
-        }
-        editor.commit();
-    }
+	private void setDefaults() {
+		// General section
+		defItems.add(new PrefItem("filterResults", false));
+		defItems.add(new PrefItem("fullScreen", true));
+		defItems.add(new PrefItem("showButtons", true));
+		defItems.add(new PrefItem("startDir", "/sdcard,/media/My Files"));
+		defItems.add(new PrefItem("notLeaveStartDir", false));
+		defItems.add(new PrefItem("saveDir", true));
+		defItems.add(new PrefItem("returnFileToMain", false));
+		defItems.add(new PrefItem("askAmbig", false));
+		defItems.add(new PrefItem("showNew", true));
+		defItems.add(new PrefItem("hideKnownExts", false));
+		defItems.add(new PrefItem("hideKnownDirs", false));
+		defItems.add(new PrefItem("openWith", true));
+		defItems.add(new PrefItem("createIntent", true));
+		defItems.add(new PrefItem("gl16Mode", "5"));
+		defItems.add(new PrefItem("screenOrientation", "NO"));
+		defItems.add(new PrefItem("einkUpdateMode", "1"));
+		defItems.add(new PrefItem("einkUpdateInterval", "10"));
 
-    private void cancel()
-    {
-        SharedPreferences.Editor editor = prefs.edit();
-        for (PrefItem p : savedItems)
-        {
-            if (p.isBoolean)
-                editor.putBoolean(p.name, p.bValue);
-            else
-                editor.putString(p.name, p.sValue);
-        }
-        editor.commit();
-    }
-   
-    private void updatePrefSummary(Preference p){
-        if (p instanceof ListPreference) {
-            ListPreference listPref = (ListPreference) p;
-            if(p.getKey().equals("homeButtonST") && listPref.getValue().toString().equals("OPENN")) {
-            	p.setSummary(listPref.getEntry() + prefs.getString("homeButtonSTopenN", "1"));
-            }
-            else if(p.getKey().equals("homeButtonDT") && listPref.getValue().toString().equals("OPENN")) {
-            	p.setSummary(listPref.getEntry() + prefs.getString("homeButtonDTopenN", "1"));
-            }
-            else if(p.getKey().equals("homeButtonLT") && listPref.getValue().toString().equals("OPENN")) {
-            	p.setSummary(listPref.getEntry() + prefs.getString("homeButtonLTopenN", "1"));
-            }            
-            else {
-            	p.setSummary(listPref.getEntry());
-            }
-        }
-        //if (p instanceof EditTextPreference) {
-        //    EditTextPreference editTextPref = (EditTextPreference) p; 
-        //    p.setSummary(editTextPref.getText()); 
-        //}
-    }
+		// Columns settings
+		defItems.add(new PrefItem("firstLineFontSize", "8"));
+		defItems.add(new PrefItem("secondLineFontSize", "6"));
+		defItems.add(new PrefItem("columnsDirsFiles", "-1"));
+		defItems.add(new PrefItem("columnsHomeList", "-1"));
+		defItems.add(new PrefItem("columnsLRU", "-1"));
+		defItems.add(new PrefItem("columnsFAV", "-1"));
+		defItems.add(new PrefItem("columnsSearch", "-1"));
+		defItems.add(new PrefItem("columnsAlgIntensity", "70 3:5 7:4 15:3 48:2"));
 
-    private void initSummary(Preference p){
-        if (p instanceof PreferenceCategory){
-             PreferenceCategory pCat = (PreferenceCategory)p;
-             for(int i=0;i<pCat.getPreferenceCount();i++){
-                 initSummary(pCat.getPreference(i));
-             }
-         } else {
-             updatePrefSummary(p);
-         }
+		// Buttons settings
+		defItems.add(new PrefItem("homeButtonST", "OPENN"));
+		defItems.add(new PrefItem("homeButtonSTopenN", "1"));
+		defItems.add(new PrefItem("homeButtonDT", "OPENMENU"));
+		defItems.add(new PrefItem("homeButtonDTopenN", "1"));
+		defItems.add(new PrefItem("homeButtonLT", "OPENSCREEN"));
+		defItems.add(new PrefItem("homeButtonLTopenN", "1"));
 
-     }
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+		// Launcher mode settings
+		defItems.add(new PrefItem("homeMode", true));
+		defItems.add(new PrefItem("libraryMode", true));
+		defItems.add(new PrefItem("shopMode", true));
+		defItems.add(new PrefItem("returnToMain", false));
+		defItems.add(new PrefItem("filterSelf", true));
+		defItems.add(new PrefItem("dateUS", false));
 
-        app = ((ReLaunchApp)getApplicationContext());
-        app.setFullScreenIfNecessary(this);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.prefs);
+		// Scrollbar appearance settings
+		defItems.add(new PrefItem("scrollPerc", "10"));
+		// defItems.add(new PrefItem("customScroll", true));
+		defItems.add(new PrefItem("customScroll", app.customScrollDef));
+		defItems.add(new PrefItem("scrollWidth", "25"));
+		defItems.add(new PrefItem("scrollPad", "10"));
 
-        setContentView(R.layout.prefs_main);
+		// Search setting
+		defItems.add(new PrefItem("searchSize", "5000"));
+		defItems.add(new PrefItem("searchReport", "100"));
+		defItems.add(new PrefItem("searchRoot", "/sdcard,/media/My Files"));
 
-        // Save items value
-        setDefaults();
-        
-        savedItems = new ArrayList<PrefItem>();
-        for (PrefItem p : defItems) {
-        	PrefItem s = new PrefItem(p); 
-        	if(prefs.contains(p.name)) {
-        		if(p.isBoolean) {
-        			s.bValue = prefs.getBoolean(p.name, p.bValue);
-        		}
-        		else {
-        			s.sValue = prefs.getString(p.name, p.sValue);
-        		}
-        	}
-       		savedItems.add(s);
-        }
-        		
-        ((Button)findViewById(R.id.filter_settings)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(PrefsActivity.this, FiltersActivity.class);
-                startActivity(intent);
-            }});
-        ((Button)findViewById(R.id.associations)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(PrefsActivity.this, TypesActivity.class);
-                startActivityForResult(intent, TYPES_ACT);
-            }});
-        ((Button)findViewById(R.id.prefs_ok)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                finish();
-            }});
-        ((Button)findViewById(R.id.restart_btn)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                AlarmManager mgr = (AlarmManager)getSystemService(ALARM_SERVICE);
-                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, app.RestartIntent);
-                System.exit(0);
-            }});
-        ((Button)findViewById(R.id.revert_btn)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                revert();
-                finish();
-            }});
-        ((Button)findViewById(R.id.cancel_btn)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                cancel();
-                finish();
-            }});
-        // back button - work as cancel
-        ((ImageButton)findViewById(R.id.back_btn)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                cancel();
-                finish();
-            }});
+		// Viewer/editor settings
+		defItems.add(new PrefItem("viewerMaxSize", "1048576"));
+		defItems.add(new PrefItem("editorMaxSize", "262144"));
 
-        for(int i=0;i<getPreferenceScreen().getPreferenceCount();i++){
-            initSummary(getPreferenceScreen().getPreference(i));
-           }
-    }
+		// Maximal size of misc. persistent lists
+		defItems.add(new PrefItem("lruSize", "30"));
+		defItems.add(new PrefItem("favSize", "30"));
+		defItems.add(new PrefItem("appLruSize", "30"));
+		defItems.add(new PrefItem("appFavSize", "30"));
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        app.generalOnResume(TAG, this);
-    }
+		// Confirmations
+		defItems.add(new PrefItem("useFileManagerFunctions", true));
+		defItems.add(new PrefItem("confirmFileDelete", true));
+		defItems.add(new PrefItem("confirmDirDelete", true));
+		defItems.add(new PrefItem("confirmNonEmptyDirDelete", true));
+	}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Unregister the listener whenever a key changes            
-        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);    
-    }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
-        if (resultCode != Activity.RESULT_OK)
-            return;
-        switch (requestCode)
-        {
-        case TYPES_ACT:
-            String newTypes = ReLaunch.createReadersString(app.getReaders());
-            //Log.d(TAG, "New types string: \"" + newTypes + "\"");
+	private void revert() {
+		do_pref_subrequest = false;
+		SharedPreferences.Editor editor = prefs.edit();
+		for (PrefItem p : defItems) {
+			if (p.isBoolean)
+				editor.putBoolean(p.name, p.bValue);
+			else
+				editor.putString(p.name, p.sValue);
+		}
+		editor.commit();
+	}
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("types", newTypes);
-            editor.commit();
-            break;
-        default:
-            return;
-        }
-    }
+	private void cancel() {
+		do_pref_subrequest = false;
+		SharedPreferences.Editor editor = prefs.edit();
+		for (PrefItem p : savedItems) {
+			if (p.isBoolean)
+				editor.putBoolean(p.name, p.bValue);
+			else
+				editor.putString(p.name, p.sValue);
+		}
+		editor.commit();
+	}
 
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        final Preference pref = findPreference(key);
-        // update summary
-        if (pref instanceof ListPreference) {
-            ListPreference listPref = (ListPreference) pref;
-            pref.setSummary(listPref.getEntry());
-        }
+	private void updatePrefSummary(Preference p) {
+		if (p instanceof ListPreference) {
+			ListPreference listPref = (ListPreference) p;
+			if (p.getKey().equals("homeButtonST")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("homeButtonSTopenN", "1"));
+			} else if (p.getKey().equals("homeButtonDT")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("homeButtonDTopenN", "1"));
+			} else if (p.getKey().equals("homeButtonLT")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("homeButtonLTopenN", "1"));
+			} else {
+				p.setSummary(listPref.getEntry());
+			}
+		}
+		// if (p instanceof EditTextPreference) {
+		// EditTextPreference editTextPref = (EditTextPreference) p;
+		// p.setSummary(editTextPref.getText());
+		// }
+	}
 
-        // special cases
-        if (key.equals("homeButtonST")) {
-        	if(sharedPreferences.getString(key, "OPENN").equals("OPENN")) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(PrefsActivity.this);
-                //builder1.setTitle("Intent type");
-                builder1.setTitle("Select num");
-                final EditText input = new EditText(PrefsActivity.this);
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setText(sharedPreferences.getString("homeButtonSTopenN", "1"));
-                builder1.setView(input);
-                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // input.getText().toString()
-                    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    	imm.hideSoftInputFromWindow(input.getWindowToken(),0); 
-                        dialog.dismiss();
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("homeButtonSTopenN", input.getText().toString());
-                        editor.commit();
-                        updatePrefSummary(pref);
-                        }
-                    });
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);                
-                builder1.show();
-        	}
-        }
-        if (key.equals("homeButtonDT")) {
-        	if(sharedPreferences.getString(key, "OPENMENU").equals("OPENN")) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(PrefsActivity.this);
-                //builder1.setTitle("Intent type");
-                builder1.setTitle("Select num");
-                final EditText input = new EditText(PrefsActivity.this);
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setText(sharedPreferences.getString("homeButtonDTopenN", "1"));
-                builder1.setView(input);
-                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // input.getText().toString()
-                    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    	imm.hideSoftInputFromWindow(input.getWindowToken(),0); 
-                        dialog.dismiss();
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("homeButtonDTopenN", input.getText().toString());
-                        editor.commit();
-                        updatePrefSummary(pref);
-                        }
-                    });
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);                
-                builder1.show();
-        	}
-        }
-        if (key.equals("homeButtonLT")) {
-        	if(sharedPreferences.getString(key, "OPENSCREEN").equals("OPENN")) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(PrefsActivity.this);
-                //builder1.setTitle("Intent type");
-                builder1.setTitle("Select num");
-                final EditText input = new EditText(PrefsActivity.this);
-                input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                input.setText(sharedPreferences.getString("homeButtonLTopenN", "1"));
-                builder1.setView(input);
-                //builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // input.getText().toString()
-                    	InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    	imm.hideSoftInputFromWindow(input.getWindowToken(),0); 
-                        dialog.dismiss();
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("homeButtonLTopenN", input.getText().toString());
-                        editor.commit();
-                        updatePrefSummary(pref);
-                        }
-                    });
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);                
-                builder1.show();
-        	}
-        }        
-    }
+	private void initSummary(Preference p) {
+		if (p instanceof PreferenceCategory) {
+			PreferenceCategory pCat = (PreferenceCategory) p;
+			for (int i = 0; i < pCat.getPreferenceCount(); i++) {
+				initSummary(pCat.getPreference(i));
+			}
+		} else {
+			updatePrefSummary(p);
+		}
+
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+		app = ((ReLaunchApp) getApplicationContext());
+		app.setFullScreenIfNecessary(this);
+		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(R.xml.prefs);
+
+		setContentView(R.layout.prefs_main);
+
+		// Save items value
+		setDefaults();
+
+		savedItems = new ArrayList<PrefItem>();
+		for (PrefItem p : defItems) {
+			PrefItem s = new PrefItem(p);
+			if (prefs.contains(p.name)) {
+				if (p.isBoolean) {
+					s.bValue = prefs.getBoolean(p.name, p.bValue);
+				} else {
+					s.sValue = prefs.getString(p.name, p.sValue);
+				}
+			}
+			savedItems.add(s);
+		}
+
+		((Button) findViewById(R.id.filter_settings))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						Intent intent = new Intent(PrefsActivity.this,
+								FiltersActivity.class);
+						startActivity(intent);
+					}
+				});
+		((Button) findViewById(R.id.associations))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						Intent intent = new Intent(PrefsActivity.this,
+								TypesActivity.class);
+						startActivityForResult(intent, TYPES_ACT);
+					}
+				});
+		//((Button) findViewById(R.id.prefs_ok))
+		//		.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				finish();
+		//			}
+		//		});
+		((Button) findViewById(R.id.restart_btn))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+						mgr.set(AlarmManager.RTC,
+								System.currentTimeMillis() + 500,
+								app.RestartIntent);
+						System.exit(0);
+					}
+				});
+		((Button) findViewById(R.id.revert_btn))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						revert();
+						finish();
+					}
+				});
+		//((Button) findViewById(R.id.cancel_btn))
+		//		.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				cancel();
+		//				finish();
+		//			}
+		//		});
+		// back button - work as cancel
+		final Activity pact = this;
+		((ImageButton) findViewById(R.id.back_btn))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(pact);
+		                //builder.setTitle("Decline changes warning");
+		                builder.setTitle(getResources().getString(R.string.jv_prefs_decline_changes_title));
+		                //builder.setMessage("Are you sure to decline changes?");
+		                builder.setMessage(getResources().getString(R.string.jv_prefs_decline_changes_text));
+		                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		                builder.setPositiveButton(getResources().getString(R.string.jv_prefs_yes), new DialogInterface.OnClickListener() {
+		                        public void onClick(DialogInterface dialog, int whichButton) {
+		    						AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+		    						mgr.set(AlarmManager.RTC,
+		    								System.currentTimeMillis() + 500,
+		    								app.RestartIntent);
+		    						System.exit(0);		                        	
+		                        }});
+		                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		                builder.setNegativeButton(getResources().getString(R.string.jv_prefs_cancel), new DialogInterface.OnClickListener() {
+		                        public void onClick(DialogInterface dialog, int whichButton) {
+		                            dialog.dismiss();
+		                        }});
+		                //builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+		                builder.setNeutralButton(getResources().getString(R.string.jv_prefs_no), new DialogInterface.OnClickListener() {		                	
+	                        public void onClick(DialogInterface dialog, int whichButton) {
+	                            dialog.dismiss();
+	    						cancel();
+	    						finish();
+	                        }});
+		                builder.show();
+					}
+				});
+
+		for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
+			initSummary(getPreferenceScreen().getPreference(i));
+		}
+		ScreenOrientation.set(this, prefs);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getPreferenceScreen().getSharedPreferences()
+				.registerOnSharedPreferenceChangeListener(this);
+		app.generalOnResume(TAG, this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// Unregister the listener whenever a key changes
+		getPreferenceScreen().getSharedPreferences()
+				.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
+		if (resultCode != Activity.RESULT_OK)
+			return;
+		switch (requestCode) {
+		case TYPES_ACT:
+			String newTypes = ReLaunch.createReadersString(app.getReaders());
+			// Log.d(TAG, "New types string: \"" + newTypes + "\"");
+
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putString("types", newTypes);
+			editor.commit();
+			break;
+		default:
+			return;
+		}
+	}
+
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		final Preference pref = findPreference(key);
+		// update summary
+		if (pref instanceof ListPreference) {
+			ListPreference listPref = (ListPreference) pref;
+			pref.setSummary(listPref.getEntry());
+		}
+
+		// special cases
+		if (do_pref_subrequest) {
+			if (key.equals("homeButtonST")) {
+				if (sharedPreferences.getString(key, "OPENN").equals("OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					// builder1.setTitle("Select number");
+					builder1.setTitle(getResources().getString(R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"homeButtonSTopenN", "1"));
+					builder1.setView(input);
+					//builder1.setPositiveButton("OK",
+					builder1.setPositiveButton(getResources().getString(R.string.jv_prefs_ok),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("homeButtonSTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			if (key.equals("homeButtonDT")) {
+				if (sharedPreferences.getString(key, "OPENMENU")
+						.equals("OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					builder1.setTitle("Select num");
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"homeButtonDTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("Ok", new
+					// DialogInterface.OnClickListener() {
+					builder1.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("homeButtonDTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			if (key.equals("homeButtonLT")) {
+				if (sharedPreferences.getString(key, "OPENSCREEN").equals(
+						"OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					builder1.setTitle("Select num");
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"homeButtonLTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("Ok", new
+					// DialogInterface.OnClickListener() {
+					builder1.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("homeButtonLTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+		}
+	}
 }

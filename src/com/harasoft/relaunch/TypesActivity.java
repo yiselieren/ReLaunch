@@ -8,9 +8,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ public class TypesActivity extends Activity {
     List<HashMap<String,String>>  itemsArray;
     TPAdapter                     adapter;
     ReLaunchApp                   app;
+    SharedPreferences             prefs;
 
     class TPAdapter extends BaseAdapter {
         final Context cntx;
@@ -269,6 +272,7 @@ public class TypesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         // Global storage
         app = ((ReLaunchApp)getApplicationContext());
         app.setFullScreenIfNecessary(this);
@@ -352,7 +356,7 @@ public class TypesActivity extends Activity {
                     finish();
                 }
             });
-        
+        ScreenOrientation.set(this, prefs);
     }
     
     @Override

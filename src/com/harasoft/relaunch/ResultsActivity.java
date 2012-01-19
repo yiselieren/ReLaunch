@@ -459,6 +459,7 @@ public class ResultsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		
 		setEinkController();
 		
 		app = ((ReLaunchApp) getApplicationContext());
@@ -955,6 +956,7 @@ public class ResultsActivity extends Activity {
 			}
 		});
 		*/
+    ScreenOrientation.set(this, prefs);
 	}
 
 	@Override

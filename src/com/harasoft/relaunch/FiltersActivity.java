@@ -31,7 +31,8 @@ public class FiltersActivity  extends Activity {
     FTArrayAdapter                 adapter;
     ListView                       lv;
     List<String[]>                 itemsArray = new ArrayList<String[]>();
-
+    SharedPreferences              prefs;
+    
     public class myOnItemSelectedListener implements OnItemSelectedListener {
         final int     position;
         myOnItemSelectedListener(int pos)
@@ -169,6 +170,8 @@ public class FiltersActivity  extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
         // Create global storage with values
         app = (ReLaunchApp)getApplicationContext();
         app.setFullScreenIfNecessary(this);
@@ -248,6 +251,7 @@ public class FiltersActivity  extends Activity {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
             }});
+        ScreenOrientation.set(this, prefs);
     }
     
     @Override

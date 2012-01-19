@@ -10,7 +10,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ public class Viewer extends Activity {
     EditText                      editTxt;
     String                        textBuffer;
     String                        fileName;
+    SharedPreferences             prefs;
 
     private boolean rereadFile(String fname, EditText editTxt)
     {
@@ -60,6 +63,7 @@ public class Viewer extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         app = (ReLaunchApp)getApplicationContext();
         app.setFullScreenIfNecessary(this);
         setContentView(R.layout.viewer_layout);
@@ -139,6 +143,7 @@ public class Viewer extends Activity {
             editTxt = (EditText)findViewById(R.id.view_txt);
             rereadFile(fname, editTxt);
         }
+        ScreenOrientation.set(this, prefs);
     }
 
     @Override
