@@ -1,41 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.54">
-        <TextView android:id="@+id/results_title" android:textColor="@color/normal_fg" android:background="@color/normal_bg_gray"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:gravity="center" android:textStyle="bold" android:text="Text View"/>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:id="@+id/results_btn" android:layout_weight="4" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton>
-    </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.4" android:id="@+id/wifi_lv_layout" android:layout_marginTop="8dp" android:background="@drawable/main_button" android:padding="8dp">
-        <ListView android:layout_width="fill_parent" android:id="@+id/wifi_lv" android:layout_weight="1" android:layout_height="fill_parent"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.54" >
+
+        <TextView
+            android:id="@+id/results_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:text="Text View"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/results_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="4"
+            android:src="@android:drawable/ic_menu_revert" >
+        </ImageButton>
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="0.5" android:layout_marginTop="4dp">
-        <Button android:text="@string/advanced_layout_scan" android:drawableTop="@android:drawable/ic_menu_help" android:drawableLeft="@drawable/wifi_on" android:drawableRight="@drawable/wifi_on" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:id="@+id/wifi_scan_btn" android:layout_height="fill_parent" android:padding="16dp"></Button>    
-        <Button android:text="@string/advanced_layout_switch_wifi_off" android:drawableTop="@android:drawable/ic_lock_power_off" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:drawableLeft="@drawable/wifi_off" android:drawableRight="@drawable/wifi_off" android:id="@+id/wifi_onoff_btn" android:layout_height="fill_parent" android:layout_marginLeft="4dp" android:paddingTop="24dp" android:paddingBottom="16dp" android:paddingLeft="16dp" android:paddingRight="16dp" android:drawablePadding="6dp"></Button>
-    
+    <LinearLayout
+        android:id="@+id/wifi_lv_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.4"
+        android:background="@drawable/main_button"
+        android:padding="8dp" >
+
+        <ListView
+            android:id="@+id/wifi_lv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="4dp"
+        android:layout_weight="0.5" >
 
+        <Button
+            android:id="@+id/wifi_scan_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/wifi_on"
+            android:drawableRight="@drawable/wifi_on"
+            android:drawableTop="@android:drawable/ic_menu_help"
+            android:padding="16dp"
+            android:text="@string/advanced_layout_scan" >
+        </Button>
+
+        <Button
+            android:id="@+id/wifi_onoff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/wifi_off"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/wifi_off"
+            android:drawableTop="@android:drawable/ic_lock_power_off"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="24dp"
+            android:text="@string/advanced_layout_switch_wifi_off" >
+        </Button>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
         android:layout_weight="0.4"
-        android:orientation="vertical" android:background="@drawable/main_button" android:layout_marginTop="8dp" android:padding="4dp">
-    <WebView android:id="@+id/webview1" android:fadeScrollbars="false"
-             android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1"/>        
+        android:background="@drawable/main_button"
+        android:orientation="vertical"
+        android:padding="4dp" >
+
+        <WebView
+            android:id="@+id/webview1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fadeScrollbars="false" />
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_marginTop="8dp" android:layout_height="fill_parent" android:layout_weight="0.5">
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
+        android:layout_weight="0.5" >
 
-        <Button android:text="@string/advanced_layout_reboot" android:drawableLeft="@android:drawable/ic_lock_power_off" android:id="@+id/reboot_btn" android:layout_width="fill_parent" android:layout_weight="1" android:layout_gravity="center" android:layout_height="fill_parent" android:padding="16dp"></Button>
+        <Button
+            android:id="@+id/lock_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_lock_lock"
+            android:padding="16dp"
+            android:text="@string/advanced_layout_lock" >
+        </Button>
+        
+        <Button
+            android:id="@+id/reboot_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_menu_rotate"
+            android:text="@string/advanced_layout_reboot" android:paddingBottom="16dp" android:paddingLeft="16dp" android:paddingRight="16dp" android:paddingTop="6dp" android:layout_marginLeft="4dp">
+        </Button>
 
-        <Button android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/poweroff_btn" android:drawableRight="@android:drawable/ic_lock_power_off" android:layout_gravity="center" android:text="@string/advanced_layout_poweroff" android:layout_marginLeft="4dp" android:padding="16dp"></Button>
-
+        <Button
+            android:id="@+id/poweroff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_lock_power_off"
+            android:padding="16dp"
+            android:text="@string/advanced_layout_poweroff" >
+        </Button>
     </LinearLayout>
 
 </LinearLayout>

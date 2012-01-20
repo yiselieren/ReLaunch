@@ -4,6 +4,7 @@
     <string name="model_warning">&lt;h2&gt;The tool is for Nook Simple Touch or Sony PRS-T1 only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
     <string name="advanced_layout_switch_wifi_off">Switch WiFi off</string>
     <string name="advanced_layout_scan">Scan</string>
+    <string name="advanced_layout_lock">Lock</string>
     <string name="advanced_layout_reboot">Reboot</string>
     <string name="advanced_layout_poweroff">Power Off</string>
     <string name="editor_layout_save">Save</string>

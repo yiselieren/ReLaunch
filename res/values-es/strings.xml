@@ -4,6 +4,7 @@
     <string name="model_warning">&lt;h2&gt;Esta aplicación está diseñada sólo para el Nook Simple Touch y el Sony PRS-T1&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;¿Desea continuar?&lt;/b&gt;&lt;/center&gt;</string>
     <string name="advanced_layout_switch_wifi_off">Activar WiFi</string>
     <string name="advanced_layout_scan">Escanear</string>
+    <string name="advanced_layout_lock">Bloqueo</string>
     <string name="advanced_layout_reboot">Reiniciar</string>
     <string name="advanced_layout_poweroff">Apagar</string>
     <string name="editor_layout_save">Guardar</string>

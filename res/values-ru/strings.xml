@@ -5,6 +5,7 @@
     &lt;h2&gt;Эта программа разработана для Nook Simple Touch или Sony PRS-T1!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Хотите продолжить?&lt;/b&gt;&lt;/center&gt;</string>
     <string name="advanced_layout_switch_wifi_off">Выключить WiFi</string>
     <string name="advanced_layout_scan">Искать сети</string>
+    <string name="advanced_layout_lock">Заблокировать</string>
     <string name="advanced_layout_reboot">Перезагрузить</string>
     <string name="advanced_layout_poweroff">Выключить</string>
     <string name="editor_layout_save">Сохранить</string>

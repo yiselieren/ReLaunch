@@ -70,6 +70,7 @@ public class Advanced extends Activity {
     BroadcastReceiver             b1;
     BroadcastReceiver             b2;
     String 						  connectedSSID;			
+
     
     private void setEinkController() {
     	if(prefs!=null) {
@@ -687,6 +688,35 @@ public class Advanced extends Activity {
         wifiOnOff = (Button)findViewById(R.id.wifi_onoff_btn);
         updateWiFiInfo();
 
+        // Lock button
+        final Activity parent = this;
+        Button lockBtn = (Button)findViewById(R.id.lock_btn);
+        lockBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	//Timer timer = new Timer();
+                //timer.schedule( new TimerTask(){
+                //  public void run() { 
+                	   try {
+                		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
+                	   		try {
+                	   			// nook only
+                	   			DataOutputStream os = new DataOutputStream(p.getOutputStream());
+                	   			os.writeChars("su\n");
+                	   			SystemClock.sleep(100);
+                	   			os.writeChars("sendevent /dev/input/event1 1 116 1\n");
+                	   			SystemClock.sleep(100);
+                	   			os.writeChars("sendevent /dev/input/event1 1 116 0\n");
+                	   		}
+                	   		catch(Exception e) { }
+                	   		finally {
+                	   			p.destroy();
+                	   			}
+                	   	}
+                	   catch(Exception e) {}
+                	   parent.finish();   
+                    }
+        });
+        
         // Reboot button
         rebootBtn = (Button)findViewById(R.id.reboot_btn);
         rebootBtn.setOnClickListener(new View.OnClickListener() {
@@ -825,4 +855,6 @@ public class Advanced extends Activity {
         setEinkController();
         app.generalOnResume(TAG, this);
     }
+    
+    
 }

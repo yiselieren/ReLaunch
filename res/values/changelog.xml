@@ -12,6 +12,9 @@
         </string>
     <string name="whats_new">
         &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.2.10b4&lt;/b&gt;&lt;br&gt;
+        - Home button configuration - fixes.&lt;br&gt;
+        - Lock functionality in Advanced screen.&lt;br&gt;
         &lt;b&gt;1.2.10b3&lt;/b&gt;&lt;br&gt;
         - some changes in Home button configuration.&lt;br&gt;
         - simplify buttons on Preferences screen.&lt;br&gt;

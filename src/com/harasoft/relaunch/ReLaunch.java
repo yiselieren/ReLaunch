@@ -384,6 +384,7 @@ public class ReLaunch extends Activity {
             		if(p_height>recalc_height) recalc_height = p_height;
 					}
             	if(recalc_height>0) {
+            		//Log.d(TAG,"Height fixed to "+recalc_height);
             		v.setMinimumHeight(recalc_height + after_row_space);
             	}
             }
@@ -395,9 +396,9 @@ public class ReLaunch extends Activity {
     // not fully "mathematical proof", but not too difficult and working
     {
         Collections.sort(values);
-        Log.d(TAG,values.toString());
+        //Log.d(TAG,values.toString());
         Integer index = (values.size()*Quantile)/100;
-        Log.d(TAG,index.toString());
+        //Log.d(TAG,index.toString());
         return values.get(index);
     }    
     
@@ -411,7 +412,7 @@ public class ReLaunch extends Activity {
 				tmp.add(itemsArray.get(i).get("name").length());
 				}
 			String pattern = prefs.getString("columnsAlgIntensity", "70 3:5 7:4 15:3 48:2"); // default - medium
-			Log.d(TAG,"Pattern = " + pattern);
+			//Log.d(TAG,"Pattern = " + pattern);
 			String[] spat = pattern.split("[\\s\\:]+");
 			Integer quantile = Integer.parseInt(spat[0]);
 			factor = Percentile(tmp,quantile);
@@ -518,7 +519,7 @@ public class ReLaunch extends Activity {
         {
         	// more versatile check against home, if needed
         	boolean enabled = !upDir.equals("");
-        	Log.d(TAG,upDir);
+        	//Log.d(TAG,upDir);
         	if(enabled && !currDir.equals("/") && prefs.getBoolean("notLeaveStartDir", false)) {
         		enabled=false;
         		String[] homes = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
@@ -595,7 +596,7 @@ public class ReLaunch extends Activity {
     private void refreshBottomInfo()
     {
         // Date
-        Log.d(TAG, "memTitle:" + (memTitle==null) + " memLevel:" + (memLevel==null));
+        //Log.d(TAG, "memTitle:" + (memTitle==null) + " memLevel:" + (memLevel==null));
         String d;
         Calendar c = Calendar.getInstance();
         if (prefs.getBoolean("dateUS", false))
@@ -1144,13 +1145,13 @@ public class ReLaunch extends Activity {
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
-                Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
                 first += (total * app.scrollStep) / 100;
                 if (first <= last)
                     first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
                 if (first > (total-1))
                     first = total-1;
-                Log.d(TAG, " new first=" + first);
+                //Log.d(TAG, " new first=" + first);
                 gv.setSelection(first);
                 // some hack workaround against not scrolling in some cases
                 if(total>0) {
@@ -2655,8 +2656,8 @@ public class ReLaunch extends Activity {
     
     private void openHome(Integer order_num) {
     	String[] startDirs = prefs.getString("startDir", "/sdcard,/media/My Files").split("\\,");
-    	if(order_num>=0 && order_num<startDirs.length) {
-    		drawDirectory(startDirs[order_num], -1);
+    	if(order_num>0 && order_num<=startDirs.length) {
+    		drawDirectory(startDirs[order_num-1], -1);
     	}
     }
     
