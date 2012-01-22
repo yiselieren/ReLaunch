@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/normal_bg" android:padding="8dp">
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
     <!--
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_weight="0.1" android:layout_height="2dp">
         <Button android:layout_width="wrap_content" android:text="Save" android:layout_weight="0.1" android:id="@+id/edit_save" android:layout_height="fill_parent"></Button>
@@ -12,20 +14,85 @@
            <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:maxLines="1" android:text="TextView" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:id="@+id/edit_title" android:layout_weight="1" android:layout_height="0dp"></TextView>
         </LinearLayout>
         <Button android:layout_width="wrap_content" android:text="Cancel" android:layout_weight="0.1" android:id="@+id/edit_cancel" android:layout_height="fill_parent"></Button>
-    </LinearLayout>
+    </LinearLayout>
     -->
-   
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="0">
-       <Button android:text="@string/editor_layout_save" android:id="@+id/edit_save" android:layout_weight="0" android:layout_height="fill_parent" android:layout_gravity="center" android:layout_width="wrap_content"></Button>
-       <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content" android:background="@color/normal_bg_gray" android:layout_marginLeft="4dp">
-           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:text="@string/editor_layout_viewtitle" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center" android:layout_height="wrap_content" android:padding="2dp" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-           <EditText android:id="@+id/edit_title" android:text="Filename" android:textColor="@color/normal_fg" android:background="@color/normal_bg"  android:textAppearance="?android:attr/textAppearanceMedium"  android:inputType="textMultiLine" android:focusable="false" android:editable="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:textStyle="bold">
-               <requestFocus></requestFocus>
-           </EditText>
-       </LinearLayout>
-       <Button android:text="@string/editor_layout_cancel" android:id="@+id/edit_cancel" android:layout_weight="0" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_width="wrap_content" android:layout_marginLeft="4dp"></Button>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/view_title1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="2dp"
+                android:text="@string/editor_layout_viewtitle"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/edit_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/normal_bg"
+                android:editable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:text="Filename"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+
+                <requestFocus >
+                </requestFocus>
+            </EditText>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/edit_save"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_save"
+            android:minWidth="96dp"
+            android:paddingRight="8dp"
+            android:text="@string/editor_layout_save" android:layout_marginLeft="4dp">
+        </Button>            
+            
+        <Button
+            android:id="@+id/edit_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_del"
+            android:minWidth="96dp"
+            android:paddingRight="8dp"
+            android:text="@string/editor_layout_cancel" >
+        </Button>
     </LinearLayout>
-
+
     <TextView
         android:id="@+id/divider"
         android:layout_width="fill_parent"
@@ -36,10 +103,22 @@
         android:text="TextView"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000000" >
+    </TextView>
 
-</TextView>
-    
-    <EditText android:textColor="#000000" android:background="#ffffff" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1" android:layout_height="0dp" android:layout_width="fill_parent" android:inputType="textMultiLine" android:typeface="monospace" android:id="@+id/edit_txt" android:layout_marginTop="4dp">
-        <requestFocus></requestFocus>
+    <EditText
+        android:id="@+id/edit_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        android:inputType="textMultiLine"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:typeface="monospace" >
+
+        <requestFocus >
+        </requestFocus>
     </EditText>
+
 </LinearLayout>

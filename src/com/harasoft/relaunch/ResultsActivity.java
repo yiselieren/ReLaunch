@@ -486,6 +486,20 @@ public class ResultsActivity extends Activity {
 					}
 				});
 
+		// set results icon
+		ImageView results_icon = (ImageView) findViewById(R.id.results_icon);
+		if (listName.equals("homeList")) {
+			results_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_home));
+		}
+		if(listName.equals("favorites")) {
+			results_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_fav));
+		}
+		if(listName.equals("lastOpened")) {
+			results_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_lre));
+		}		
+		if(listName.equals("searchResults")) {
+			results_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_search));
+		}		
 		// may be "dead end" of code now(?) now UP functionality in this screens?
 		// so force to DISABLED
 		final Button up = (Button) findViewById(R.id.goup_btn);
@@ -806,6 +820,22 @@ public class ResultsActivity extends Activity {
             public boolean onSingleTapConfirmed(MotionEvent e) {
 				// GridView gv = (GridView) findViewById(R.id.results_list);
 				int first = gv.getFirstVisiblePosition();
+				int visible = gv.getLastVisiblePosition() - gv.getFirstVisiblePosition() + 1;
+				int total = itemsArray.size();
+				first -= visible;
+				if (first < 0)
+					first = 0;
+				gv.setSelection(first);
+				// some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }            	
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+				int first = gv.getFirstVisiblePosition();
 				int total = itemsArray.size();
 				first -= (total * app.scrollStep) / 100;
 				if (first < 0)
@@ -816,30 +846,20 @@ public class ResultsActivity extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }            	
-                /*
-            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-            		openHome(0);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-            		openHome(1);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-            		menuHome();
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-            		screenHome();
-            	}
-            	*/                 	
-                return true;
-            }
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(upScroll.hasWindowFocus()) {
-
+    				int first = gv.getFirstVisiblePosition();
+    				int total = itemsArray.size();
+    				first = 0;
+    				gv.setSelection(first);
+    				// some hack workaround against not scrolling in some cases
+                    if(total>0) {
+                    	gv.requestFocusFromTouch();
+                    	gv.setSelection(first);
+                    	}
             		}
             	}
         };
@@ -880,7 +900,23 @@ public class ResultsActivity extends Activity {
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
-                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                first = last + 1;
+                if (first > (total-1))
+                    first = total-1;
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }            	
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                int first = gv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return true;
                 first += (total * app.scrollStep) / 100;
                 if (first <= last)
                     first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
@@ -892,30 +928,26 @@ public class ResultsActivity extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }            	
-                /*
-            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-            		openHome(0);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-            		openHome(1);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-            		menuHome();
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-            		screenHome();
-            	}
-            	*/                 	
-                return true;
-            }
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(downScroll.hasWindowFocus()) {
-
+                    int first = gv.getFirstVisiblePosition();
+                    int total = itemsArray.size();
+                    int last = gv.getLastVisiblePosition();
+                    if(total==last+1) return;
+                    first = total - 1;
+                    if (first <= last)
+                        first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                    if (first > (total-1))
+                        first = total-1;
+                    gv.setSelection(first);
+                    // some hack workaround against not scrolling in some cases
+                    if(total>0) {
+                    	gv.requestFocusFromTouch();
+                    	gv.setSelection(first);
+                    	}	            	
             		}
             	}
         };

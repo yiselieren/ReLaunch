@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/normal_bg" android:padding="8dp">
-    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="fill_parent">
+    <LinearLayout android:layout_height="56dp" android:id="@+id/linearLayout1" android:layout_width="fill_parent">
         <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout5" android:layout_height="fill_parent" android:layout_gravity="center" android:layout_width="100dp" android:background="@color/normal_bg_gray">
             <TextView android:text="@string/taskmanager_layout_memory" android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent" android:gravity="right" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
             <TextView android:text="@string/taskmanager_layout_cpu"  android:id="@+id/textView3" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="fill_parent" android:gravity="right" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
@@ -22,12 +22,12 @@
 </TextView>
             <TextView android:layout_height="fill_parent" android:textColor="#000000" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/title2_txt" android:layout_width="fill_parent" android:gravity="center" android:layout_weight="1"></TextView>
         </LinearLayout>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="64dp" android:id="@+id/tm_back" android:layout_gravity="center" android:layout_width="128dp" android:layout_marginLeft="4dp"></ImageButton>
+        <ImageButton android:src="@drawable/ci_exit" android:layout_height="fill_parent" android:id="@+id/tm_back" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_marginLeft="4dp" android:background="@drawable/main_button" android:minWidth="96dp"></ImageButton>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_marginTop="8dp">
-        <Button android:text="@string/taskmanager_layout_sort_by_size" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_size"></Button>
-        <Button android:text="@string/taskmanager_layout_sort_by_cpu" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_cpu" android:layout_marginLeft="4dp"></Button>
-        <Button android:text="@string/taskmanager_layout_sort_by_alpha" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_abc" android:layout_marginLeft="4dp"></Button>
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="56dp" android:id="@+id/linearLayout2" android:layout_marginTop="8dp">
+        <Button android:text="@string/taskmanager_layout_sort_by_size" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_size" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_ram" android:paddingRight="8dp"></Button>
+        <Button android:text="@string/taskmanager_layout_sort_by_cpu" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_cpu" android:layout_marginLeft="4dp" android:background="@drawable/main_button" android:paddingRight="8dp" android:drawableLeft="@drawable/ci_cpu"></Button>
+        <Button android:text="@string/taskmanager_layout_sort_by_alpha" android:layout_weight="1" android:layout_width="0dp" android:layout_height="fill_parent" android:id="@+id/sort_abc" android:layout_marginLeft="4dp" android:background="@drawable/main_button" android:paddingRight="8dp" android:drawableLeft="@drawable/ci_az"></Button>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:layout_marginTop="4dp">
         <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/taskmanager_layout_tasks" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="0dp" android:gravity="center" android:id="@+id/tm_tasks_title" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>

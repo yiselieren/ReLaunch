@@ -16,7 +16,7 @@
     <string name="filters_item_layout_and">И</string>
     <string name="filters_view_layout_title">Настройки файлового фильтра</string> 
     <string name="filters_view_layout_ok">OK</string>
-    <string name="filters_view_layout_add_new">Добавить</string>
+    <string name="filters_view_layout_add_new">Новый</string>
     <string name="filters_view_layout_and">И</string>
     <string name="filters_view_layout_cancel">Отмена</string>
     <string name="main_launcher_nb_layout_go_one_level_up">На уровень выше</string>
@@ -25,12 +25,12 @@
     <string name="main_launcher_nb_layout_battery">Battery</string>
     <string name="main_launcher_nb_layout_b">B</string>
     <string name="prefs_layout_title">Настройки</string>
-    <string name="prefs_layout_filter_setting">Настройка: Файловый фильтр</string>
-    <string name="prefs_layout_associations">Настройка: Ассоциации файлов</string>
+    <string name="prefs_layout_filter_setting">Настройка:\nФайловый фильтр</string>
+    <string name="prefs_layout_associations">Настройка:\nАссоциации файлов</string>
     <string name="prefs_layout_cancel">Отмена</string>
     <string name="prefs_layout_ok">OK</string>
-    <string name="prefs_layout_save_restart">Сохранить и рестартовать ReLaunch (некоторые настройки требуют перезапуска)</string>
-    <string name="prefs_layout_revert_default">Вернуть все настройки к значениям по умолчанию</string>
+    <string name="prefs_layout_save_restart">Сохранить и перезапустить</string>
+    <string name="prefs_layout_revert_default">Вернуть настройки по умолчанию</string>
     <string name="search_layout_case_sensitive">Регистр различается</string>
     <string name="search_layout_search_known">Только файлы известных расширений</string>
     <string name="search_layout_sort_search">Отсортировать результаты</string>
@@ -39,9 +39,9 @@
     <string name="search_layout_search_root">Искать в папках</string>
     <string name="search_layout_search_root_comment">Папка или список папок через запятую</string>
     <string name="search_layout_search_string">Строка поиска</string>
-    <string name="search_layout_search">Начать поиск</string>
+    <string name="search_layout_search">Искать</string>
     <string name="search_layout_cancel">Отмена</string>
-    <string name="search_layout_show_all_books">Показать все книги (известных расширений)\nв папках для поиска</string>
+    <string name="search_layout_show_all_books">Показать все книги (известных расширений) в папках для поиска</string>
     <string name="search_layout_title">Поиск</string>    
     <string name="service_details_layout_kill">Завершить</string>
     <string name="service_details_layout_ok">OK</string>
@@ -66,7 +66,7 @@
     <string name="types_layout_file_suffix">Расширение файла:</string>
     <string name="types_layout_application">Приложение:</string>
     <string name="types_view_layout_ok">OK</string>
-    <string name="types_view_layout_add_new">Добавить</string>
+    <string name="types_view_layout_add_new">Новая</string>
     <string name="types_view_layout_cancel">Отмена</string>
 	<string name="types_view_layout_title">Настройка ассоциаций</string>    
     <string name="viewer_layout_edit">Редактировать</string>
@@ -113,7 +113,7 @@
     <string name="jv_editor_save_text">Вы хотите сохранить изменения?</string>
     <string name="jv_editor_yes">Да</string>
     <string name="jv_editor_no">Нет</string>
-    <string name="jv_editor_back">Назад</string>
+    <string name="jv_editor_back">Отмена</string>
     <string name="jv_editor_cancel">Отмена</string>
     <string name="jv_editor_openerr_title">Ошибка открытия</string>
     <string name="jv_editor_openerr_text1">Невозможно открыть файл</string>
@@ -132,6 +132,8 @@
     <string name="jv_prefs_ok">OK</string>
     <string name="jv_prefs_decline_changes_title">Предупреждение</string>
     <string name="jv_prefs_decline_changes_text">Вы хотите сохранить все внесенные изменения?</string>
+    <string name="jv_prefs_default_settings_title">Предупреждение</string>
+    <string name="jv_prefs_default_settings_text">Вы ДЕЙСТВИТЕЛЬНО хотите восстановить настройки по умолчанию?</string>    
     <string name="jv_prefs_yes">Да</string>
     <string name="jv_prefs_no">Нет</string>
     <string name="jv_prefs_cancel">Отмена</string>

@@ -1070,6 +1070,22 @@ public class ReLaunch extends Activity {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
             	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
+            	int first = gv.getFirstVisiblePosition(); 
+                int visible = gv.getLastVisiblePosition() - gv.getFirstVisiblePosition() + 1;
+                int total = itemsArray.size();
+                first -= visible;
+                if (first < 0)
+                    first = 0;
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }
+                return true;
+            }
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 first -= (total * app.scrollStep) / 100;
@@ -1080,31 +1096,21 @@ public class ReLaunch extends Activity {
                 if(total>0) {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
-                }
-                /*
-            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-            		openHome(0);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-            		openHome(1);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-            		menuHome();
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-            		screenHome();
-            	}
-            	*/                 	
-                return true;
-            }
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
+                }            	
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(upScroll.hasWindowFocus()) {
-
+                    int first = gv.getFirstVisiblePosition();
+                    int total = itemsArray.size();
+                    first = 0;
+                    gv.setSelection(first);
+                    // some hack workaround against not scrolling in some cases
+                    if(total>0) {
+                    	gv.requestFocusFromTouch();
+                    	gv.setSelection(first);
+                    	}           
             		}
             	}
         };
@@ -1145,15 +1151,10 @@ public class ReLaunch extends Activity {
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
-                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
-                first += (total * app.scrollStep) / 100;
-                if (first <= last)
-                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                first = last+1;
                 if (first > (total-1))
                     first = total-1;
-                //Log.d(TAG, " new first=" + first);
                 gv.setSelection(first);
-                // some hack workaround against not scrolling in some cases
                 if(total>0) {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
@@ -1176,12 +1177,43 @@ public class ReLaunch extends Activity {
             }
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                int first = gv.getFirstVisiblePosition();
+                int total = itemsArray.size();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return true;
+                //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
+                first += (total * app.scrollStep) / 100;
+                if (first <= last)
+                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (first > (total-1))
+                    first = total-1;
+                //Log.d(TAG, " new first=" + first);
+                gv.setSelection(first);
+                // some hack workaround against not scrolling in some cases
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(first);
+                }            	
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(downScroll.hasWindowFocus()) {
-
+                    int first = gv.getFirstVisiblePosition();
+                    int total = itemsArray.size();
+                    int last = gv.getLastVisiblePosition();
+                    if(total==last+1) return;
+                    first = total-1;
+                    if (first <= last)
+                        first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                    if (first > (total-1))
+                        first = total-1;
+                    gv.setSelection(first);
+                    // some hack workaround against not scrolling in some cases
+                    if(total>0) {
+                    	gv.requestFocusFromTouch();
+                    	gv.setSelection(first);
+                    	}
             		}
             	}
         };

@@ -1,14 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_weight="0.08" android:layout_height="0dp">
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="fill_parent" android:text="TextView" android:layout_gravity="center" android:layout_weight="1" android:layout_width="fill_parent" android:id="@+id/app_title" android:textStyle="bold" android:focusable="false" android:gravity="center" android:inputType="textMultiLine" android:background="@color/normal_bg_gray" android:textColor="@color/normal_fg"></TextView>
-        <ImageButton android:src="@android:drawable/ic_menu_revert" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_weight="4" android:id="@+id/app_btn" android:layout_marginLeft="4dp"></ImageButton>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp" >
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_grid" />
+
+        <TextView
+            android:id="@+id/app_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:focusable="false"
+            android:gravity="left|center_vertical"
+            android:inputType="textMultiLine"
+            android:paddingLeft="8dp"
+            android:text="TextView"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/app_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit" >
+        </ImageButton>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/app_grid_layout" android:layout_marginTop="8dp">
-        <GridView android:layout_height="fill_parent" android:layout_width="fill_parent" android:numColumns="2" android:id="@+id/app_grid" android:layout_gravity="center" android:layout_weight="1" android:stretchMode="columnWidth"></GridView>
+
+    <LinearLayout
+        android:id="@+id/app_grid_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1" >
+
+        <GridView
+            android:id="@+id/app_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:numColumns="2"
+            android:stretchMode="columnWidth" >
+        </GridView>
     </LinearLayout>
+
 </LinearLayout>

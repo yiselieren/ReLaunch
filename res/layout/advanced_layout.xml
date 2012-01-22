@@ -9,8 +9,14 @@
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.54" >
+        android:layout_height="56dp" >
+
+        <ImageView
+            android:id="@+id/results_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_tools" />
 
         <TextView
             android:id="@+id/results_title"
@@ -21,8 +27,9 @@
             android:background="@color/normal_bg_gray"
             android:editable="false"
             android:focusable="false"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             android:inputType="textMultiLine"
+            android:paddingLeft="8dp"
             android:text="Text View"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
@@ -30,12 +37,13 @@
 
         <ImageButton
             android:id="@+id/results_btn"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="4"
-            android:src="@android:drawable/ic_menu_revert" >
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit" >
         </ImageButton>
     </LinearLayout>
 
@@ -68,11 +76,11 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/main_button"
             android:drawableLeft="@drawable/wifi_on"
             android:drawableRight="@drawable/wifi_on"
-            android:drawableTop="@android:drawable/ic_menu_help"
-            android:padding="16dp"
-            android:text="@string/advanced_layout_scan" >
+            android:drawableTop="@drawable/ci_wifiscan"
+            android:text="@string/advanced_layout_scan" android:paddingBottom="16dp" android:paddingLeft="16dp" android:paddingRight="16dp" android:paddingTop="24dp">
         </Button>
 
         <Button
@@ -82,10 +90,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
+            android:background="@drawable/main_button"
             android:drawableLeft="@drawable/wifi_off"
-            android:drawablePadding="6dp"
             android:drawableRight="@drawable/wifi_off"
-            android:drawableTop="@android:drawable/ic_lock_power_off"
+            android:drawableTop="@drawable/ci_wifi"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -125,19 +133,21 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_lock_lock"
-            android:padding="16dp"
-            android:text="@string/advanced_layout_lock" >
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_lock"
+            android:text="@string/advanced_layout_lock" android:padding="16dp">
         </Button>
-        
+
         <Button
             android:id="@+id/reboot_btn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_menu_rotate"
-            android:text="@string/advanced_layout_reboot" android:paddingBottom="16dp" android:paddingLeft="16dp" android:paddingRight="16dp" android:paddingTop="6dp" android:layout_marginLeft="4dp">
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_reboot"
+            android:text="@string/advanced_layout_reboot" android:padding="16dp">
         </Button>
 
         <Button
@@ -147,9 +157,9 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_lock_power_off"
-            android:padding="16dp"
-            android:text="@string/advanced_layout_poweroff" >
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_power"
+            android:text="@string/advanced_layout_poweroff" android:padding="16dp">
         </Button>
     </LinearLayout>
 

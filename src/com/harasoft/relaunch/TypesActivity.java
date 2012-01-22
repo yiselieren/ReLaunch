@@ -78,7 +78,7 @@ public class TypesActivity extends Activity {
                 }
                 else
                 {
-                    upBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_up));
+                    upBtn.setImageDrawable(getResources().getDrawable(R.drawable.ci_arrowup));
                     upBtn.setEnabled(true);
                 }
                 upBtn.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class TypesActivity extends Activity {
                 }
                 else
                 {
-                    downBtn.setImageDrawable(getResources().getDrawable(R.drawable.arrow_down));
+                    downBtn.setImageDrawable(getResources().getDrawable(R.drawable.ci_arrowdown));
                     downBtn.setEnabled(true);
                 }
                 downBtn.setOnClickListener(new View.OnClickListener() {

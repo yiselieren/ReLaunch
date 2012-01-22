@@ -3,8 +3,8 @@ CASUAL
 	-- for LRU button: open first, open second, open as menu(?), open as screen
 	-- for FAV button: open first, open second, open as menu(?), open as screen
 	-- for search button: search with input only search string, repeat last search (without confirmations), open search window
-	-- for Up button - go up twice, go to "nearest" homedir.
-	-- for %scroll button - go up-down twice percents, go 0% go 100% up down.
+	-- for Up button - go up twice, go to "nearest" homedir
+	-- for %scroll button - go up-down twice percents, go 0% go 100% up down
 	-- may be some "smart" functionality for other buttons (bottom buttons too?)
 - icons in Nook style, some redesign of layouts to more usabilility (for example, search
 situations where onscreen keyboard not opened for text fields (by default) and text fields not
@@ -26,3 +26,5 @@ DONE
 - (DONE) external power source indication
 - (DONE) fixed somewhere "unscrolling" on scroll buttons
 - (DONE) reimport EInk support from CoolReader
+- (DONE) request confirmation before restore default settings
+- (DONE) add restart ReLaunch after restore default settings

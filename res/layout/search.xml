@@ -12,29 +12,37 @@
         android:layout_height="56dp"
         android:minHeight="32dp" >
 
+        <ImageView
+            android:id="@+id/results_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_search" />
+
         <EditText
             android:id="@+id/search_title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.355"
             android:background="@color/normal_bg_gray"
             android:editable="false"
             android:focusable="false"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             android:inputType="textMultiLine"
             android:text="@string/search_layout_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
-            android:textStyle="bold" />
+            android:textStyle="bold" android:paddingLeft="8dp"/>
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="4"
-            android:src="@android:drawable/ic_menu_revert" />
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit"/>
     </LinearLayout>
 
     <LinearLayout
@@ -243,12 +251,11 @@
 
         <Button
             android:id="@+id/search_btn"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="1"
-            android:text="@string/search_layout_search" >
+            android:text="@string/search_layout_search" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_run" android:minWidth="96dp" android:paddingRight="16dp">
         </Button>
 
         <!--
@@ -259,7 +266,7 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="0.2"
             android:src="@android:drawable/ic_delete" >
-        </ImageButton>
+        </ImageButton>
         -->
 
     </LinearLayout>
@@ -287,7 +294,7 @@
             android:layout_weight="0.3"
             android:text="@string/search_layout_cancel" >
         </Button>
-    </LinearLayout>
+    </LinearLayout>
     -->
 
     <Button
@@ -297,7 +304,7 @@
         android:layout_marginTop="12dp"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:text="@string/search_layout_show_all_books" >
+        android:text="@string/search_layout_show_all_books" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_books" android:paddingLeft="120dp" android:paddingRight="120dp">
     </Button>
 
 </LinearLayout>

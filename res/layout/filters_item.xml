@@ -8,8 +8,8 @@
         <TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1" android:layout_width="fill_parent" android:gravity="center_vertical">
             <TextView android:text="@string/filters_item_layout_rule" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical" android:layout_width="wrap_content" android:id="@+id/filters_name_title" android:textColor="@color/normal_fg" android:textStyle="bold" android:gravity="center_horizontal"></TextView>
             <LinearLayout android:id="@+id/linearLayout2" android:layout_weight="1" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:gravity="center_horizontal">
-                <Spinner android:id="@+id/filters_method" android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:layout_gravity="center_vertical|center" android:layout_marginLeft="4dp" android:paddingLeft="8dp"></Spinner>
-                <ImageButton android:id="@+id/filters_delete" android:src="@android:drawable/ic_delete" android:layout_width="fill_parent" android:layout_gravity="center_vertical|center" android:layout_height="fill_parent" android:layout_weight="5" android:layout_marginLeft="4dp"></ImageButton>
+                <Spinner android:id="@+id/filters_method" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:layout_gravity="center_vertical|center" android:layout_marginLeft="4dp" android:paddingLeft="8dp"></Spinner>
+                <ImageButton android:id="@+id/filters_delete" android:src="@drawable/ci_delsmall" android:layout_width="42dp" android:layout_gravity="top|center_horizontal" android:layout_height="42dp" android:layout_marginLeft="4dp" android:background="@drawable/main_button"></ImageButton>
             </LinearLayout>
         </TableRow>
         <TableRow android:layout_height="fill_parent" android:id="@+id/tableRow2" android:layout_width="fill_parent" android:layout_marginTop="8dp">

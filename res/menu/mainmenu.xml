@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/setting" android:title="Settings" android:icon="@android:drawable/ic_menu_preferences">
+    <item android:id="@+id/setting" android:title="Settings" android:icon="@drawable/ci_gear2">
     </item>
-    <item android:id="@+id/mime_types" android:title="Associations" android:icon="@android:drawable/ic_menu_view">
+    <item android:id="@+id/mime_types" android:title="Associations" android:icon="@drawable/ci_associations">
     </item>
-    <item android:id="@+id/search" android:title="Search" android:icon="@android:drawable/ic_menu_search">
+    <item android:id="@+id/search" android:title="Search" android:icon="@drawable/ci_search">
     </item>
-    <item android:id="@+id/lastopened" android:title="Last opened" android:icon="@android:drawable/ic_menu_myplaces">
+    <item android:id="@+id/lastopened" android:title="Last opened" android:icon="@drawable/ci_lre">
     </item>
-    <item android:id="@+id/favorites" android:title="Favorites" android:icon="@android:drawable/btn_star">
+    <item android:id="@+id/favorites" android:title="Favorites" android:icon="@drawable/ci_fav">
     </item>
-    <item android:id="@+id/about" android:title="Informatoin" android:icon="@android:drawable/ic_menu_info_details">
+    <item android:id="@+id/about" android:title="Informatoin" android:icon="@drawable/ci_question">
     </item>
 </menu>

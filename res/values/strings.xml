@@ -18,7 +18,7 @@
     <string name="filters_view_layout_add_new">Add new</string>
     <string name="filters_view_layout_and">AND</string>
     <string name="filters_view_layout_cancel">Cancel</string>
-    <string name="main_launcher_nb_layout_go_one_level_up">Go one level up</string>
+    <string name="main_launcher_nb_layout_go_one_level_up">One level up</string>
     <string name="main_launcher_nb_layout_memory">Memory</string>
     <string name="main_launcher_nb_layout_mem">Mem:</string>
     <string name="main_launcher_nb_layout_battery">Battery</string>
@@ -40,7 +40,7 @@
     <string name="search_layout_search_string">Search string</string>
     <string name="search_layout_search">Search</string>
     <string name="search_layout_cancel">Cancel</string>
-    <string name="search_layout_show_all_books">Show all books (known extensions)\nfrom search root</string>
+    <string name="search_layout_show_all_books">Show all books (known extensions) from search root</string>
 	<string name="search_layout_title">Search</string>    
     <string name="service_details_layout_kill">Kill</string>
     <string name="service_details_layout_ok">OK</string>
@@ -112,7 +112,7 @@
     <string name="jv_editor_save_text">Do you want to save changes?</string>
     <string name="jv_editor_yes">YES</string>
     <string name="jv_editor_no">NO</string>
-    <string name="jv_editor_back">Back</string>
+    <string name="jv_editor_back">Cancel</string>
     <string name="jv_editor_cancel">Cancel</string>
     <string name="jv_editor_openerr_title">Open failure</string>
     <string name="jv_editor_openerr_text1">Can\'t open file</string>
@@ -131,6 +131,8 @@
     <string name="jv_prefs_ok">OK</string>
     <string name="jv_prefs_decline_changes_title">Decline changes warning</string>
     <string name="jv_prefs_decline_changes_text">Do you want to save all configuration\'s changes?</string>
+    <string name="jv_prefs_default_settings_title">Default settings warning</string>
+    <string name="jv_prefs_default_settings_text">Are you sure to restore default settings?</string>
     <string name="jv_prefs_yes">Yes</string>
     <string name="jv_prefs_no">No</string>
     <string name="jv_prefs_cancel">Cancel</string>

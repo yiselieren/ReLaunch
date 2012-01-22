@@ -3,8 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/normal_bg"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     android:orientation="vertical"
-    android:padding="8dp" android:focusableInTouchMode="false" android:focusable="false">
+    android:padding="8dp" >
 
     <Button
         android:id="@+id/title_txt"
@@ -17,8 +19,7 @@
         android:text="TITLE"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/normal_fg"
-        android:textStyle="bold">
-
+        android:textStyle="bold" >
     </Button>
 
     <LinearLayout
@@ -29,47 +30,55 @@
 
         <Button
             android:id="@+id/goup_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="0.6"
-            android:drawableLeft="@drawable/arrow_up"
-            android:drawableRight="@drawable/arrow_up"
+            android:layout_weight="0.757"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_levelup"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="@string/main_launcher_nb_layout_go_one_level_up" >
         </Button>
 
         <Button
             android:id="@+id/upscroll_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/arrow_up"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowup"
+            android:paddingLeft="8dp"
             android:text="0%" >
         </Button>
 
         <Button
             android:id="@+id/downscroll_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/arrow_down"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowdown"
+            android:paddingLeft="8dp"
             android:text="0%" >
         </Button>
 
         <ImageButton
             android:id="@+id/advanced_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@drawable/su" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
     <!--
     <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fl_layout" android:layout_marginTop="4dp">
         <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="fill_parent" android:fadeScrollbars="false" android:layout_weight="1" android:divider="@color/normal_transparent"></ListView>
-    </LinearLayout>    -->
+    </LinearLayout>
+    -->
 
     <LinearLayout
         android:id="@+id/gl_layout"
@@ -83,7 +92,10 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:numColumns="3" android:duplicateParentState="true" android:stretchMode="columnWidth" android:smoothScrollbar="false">
+            android:duplicateParentState="true"
+            android:numColumns="3"
+            android:smoothScrollbar="false"
+            android:stretchMode="columnWidth" >
         </GridView>
     </LinearLayout>
 

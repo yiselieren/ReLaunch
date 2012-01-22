@@ -542,7 +542,7 @@ public class Advanced extends Activity {
         	wifiOnOff.setText(getResources().getString(R.string.jv_advanced_turn_wifi_off));
             wifiOnOff.setCompoundDrawablesWithIntrinsicBounds(
                     getResources().getDrawable(R.drawable.wifi_off),
-                    getResources().getDrawable(android.R.drawable.ic_lock_power_off),
+                    getResources().getDrawable(R.drawable.ci_wifi),
                     getResources().getDrawable(R.drawable.wifi_off),
                     null);
             wifiOnOff.setOnClickListener(new View.OnClickListener() {
@@ -563,7 +563,7 @@ public class Advanced extends Activity {
         	wifiOnOff.setText(getResources().getString(R.string.jv_advanced_turn_wifi_on));
             wifiOnOff.setCompoundDrawablesWithIntrinsicBounds(
                     getResources().getDrawable(R.drawable.wifi_on),
-                    getResources().getDrawable(android.R.drawable.ic_lock_power_off),
+                    getResources().getDrawable(R.drawable.ci_wifi),
                     getResources().getDrawable(R.drawable.wifi_on),
                     null);
             wifiOnOff.setOnClickListener(new View.OnClickListener() {

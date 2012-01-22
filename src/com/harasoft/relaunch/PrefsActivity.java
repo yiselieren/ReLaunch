@@ -258,11 +258,31 @@ public class PrefsActivity extends PreferenceActivity implements
 						System.exit(0);
 					}
 				});
+		final Activity pact = this;		
 		((Button) findViewById(R.id.revert_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						revert();
-						finish();
+						AlertDialog.Builder builder = new AlertDialog.Builder(pact);
+		                //builder.setTitle("Default settings warning");
+		                builder.setTitle(getResources().getString(R.string.jv_prefs_default_settings_title));
+		                //builder.setMessage("Are you sure to restore default settings?");
+		                builder.setMessage(getResources().getString(R.string.jv_prefs_default_settings_text));
+		                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		                builder.setPositiveButton(getResources().getString(R.string.jv_prefs_yes), new DialogInterface.OnClickListener() {
+		                        public void onClick(DialogInterface dialog, int whichButton) {
+		                        	revert();
+		    						AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+		    						mgr.set(AlarmManager.RTC,
+		    								System.currentTimeMillis() + 500,
+		    								app.RestartIntent);
+		    						System.exit(0);		                        	
+		                        }});
+		                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		                builder.setNegativeButton(getResources().getString(R.string.jv_prefs_no), new DialogInterface.OnClickListener() {
+		                        public void onClick(DialogInterface dialog, int whichButton) {
+		                            dialog.dismiss();
+		                        }});
+		                builder.show();
 					}
 				});
 		//((Button) findViewById(R.id.cancel_btn))
@@ -273,7 +293,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		//			}
 		//		});
 		// back button - work as cancel
-		final Activity pact = this;
+		// final Activity pact = this;
 		((ImageButton) findViewById(R.id.back_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {

@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent" android:background="@color/normal_bg" android:padding="8dp">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="8dp" >
+
     <LinearLayout
         android:id="@+id/LinearLayoutTitle"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
         android:minHeight="32dp" >
 
+        <ImageView
+            android:id="@+id/filters_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_filter" />
+
         <EditText
             android:id="@+id/filters_title"
             android:layout_width="fill_parent"
@@ -19,32 +27,83 @@
             android:background="@color/normal_bg_gray"
             android:editable="false"
             android:focusable="false"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             android:inputType="textMultiLine"
             android:text="@string/filters_view_layout_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
-            android:textStyle="bold" >
+            android:textStyle="bold" android:paddingLeft="8dp">
 
             <requestFocus />
         </EditText>
-
+
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="4"
-            android:src="@android:drawable/ic_menu_revert" />
-
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit" />
     </LinearLayout>
 
-    <ListView android:id="@+id/filters_lv" android:layout_width="wrap_content" android:layout_height="0dp" android:layout_weight="1" android:fadeScrollbars="false" android:background="@color/normal_bg" android:divider="@color/normal_transparent" android:layout_marginTop="8dp"></ListView>
-    <LinearLayout android:id="@+id/linearLayout1" android:background="@color/normal_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="0.02" android:baselineAligned="false" android:layout_marginTop="4dp">
-        <Button android:id="@+id/filters_ok" android:layout_gravity="center" android:text="@string/filters_view_layout_ok" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1"></Button>
-        <Button android:id="@+id/filters_new" android:layout_gravity="center" android:text="@string/filters_view_layout_add_new" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp"></Button>
-        <Button android:id="@+id/filters_andor" android:text="@string/filters_view_layout_and" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp"></Button>
-        <Button android:id="@+id/filters_cancel" android:text="@string/filters_view_layout_cancel" android:layout_width="0dp" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp"></Button>
+    <ListView
+        android:id="@+id/filters_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:background="@color/normal_bg"
+        android:divider="@color/normal_transparent"
+        android:fadeScrollbars="false" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/normal_bg"
+        android:baselineAligned="false" >
+
+        <Button
+            android:id="@+id/filters_ok"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="@string/filters_view_layout_ok" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_ok" android:gravity="center">
+        </Button>
+
+        <Button
+            android:id="@+id/filters_new"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:text="@string/filters_view_layout_add_new" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_add" android:gravity="center">
+        </Button>
+
+        <Button
+            android:id="@+id/filters_andor"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:text="@string/filters_view_layout_and" android:background="@drawable/main_button" android:gravity="center">
+        </Button>
+
+        <Button
+            android:id="@+id/filters_cancel"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:text="@string/filters_view_layout_cancel" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_del" android:gravity="center">
+        </Button>
     </LinearLayout>
+
 </LinearLayout>

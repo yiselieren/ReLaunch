@@ -10,16 +10,24 @@
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="56dp" >
+
+        <ImageView
+            android:id="@+id/results_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_home" />
 
         <Button
             android:id="@+id/results_title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.355"
             android:background="@color/normal_bg_gray"
             android:editable="false"
             android:focusable="false"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="8dp"
             android:text="Text View"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
@@ -28,11 +36,12 @@
 
         <ImageButton
             android:id="@+id/results_btn"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
-            android:layout_weight="4"
-            android:src="@android:drawable/ic_menu_revert" >
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit">
         </ImageButton>
     </LinearLayout>
 
@@ -56,10 +65,10 @@
             android:id="@+id/goup_btn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="0.6"
-            android:drawableLeft="@drawable/arrow_up"
-            android:drawableRight="@drawable/arrow_up"
-            android:text="@string/main_launcher_nb_layout_go_one_level_up" >
+            android:layout_weight="0.757"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_levelup"
+            android:text="@string/main_launcher_nb_layout_go_one_level_up" android:paddingLeft="8dp" android:paddingRight="8dp">
         </Button>
 
         <Button
@@ -68,8 +77,9 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/arrow_up"
-            android:text="0%" >
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowup"
+            android:text="0%" android:paddingLeft="8dp">
         </Button>
 
         <Button
@@ -78,8 +88,9 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/arrow_down"
-            android:text="0%" >
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowdown"
+            android:text="0%" android:paddingLeft="8dp">
         </Button>
 
         <ImageButton
@@ -88,7 +99,8 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@drawable/su" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
     <!--
@@ -107,7 +119,7 @@
             android:fadeScrollbars="false" android:divider="@color/normal_transparent">
         </ListView>
 
-    </LinearLayout>
+    </LinearLayout>
     -->
 
     <LinearLayout
@@ -122,7 +134,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:duplicateParentState="true"
-            android:numColumns="3" android:stretchMode="columnWidth" android:smoothScrollbar="false">
+            android:numColumns="3"
+            android:smoothScrollbar="false"
+            android:stretchMode="columnWidth" >
         </GridView>
     </LinearLayout>
 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/setting" android:title="Настройки" android:icon="@android:drawable/ic_menu_preferences">
+    <item android:id="@+id/setting" android:title="Настройки" android:icon="@drawable/ci_gear2">
     </item>
-    <item android:id="@+id/mime_types" android:title="Ассоциации" android:icon="@android:drawable/ic_menu_view">
+    <item android:id="@+id/mime_types" android:title="Ассоциации" android:icon="@drawable/ci_associations">
     </item>
-    <item android:id="@+id/search" android:title="Поиск" android:icon="@android:drawable/ic_menu_search">
+    <item android:id="@+id/search" android:title="Поиск" android:icon="@drawable/ci_search">
     </item>
-    <item android:id="@+id/lastopened" android:title="Недавно открытые" android:icon="@android:drawable/ic_menu_myplaces">
+    <item android:id="@+id/lastopened" android:title="Недавно открытые" android:icon="@drawable/ci_lre">
     </item>
-    <item android:id="@+id/favorites" android:title="Избранное" android:icon="@android:drawable/btn_star">
+    <item android:id="@+id/favorites" android:title="Избранное" android:icon="@drawable/ci_fav">
     </item>
-    <item android:id="@+id/about" android:title="Справка" android:icon="@android:drawable/ic_menu_info_details">
+    <item android:id="@+id/about" android:title="Справка" android:icon="@drawable/ci_question">
     </item>
 </menu>

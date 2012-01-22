@@ -225,6 +225,17 @@ public class AllApplications extends Activity {
         listName = data.getExtras().getString("list");
         title = data.getExtras().getString("title");
 
+        // set app icon
+        ImageView app_icon = (ImageView) findViewById(R.id.app_icon); 
+		if (listName.equals("app_all")) {
+			app_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_grid));
+		}
+		if (listName.equals("app_last")) {
+			app_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_lrea));
+		}		
+		if (listName.equals("app_favorites")) {
+			app_icon.setImageDrawable(getResources().getDrawable(R.drawable.ci_fava));
+		}        
         ((ImageButton)findViewById(R.id.app_btn)).setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { finish(); }});
 

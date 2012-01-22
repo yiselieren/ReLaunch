@@ -40,7 +40,7 @@
     <string name="search_layout_search_string">Cadena de búsqueda</string>
     <string name="search_layout_search">Búsqueda</string>
     <string name="search_layout_cancel">Cancelar</string>
-    <string name="search_layout_show_all_books">Mostrar todos los libros(extensiones conocidas)\nbúsqueda desde root</string>
+    <string name="search_layout_show_all_books">Mostrar todos los libros(extensiones conocidas) búsqueda desde root</string>
 	<string name="search_layout_title">Búsqueda</string>    
     <string name="service_details_layout_kill">Matar</string>
     <string name="service_details_layout_ok">OK</string>
@@ -112,7 +112,7 @@
     <string name="jv_editor_save_text">¿Quiere guardar los cambios?</string>
     <string name="jv_editor_yes">SÍ</string>
     <string name="jv_editor_no">NO</string>
-    <string name="jv_editor_back">Regresar</string>
+    <string name="jv_editor_back">Cancelar</string>
     <string name="jv_editor_cancel">Cancelar</string>
     <string name="jv_editor_openerr_title">Fallo de apertura</string>
     <string name="jv_editor_openerr_text1">No se puede abrir el archivo</string>
@@ -131,6 +131,8 @@
     <string name="jv_prefs_ok">OK</string>
     <string name="jv_prefs_decline_changes_title">Cambios disminución de alerta</string>
     <string name="jv_prefs_decline_changes_text">¿Desea guardar los cambios de configuración de todos los?</string>
+    <string name="jv_prefs_default_settings_title">Configuración por defecto de advertencia</string>
+    <string name="jv_prefs_default_settings_text">¿Está seguro de restaurar la configuración por defecto?</string>
     <string name="jv_prefs_yes">Sí</string>
     <string name="jv_prefs_no">No</string>
     <string name="jv_prefs_cancel">Cancelar</string>

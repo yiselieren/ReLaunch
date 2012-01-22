@@ -19,7 +19,8 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/homebcb" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_home" >
         </ImageButton>
 
         <ImageButton
@@ -29,7 +30,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_myplaces" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_lre" >
         </ImageButton>
 
         <ImageButton
@@ -39,7 +41,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@android:drawable/btn_star" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_fav" >
         </ImageButton>
 
         <ImageButton
@@ -49,7 +52,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_search" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_search" >
         </ImageButton>
 
         <ImageButton
@@ -59,9 +63,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_preferences" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_gear2" >
         </ImageButton>
-<!--         <ImageButton android:src="@android:drawable/ic_menu_info_details" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/about_btn" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton> -->
+        <!-- <ImageButton android:src="@android:drawable/ic_menu_info_details" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/about_btn" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton> -->
     </LinearLayout>
 
     <Button
@@ -76,8 +81,7 @@
         android:text="TITLE"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/normal_fg"
-        android:textStyle="bold">
-
+        android:textStyle="bold" >
     </Button>
 
     <LinearLayout
@@ -90,9 +94,11 @@
             android:id="@+id/goup_btn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="0.6"
-            android:drawableLeft="@drawable/arrow_up"
-            android:drawableRight="@drawable/arrow_up"
+            android:layout_weight="0.757"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_levelup"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="@string/main_launcher_nb_layout_go_one_level_up" >
         </Button>
 
@@ -102,7 +108,9 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/arrow_up"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowup"
+            android:paddingLeft="8dp"
             android:text="0%" >
         </Button>
 
@@ -112,7 +120,9 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/arrow_down"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowdown"
+            android:paddingLeft="8dp"
             android:text="0%" >
         </Button>
 
@@ -122,13 +132,15 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:src="@drawable/su" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
     <!--
     <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/fl_layout" android:layout_marginTop="4dp" android:background="@color/normal_bg">
         <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="fill_parent" android:fadeScrollbars="false" android:layout_weight="1" android:divider="@color/normal_transparent"></ListView>
-    </LinearLayout>    -->
+    </LinearLayout>
+    -->
 
     <LinearLayout
         android:id="@+id/gl_layout"
@@ -142,7 +154,10 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:numColumns="3" android:duplicateParentState="true" android:stretchMode="columnWidth" android:smoothScrollbar="false">
+            android:duplicateParentState="true"
+            android:numColumns="3"
+            android:smoothScrollbar="false"
+            android:stretchMode="columnWidth" >
         </GridView>
     </LinearLayout>
 
@@ -159,7 +174,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:orientation="vertical" android:clickable="true">
+            android:clickable="true"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/mem_title"
@@ -191,7 +207,6 @@
                 android:textColor="@color/normal_fg"
                 android:textStyle="bold" >
             </TextView>
-
         </LinearLayout>
 
         <ImageButton
@@ -201,7 +216,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="0.65"
-            android:src="@android:drawable/ic_menu_myplaces" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_lrea" >
         </ImageButton>
 
         <ImageButton
@@ -211,7 +227,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="0.65"
-            android:src="@android:drawable/ic_dialog_dialer"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_grid"
             android:text="All applications" >
         </ImageButton>
 
@@ -222,7 +239,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="0.65"
-            android:src="@android:drawable/btn_star" >
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_fava" >
         </ImageButton>
 
         <LinearLayout
@@ -232,7 +250,8 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:orientation="vertical" android:clickable="true">
+            android:clickable="true"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/bat_title"
@@ -244,9 +263,10 @@
                 android:layout_weight="1"
                 android:background="@color/normal_transparent"
                 android:drawableRight="@drawable/wifi_on"
+                android:gravity="center"
                 android:text="@string/main_launcher_nb_layout_battery"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/normal_fg" android:gravity="center">
+                android:textColor="@color/normal_fg" >
             </TextView>
 
             <TextView

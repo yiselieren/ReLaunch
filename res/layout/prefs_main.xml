@@ -12,6 +12,13 @@
         android:layout_height="56dp"
         android:minHeight="32dp" >
 
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_gear2" />
+        
         <EditText
             android:id="@+id/prefernces_title"
             android:layout_width="fill_parent"
@@ -20,24 +27,23 @@
             android:background="@color/normal_bg_gray"
             android:editable="false"
             android:focusable="false"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             android:inputType="textMultiLine"
             android:text="@string/prefs_layout_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
-            android:textStyle="bold" >
+            android:textStyle="bold" android:paddingLeft="8dp">
 
             <requestFocus />
         </EditText>
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:layout_weight="4"
-            android:src="@android:drawable/ic_menu_revert" />
+            android:src="@drawable/ci_exit" android:background="@drawable/main_button" android:minWidth="96dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +57,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/prefs_layout_revert_default" >
+            android:text="@string/prefs_layout_revert_default" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_default">
         </Button>
         
         <Button
@@ -61,7 +67,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:minHeight="72dp"
-            android:text="@string/prefs_layout_save_restart" android:layout_marginLeft="4dp">
+            android:text="@string/prefs_layout_save_restart" android:layout_marginLeft="4dp" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_save">
         </Button>
 
     </LinearLayout>
@@ -79,7 +85,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/prefs_layout_filter_setting" />
+            android:text="@string/prefs_layout_filter_setting" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_filter"/>
 
         <Button
             android:id="@+id/associations"
@@ -88,7 +94,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:text="@string/prefs_layout_associations" >
+            android:text="@string/prefs_layout_associations" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_associations">
         </Button>
 		
         <!--
