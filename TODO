@@ -3,18 +3,11 @@ CASUAL
 	-- for LRU button: open first, open second, open as menu(?), open as screen
 	-- for FAV button: open first, open second, open as menu(?), open as screen
 	-- for search button: search with input only search string, repeat last search (without confirmations), open search window
-	-- for Up button - go up twice, go to "nearest" homedir
-	-- for %scroll button - go up-down twice percents, go 0% go 100% up down
-	-- may be some "smart" functionality for other buttons (bottom buttons too?)
-- icons in Nook style, some redesign of layouts to more usabilility (for example, search
-situations where onscreen keyboard not opened for text fields (by default) and text fields not
-"autofocused" and reorganize search form, which is partially "closed" if onscreen 
-keyboard is on), etc.
 - (NOT POPULATED, BEFORE 1.3!!!) add screens for "Help" and "Appreciation" (with links, for example, to CoolReader, icons lib pack and so on).
 FUTURE >1.3
 - (delayed at least for 1.3) may be some extended functionality for advanced screen (i.e. start to configure selected WiFi net, for example)
 - (delayed at least for 1.3) add manual scrolling for Sony devices
-- (delayed at least for 1.3) save configuration to sdcard (for restore) and save library state (fav,lru and so on)
+- (delayed at least for 1.3) save configuration to sdcard (for restore) and save library state (fav, lru and so on)
 	in library (with restore ability), so user may save state, edit library with external 
 	filemanager and then restore state.
 - (delayed at least for 1.3) more file manager functions (with optional on-off future)
@@ -28,3 +21,10 @@ DONE
 - (DONE) reimport EInk support from CoolReader
 - (DONE) request confirmation before restore default settings
 - (DONE) add restart ReLaunch after restore default settings
+- (DONE) -- Smart buttons -- for Up button - go up twice, go to "nearest" homedir
+- (DONE) -- Smart buttons -- for %scroll button - go up-down twice percents, go 0% go 100% up down
+- (DONE) -- Smart buttons -- may be some "smart" functionality for other buttons (bottom buttons too?)
+- (DONE) icons in Nook style, some redesign of layouts to more usabilility (for example, search
+situations where onscreen keyboard not opened for text fields (by default) and text fields not
+"autofocused" and reorganize search form, which is partially "closed" if onscreen 
+keyboard is on), etc.

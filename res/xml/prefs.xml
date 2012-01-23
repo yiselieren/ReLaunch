@@ -246,7 +246,7 @@
     <PreferenceCategory android:title="Main screen buttons behavior" >
 
         <ListPreference
-            android:defaultValue="OPEN1"
+            android:defaultValue="OPENN"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
             android:entryValues="@array/home_button_actions_values"
@@ -274,6 +274,95 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Home Button Long Tap" />
+        
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/advanced_button_actions_names"
+            android:entryValues="@array/advanced_button_actions_values"
+            android:key="advancedButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Advanced Button Single Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/advanced_button_actions_names"
+            android:entryValues="@array/advanced_button_actions_values"
+            android:key="advancedButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Advanced Button Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/advanced_button_actions_names"
+            android:entryValues="@array/advanced_button_actions_values"
+            android:key="advancedButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Advanced Button Long Tap" /><ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/mem_button_actions_names"
+            android:entryValues="@array/mem_button_actions_values"
+            android:key="memButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Memory Button Single Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/mem_button_actions_names"
+            android:entryValues="@array/mem_button_actions_values"
+            android:key="memButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Memory Button Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/mem_button_actions_names"
+            android:entryValues="@array/mem_button_actions_values"
+            android:key="memButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Memory Button Long Tap" />
+
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/bat_button_actions_names"
+            android:entryValues="@array/bat_button_actions_values"
+            android:key="batButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Battery Button Single Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/bat_button_actions_names"
+            android:entryValues="@array/bat_button_actions_values"
+            android:key="batButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Battery Button Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/bat_button_actions_names"
+            android:entryValues="@array/bat_button_actions_values"
+            android:key="batButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Battery Button Long Tap" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Launcher mode settings" >

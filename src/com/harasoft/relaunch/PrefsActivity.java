@@ -30,6 +30,10 @@ public class PrefsActivity extends PreferenceActivity implements
 	final static public int TYPES_ACT = 1;
 
 	ReLaunchApp app;
+	List<String> applicationsArray;
+	CharSequence[] applications;
+	CharSequence[] happlications;
+
 	SharedPreferences prefs;
 
 	boolean do_pref_subrequest = true;
@@ -100,6 +104,24 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("homeButtonDTopenN", "1"));
 		defItems.add(new PrefItem("homeButtonLT", "OPENSCREEN"));
 		defItems.add(new PrefItem("homeButtonLTopenN", "1"));
+		defItems.add(new PrefItem("advancedButtonST", "RELAUNCH"));
+		defItems.add(new PrefItem("advancedButtonSTapp", "%%"));
+		defItems.add(new PrefItem("advancedButtonDT", "NOTHING"));
+		defItems.add(new PrefItem("advancedButtonDTapp", "%%"));
+		defItems.add(new PrefItem("advancedButtonLT", "NOTHING"));
+		defItems.add(new PrefItem("advancedButtonLTapp", "%%"));
+		defItems.add(new PrefItem("memButtonST", "RELAUNCH"));
+		defItems.add(new PrefItem("memButtonSTapp", "%%"));
+		defItems.add(new PrefItem("memButtonDT", "NOTHING"));
+		defItems.add(new PrefItem("memButtonDTapp", "%%"));
+		defItems.add(new PrefItem("memButtonLT", "NOTHING"));
+		defItems.add(new PrefItem("memButtonLTapp", "%%"));
+		defItems.add(new PrefItem("batButtonST", "RELAUNCH"));
+		defItems.add(new PrefItem("batButtonSTapp", "%%"));
+		defItems.add(new PrefItem("batButtonDT", "NOTHING"));
+		defItems.add(new PrefItem("batButtonDTapp", "%%"));
+		defItems.add(new PrefItem("batButtonLT", "NOTHING"));
+		defItems.add(new PrefItem("batButtonLTapp", "%%"));
 
 		// Launcher mode settings
 		defItems.add(new PrefItem("homeMode", true));
@@ -177,6 +199,51 @@ public class PrefsActivity extends PreferenceActivity implements
 					&& listPref.getValue().toString().equals("OPENN")) {
 				p.setSummary(listPref.getEntry()
 						+ prefs.getString("homeButtonLTopenN", "1"));
+			} else if (p.getKey().equals("advancedButtonST")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("advancedButtonSTapp", "%%")
+						.split("\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("advancedButtonDT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("advancedButtonDTapp", "%%")
+						.split("\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("advancedButtonLT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("advancedButtonLTapp", "%%")
+						.split("\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("memButtonST")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("memButtonSTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("memButtonDT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("memButtonDTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("memButtonLT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("memButtonLTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("batButtonST")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("batButtonSTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("batButtonDT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("batButtonDTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("batButtonLT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("batButtonLTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
 			} else {
 				p.setSummary(listPref.getEntry());
 			}
@@ -204,6 +271,18 @@ public class PrefsActivity extends PreferenceActivity implements
 
 		app = ((ReLaunchApp) getApplicationContext());
 		app.setFullScreenIfNecessary(this);
+
+		applicationsArray = app.getApps();
+		applications = applicationsArray
+				.toArray(new CharSequence[applicationsArray.size()]);
+		happlications = app.getApps().toArray(
+				new CharSequence[app.getApps().size()]);
+		for (int j = 0; j < happlications.length; j++) {
+			String happ = (String) happlications[j];
+			String[] happp = happ.split("\\%");
+			happlications[j] = happp[2];
+		}
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.prefs);
@@ -242,12 +321,12 @@ public class PrefsActivity extends PreferenceActivity implements
 						startActivityForResult(intent, TYPES_ACT);
 					}
 				});
-		//((Button) findViewById(R.id.prefs_ok))
-		//		.setOnClickListener(new View.OnClickListener() {
-		//			public void onClick(View v) {
-		//				finish();
-		//			}
-		//		});
+		// ((Button) findViewById(R.id.prefs_ok))
+		// .setOnClickListener(new View.OnClickListener() {
+		// public void onClick(View v) {
+		// finish();
+		// }
+		// });
 		((Button) findViewById(R.id.restart_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
@@ -258,72 +337,104 @@ public class PrefsActivity extends PreferenceActivity implements
 						System.exit(0);
 					}
 				});
-		final Activity pact = this;		
+		final Activity pact = this;
 		((Button) findViewById(R.id.revert_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(pact);
-		                //builder.setTitle("Default settings warning");
-		                builder.setTitle(getResources().getString(R.string.jv_prefs_default_settings_title));
-		                //builder.setMessage("Are you sure to restore default settings?");
-		                builder.setMessage(getResources().getString(R.string.jv_prefs_default_settings_text));
-		                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-		                builder.setPositiveButton(getResources().getString(R.string.jv_prefs_yes), new DialogInterface.OnClickListener() {
-		                        public void onClick(DialogInterface dialog, int whichButton) {
-		                        	revert();
-		    						AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
-		    						mgr.set(AlarmManager.RTC,
-		    								System.currentTimeMillis() + 500,
-		    								app.RestartIntent);
-		    						System.exit(0);		                        	
-		                        }});
-		                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-		                builder.setNegativeButton(getResources().getString(R.string.jv_prefs_no), new DialogInterface.OnClickListener() {
-		                        public void onClick(DialogInterface dialog, int whichButton) {
-		                            dialog.dismiss();
-		                        }});
-		                builder.show();
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								pact);
+						// builder.setTitle("Default settings warning");
+						builder.setTitle(getResources().getString(
+								R.string.jv_prefs_default_settings_title));
+						// builder.setMessage("Are you sure to restore default settings?");
+						builder.setMessage(getResources().getString(
+								R.string.jv_prefs_default_settings_text));
+						// builder.setPositiveButton("Yes", new
+						// DialogInterface.OnClickListener() {
+						builder.setPositiveButton(
+								getResources().getString(R.string.jv_prefs_yes),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										revert();
+										AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+										mgr.set(AlarmManager.RTC,
+												System.currentTimeMillis() + 500,
+												app.RestartIntent);
+										System.exit(0);
+									}
+								});
+						// builder.setNegativeButton("No", new
+						// DialogInterface.OnClickListener() {
+						builder.setNegativeButton(
+								getResources().getString(R.string.jv_prefs_no),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+									}
+								});
+						builder.show();
 					}
 				});
-		//((Button) findViewById(R.id.cancel_btn))
-		//		.setOnClickListener(new View.OnClickListener() {
-		//			public void onClick(View v) {
-		//				cancel();
-		//				finish();
-		//			}
-		//		});
+		// ((Button) findViewById(R.id.cancel_btn))
+		// .setOnClickListener(new View.OnClickListener() {
+		// public void onClick(View v) {
+		// cancel();
+		// finish();
+		// }
+		// });
 		// back button - work as cancel
 		// final Activity pact = this;
 		((ImageButton) findViewById(R.id.back_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(pact);
-		                //builder.setTitle("Decline changes warning");
-		                builder.setTitle(getResources().getString(R.string.jv_prefs_decline_changes_title));
-		                //builder.setMessage("Are you sure to decline changes?");
-		                builder.setMessage(getResources().getString(R.string.jv_prefs_decline_changes_text));
-		                //builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-		                builder.setPositiveButton(getResources().getString(R.string.jv_prefs_yes), new DialogInterface.OnClickListener() {
-		                        public void onClick(DialogInterface dialog, int whichButton) {
-		    						AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
-		    						mgr.set(AlarmManager.RTC,
-		    								System.currentTimeMillis() + 500,
-		    								app.RestartIntent);
-		    						System.exit(0);		                        	
-		                        }});
-		                //builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-		                builder.setNegativeButton(getResources().getString(R.string.jv_prefs_cancel), new DialogInterface.OnClickListener() {
-		                        public void onClick(DialogInterface dialog, int whichButton) {
-		                            dialog.dismiss();
-		                        }});
-		                //builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-		                builder.setNeutralButton(getResources().getString(R.string.jv_prefs_no), new DialogInterface.OnClickListener() {		                	
-	                        public void onClick(DialogInterface dialog, int whichButton) {
-	                            dialog.dismiss();
-	    						cancel();
-	    						finish();
-	                        }});
-		                builder.show();
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								pact);
+						// builder.setTitle("Decline changes warning");
+						builder.setTitle(getResources().getString(
+								R.string.jv_prefs_decline_changes_title));
+						// builder.setMessage("Are you sure to decline changes?");
+						builder.setMessage(getResources().getString(
+								R.string.jv_prefs_decline_changes_text));
+						// builder.setPositiveButton("Yes", new
+						// DialogInterface.OnClickListener() {
+						builder.setPositiveButton(
+								getResources().getString(R.string.jv_prefs_yes),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+										mgr.set(AlarmManager.RTC,
+												System.currentTimeMillis() + 500,
+												app.RestartIntent);
+										System.exit(0);
+									}
+								});
+						// builder.setNegativeButton("No", new
+						// DialogInterface.OnClickListener() {
+						builder.setNegativeButton(
+								getResources().getString(
+										R.string.jv_prefs_cancel),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+									}
+								});
+						// builder.setNeutralButton("Cancel", new
+						// DialogInterface.OnClickListener() {
+						builder.setNeutralButton(
+								getResources().getString(R.string.jv_prefs_no),
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										dialog.dismiss();
+										cancel();
+										finish();
+									}
+								});
+						builder.show();
 					}
 				});
 
@@ -385,14 +496,16 @@ public class PrefsActivity extends PreferenceActivity implements
 							PrefsActivity.this);
 					// builder1.setTitle("Intent type");
 					// builder1.setTitle("Select number");
-					builder1.setTitle(getResources().getString(R.string.jv_prefs_select_number));
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
 					input.setInputType(InputType.TYPE_CLASS_NUMBER);
 					input.setText(sharedPreferences.getString(
 							"homeButtonSTopenN", "1"));
 					builder1.setView(input);
-					//builder1.setPositiveButton("OK",
-					builder1.setPositiveButton(getResources().getString(R.string.jv_prefs_ok),
+					// builder1.setPositiveButton("OK",
+					builder1.setPositiveButton(
+							getResources().getString(R.string.jv_prefs_ok),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
@@ -486,6 +599,204 @@ public class PrefsActivity extends PreferenceActivity implements
 					builder1.show();
 				}
 			}
+			if (key.equals("advancedButtonST")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("advancedButtonSTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("advancedButtonDT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("advancedButtonDTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("advancedButtonLT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("advancedButtonLTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("memButtonST")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("memButtonSTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("memButtonDT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("memButtonDTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("memButtonLT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("memButtonLTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("batButtonST")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("batButtonSTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("batButtonDT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("batButtonDTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("batButtonLT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("batButtonLTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}			
 		}
 	}
 }

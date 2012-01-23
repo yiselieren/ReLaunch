@@ -2,8 +2,6 @@ package com.harasoft.relaunch;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,17 +9,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -31,7 +25,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.util.Log;
@@ -735,31 +728,10 @@ public class Advanced extends Activity {
             	//Timer timer = new Timer();
                 //timer.schedule( new TimerTask(){
                 //  public void run() {
-            	File isrooted = new File("/system/bin", "su");
-            	if(isrooted.exists()) {
-                	   try {
-                		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
-                	   		try {
-                	   			// nook only
-                	   			DataOutputStream os = new DataOutputStream(p.getOutputStream());
-                	   			os.writeChars("su\n");
-                	   			SystemClock.sleep(100);
-                	   			os.writeChars("sendevent /dev/input/event1 1 116 1\n");
-                	   			SystemClock.sleep(100);
-                	   			os.writeChars("sendevent /dev/input/event1 1 116 0\n");
-                	   		}
-                	   		catch(Exception e) { }
-                	   		finally {
-                	   			p.destroy();
-                	   			}
-                	   	}
-                	   catch(Exception e) {}
-                	   parent.finish();   
-                    }
-            	else {
-            		Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_root_only), Toast.LENGTH_LONG).show();
+            	if(PowerFunctions.actionLock(parent)) {
+            		parent.finish();
+            		}
             	}
-            }
             });
         
         // Reboot button
@@ -767,47 +739,7 @@ public class Advanced extends Activity {
         rebootBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-            	File isrooted = new File("/system/bin", "su");
-            	if(isrooted.exists()) {
-            		AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
-            		//builder.setTitle("Reboot confirmation");
-            		builder.setTitle(getResources().getString(R.string.jv_advanced_reboot_confirm_title));
-                //builder.setMessage("Are you sure to reboot your device ? ");
-                builder.setMessage(getResources().getString(R.string.jv_advanced_reboot_confirm_text));
-                //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                builder.setPositiveButton(getResources().getString(R.string.jv_advanced_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    	setContentView(R.layout.reboot);
-                    	Timer timer = new Timer();
-                        timer.schedule( new TimerTask(){
-                           public void run() { 
-                        	   try {
-                        		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
-                        	   		try {
-                        	   			DataOutputStream os = new DataOutputStream(p.getOutputStream());
-                        	   			os.writeChars("su\n");
-                        	   			SystemClock.sleep(100);
-                        	   			os.writeChars("reboot\n");
-                        	   		}
-                        	   		catch(Exception e) { }
-                        	   		finally {
-                        	   			p.destroy();
-                        	   			}
-                        	   	}
-                        	   	catch(Exception e) {}
-                            	}
-                         	}, 500);
-                    }});
-                //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                builder.setNegativeButton(getResources().getString(R.string.jv_advanced_no), new DialogInterface.OnClickListener() {                
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }});
-
-                builder.show();
-            	}
-            	else {
-            		Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_root_only), Toast.LENGTH_LONG).show();
-            	}
+            	PowerFunctions.actionReboot(parent);
             }});
 
         // Power Off button
@@ -815,47 +747,7 @@ public class Advanced extends Activity {
         powerOffBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-            	File isrooted = new File("/system/bin", "su");
-            	if(isrooted.exists()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
-                //builder.setTitle("PowerOff confirmation");
-                builder.setTitle(getResources().getString(R.string.jv_advanced_poweroff_confirm_title));
-                //builder.setMessage("Are you sure to power off your device ? ");
-                builder.setMessage(getResources().getString(R.string.jv_advanced_poweroff_confirm_text));
-                //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                builder.setPositiveButton(getResources().getString(R.string.jv_advanced_yes), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    	setContentView(R.layout.poweroff);
-                    	Timer timer = new Timer();
-                        timer.schedule( new TimerTask(){
-                           public void run() { 
-                        	   try {
-                        		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
-                        	   		try {
-                        	   			DataOutputStream os = new DataOutputStream(p.getOutputStream());
-                        	   			os.writeChars("su\n");
-                        	   			SystemClock.sleep(100);
-                        	   			os.writeChars("reboot -p\n");
-                        	   		}
-                        	   		catch(Exception e) { }
-                        	   		finally {
-                        	   			p.destroy();
-                        	   			}
-                        	   	}
-                        	   	catch(Exception e) {}
-                            	}
-                         	}, 500);
-                    }});
-                //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                builder.setNegativeButton(getResources().getString(R.string.jv_advanced_no), new DialogInterface.OnClickListener() {                
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }});
-
-                builder.show();
-            	}
-            	else {
-            		Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_root_only), Toast.LENGTH_LONG).show();	
-            	}
+            	PowerFunctions.actionPowerOff(parent);
             }});        
         
         // Web info view

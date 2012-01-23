@@ -111,7 +111,7 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:drawableTop="@drawable/ci_wifi"
+            android:drawableTop="@drawable/ci_wifisetup"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"

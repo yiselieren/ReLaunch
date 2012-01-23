@@ -90,7 +90,7 @@
             android:summaryOff="Всегда показывать полные имена файлов с расширенимя"
             android:summaryOn="Для известных по ассоциациям файлов показывать только имена"
             android:title="Не показывать известные расширения файлов" >
-        </CheckBoxPreference>            
+        </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -99,8 +99,8 @@
             android:summaryOff="Всегда показывать полные имена папок"
             android:summaryOn="Для папок внутри начальных не показывать первую часть имени"
             android:title="Не показывать часть имени известных папок" >
-        </CheckBoxPreference>            
-            
+        </CheckBoxPreference>
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
@@ -129,7 +129,7 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="Режим GL16"
-            android:title="Режим обновления экрана (GL16 mode)" />
+            android:title="Режим обновления экрана (GL16 mode)" />
         -->
 
         <ListPreference
@@ -246,7 +246,7 @@
     <PreferenceCategory android:title="Кнопки рабочего стола" >
 
         <ListPreference
-            android:defaultValue="OPEN1"
+            android:defaultValue="OPENN"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
             android:entryValues="@array/home_button_actions_values"
@@ -274,6 +274,96 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Длительное нажатие кнопки \&quot;К Началу\&quot;" />
+
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/advanced_button_actions_names"
+            android:entryValues="@array/advanced_button_actions_values"
+            android:key="advancedButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;Доп.функции\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/advanced_button_actions_names"
+            android:entryValues="@array/advanced_button_actions_values"
+            android:key="advancedButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;Доп.функции\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/advanced_button_actions_names"
+            android:entryValues="@array/advanced_button_actions_values"
+            android:key="advancedButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;Доп.функции\&quot;" />
+        
+<ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/mem_button_actions_names"
+            android:entryValues="@array/mem_button_actions_values"
+            android:key="memButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;Об.памяти\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/mem_button_actions_names"
+            android:entryValues="@array/mem_button_actions_values"
+            android:key="memButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;Об.памяти\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/mem_button_actions_names"
+            android:entryValues="@array/mem_button_actions_values"
+            android:key="memButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;Об.памяти\&quot;" />
+
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/bat_button_actions_names"
+            android:entryValues="@array/bat_button_actions_values"
+            android:key="batButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;Ост.батареи\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/bat_button_actions_names"
+            android:entryValues="@array/bat_button_actions_values"
+            android:key="batButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;Ост.батареи\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/bat_button_actions_names"
+            android:entryValues="@array/bat_button_actions_values"
+            android:key="batButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;Ост.батареи\&quot;" />        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Режим рабочего стола" >

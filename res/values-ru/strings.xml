@@ -82,7 +82,7 @@
     <string name="jv_advanced_turn_wifi_off">Выкл. WiFi</string>
     <string name="jv_advanced_turning_wifi_on">Включение</string>
     <string name="jv_advanced_turn_wifi_on">Вкл. WiFi</string>
-    <string name="jv_advanced_title">Расширенные функции, информация и т.д.</string>
+    <string name="jv_advanced_title">Дополнительные функции и информация</string>
     <string name="jv_advanced_reboot_confirm_title">Подтверждение перезагруки</string>
     <string name="jv_advanced_reboot_confirm_text">Вы действительно хотите перезагрузиться?</string>
     <string name="jv_advanced_yes">Да</string>
@@ -98,7 +98,7 @@
     <string name="jv_advanced_mount_rorw">RO/RW</string>
     <string name="jv_advanced_mount_ro">RO</string>
     <string name="jv_advanced_mount_rw">RW</string>
-    <string name="jv_advanced_nook_only">Только для усройств NOOK Simple touch.</string>
+    <string name="jv_advanced_nook_only">Только для устройств NOOK Simple touch.</string>
     <string name="jv_advanced_root_only">Только для устройств с root-доступом.</string>
     <string name="jv_allapp_move_up">Переместить вверх</string>
     <string name="jv_allapp_move_down">Переместить вниз</string>
@@ -132,6 +132,7 @@
     <string name="jv_filters_and">И</string>
     <string name="jv_filters_or">ИЛИ</string>
     <string name="jv_prefs_select_number">Укажите порядковый №</string>
+    <string name="jv_prefs_select_application">Выберите приложение</string>
     <string name="jv_prefs_ok">OK</string>
     <string name="jv_prefs_decline_changes_title">Предупреждение</string>
     <string name="jv_prefs_decline_changes_text">Вы хотите сохранить все внесенные изменения?</string>
@@ -185,7 +186,9 @@
     <string name="jv_relaunch_fav">Избранное</string>
     <string name="jv_relaunch_home">Домашние папки</string>
     <string name="jv_relaunch_select_columns">Вывод данной папки</string>
-	<string name="jv_relaunch_default">По умолчанию</string>    
+	<string name="jv_relaunch_default">По умолчанию</string>
+	<string name="jv_relaunch_turning_wifi_on">WiFi ВКЛЮЧЕН</string>
+	<string name="jv_relaunch_turning_wifi_off">WiFi выключен</string>
     <string name="jv_rla_activity">Действие</string>
     <string name="jv_rla_not_found">не найдено!</string>
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>

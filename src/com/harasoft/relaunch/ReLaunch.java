@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
@@ -119,11 +120,71 @@ public class ReLaunch extends Activity {
     boolean                       batteryLevelRegistered = false;
     boolean                       mountReceiverRegistered = false;
     boolean                       powerReceiverRegistered = false;
+    boolean                       wifiReceiverRegistered = false;
     TextView                      memTitle;
     TextView                      memLevel;
     TextView                      battTitle;
     TextView                      battLevel;
     IntentFilter                  batteryLevelFilter;
+    
+    private void actionSwitchWiFi() {
+    	WifiManager wifiManager;  
+    	wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);  
+    	if(wifiManager.isWifiEnabled()) {
+    		//Toast.makeText(ReLaunch.this, "WiFi is off", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(ReLaunch.this, getResources().getString(R.string.jv_relaunch_turning_wifi_off), Toast.LENGTH_SHORT).show();
+    		wifiManager.setWifiEnabled(false);
+    		//refreshBottomInfo();
+    	}
+    	else {  
+    		//Toast.makeText(ReLaunch.this, "WiFi is ON", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(ReLaunch.this, getResources().getString(R.string.jv_relaunch_turning_wifi_on), Toast.LENGTH_SHORT).show();
+    		wifiManager.setWifiEnabled(true);
+    		//refreshBottomInfo();
+    	}  
+    }
+    
+    private void actionLock() {
+    	PowerFunctions.actionLock(ReLaunch.this);
+    }
+    
+    private void actionPowerOff() {
+    	PowerFunctions.actionPowerOff(ReLaunch.this);
+    }
+    
+    private void saveLast()
+    {
+        int appLruMax = 30;
+        try {
+            appLruMax = Integer.parseInt(prefs.getString("appLruSize", "30"));
+        } catch(NumberFormatException e) { }
+        app.writeFile("app_last", ReLaunch.APP_LRU_FILE, appLruMax, ":");
+    }
+    
+    private void actionRun(String appspec) {
+        Intent i = app.getIntentByLabel(appspec);
+        if (i == null)
+            //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
+        	Toast.makeText(ReLaunch.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + appspec + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
+        else
+        {
+            boolean ok = true;
+            try {
+            	i.setAction(Intent.ACTION_MAIN);
+            	i.addCategory(Intent.CATEGORY_LAUNCHER);
+                startActivity(i);
+            } catch (ActivityNotFoundException e) {
+                //Toast.makeText(AllApplications.this, "Activity \"" + item + "\" not found!", Toast.LENGTH_LONG).show();
+            	Toast.makeText(ReLaunch.this, getResources().getString(R.string.jv_allapp_activity) + " \"" + appspec + "\" " + getResources().getString(R.string.jv_allapp_not_found), Toast.LENGTH_LONG).show();
+                ok = false;
+            }
+            if (ok)
+            {
+                app.addToList("app_last", appspec, "X", false);
+                saveLast();
+            }
+        }
+    }
     
     private void setEinkController() {
     	if(prefs!=null) {
@@ -768,32 +829,63 @@ public class ReLaunch extends Activity {
         	class advSimpleOnGestureListener extends SimpleOnGestureListener {
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
-                    Intent i = new Intent(ReLaunch.this, Advanced.class);
-                    startActivity(i);                	
-                    /*
-                	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-                		openHome(0);
+                	if(prefs.getString("advancedButtonST", "RELAUNCH").equals("RELAUNCH")) {
+                        Intent i = new Intent(ReLaunch.this, Advanced.class);
+                        startActivity(i);
                 	}
-                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-                		openHome(1);
+                	else if(prefs.getString("advancedButtonST", "RELAUNCH").equals("LOCK")) {
+                		actionLock();
                 	}
-                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-                		menuHome();
+                	else if(prefs.getString("advancedButtonST", "RELAUNCH").equals("POWEROFF")) {
+                		actionPowerOff();
                 	}
-                	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-                		screenHome();
+                	else if(prefs.getString("advancedButtonST", "RELAUNCH").equals("SWITCHWIFI")) {
+                		actionSwitchWiFi();
                 	}
-                	*/                 	
+                	else if(prefs.getString("advancedButtonST", "RELAUNCH").equals("RUN")) {
+                		actionRun(prefs.getString("advancedButtonSTapp", "%%"));
+                	}                	
                     return true;
                 }
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
+                	if(prefs.getString("advancedButtonDT", "NOTHING").equals("RELAUNCH")) {
+                        Intent i = new Intent(ReLaunch.this, Advanced.class);
+                        startActivity(i);
+                	}
+                	else if(prefs.getString("advancedButtonDT", "NOTHING").equals("LOCK")) {
+                		actionLock();
+                	}
+                	else if(prefs.getString("advancedButtonDT", "NOTHING").equals("POWEROFF")) {
+                		actionPowerOff();
+                	}
+                	else if(prefs.getString("advancedButtonDT", "NOTHING").equals("SWITCHWIFI")) {
+                		actionSwitchWiFi();
+                	}
+                	else if(prefs.getString("advancedButtonDT", "NOTHING").equals("RUN")) {
+                		actionRun(prefs.getString("advancedButtonDTapp", "%%"));
+                	}                	
                     return true;
                 }                    
                 @Override
                 public void onLongPress(MotionEvent e) {
                 	if(adv.hasWindowFocus()) {
-
+                    	if(prefs.getString("advancedButtonLT", "NOTHING").equals("RELAUNCH")) {
+                            Intent i = new Intent(ReLaunch.this, Advanced.class);
+                            startActivity(i);
+                    	}
+                    	else if(prefs.getString("advancedButtonLT", "NOTHING").equals("LOCK")) {
+                    		actionLock();
+                    	}
+                    	else if(prefs.getString("advancedButtonLT", "NOTHING").equals("POWEROFF")) {
+                    		actionPowerOff();
+                    	}
+                    	else if(prefs.getString("advancedButtonLT", "NOTHING").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
+                    	}
+                    	else if(prefs.getString("advancedButtonLT", "NOTHING").equals("RUN")) {
+                    		actionRun(prefs.getString("advancedButtonLTapp", "%%"));
+                    	}
                 		}
                 	}
             };
@@ -1374,6 +1466,13 @@ public class ReLaunch extends Activity {
          }
       };
      
+     private BroadcastReceiver WiFiChangeReceiver = new BroadcastReceiver(){
+          @Override
+          public void onReceive(Context context, Intent intent) {
+         	 refreshBottomInfo();
+          }
+       };      
+      
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1928,32 +2027,63 @@ public class ReLaunch extends Activity {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
             			//findViewById(R.id.mem_layout).setPressed(true);
-            			Intent intent = new Intent(ReLaunch.this, TaskManager.class);
-            			startActivity(intent);
-                        /*
-                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-                    		openHome(0);
+                    	if(prefs.getString("memButtonST", "RELAUNCH").equals("RELAUNCH")) {
+                			Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                			startActivity(intent);
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-                    		openHome(1);
+                    	else if(prefs.getString("memButtonST", "RELAUNCH").equals("LOCK")) {
+                    		actionLock();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-                    		menuHome();
+                    	else if(prefs.getString("memButtonST", "RELAUNCH").equals("POWEROFF")) {
+                    		actionPowerOff();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-                    		screenHome();
+                    	else if(prefs.getString("memButtonST", "RELAUNCH").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
                     	}
-                    	*/                 	
+                    	else if(prefs.getString("memButtonST", "RELAUNCH").equals("RUN")) {
+                    		actionRun(prefs.getString("memButtonSTapp", "%%"));
+                    	}                 	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                    	if(prefs.getString("memButtonDT", "NOTHING").equals("RELAUNCH")) {
+                			Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                			startActivity(intent);
+                    	}
+                    	else if(prefs.getString("memButtonDT", "NOTHING").equals("LOCK")) {
+                    		actionLock();
+                    	}
+                    	else if(prefs.getString("memButtonDT", "NOTHING").equals("POWEROFF")) {
+                    		actionPowerOff();
+                    	}
+                    	else if(prefs.getString("memButtonDT", "NOTHING").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
+                    	}
+                    	else if(prefs.getString("memButtonDT", "NOTHING").equals("RUN")) {
+                    		actionRun(prefs.getString("memButtonDTapp", "%%"));
+                    	}                    	
                         return true;
                     }                    
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(mem_l.hasWindowFocus()) {
-
+                        	if(prefs.getString("memButtonLT", "NOTHING").equals("RELAUNCH")) {
+                    			Intent intent = new Intent(ReLaunch.this, TaskManager.class);
+                    			startActivity(intent);
+                        	}
+                        	else if(prefs.getString("memButtonLT", "NOTHING").equals("LOCK")) {
+                        		actionLock();
+                        	}
+                        	else if(prefs.getString("memButtonLT", "NOTHING").equals("POWEROFF")) {
+                        		actionPowerOff();
+                        	}
+                        	else if(prefs.getString("memButtonLT", "NOTHING").equals("SWITCHWIFI")) {
+                        		actionSwitchWiFi();
+                        	}
+                        	else if(prefs.getString("memButtonLT", "NOTHING").equals("RUN")) {
+                        		actionRun(prefs.getString("memButtonLTapp", "%%"));
+                        	}
                     		}
                     	}
                 };
@@ -2014,32 +2144,63 @@ public class ReLaunch extends Activity {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
                     	// findViewById(R.id.bat_layout).setPressed(true);
-                        Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
-                        startActivity(intent);
-                        /*
-                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-                    		openHome(0);
+                    	if(prefs.getString("batButtonST", "RELAUNCH").equals("RELAUNCH")) {
+                            Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                            startActivity(intent);
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-                    		openHome(1);
+                    	else if(prefs.getString("batButtonST", "RELAUNCH").equals("LOCK")) {
+                    		actionLock();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-                    		menuHome();
+                    	else if(prefs.getString("batButtonST", "RELAUNCH").equals("POWEROFF")) {
+                    		actionPowerOff();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-                    		screenHome();
+                    	else if(prefs.getString("batButtonST", "RELAUNCH").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
                     	}
-                    	*/                 	
+                    	else if(prefs.getString("batButtonST", "RELAUNCH").equals("RUN")) {
+                    		actionRun(prefs.getString("batButtonSTapp", "%%"));
+                    	}                 	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                    	if(prefs.getString("batButtonDT", "NOTHING").equals("RELAUNCH")) {
+                            Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                            startActivity(intent);
+                    	}
+                    	else if(prefs.getString("batButtonDT", "NOTHING").equals("LOCK")) {
+                    		actionLock();
+                    	}
+                    	else if(prefs.getString("batButtonDT", "NOTHING").equals("POWEROFF")) {
+                    		actionPowerOff();
+                    	}
+                    	else if(prefs.getString("batButtonDT", "NOTHING").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
+                    	}
+                    	else if(prefs.getString("batButtonDT", "NOTHING").equals("RUN")) {
+                    		actionRun(prefs.getString("batButtonDTapp", "%%"));
+                    	}                    	
                         return true;
                     }                    
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(mem_l.hasWindowFocus()) {
-
+                        	if(prefs.getString("batButtonLT", "NOTHING").equals("RELAUNCH")) {
+                                Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+                                startActivity(intent);
+                        	}
+                        	else if(prefs.getString("batButtonLT", "NOTHING").equals("LOCK")) {
+                        		actionLock();
+                        	}
+                        	else if(prefs.getString("batButtonLT", "NOTHING").equals("POWEROFF")) {
+                        		actionPowerOff();
+                        	}
+                        	else if(prefs.getString("batButtonLT", "NOTHING").equals("SWITCHWIFI")) {
+                        		actionSwitchWiFi();
+                        	}
+                        	else if(prefs.getString("batButtonLT", "NOTHING").equals("RUN")) {
+                        		actionRun(prefs.getString("batButtonLTapp", "%%"));
+                        	}
                     		}
                     	}
                 };
@@ -2159,6 +2320,13 @@ public class ReLaunch extends Activity {
             // filter.addDataScheme("file");
         	registerReceiver(this.PowerChangeReceiver, new IntentFilter(filter));
         	powerReceiverRegistered = true;
+        }
+
+        if(!wifiReceiverRegistered) {
+            IntentFilter filter = new IntentFilter(); 
+            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        	registerReceiver(this.WiFiChangeReceiver, new IntentFilter(filter));
+        	wifiReceiverRegistered = true;
         }
         
         ScreenOrientation.set(this, prefs);

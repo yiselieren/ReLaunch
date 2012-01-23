@@ -131,6 +131,7 @@
     <string name="jv_filters_and">Y</string>
     <string name="jv_filters_or">OR</string>
     <string name="jv_prefs_select_number">Seleccione el número de</string>
+    <string name="jv_prefs_select_application">Seleccione la aplicación</string>
     <string name="jv_prefs_ok">OK</string>
     <string name="jv_prefs_decline_changes_title">Cambios disminución de alerta</string>
     <string name="jv_prefs_decline_changes_text">¿Desea guardar los cambios de configuración de todos los?</string>
@@ -184,7 +185,9 @@
     <string name="jv_relaunch_fav">Favoritos</string>
 	<string name="jv_relaunch_home">Home</string>
 	<string name="jv_relaunch_select_columns">Elegir columnas</string>
-	<string name="jv_relaunch_default">Por defecto</string>	    
+	<string name="jv_relaunch_default">Por defecto</string>
+	<string name="jv_relaunch_turning_wifi_on">WiFi está activada</string>
+	<string name="jv_relaunch_turning_wifi_off">WiFi está desactivado</string>
     <string name="jv_rla_activity">Acción</string>
     <string name="jv_rla_not_found">no encontrado!</string>
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;lanzador para el lector electrónico Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Versión: &lt;b&gt;</string>

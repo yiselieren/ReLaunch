@@ -81,22 +81,63 @@
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
         <item>OPENN</item>
-        <!--
-        <item>OPEN2</item>
-        -->
         <item>OPENMENU</item>
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="home_button_actions_names">
         <item>No hacer nada</item>
         <item>Abrir carpeta incial #</item>
-        <!--
-        <item>Abrir primera carpeta incial</item>
-        <item>Abrir segunda carpeta incial</item>
-        -->
         <item>Abrir menú de carpetas inicial</item>
         <item>Abrir ventana de carpetas inicial</item>
     </string-array>
+    <string-array name="advanced_button_actions_values">
+        <item>NOTHING</item>
+        <item>RELAUNCH</item>
+        <item>LOCK</item>
+        <item>POWEROFF</item>
+        <item>SWITCHWIFI</item>
+        <item>RUN</item>
+    </string-array>
+    <string-array name="advanced_button_actions_names">
+        <item>No hacer nada</item>
+        <item>Abierto \"Funciones avanzadas\" ventana</item>
+        <item>Bloqueo del dispositivo</item>
+        <item>Apague el dispositivo</item>
+        <item>Interruptor WiFi estado</item>
+        <item>Ejecutar la aplicación </item>
+    </string-array>
+    <string-array name="mem_button_actions_values">
+        <item>NOTHING</item>
+        <item>RELAUNCH</item>
+        <item>LOCK</item>
+        <item>POWEROFF</item>
+        <item>SWITCHWIFI</item>
+        <item>RUN</item>
+    </string-array>
+    <string-array name="mem_button_actions_names">
+        <item>No hacer nada</item>
+        <item>Abierto \"Gestor de aplicaciones\" de la ventana</item>
+        <item>Bloqueo del dispositivo</item>
+        <item>Apague el dispositivo</item>
+        <item>Interruptor WiFi estado</item>
+        <item>Ejecutar la aplicación </item>
+    </string-array>
+    <string-array name="bat_button_actions_values">
+        <item>NOTHING</item>
+        <item>RELAUNCH</item>
+        <item>LOCK</item>
+        <item>POWEROFF</item>
+        <item>SWITCHWIFI</item>
+        <item>RUN</item>
+    </string-array>
+    <string-array name="bat_button_actions_names">
+        <item>No hacer nada</item>
+        <item>Abierto \"el consumo de la batería\" ventana</item>
+        <item>Bloqueo del dispositivo</item>
+        <item>Apague el dispositivo</item>
+        <item>Interruptor WiFi estado</item>
+        <item>Ejecutar la aplicación </item>
+    </string-array>        
     <string-array name="output_columns_values">
         <item>-1</item>
         <item>1</item>
@@ -123,17 +164,15 @@
         <item>Moderado</item>
         <item>Lento (menos columnas)</item>
     </string-array>
-    
     <string-array name="screen_orientation_values">
         <item>NO</item>
         <item>PORTRAIT</item>
         <item>LANDSCAPE</item>
     </string-array>
-    
     <string-array name="screen_orientation_names">
         <item>No cambie</item>
         <item>Fuerza a vertical</item>
         <item>Fuerza al paisaje</item>
     </string-array>
-    
+
 </resources>
