@@ -3,6 +3,7 @@
     <string  name="app_name">ReLaunch</string>
     <string name="model_warning">&lt;h2&gt;Esta aplicación está diseñada sólo para el Nook Simple Touch y el Sony PRS-T1&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;¿Desea continuar?&lt;/b&gt;&lt;/center&gt;</string>
     <string name="advanced_layout_switch_wifi_off">Activar WiFi</string>
+    <string name="advanced_layout_setting_wifi">Configuración WiFi</string>
     <string name="advanced_layout_scan">Escanear</string>
     <string name="advanced_layout_lock">Bloqueo</string>
     <string name="advanced_layout_reboot">Reiniciar</string>
@@ -96,6 +97,8 @@
     <string name="jv_advanced_mount_rorw">RO/RW</string>
     <string name="jv_advanced_mount_ro">Sólo lectura RO</string>
     <string name="jv_advanced_mount_rw">Lectura/escritura RW</string>
+    <string name="jv_advanced_nook_only">Implementar en los NOOK Simple Touch.</string>
+    <string name="jv_advanced_root_only">Implementar en los dispositivos arraigados.</string>
     <string name="jv_allapp_move_up">Mover una posición hacia arriba</string>
     <string name="jv_allapp_move_down">Mover una posición hacia abajo</string>
     <string name="jv_allapp_remove">Borrar de favoritos</string>

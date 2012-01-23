@@ -2,7 +2,8 @@
 <resources>
     <string  name="app_name">ReLaunch</string>
     <string name="model_warning">&lt;h2&gt;The tool is for Nook Simple Touch or Sony PRS-T1 only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
-    <string name="advanced_layout_switch_wifi_off">Switch WiFi off</string>
+    <string name="advanced_layout_switch_wifi_off">WiFi off</string>
+    <string name="advanced_layout_setting_wifi">Setup WiFi</string>
     <string name="advanced_layout_scan">Scan</string>
     <string name="advanced_layout_lock">Lock</string>
     <string name="advanced_layout_reboot">Reboot</string>
@@ -76,10 +77,10 @@
     <string name="jv_advanced_level">Level:</string>
     <string name="jv_advanced_notrange">Not in range</string>
     <string name="jv_advanced_not_configured">not configured</string>
-    <string name="jv_advanced_turning_wifi_off">Turning WiFi off</string>
-    <string name="jv_advanced_turn_wifi_off">Turn WiFi off</string>
-    <string name="jv_advanced_turning_wifi_on">Turning WiFi on</string>
-    <string name="jv_advanced_turn_wifi_on">Turn WiFi on</string>
+    <string name="jv_advanced_turning_wifi_off">WiFi off...</string>
+    <string name="jv_advanced_turn_wifi_off">WiFi off</string>
+    <string name="jv_advanced_turning_wifi_on">WiFi on...</string>
+    <string name="jv_advanced_turn_wifi_on">WiFi on</string>
     <string name="jv_advanced_title">Advanced functions, info, etc.</string>
     <string name="jv_advanced_reboot_confirm_title">Reboot confirmation</string>
     <string name="jv_advanced_reboot_confirm_text">Are you sure to reboot your device ? </string>
@@ -96,6 +97,8 @@
     <string name="jv_advanced_mount_rorw">RO/RW</string>
     <string name="jv_advanced_mount_ro">RO</string>
     <string name="jv_advanced_mount_rw">RW</string>
+    <string name="jv_advanced_nook_only">Implemented only on NOOK Simple Touch.</string>
+    <string name="jv_advanced_root_only">Implemented only on rooted device.</string>
     <string name="jv_allapp_move_up">Move one position up</string>
     <string name="jv_allapp_move_down">Move one position down</string>
     <string name="jv_allapp_remove">Remove from favorites</string>

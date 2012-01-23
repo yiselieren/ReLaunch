@@ -3,8 +3,9 @@
     <string  name="app_name">ReLaunch</string>
     <string name="model_warning">
     &lt;h2&gt;Эта программа разработана для Nook Simple Touch или Sony PRS-T1!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Хотите продолжить?&lt;/b&gt;&lt;/center&gt;</string>
-    <string name="advanced_layout_switch_wifi_off">Выключить WiFi</string>
-    <string name="advanced_layout_scan">Искать сети</string>
+    <string name="advanced_layout_switch_wifi_off">Выкл. WiFi</string>
+    <string name="advanced_layout_setting_wifi">Настройка WiFi</string>
+    <string name="advanced_layout_scan">Поиск сетей</string>
     <string name="advanced_layout_lock">Заблокировать</string>
     <string name="advanced_layout_reboot">Перезагрузить</string>
     <string name="advanced_layout_poweroff">Выключить</string>
@@ -77,10 +78,10 @@
     <string name="jv_advanced_level">Сигнал:</string>
     <string name="jv_advanced_notrange">Недоступно</string>
     <string name="jv_advanced_not_configured">не подключено</string>
-    <string name="jv_advanced_turning_wifi_off">Выключаю WiFi</string>
-    <string name="jv_advanced_turn_wifi_off">Выключить WiFi</string>
-    <string name="jv_advanced_turning_wifi_on">Включаю WiFi</string>
-    <string name="jv_advanced_turn_wifi_on">Включить WiFi</string>
+    <string name="jv_advanced_turning_wifi_off">Выключение</string>
+    <string name="jv_advanced_turn_wifi_off">Выкл. WiFi</string>
+    <string name="jv_advanced_turning_wifi_on">Включение</string>
+    <string name="jv_advanced_turn_wifi_on">Вкл. WiFi</string>
     <string name="jv_advanced_title">Расширенные функции, информация и т.д.</string>
     <string name="jv_advanced_reboot_confirm_title">Подтверждение перезагруки</string>
     <string name="jv_advanced_reboot_confirm_text">Вы действительно хотите перезагрузиться?</string>
@@ -97,6 +98,8 @@
     <string name="jv_advanced_mount_rorw">RO/RW</string>
     <string name="jv_advanced_mount_ro">RO</string>
     <string name="jv_advanced_mount_rw">RW</string>
+    <string name="jv_advanced_nook_only">Только для усройств NOOK Simple touch.</string>
+    <string name="jv_advanced_root_only">Только для устройств с root-доступом.</string>
     <string name="jv_allapp_move_up">Переместить вверх</string>
     <string name="jv_allapp_move_down">Переместить вниз</string>
     <string name="jv_allapp_remove">Удалить из \"Избранных приложений\"</string>

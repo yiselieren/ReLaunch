@@ -3,6 +3,7 @@ package com.harasoft.relaunch;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,6 +47,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Advanced extends Activity {
     final static String           TAG = "Advanced";
@@ -70,7 +73,6 @@ public class Advanced extends Activity {
     BroadcastReceiver             b1;
     BroadcastReceiver             b2;
     String 						  connectedSSID;			
-
     
     private void setEinkController() {
     	if(prefs!=null) {
@@ -604,6 +606,24 @@ public class Advanced extends Activity {
         lv_wifi = (ListView) findViewById(R.id.wifi_lv);
         adapter = new WiFiAdapter(this);
         lv_wifi.setAdapter(adapter);
+        
+        /*
+        lv_wifi.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				if(DeviceInfo.EINK_NOOK) {
+					final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+					intent.addCategory(Intent.CATEGORY_LAUNCHER);
+					//NOOK ST only!!!
+					final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.wifi.Settings_Wifi_Settings");
+					intent.setComponent(cn);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+					}
+				}
+		});
+		*/
+        
         //if (prefs.getBoolean("customScroll", true))
         if (prefs.getBoolean("customScroll", app.customScrollDef))
         {
@@ -688,6 +708,25 @@ public class Advanced extends Activity {
         wifiOnOff = (Button)findViewById(R.id.wifi_onoff_btn);
         updateWiFiInfo();
 
+        Button wifiSetup = (Button)findViewById(R.id.wifi_setup_btn);
+        wifiSetup.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				if(DeviceInfo.EINK_NOOK) {
+					final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+					intent.addCategory(Intent.CATEGORY_LAUNCHER);
+					//NOOK ST only!!!
+					final ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.wifi.Settings_Wifi_Settings");
+					intent.setComponent(cn);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+					}
+				else {
+					Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_nook_only), Toast.LENGTH_LONG).show();
+					}
+				}
+		});
+        		
         // Lock button
         final Activity parent = this;
         Button lockBtn = (Button)findViewById(R.id.lock_btn);
@@ -695,7 +734,9 @@ public class Advanced extends Activity {
             public void onClick(View v) {
             	//Timer timer = new Timer();
                 //timer.schedule( new TimerTask(){
-                //  public void run() { 
+                //  public void run() {
+            	File isrooted = new File("/system/bin", "su");
+            	if(isrooted.exists()) {
                 	   try {
                 		   Process p = Runtime.getRuntime().exec(getResources().getString(R.string.shell));
                 	   		try {
@@ -715,16 +756,22 @@ public class Advanced extends Activity {
                 	   catch(Exception e) {}
                 	   parent.finish();   
                     }
-        });
+            	else {
+            		Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_root_only), Toast.LENGTH_LONG).show();
+            	}
+            }
+            });
         
         // Reboot button
         rebootBtn = (Button)findViewById(R.id.reboot_btn);
         rebootBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
-                //builder.setTitle("Reboot confirmation");
-                builder.setTitle(getResources().getString(R.string.jv_advanced_reboot_confirm_title));
+            	File isrooted = new File("/system/bin", "su");
+            	if(isrooted.exists()) {
+            		AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
+            		//builder.setTitle("Reboot confirmation");
+            		builder.setTitle(getResources().getString(R.string.jv_advanced_reboot_confirm_title));
                 //builder.setMessage("Are you sure to reboot your device ? ");
                 builder.setMessage(getResources().getString(R.string.jv_advanced_reboot_confirm_text));
                 //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -757,6 +804,10 @@ public class Advanced extends Activity {
                     }});
 
                 builder.show();
+            	}
+            	else {
+            		Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_root_only), Toast.LENGTH_LONG).show();
+            	}
             }});
 
         // Power Off button
@@ -764,6 +815,8 @@ public class Advanced extends Activity {
         powerOffBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
+            	File isrooted = new File("/system/bin", "su");
+            	if(isrooted.exists()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Advanced.this);
                 //builder.setTitle("PowerOff confirmation");
                 builder.setTitle(getResources().getString(R.string.jv_advanced_poweroff_confirm_title));
@@ -799,6 +852,10 @@ public class Advanced extends Activity {
                     }});
 
                 builder.show();
+            	}
+            	else {
+            		Toast.makeText(Advanced.this, getResources().getString(R.string.jv_advanced_root_only), Toast.LENGTH_LONG).show();	
+            	}
             }});        
         
         // Web info view

@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="56dp" >
-
+
         <ImageView
             android:id="@+id/results_icon"
             android:layout_width="wrap_content"
@@ -77,10 +77,12 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:drawableLeft="@drawable/wifi_on"
-            android:drawableRight="@drawable/wifi_on"
             android:drawableTop="@drawable/ci_wifiscan"
-            android:text="@string/advanced_layout_scan" android:paddingBottom="16dp" android:paddingLeft="16dp" android:paddingRight="16dp" android:paddingTop="24dp">
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/advanced_layout_scan" >
         </Button>
 
         <Button
@@ -95,11 +97,28 @@
             android:drawableRight="@drawable/wifi_off"
             android:drawableTop="@drawable/ci_wifi"
             android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="24dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
             android:text="@string/advanced_layout_switch_wifi_off" >
         </Button>
+        
+        <Button
+            android:id="@+id/wifi_setup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_wifi"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/advanced_layout_setting_wifi" >
+        </Button>
+                    
     </LinearLayout>
 
     <LinearLayout
@@ -135,7 +154,11 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableTop="@drawable/ci_lock"
-            android:text="@string/advanced_layout_lock" android:padding="16dp">
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/advanced_layout_lock" >
         </Button>
 
         <Button
@@ -147,7 +170,11 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableTop="@drawable/ci_reboot"
-            android:text="@string/advanced_layout_reboot" android:padding="16dp">
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/advanced_layout_reboot" >
         </Button>
 
         <Button
@@ -159,7 +186,11 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableTop="@drawable/ci_power"
-            android:text="@string/advanced_layout_poweroff" android:padding="16dp">
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="@string/advanced_layout_poweroff" >
         </Button>
     </LinearLayout>
 
