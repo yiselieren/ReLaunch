@@ -181,7 +181,16 @@
             android:selectable="true"
             android:summary="Tamaño de fuente para de otros directorios como Favoritos y otras listas"
             android:title="Tamaño de fuente para nombres de directorios adicionales" />
-
+        
+        <EditTextPreference
+            android:defaultValue="32"
+            android:enabled="true"
+            android:key="iconSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Icono de tamaño para los archivos y directorios... px"
+            android:title="Archivos y el tamaño de directorios icono" />
+        
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"

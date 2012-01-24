@@ -170,7 +170,7 @@
             android:key="firstLineFontSize"
             android:persistent="true"
             android:selectable="true"
-            android:summary="Font size for files and directories names in all lists"
+            android:summary="Font size for files and directories names in all lists... px"
             android:title="Files and directories names font size" />
 
         <EditTextPreference
@@ -179,9 +179,18 @@
             android:key="secondLineFontSize"
             android:persistent="true"
             android:selectable="true"
-            android:summary="Font size for additional directories names in Favorites and so on lists"
+            android:summary="Font size for additional directories names in Favorites and so on lists... px"
             android:title="Additional directories names font size" />
 
+        <EditTextPreference
+            android:defaultValue="32"
+            android:enabled="true"
+            android:key="iconSize"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Icon size for files and directories... px"
+            android:title="Files and directories icon size" />
+        
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
