@@ -118,12 +118,41 @@
         -->
         
     </LinearLayout>
-
-    <ListView
-        android:id="@android:id/list"
+
+    <LinearLayout
+        android:id="@+id/LLlist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="8dp"
-        android:fadeScrollbars="false" />
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="8dp"
+            android:fadeScrollbars="false" android:layout_weight="1" android:duplicateParentState="true" android:fadingEdge="none">
+        </ListView>
+
+        <LinearLayout
+            android:id="@+id/LLbuttons"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp" >
+
+            <ImageButton
+                android:id="@+id/btn_scrollup"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/ci_arrowup" android:layout_weight="1" android:background="@drawable/main_button"/>
+
+            <ImageButton
+                android:id="@+id/btn_scrolldown"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/ci_arrowdown" android:layout_weight="1" android:layout_marginLeft="4dp" android:background="@drawable/main_button"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

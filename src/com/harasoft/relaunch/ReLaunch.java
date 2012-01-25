@@ -22,7 +22,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -58,6 +61,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 // import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -263,6 +267,15 @@ public class ReLaunch extends Activity {
         ImageView iv;
         LinearLayout tvHolder;
     }
+    
+    private Bitmap scaleDrawableById(int id, int size) {	
+    	return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), id), size, size, true);    	
+    	}
+    	    
+    private Bitmap scaleDrawable(Drawable d, int size) {
+    	return Bitmap.createScaledBitmap(((BitmapDrawable)d).getBitmap(), size, size, true);    	
+    	}
+    
     class FLSimpleAdapter extends SimpleAdapter {
 
         FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
@@ -349,7 +362,8 @@ public class ReLaunch extends Activity {
                         // tv.setBackgroundColor(getResources().getColor(R.color.dir_bg));
                         tv.setTextColor(getResources().getColor(R.color.dir_fg));
                     }
-                    iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
+                    //iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
+                    iv.setImageBitmap(scaleDrawableById(R.drawable.dir_ok,32));
                 }
                 else
                 {
@@ -387,7 +401,8 @@ public class ReLaunch extends Activity {
                     }
                     Drawable d = app.specialIcon(item.get("fname"), false);
                     if (d != null)
-                        iv.setImageDrawable(d);
+                        //iv.setImageDrawable(d);
+                    	iv.setImageBitmap(scaleDrawable(d,32));
                     else
                     {
                         String rdrName = item.get("reader");
@@ -395,19 +410,24 @@ public class ReLaunch extends Activity {
                         {
                             File f = new File(item.get("fname"));
                             if (f.length() > app.viewerMax)
-                                iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+                                //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_notok,32));
                             else
-                                iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                                //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,32));
                         }
                         else if (rdrName.startsWith("Intent:"))
                             //iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
-                            iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
+                            //iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
+                        	iv.setImageBitmap(scaleDrawableById(R.drawable.icon,32));
                         else
                         {
                             if (app.getIcons().containsKey(rdrName))
-                                iv.setImageDrawable(app.getIcons().get(rdrName));
+                                //iv.setImageDrawable(app.getIcons().get(rdrName));
+                            	iv.setImageBitmap(scaleDrawable(app.getIcons().get(rdrName),32));
                             else
-                                iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                                //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,32));
                         }
                     }
                 }
@@ -1233,6 +1253,33 @@ public class ReLaunch extends Activity {
             }});
 		*/
         
+		class RepeatedDownScroll {
+			public void doIt(int first,int target, int shift) {
+				final GridView gv = (GridView) findViewById(R.id.gl_list);
+                int total = gv.getCount();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return;
+                final int ftarget = target + shift;
+                gv.clearFocus();
+                gv.post(new Runnable() {
+                    public void run() {
+                    	gv.setSelection(ftarget);
+                    }
+                });
+                final int ffirst = first;
+                final int fshift = shift;
+                gv.postDelayed(new Runnable() {
+                    public void run() {
+                    	int nfirst = gv.getFirstVisiblePosition();
+                    	if(nfirst==ffirst) {
+                    		RepeatedDownScroll ds = new RepeatedDownScroll();
+                    		ds.doIt(ffirst, ftarget, fshift+1);
+                    	}
+                    }
+                },100); 
+			}
+		}
+        
         final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
         downScroll.setText(app.scrollStep + "%");
     	class dnScrlSimpleOnGestureListener extends SimpleOnGestureListener {
@@ -1243,28 +1290,16 @@ public class ReLaunch extends Activity {
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
-                first = last+1;
-                if (first > (total-1))
-                    first = total-1;
-                gv.setSelection(first);
-                if(total>0) {
-                	gv.requestFocusFromTouch();
-                	gv.setSelection(first);
-                }            	
-                /*
-            	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-            		openHome(0);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-            		openHome(1);
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-            		menuHome();
-            	}
-            	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-            		screenHome();
-            	}
-            	*/                 	
+                int target = last+1;
+                if (target > (total-1))
+                    target = total-1;
+           		RepeatedDownScroll ds = new RepeatedDownScroll();
+        		ds.doIt(first, target, 0);                
+                //gv.setSelection(first);
+                //if(total>0) {
+                //	gv.requestFocusFromTouch();
+                //	gv.setSelection(first);
+                //}            	
                 return true;
             }
             @Override
@@ -1274,18 +1309,20 @@ public class ReLaunch extends Activity {
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
                 //Log.d(TAG, "1 -- first=" + first + " last=" + last + " total=" + total);
-                first += (total * app.scrollStep) / 100;
-                if (first <= last)
-                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
-                if (first > (total-1))
-                    first = total-1;
+                int target = first + (total * app.scrollStep) / 100;
+                if (target <= last)
+                    target = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (target > (total-1))
+                    target = total-1;
+           		RepeatedDownScroll ds = new RepeatedDownScroll();
+        		ds.doIt(first, target, 0);                
                 //Log.d(TAG, " new first=" + first);
-                gv.setSelection(first);
+                //gv.setSelection(first);
                 // some hack workaround against not scrolling in some cases
-                if(total>0) {
-                	gv.requestFocusFromTouch();
-                	gv.setSelection(first);
-                }            	
+                //if(total>0) {
+                //	gv.requestFocusFromTouch();
+                //	gv.setSelection(first);
+                //}            	
                 return true;
             }                    
             @Override

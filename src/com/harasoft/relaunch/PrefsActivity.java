@@ -18,11 +18,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 public class PrefsActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
@@ -441,6 +444,81 @@ public class PrefsActivity extends PreferenceActivity implements
 		for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
 			initSummary(getPreferenceScreen().getPreference(i));
 		}
+
+		// final ListView lv = (ListView) getListView();
+		ImageButton upScroll = (ImageButton)findViewById(R.id.btn_scrollup);
+		upScroll.setOnClickListener(new View.OnClickListener() {
+		
+			public void onClick(View v) {
+				final ListView lv = (ListView) getListView();
+            	int first = lv.getFirstVisiblePosition(); 
+                int visible = lv.getLastVisiblePosition() - lv.getFirstVisiblePosition() + 1;
+                first -= visible;
+                if (first < 0)
+                    first = 0;
+                final int finfirst = first;
+                lv.clearFocus();
+                lv.post(new Runnable() {
+
+                    public void run() {
+                    	lv.setSelection(finfirst);
+                    }
+                }); 
+                }
+		});
+		
+		
+		class RepeatedDownScroll {
+			public void doIt(int first,int target, int shift) {
+				final ListView lv = (ListView) getListView();
+                int total = lv.getCount();
+                int last = lv.getLastVisiblePosition();
+                if(total==last+1) return;
+                final int ftarget = target + shift;
+                lv.clearFocus();
+                lv.post(new Runnable() {
+                    public void run() {
+                    	lv.setSelection(ftarget);
+                    }
+                });
+                final int ffirst = first;
+                final int fshift = shift;
+                lv.postDelayed(new Runnable() {
+                    public void run() {
+                    	int nfirst = lv.getFirstVisiblePosition();
+                    	if(nfirst==ffirst) {
+                    		RepeatedDownScroll ds = new RepeatedDownScroll();
+                    		ds.doIt(ffirst, ftarget, fshift+1);
+                    	}
+                    }
+                },100);                
+			}
+		}
+		
+		ImageButton downScroll = (ImageButton)findViewById(R.id.btn_scrolldown);
+		downScroll.setOnClickListener(new View.OnClickListener() {
+		
+			public void onClick(View v) {
+				final ListView lv = (ListView) getListView();
+                int first = lv.getFirstVisiblePosition();
+                int total = lv.getCount();
+                int last = lv.getLastVisiblePosition();
+                if(total==last+1) return;
+                int target = last + 1;
+                if (target > (total-1))
+                    target = total-1;
+        		RepeatedDownScroll ds = new RepeatedDownScroll();
+        		ds.doIt(first, target, 0);
+                //lv.clearFocus();
+                //lv.post(new Runnable() {
+                //    public void run() {
+                //    	lv.setSelection(finfirst);
+                //    }
+                //});
+            
+			}
+		});
+		
 		ScreenOrientation.set(this, prefs);
 	}
 
