@@ -22,10 +22,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -266,15 +263,6 @@ public class ReLaunch extends Activity {
         ImageView iv;
         LinearLayout tvHolder;
     }
-
-    private Bitmap scaleDrawableById(int id, int size) {
-        return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), id), size, size, true);    	
-    }
-    
-    private Bitmap scaleDrawable(Drawable d, int size) {
-        return Bitmap.createScaledBitmap(((BitmapDrawable)d).getBitmap(), size, size, true);    	
-    }
-    
     class FLSimpleAdapter extends SimpleAdapter {
 
         FLSimpleAdapter(Context context, List<HashMap<String, String>> data, int resource, String[] from, int[] to)
@@ -351,8 +339,7 @@ public class ReLaunch extends Activity {
                 boolean   setBold = false;
                 boolean   useFaces  = prefs.getBoolean("showNew", true);
 
-                //tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, 16);
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Integer.parseInt(prefs.getString("firstLineFontSize", "8")));
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("firstLineFontSize", "8")));
                 
                 if (item.get("type").equals("dir"))
                 {
@@ -362,8 +349,7 @@ public class ReLaunch extends Activity {
                         // tv.setBackgroundColor(getResources().getColor(R.color.dir_bg));
                         tv.setTextColor(getResources().getColor(R.color.dir_fg));
                     }
-                    iv.setImageBitmap(scaleDrawableById(R.drawable.dir_ok, Integer.parseInt(prefs.getString("iconSize", "32"))));
-                    //iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
+                    iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
                 }
                 else
                 {
@@ -400,40 +386,28 @@ public class ReLaunch extends Activity {
                         }
                     }
                     Drawable d = app.specialIcon(item.get("fname"), false);
-                    if (d != null) {
-                    	iv.setImageBitmap(scaleDrawable(d, Integer.parseInt(prefs.getString("iconSize", "32"))));
-                        //iv.setImageDrawable(d);
-                    }
+                    if (d != null)
+                        iv.setImageDrawable(d);
                     else
                     {
                         String rdrName = item.get("reader");
                         if (rdrName.equals("Nope"))
                         {
                             File f = new File(item.get("fname"));
-                            if (f.length() > app.viewerMax) {
-                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_notok, Integer.parseInt(prefs.getString("iconSize", "32"))));
-                                //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
-                            }
-                            else {
-                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok, Integer.parseInt(prefs.getString("iconSize", "32"))));
-                                //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-                            }
+                            if (f.length() > app.viewerMax)
+                                iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+                            else
+                                iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                         }
-                        else if (rdrName.startsWith("Intent:")) {
+                        else if (rdrName.startsWith("Intent:"))
                             //iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
-                        	iv.setImageBitmap(scaleDrawableById(R.drawable.icon, Integer.parseInt(prefs.getString("iconSize", "32"))));
-                            //iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
-                        	}
+                            iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
                         else
                         {
-                            if (app.getIcons().containsKey(rdrName)) {
-                            	iv.setImageBitmap(scaleDrawable(app.getIcons().get(rdrName), Integer.parseInt(prefs.getString("iconSize", "32"))));
-                                //iv.setImageDrawable(app.getIcons().get(rdrName));
-                            }
-                            else {
-                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok, Integer.parseInt(prefs.getString("iconSize", "32"))));
-                                //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-                            }
+                            if (app.getIcons().containsKey(rdrName))
+                                iv.setImageDrawable(app.getIcons().get(rdrName));
+                            else
+                                iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
                         }
                     }
                 }

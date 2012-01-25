@@ -119,18 +119,6 @@
         
     </LinearLayout>
 
-
-<LinearLayout 
-    		android:orientation="vertical"
-    		android:layout_width="fill_parent"
-    		android:layout_height="fill_parent">
-
-    	<LinearLayout 
-    			android:orientation="vertical"
-    			android:layout_width="fill_parent"
-	    		android:layout_height="fill_parent"
-	    		android:layout_weight="1">
-    					
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
@@ -138,29 +126,4 @@
         android:layout_marginTop="8dp"
         android:fadeScrollbars="false" />
 
-		</LinearLayout>
-    	
-    	<LinearLayout
-    		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="0" android:layout_marginTop="8dp">
-    		
-    		<ImageView
-    			android:id="@+id/list_up_arrow"
-    			android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-    			android:layout_weight="1"
-    			android:src="@drawable/ci_arrowup" android:background="@drawable/main_button"/>
-
-    		<ImageView
-    			android:id="@+id/list_down_arrow"
-    			android:layout_width="fill_parent"
-    			android:layout_height="wrap_content"
-    			android:layout_weight="1"
-    			android:src="@drawable/ci_arrowdown" android:background="@drawable/main_button" android:layout_marginLeft="4dp"/>
-
-    	</LinearLayout>
-
-	</LinearLayout>
-    	
 </LinearLayout>

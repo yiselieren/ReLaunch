@@ -170,7 +170,7 @@
             android:key="firstLineFontSize"
             android:persistent="true"
             android:selectable="true"
-            android:summary="Размер шрифта для имен файлов и папок во всех списках... px"
+            android:summary="Размер шрифта для имен файлов и папок во всех списках"
             android:title="Размер шрифта имен файлов/папок" />
 
         <EditTextPreference
@@ -179,18 +179,9 @@
             android:key="secondLineFontSize"
             android:persistent="true"
             android:selectable="true"
-            android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п... px"
+            android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п."
             android:title="Размер шрифта дополнительных имен папок" />
 
-        <EditTextPreference
-            android:defaultValue="32"
-            android:enabled="true"
-            android:key="iconSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Размер иконок в списках файлов и папок... px"
-            android:title="Размер иконок файлов/папок" />        
-        
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"

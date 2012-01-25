@@ -23,8 +23,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 public class PrefsActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
@@ -92,7 +90,6 @@ public class PrefsActivity extends PreferenceActivity implements
 		// Columns settings
 		defItems.add(new PrefItem("firstLineFontSize", "8"));
 		defItems.add(new PrefItem("secondLineFontSize", "6"));
-		defItems.add(new PrefItem("iconSize", "32"));		
 		defItems.add(new PrefItem("columnsDirsFiles", "-1"));
 		defItems.add(new PrefItem("columnsHomeList", "-1"));
 		defItems.add(new PrefItem("columnsLRU", "-1"));
@@ -444,34 +441,6 @@ public class PrefsActivity extends PreferenceActivity implements
 		for (int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
 			initSummary(getPreferenceScreen().getPreference(i));
 		}
-		
-		ImageView imgUp = (ImageView) findViewById(R.id.list_up_arrow);
-		ImageView imgDown = (ImageView) findViewById(R.id.list_down_arrow);
-		//prefsPageNumber = 1;
-		
-        imgUp.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            		ListView listView = getListView();   
-                    int first = listView.getFirstVisiblePosition();
-                    int last = listView.getLastVisiblePosition();
-                    int newSelection = 2 * first - last - 1; 
-                    if (newSelection < 0)
-                    	newSelection = 0;
-                    listView.setSelection(newSelection);
-            }
-        });
-
-        imgDown.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                        ListView listView = getListView();    
-                        // int first = listView.getFirstVisiblePosition();
-                        int last = listView.getLastVisiblePosition();
-                        int newSelection = last + 1;
-                        listView.setSelection(newSelection);
-            }
-        });
-
-		
 		ScreenOrientation.set(this, prefs);
 	}
 

@@ -15,10 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -114,14 +111,6 @@ public class ResultsActivity extends Activity {
 		ImageView iv;
 	}
 
-	private Bitmap scaleDrawableById(int id, int size) {
-        return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), id), size, size, true);    	
-    }
-    
-    private Bitmap scaleDrawable(Drawable d, int size) {
-        return Bitmap.createScaledBitmap(((BitmapDrawable)d).getBitmap(), size, size, true);    	
-    }
-	
 	class FLSimpleAdapter extends ArrayAdapter<HashMap<String, String>> {
 		FLSimpleAdapter(Context context, int resource,
 				List<HashMap<String, String>> data) {
@@ -190,8 +179,8 @@ public class ResultsActivity extends Activity {
 			TextView tv1 = holder.tv1;
 			TextView tv2 = holder.tv2;
 			
-			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX,Integer.parseInt(prefs.getString("firstLineFontSize", "8")));
-			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PX,Integer.parseInt(prefs.getString("secondLineFontSize", "8")));
+			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("firstLineFontSize", "8")));
+			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("secondLineFontSize", "8")));
 			
 			LinearLayout tvHolder = holder.tvHolder;
 			ImageView iv = holder.iv;
@@ -276,36 +265,28 @@ public class ResultsActivity extends Activity {
 
 				Drawable d = app.specialIcon(fullName,
 						item.get("type").equals("dir"));
-				if (d != null) {
-					iv.setImageBitmap(scaleDrawable(d,Integer.parseInt(prefs.getString("iconSize", "32"))));
-					//iv.setImageDrawable(d);
-					}
+				if (d != null)
+					iv.setImageDrawable(d);
 				else {
 					String rdrName = app.readerName(fname);
 					if (rdrName.equals("Nope")) {
 						File f = new File(fullName);
-						if (f.length() > app.viewerMax) {
-							iv.setImageBitmap(scaleDrawableById(R.drawable.file_notok,Integer.parseInt(prefs.getString("iconSize", "32"))));
-							//iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
-							}
-						else {
-							iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,Integer.parseInt(prefs.getString("iconSize", "32"))));
-							//iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-							}
-					} else if (rdrName.startsWith("Intent:")) {
+						if (f.length() > app.viewerMax)
+							iv.setImageDrawable(getResources().getDrawable(
+									R.drawable.file_notok));
+						else
+							iv.setImageDrawable(getResources().getDrawable(
+									R.drawable.file_ok));
+					} else if (rdrName.startsWith("Intent:"))
 						// iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
-						iv.setImageBitmap(scaleDrawableById(R.drawable.icon,Integer.parseInt(prefs.getString("iconSize", "32"))));
-						// iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
-						}
+						iv.setImageDrawable(getResources().getDrawable(
+								R.drawable.icon));
 					else {
-						if (icons.containsKey(rdrName)) {
-							iv.setImageBitmap(scaleDrawable(icons.get(rdrName),Integer.parseInt(prefs.getString("iconSize", "32"))));
-							//iv.setImageDrawable(icons.get(rdrName));
-							}
-						else {
-							iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,Integer.parseInt(prefs.getString("iconSize", "32"))));
-							//iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-						}
+						if (icons.containsKey(rdrName))
+							iv.setImageDrawable(icons.get(rdrName));
+						else
+							iv.setImageDrawable(getResources().getDrawable(
+									R.drawable.file_ok));
 					}
 				}
 
