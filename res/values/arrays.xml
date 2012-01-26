@@ -90,6 +90,30 @@
         <item>Open home directories menu</item>
         <item>Open home directories screen</item>
     </string-array>
+    <string-array name="lru_button_actions_values">
+        <item>NOTHING</item>
+        <item>OPENN</item>
+        <item>OPENMENU</item>
+        <item>OPENSCREEN</item>
+    </string-array>
+    <string-array name="lru_button_actions_names">
+        <item>Nothing</item>
+        <item>Open Last opened #</item>
+        <item>Open Last opened menu</item>
+        <item>Open Last opened screen</item>
+    </string-array>
+    <string-array name="fav_button_actions_values">
+        <item>NOTHING</item>
+        <item>OPENN</item>
+        <item>OPENMENU</item>
+        <item>OPENSCREEN</item>
+    </string-array>
+    <string-array name="fav_button_actions_names">
+        <item>Nothing</item>
+        <item>Open Favorites #</item>
+        <item>Open Favorites menu</item>
+        <item>Open Favorites screen</item>
+    </string-array>        
     <string-array name="advanced_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>
@@ -106,6 +130,22 @@
         <item>Switch WiFi state</item>
         <item>Run application </item>
     </string-array>
+    <string-array name="settings_button_actions_values">
+        <item>NOTHING</item>
+        <item>RELAUNCH</item>
+        <item>LOCK</item>
+        <item>POWEROFF</item>
+        <item>SWITCHWIFI</item>
+        <item>RUN</item>
+    </string-array>
+    <string-array name="settings_button_actions_names">
+        <item>Nothing</item>
+        <item>Open \"Settings\" window</item>
+        <item>Lock device</item>
+        <item>Power Off device</item>
+        <item>Switch WiFi state</item>
+        <item>Run application </item>
+    </string-array>    
     <string-array name="mem_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>

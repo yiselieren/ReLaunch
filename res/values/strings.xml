@@ -188,6 +188,8 @@
 	<string name="jv_relaunch_default">Default</string>
 	<string name="jv_relaunch_turning_wifi_on">WiFi is ON</string>
 	<string name="jv_relaunch_turning_wifi_off">WiFi is off</string>
+	<string name="jv_relaunch_prev">prev</string>
+	<string name="jv_relaunch_next">next</string>
     <string name="jv_rla_activity">Activity</string>
     <string name="jv_rla_not_found">not found!</string>
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Reader launcher for Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>

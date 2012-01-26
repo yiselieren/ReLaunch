@@ -164,6 +164,7 @@
 
     <PreferenceCategory android:title="Внешний вид" >
 
+        <!--
         <EditTextPreference
             android:defaultValue="8"
             android:enabled="true"
@@ -181,6 +182,34 @@
             android:selectable="true"
             android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п."
             android:title="Размер шрифта дополнительных имен папок" />
+		-->
+
+        <EditTextPreference
+            android:defaultValue="20"
+            android:enabled="true"
+            android:key="firstLineFontSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Размер шрифта для имен файлов и папок во всех списках... px"
+            android:title="Размер шрифта имен файлов/папок" />
+
+        <EditTextPreference
+            android:defaultValue="16"
+            android:enabled="true"
+            android:key="secondLineFontSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п... px"
+            android:title="Размер шрифта дополнительных имен папок" />
+
+		<EditTextPreference
+            android:defaultValue="48"
+            android:enabled="true"
+            android:key="firstLineIconSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Размер иконок для имен файлов и папок во всех списках... px (0 - без иконок)"
+            android:title="Размер иконок имен файлов/папок" />
 
         <ListPreference
             android:defaultValue="-1"
@@ -275,6 +304,96 @@
             android:selectable="true"
             android:title="Длительное нажатие кнопки \&quot;К Началу\&quot;" />
 
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;Недавно открытые\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;Недавно открытые\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;Недавно открытые\&quot;" />        
+
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;Избранное\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;Избранное\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;Избранное\&quot;" />        
+
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Одиночное нажатие кнопки \&quot;Настройки\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Двойное нажатие кнопки \&quot;Настройки\&quot;" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Длительное нажатие кнопки \&quot;Настройки\&quot;" />        
+        
         <ListPreference
             android:defaultValue="RELAUNCH"
             android:enabled="true"
@@ -425,6 +544,15 @@
 
     <PreferenceCategory android:title="Прокрутка" >
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="disableScrollJump"
+            android:persistent="true"
+            android:summaryOff="Быстрая прокрутка разрешена (ненадежно на Nook Simple Touch!)"
+            android:summaryOn="Быстрая прокрутка запрещена"
+            android:title="Запрет быстрой прокрутки кнопками" >
+        </CheckBoxPreference>        
+        
         <EditTextPreference
             android:defaultValue="10"
             android:enabled="true"

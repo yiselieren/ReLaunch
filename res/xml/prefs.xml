@@ -90,7 +90,7 @@
             android:summaryOff="Show full file names, with extensions"
             android:summaryOn="Hide known extensions (by associaciations)"
             android:title="Hide known extensions" >
-        </CheckBoxPreference>            
+        </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -99,8 +99,8 @@
             android:summaryOff="Show full dirs names (even in start dirs)"
             android:summaryOn="Hide known part (start dir) from dir name"
             android:title="Hide known part of directories" >
-        </CheckBoxPreference>            
-            
+        </CheckBoxPreference>
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
@@ -129,7 +129,7 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="GL16 mode"
-            android:title="Screen update mode (GL16 mode)" />
+            android:title="Screen update mode (GL16 mode)" />
         -->
 
         <ListPreference
@@ -164,6 +164,7 @@
 
     <PreferenceCategory android:title="Appearance" >
 
+        <!--
         <EditTextPreference
             android:defaultValue="8"
             android:enabled="true"
@@ -180,7 +181,35 @@
             android:persistent="true"
             android:selectable="true"
             android:summary="Font size for additional directories names in Favorites and so on lists"
-            android:title="Additional directories names font size" />
+            android:title="Additional directories names font size" />
+        -->
+
+        <EditTextPreference
+            android:defaultValue="20"
+            android:enabled="true"
+            android:key="firstLineFontSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Font size for files and directories names in all lists... px"
+            android:title="Files and directories names font size" />
+
+        <EditTextPreference
+            android:defaultValue="16"
+            android:enabled="true"
+            android:key="secondLineFontSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Font size for additional directories names in Favorites and so on lists"
+            android:title="Additional directories names font size... px" />
+
+        <EditTextPreference
+            android:defaultValue="48"
+            android:enabled="true"
+            android:key="firstLineIconSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Icon size for files and directories... px (0 - disable icon)"
+            android:title="Files and directories icons size" />
 
         <ListPreference
             android:defaultValue="-1"
@@ -274,6 +303,96 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Home Button Long Tap" />
+
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Last Recent Used Button Single Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Last Recent Used Button Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Last Recent Used Button Long Tap" />
+
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Favorites Button Single Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Favorites Button Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Favorites Button Long Tap" />
+
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Settings Button Single Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Settings Button Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Settings Button Long Tap" />        
         
         <ListPreference
             android:defaultValue="RELAUNCH"
@@ -303,7 +422,9 @@
             android:key="advancedButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Advanced Button Long Tap" /><ListPreference
+            android:title="Advanced Button Long Tap" />
+
+        <ListPreference
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -362,7 +483,6 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Battery Button Long Tap" />
-        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Launcher mode settings" >
@@ -423,6 +543,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Scrollbar appearance " >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="disableScrollJump"
+            android:persistent="true"
+            android:summaryOff="Fast scroll enabled (incorrect on Nook Simple Touch!)"
+            android:summaryOn="Fast scroll disabled"
+            android:title="Disable fast scroll with buttons" >
+        </CheckBoxPreference>
 
         <EditTextPreference
             android:defaultValue="10"

@@ -18,14 +18,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.os.SystemClock;
+import android.view.MotionEvent;
 
 public class PrefsActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
@@ -93,6 +93,9 @@ public class PrefsActivity extends PreferenceActivity implements
 		// Columns settings
 		defItems.add(new PrefItem("firstLineFontSize", "8"));
 		defItems.add(new PrefItem("secondLineFontSize", "6"));
+		defItems.add(new PrefItem("firstLineFontSizePx", "20"));
+		defItems.add(new PrefItem("secondLineFontSizePx", "16"));
+		defItems.add(new PrefItem("firstLineIconSizePx", "48"));
 		defItems.add(new PrefItem("columnsDirsFiles", "-1"));
 		defItems.add(new PrefItem("columnsHomeList", "-1"));
 		defItems.add(new PrefItem("columnsLRU", "-1"));
@@ -107,6 +110,24 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("homeButtonDTopenN", "1"));
 		defItems.add(new PrefItem("homeButtonLT", "OPENSCREEN"));
 		defItems.add(new PrefItem("homeButtonLTopenN", "1"));
+		defItems.add(new PrefItem("lruButtonST", "OPENSCREEN"));
+		defItems.add(new PrefItem("lruButtonSTopenN", "1"));
+		defItems.add(new PrefItem("lruButtonDT", "NOTHING"));
+		defItems.add(new PrefItem("lruButtonDTopenN", "1"));
+		defItems.add(new PrefItem("lruButtonLT", "NOTHING"));
+		defItems.add(new PrefItem("lruButtonLTopenN", "1"));
+		defItems.add(new PrefItem("favButtonST", "OPENSCREEN"));
+		defItems.add(new PrefItem("favButtonSTopenN", "1"));
+		defItems.add(new PrefItem("favButtonDT", "NOTHING"));
+		defItems.add(new PrefItem("favButtonDTopenN", "1"));
+		defItems.add(new PrefItem("favButtonLT", "NOTHING"));
+		defItems.add(new PrefItem("favButtonLTopenN", "1"));		
+		defItems.add(new PrefItem("settingsButtonST", "RELAUNCH"));
+		defItems.add(new PrefItem("settingsButtonSTapp", "%%"));
+		defItems.add(new PrefItem("settingsButtonDT", "NOTHING"));
+		defItems.add(new PrefItem("settingsButtonDTapp", "%%"));
+		defItems.add(new PrefItem("settingsButtonLT", "NOTHING"));
+		defItems.add(new PrefItem("settingsButtonLTapp", "%%"));		
 		defItems.add(new PrefItem("advancedButtonST", "RELAUNCH"));
 		defItems.add(new PrefItem("advancedButtonSTapp", "%%"));
 		defItems.add(new PrefItem("advancedButtonDT", "NOTHING"));
@@ -135,6 +156,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("dateUS", false));
 
 		// Scrollbar appearance settings
+		defItems.add(new PrefItem("disableScrollJump", true));
 		defItems.add(new PrefItem("scrollPerc", "10"));
 		// defItems.add(new PrefItem("customScroll", true));
 		defItems.add(new PrefItem("customScroll", app.customScrollDef));
@@ -202,6 +224,45 @@ public class PrefsActivity extends PreferenceActivity implements
 					&& listPref.getValue().toString().equals("OPENN")) {
 				p.setSummary(listPref.getEntry()
 						+ prefs.getString("homeButtonLTopenN", "1"));
+			} else if (p.getKey().equals("lruButtonST")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("lruButtonSTopenN", "1"));
+			} else if (p.getKey().equals("lruButtonDT")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("lruButtonDTopenN", "1"));
+			} else if (p.getKey().equals("lruButtonLT")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("lruButtonLTopenN", "1"));
+			} else if (p.getKey().equals("favButtonST")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("favButtonSTopenN", "1"));
+			} else if (p.getKey().equals("favButtonDT")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("favButtonDTopenN", "1"));
+			} else if (p.getKey().equals("favButtonLT")
+					&& listPref.getValue().toString().equals("OPENN")) {
+				p.setSummary(listPref.getEntry()
+						+ prefs.getString("favButtonLTopenN", "1"));
+			} else if (p.getKey().equals("settingsButtonST")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("settingsButtonSTapp", "%%")
+						.split("\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("settingsButtonDT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("settingsButtonDTapp", "%%")
+						.split("\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("settingsButtonLT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("settingsButtonLTapp", "%%")
+						.split("\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
 			} else if (p.getKey().equals("advancedButtonST")
 					&& listPref.getValue().toString().equals("RUN")) {
 				String[] appa = prefs.getString("advancedButtonSTapp", "%%")
@@ -266,9 +327,8 @@ public class PrefsActivity extends PreferenceActivity implements
 		} else {
 			updatePrefSummary(p);
 		}
-
 	}
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -450,6 +510,17 @@ public class PrefsActivity extends PreferenceActivity implements
 		upScroll.setOnClickListener(new View.OnClickListener() {
 		
 			public void onClick(View v) {
+				if(DeviceInfo.EINK_NOOK) {
+					MotionEvent ev;
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,100,0);
+					getListView().dispatchTouchEvent(ev);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,200,0);
+					getListView().dispatchTouchEvent(ev);
+					SystemClock.sleep(100);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,200,0);
+					getListView().dispatchTouchEvent(ev);
+				}
+				else {
 				final ListView lv = (ListView) getListView();
             	int first = lv.getFirstVisiblePosition(); 
                 int visible = lv.getLastVisiblePosition() - lv.getFirstVisiblePosition() + 1;
@@ -465,9 +536,10 @@ public class PrefsActivity extends PreferenceActivity implements
                     }
                 }); 
                 }
+			}
 		});
 		
-		
+		/*
 		class RepeatedDownScroll {
 			public void doIt(int first,int target, int shift) {
 				final ListView lv = (ListView) getListView();
@@ -494,27 +566,39 @@ public class PrefsActivity extends PreferenceActivity implements
                 },100);                
 			}
 		}
+		*/
 		
 		ImageButton downScroll = (ImageButton)findViewById(R.id.btn_scrolldown);
 		downScroll.setOnClickListener(new View.OnClickListener() {
 		
 			public void onClick(View v) {
-				final ListView lv = (ListView) getListView();
-                int first = lv.getFirstVisiblePosition();
-                int total = lv.getCount();
-                int last = lv.getLastVisiblePosition();
-                if(total==last+1) return;
-                int target = last + 1;
-                if (target > (total-1))
-                    target = total-1;
-        		RepeatedDownScroll ds = new RepeatedDownScroll();
-        		ds.doIt(first, target, 0);
-                //lv.clearFocus();
-                //lv.post(new Runnable() {
-                //    public void run() {
-                //    	lv.setSelection(finfirst);
-                //    }
-                //});
+				if(DeviceInfo.EINK_NOOK) {
+					MotionEvent ev;
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,200,0);
+					getListView().dispatchTouchEvent(ev);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,100,0);
+					getListView().dispatchTouchEvent(ev);
+					SystemClock.sleep(100);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,100,0);
+					getListView().dispatchTouchEvent(ev);
+					}
+				else {
+					final ListView lv = (ListView) getListView();
+					// int first = lv.getFirstVisiblePosition();
+					int total = lv.getCount();
+					int last = lv.getLastVisiblePosition();
+					if(total==last+1) return;
+					int target = last + 1;
+					if (target > (total-1))
+						target = total-1;
+					final int ftarget = target;
+					lv.clearFocus();
+					lv.post(new Runnable() {
+					    public void run() {
+					    	lv.setSelection(ftarget);
+					    }
+					});
+				}
             
 			}
 		});
@@ -568,6 +652,7 @@ public class PrefsActivity extends PreferenceActivity implements
 
 		// special cases
 		if (do_pref_subrequest) {
+			// HOME
 			if (key.equals("homeButtonST")) {
 				if (sharedPreferences.getString(key, "OPENN").equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -611,7 +696,8 @@ public class PrefsActivity extends PreferenceActivity implements
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
 					// builder1.setTitle("Intent type");
-					builder1.setTitle("Select num");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
 					input.setInputType(InputType.TYPE_CLASS_NUMBER);
 					input.setText(sharedPreferences.getString(
@@ -647,7 +733,8 @@ public class PrefsActivity extends PreferenceActivity implements
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
 					// builder1.setTitle("Intent type");
-					builder1.setTitle("Select num");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
 					input.setInputType(InputType.TYPE_CLASS_NUMBER);
 					input.setText(sharedPreferences.getString(
@@ -677,6 +764,296 @@ public class PrefsActivity extends PreferenceActivity implements
 					builder1.show();
 				}
 			}
+			// LRU
+			if (key.equals("lruButtonST")) {
+				if (sharedPreferences.getString(key, "OPENSCREEN").equals("OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					// builder1.setTitle("Select number");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"lruButtonSTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("OK",
+					builder1.setPositiveButton(
+							getResources().getString(R.string.jv_prefs_ok),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("lruButtonSTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			if (key.equals("lruButtonDT")) {
+				if (sharedPreferences.getString(key, "NOTHING")
+						.equals("OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"lruButtonDTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("Ok", new
+					// DialogInterface.OnClickListener() {
+					builder1.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("lruButtonDTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			if (key.equals("lruButtonLT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals(
+						"OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"lruButtonLTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("Ok", new
+					// DialogInterface.OnClickListener() {
+					builder1.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("lruButtonLTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			// FAV
+			if (key.equals("favButtonST")) {
+				if (sharedPreferences.getString(key, "OPENSCREEN").equals("OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					// builder1.setTitle("Select number");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"favButtonSTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("OK",
+					builder1.setPositiveButton(
+							getResources().getString(R.string.jv_prefs_ok),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("favButtonSTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			if (key.equals("favButtonDT")) {
+				if (sharedPreferences.getString(key, "NOTHING")
+						.equals("OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"favButtonDTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("Ok", new
+					// DialogInterface.OnClickListener() {
+					builder1.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("favButtonDTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}
+			if (key.equals("favButtonLT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals(
+						"OPENN")) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder1.setTitle("Intent type");
+					builder1.setTitle(getResources().getString(
+							R.string.jv_prefs_select_number));
+					final EditText input = new EditText(PrefsActivity.this);
+					input.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input.setText(sharedPreferences.getString(
+							"favButtonLTopenN", "1"));
+					builder1.setView(input);
+					// builder1.setPositiveButton("Ok", new
+					// DialogInterface.OnClickListener() {
+					builder1.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// input.getText().toString()
+									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(
+											input.getWindowToken(), 0);
+									dialog.dismiss();
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("favButtonLTopenN", input
+											.getText().toString());
+									editor.commit();
+									updatePrefSummary(pref);
+								}
+							});
+					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+					builder1.show();
+				}
+			}			
+			if (key.equals("settingsButtonST")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("settingsButtonSTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("settingsButtonDT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("settingsButtonDTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("settingsButtonLT")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// builder2.setTitle("Select application");
+					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("settingsButtonLTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}			
 			if (key.equals("advancedButtonST")) {
 				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(

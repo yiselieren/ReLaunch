@@ -117,8 +117,7 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableLeft="@drawable/ci_arrowup"
-            android:paddingLeft="8dp"
-            android:text="0%" >
+            android:paddingLeft="8dp" android:text="0%">
         </Button>
 
         <Button

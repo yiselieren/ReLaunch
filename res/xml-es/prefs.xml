@@ -164,6 +164,7 @@
 
     <PreferenceCategory android:title="Aspecto" >
 
+        <!--
         <EditTextPreference
             android:defaultValue="8"
             android:enabled="true"
@@ -181,7 +182,35 @@
             android:selectable="true"
             android:summary="Tamaño de fuente para de otros directorios como Favoritos y otras listas"
             android:title="Tamaño de fuente para nombres de directorios adicionales" />
+		-->
+		
+        <EditTextPreference
+            android:defaultValue="20"
+            android:enabled="true"
+            android:key="firstLineFontSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño de fuente en nobres de archivos y directorios de cualquer lista... px"
+            android:title="Tamaño de fuente en nombres de archivos/carpetas" />
 
+        <EditTextPreference
+            android:defaultValue="16"
+            android:enabled="true"
+            android:key="secondLineFontSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Tamaño de fuente para de otros directorios como Favoritos y otras listas... px"
+            android:title="Tamaño de fuente para nombres de directorios adicionales" />		
+
+        <EditTextPreference
+            android:defaultValue="48"
+            android:enabled="true"
+            android:key="firstLineIconSizePx"
+            android:persistent="true"
+            android:selectable="true"
+            android:summary="Icono de tamaño para los archivos y directorios ... px (0 - desactivar el icono)"
+            android:title="Archivos y el tamaño de los iconos de directorios" />
+        
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -274,6 +303,96 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Pulsación larga del botón \&apos;Home\&apos;" />
+
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Última recientes botón que se usa solo toque" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Última recientes botón que se usa Double Tap" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/lru_button_actions_names"
+            android:entryValues="@array/lru_button_actions_values"
+            android:key="lruButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Última recientes botón que se usa mucho toque" />        
+
+        <ListPreference
+            android:defaultValue="OPENSCREEN"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Favoritos Toque solo botón" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Pulse el botón Favoritos doble" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/fav_button_actions_names"
+            android:entryValues="@array/fav_button_actions_values"
+            android:key="favButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Pulse el botón Favoritos de largo" />        
+
+        <ListPreference
+            android:defaultValue="RELAUNCH"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonST"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Pulse Configuración de un solo botón" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonDT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Pulse el botón Configuración de doble" />
+
+        <ListPreference
+            android:defaultValue="NOTHING"
+            android:enabled="true"
+            android:entries="@array/settings_button_actions_names"
+            android:entryValues="@array/settings_button_actions_values"
+            android:key="settingsButtonLT"
+            android:persistent="true"
+            android:selectable="true"
+            android:title="Toque el botón Configuración de largo" />        
         
         <ListPreference
             android:defaultValue="RELAUNCH"
@@ -426,6 +545,15 @@
 
     <PreferenceCategory android:title="Apariencia de la barra de desplazamiento" >
 
+		<CheckBoxPreference
+            android:defaultValue="true"
+            android:key="disableScrollJump"
+            android:persistent="true"
+            android:summaryOff="Desplazamiento rápido habilitado (incorrecta en Nook Simple Touch!)"
+            android:summaryOn="Desplazamiento rápido con discapacidad"
+            android:title="Desactivar desplazamiento rápido con botones" >
+        </CheckBoxPreference>
+        
         <EditTextPreference
             android:defaultValue="10"
             android:enabled="true"

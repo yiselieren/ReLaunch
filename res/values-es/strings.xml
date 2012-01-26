@@ -188,6 +188,8 @@
 	<string name="jv_relaunch_default">Por defecto</string>
 	<string name="jv_relaunch_turning_wifi_on">WiFi está activada</string>
 	<string name="jv_relaunch_turning_wifi_off">WiFi está desactivado</string>
+	<string name="jv_relaunch_prev">anterior</string>
+	<string name="jv_relaunch_next">próximo</string>
     <string name="jv_rla_activity">Acción</string>
     <string name="jv_rla_not_found">no encontrado!</string>
     <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;lanzador para el lector electrónico Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Versión: &lt;b&gt;</string>

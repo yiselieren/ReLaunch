@@ -90,6 +90,30 @@
         <item>Открыть меню выбора начальной папки</item>
         <item>Открыть окно списка начальных папок</item>
     </string-array>
+    <string-array name="lru_button_actions_values">
+        <item>NOTHING</item>
+        <item>OPENN</item>
+        <item>OPENMENU</item>
+        <item>OPENSCREEN</item>
+    </string-array>
+    <string-array name="lru_button_actions_names">
+        <item>Ничего не делать</item>
+        <item>Открыть Недавно открытый #</item>
+        <item>Открыть меню Недавно открытых</item>
+        <item>Открыть окно Недавно открытых</item>
+    </string-array>
+    <string-array name="fav_button_actions_values">
+        <item>NOTHING</item>
+        <item>OPENN</item>
+        <item>OPENMENU</item>
+        <item>OPENSCREEN</item>
+    </string-array>
+    <string-array name="fav_button_actions_names">
+        <item>Ничего не делать</item>
+        <item>Открыть Избранное #</item>
+        <item>Открыть меню Избранного</item>
+        <item>Открыть окно избранного</item>
+    </string-array>    
     <string-array name="advanced_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>
@@ -106,6 +130,22 @@
         <item>Переключить состояние WiFi</item>
         <item>Выполнить приложение</item>
     </string-array>
+    <string-array name="settings_button_actions_values">
+        <item>NOTHING</item>
+        <item>RELAUNCH</item>
+        <item>LOCK</item>
+        <item>POWEROFF</item>
+        <item>SWITCHWIFI</item>
+        <item>RUN</item>
+    </string-array>
+    <string-array name="settings_button_actions_names">
+        <item>Ничего не делать</item>
+        <item>Открыть окно \"Настройки\"</item>
+        <item>Заблокировать устройство</item>
+        <item>Выключить устройство</item>
+        <item>Переключить состояние WiFi</item>
+        <item>Выполнить приложение</item>
+    </string-array>    
     <string-array name="mem_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>

@@ -33,6 +33,7 @@ import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -61,8 +62,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-// import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -352,8 +351,8 @@ public class ReLaunch extends Activity {
                 boolean   setBold = false;
                 boolean   useFaces  = prefs.getBoolean("showNew", true);
 
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("firstLineFontSize", "8")));
-                
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,Integer.parseInt(prefs.getString("firstLineFontSizePx", "20")));
+
                 if (item.get("type").equals("dir"))
                 {
                     if (useFaces)
@@ -363,7 +362,12 @@ public class ReLaunch extends Activity {
                         tv.setTextColor(getResources().getColor(R.color.dir_fg));
                     }
                     //iv.setImageDrawable(getResources().getDrawable(R.drawable.dir_ok));
-                    iv.setImageBitmap(scaleDrawableById(R.drawable.dir_ok,32));
+                    if(prefs.getString("firstLineIconSizePx", "48").equals("0")) {
+                    	iv.setVisibility(View.GONE);
+                    }
+                    else {
+                    	iv.setImageBitmap(scaleDrawableById(R.drawable.dir_ok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
+                    }
                 }
                 else
                 {
@@ -399,10 +403,16 @@ public class ReLaunch extends Activity {
                                 setBold = true;
                         }
                     }
+                    
+                    // setup icon
+                    if(prefs.getString("firstLineIconSizePx", "48").equals("0")) {
+                    	iv.setVisibility(View.GONE);
+                    }
+                    else {
                     Drawable d = app.specialIcon(item.get("fname"), false);
                     if (d != null)
                         //iv.setImageDrawable(d);
-                    	iv.setImageBitmap(scaleDrawable(d,32));
+                    	iv.setImageBitmap(scaleDrawable(d,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
                     else
                     {
                         String rdrName = item.get("reader");
@@ -411,27 +421,28 @@ public class ReLaunch extends Activity {
                             File f = new File(item.get("fname"));
                             if (f.length() > app.viewerMax)
                                 //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
-                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_notok,32));
+                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_notok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
                             else
                                 //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,32));
+                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
                         }
                         else if (rdrName.startsWith("Intent:"))
                             //iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
                             //iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
-                        	iv.setImageBitmap(scaleDrawableById(R.drawable.icon,32));
+                        	iv.setImageBitmap(scaleDrawableById(R.drawable.icon,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
                         else
                         {
                             if (app.getIcons().containsKey(rdrName))
                                 //iv.setImageDrawable(app.getIcons().get(rdrName));
-                            	iv.setImageBitmap(scaleDrawable(app.getIcons().get(rdrName),32));
+                            	iv.setImageBitmap(scaleDrawable(app.getIcons().get(rdrName),Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
                             else
                                 //iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
-                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,32));
+                            	iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
                         }
                     }
                 }
-
+                }
+                
                 if (useFaces)
                 {
                     SpannableString s = new SpannableString(sname);
@@ -1177,27 +1188,45 @@ public class ReLaunch extends Activity {
                 }});
         
         final Button upScroll = (Button)findViewById(R.id.upscroll_btn);
-        upScroll.setText(app.scrollStep + "%");
+        if(prefs.getBoolean("disableScrollJump", true)==false) {
+        	upScroll.setText(app.scrollStep + "%");
+        	}
+        else {
+        	upScroll.setText(getResources().getString(R.string.jv_relaunch_prev));
+        }
     	class upScrlSimpleOnGestureListener extends SimpleOnGestureListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
             	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
-            	int first = gv.getFirstVisiblePosition(); 
-                int visible = gv.getLastVisiblePosition() - gv.getFirstVisiblePosition() + 1;
-                int total = itemsArray.size();
-                first -= visible;
-                if (first < 0)
-                    first = 0;
-                gv.setSelection(first);
-                // some hack workaround against not scrolling in some cases
-                if(total>0) {
-                	gv.requestFocusFromTouch();
-                	gv.setSelection(first);
-                }
+            	if(DeviceInfo.EINK_NOOK) { // nook
+					MotionEvent ev;
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,100,0);
+					gv.dispatchTouchEvent(ev);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,200,0);
+					gv.dispatchTouchEvent(ev);
+					SystemClock.sleep(100);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,200,0);
+					gv.dispatchTouchEvent(ev);
+				}
+            	else { // other devices
+            		int first = gv.getFirstVisiblePosition(); 
+            		int visible = gv.getLastVisiblePosition() - gv.getFirstVisiblePosition() + 1;
+            		int total = itemsArray.size();
+            		first -= visible;
+            		if (first < 0)
+            			first = 0;
+            		gv.setSelection(first);
+            		// some hack workaround against not scrolling in some cases
+            		if(total>0) {
+            			gv.requestFocusFromTouch();
+            			gv.setSelection(first);
+            		}
+            	}
                 return true;
             }
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+            	if(prefs.getBoolean("disableScrollJump", true)==false) {
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 first -= (total * app.scrollStep) / 100;
@@ -1209,11 +1238,13 @@ public class ReLaunch extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }            	
+            	}
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(upScroll.hasWindowFocus()) {
+            		if(prefs.getBoolean("disableScrollJump", true)==false) {
                     int first = gv.getFirstVisiblePosition();
                     int total = itemsArray.size();
                     first = 0;
@@ -1225,6 +1256,7 @@ public class ReLaunch extends Activity {
                     	}           
             		}
             	}
+            }
         };
         upScrlSimpleOnGestureListener upscrl_gl = new upScrlSimpleOnGestureListener();
         final GestureDetector upscrl_gd = new GestureDetector(upscrl_gl);
@@ -1281,29 +1313,47 @@ public class ReLaunch extends Activity {
 		}
         
         final Button downScroll = (Button)findViewById(R.id.downscroll_btn);
-        downScroll.setText(app.scrollStep + "%");
+        if(prefs.getBoolean("disableScrollJump", true)==false) {
+        	downScroll.setText(app.scrollStep + "%");
+        	}
+        else {
+        	downScroll.setText(getResources().getString(R.string.jv_relaunch_next));
+        }
     	class dnScrlSimpleOnGestureListener extends SimpleOnGestureListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
             	// GridView gv = (GridView) findViewById(useDirViewer ? R.id.results_list : R.id.gl_list);
-                int first = gv.getFirstVisiblePosition();
+				if(DeviceInfo.EINK_NOOK) { // nook special
+					MotionEvent ev;
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,200,0);
+					gv.dispatchTouchEvent(ev);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,100,0);
+					gv.dispatchTouchEvent(ev);
+					SystemClock.sleep(100);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,100,0);
+					gv.dispatchTouchEvent(ev);
+				}     
+				else { // other devices
+                //int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
                 int target = last+1;
                 if (target > (total-1))
                     target = total-1;
-           		RepeatedDownScroll ds = new RepeatedDownScroll();
-        		ds.doIt(first, target, 0);                
-                //gv.setSelection(first);
-                //if(total>0) {
-                //	gv.requestFocusFromTouch();
-                //	gv.setSelection(first);
-                //}            	
+           		//RepeatedDownScroll ds = new RepeatedDownScroll();
+        		//ds.doIt(first, target, 0);                
+                gv.setSelection(target);
+                if(total>0) {
+                	gv.requestFocusFromTouch();
+                	gv.setSelection(target);
+                }
+				}
                 return true;
             }
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+            	if(prefs.getBoolean("disableScrollJump", true)==false) {
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
@@ -1323,20 +1373,22 @@ public class ReLaunch extends Activity {
                 //	gv.requestFocusFromTouch();
                 //	gv.setSelection(first);
                 //}            	
+            	}
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(downScroll.hasWindowFocus()) {
+            		if(prefs.getBoolean("disableScrollJump", true)==false) {
                     int first = gv.getFirstVisiblePosition();
                     int total = itemsArray.size();
                     int last = gv.getLastVisiblePosition();
                     if(total==last+1) return;
                     first = total-1;
-                    if (first <= last)
-                        first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
-                    if (first > (total-1))
-                        first = total-1;
+                    //if (first <= last)
+                    //    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                    //if (first > (total-1))
+                    //    first = total-1;
                     gv.setSelection(first);
                     // some hack workaround against not scrolling in some cases
                     if(total>0) {
@@ -1345,6 +1397,7 @@ public class ReLaunch extends Activity {
                     	}
             		}
             	}
+            }
         };
         dnScrlSimpleOnGestureListener dnscrl_gl = new dnScrlSimpleOnGestureListener();
         final GestureDetector dnscrl_gd = new GestureDetector(dnscrl_gl);
@@ -1660,7 +1713,6 @@ public class ReLaunch extends Activity {
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(lrua_button.hasWindowFocus()) {
-
                     		}
                     	}
                 };
@@ -1886,29 +1938,60 @@ public class ReLaunch extends Activity {
             	class SettingsSimpleOnGestureListener extends SimpleOnGestureListener {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
-                    	menuSettings();
-                    	/*
-                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-                    		openHome(0);
+                    	if(prefs.getString("settingsButtonST", "RELAUNCH").equals("RELAUNCH")) {
+                    		menuSettings();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-                    		openHome(1);
+                    	else if(prefs.getString("settingsButtonST", "RELAUNCH").equals("LOCK")) {
+                    		actionLock();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-                    		menuHome();
+                    	else if(prefs.getString("settingsButtonST", "RELAUNCH").equals("POWEROFF")) {
+                    		actionPowerOff();
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-                    		screenHome();
-                    	} */                    	
+                    	else if(prefs.getString("settingsButtonST", "RELAUNCH").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
+                    	}
+                    	else if(prefs.getString("settingsButtonST", "RELAUNCH").equals("RUN")) {
+                    		actionRun(prefs.getString("settingsButtonSTapp", "%%"));
+                    	}                    	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                    	if(prefs.getString("settingsButtonDT", "RELAUNCH").equals("RELAUNCH")) {
+                    		menuSettings();
+                    	}
+                    	else if(prefs.getString("settingsButtonDT", "RELAUNCH").equals("LOCK")) {
+                    		actionLock();
+                    	}
+                    	else if(prefs.getString("settingsButtonDT", "RELAUNCH").equals("POWEROFF")) {
+                    		actionPowerOff();
+                    	}
+                    	else if(prefs.getString("settingsButtonDT", "RELAUNCH").equals("SWITCHWIFI")) {
+                    		actionSwitchWiFi();
+                    	}
+                    	else if(prefs.getString("settingsButtonDT", "RELAUNCH").equals("RUN")) {
+                    		actionRun(prefs.getString("settingsButtonDTapp", "%%"));
+                    	}                    	
                         return true;
                     }                    
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(settings_button.hasWindowFocus()) {
+                        	if(prefs.getString("settingsButtonLT", "RELAUNCH").equals("RELAUNCH")) {
+                        		menuSettings();
+                        	}
+                        	else if(prefs.getString("settingsButtonLT", "RELAUNCH").equals("LOCK")) {
+                        		actionLock();
+                        	}
+                        	else if(prefs.getString("settingsButtonLT", "RELAUNCH").equals("POWEROFF")) {
+                        		actionPowerOff();
+                        	}
+                        	else if(prefs.getString("settingsButtonLT", "RELAUNCH").equals("SWITCHWIFI")) {
+                        		actionSwitchWiFi();
+                        	}
+                        	else if(prefs.getString("settingsButtonLT", "RELAUNCH").equals("RUN")) {
+                        		actionRun(prefs.getString("settingsButtonLTapp", "%%"));
+                        	}                    		
                     		}
                     	}
                 };
@@ -1971,29 +2054,48 @@ public class ReLaunch extends Activity {
             	class LruSimpleOnGestureListener extends SimpleOnGestureListener {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
-                    	menuLastopened();
-                    	/*
-                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-                    		openHome(0);
+                    	if(prefs.getString("lruButtonST", "OPENSCREEN").equals("OPENN")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.runItem("lastOpened", Integer.parseInt(prefs.getString("lruButtonSTopenN", "1"))-1);
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-                    		openHome(1);
+                    	else if(prefs.getString("lruButtonST", "OPENSCREEN").equals("OPENMENU")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.showMenu("lastOpened");
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-                    		menuHome();
-                    	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-                    		screenHome();
-                    	} */                    	
+                    	else if(prefs.getString("lruButtonST", "OPENSCREEN").equals("OPENSCREEN")) {
+                    		menuLastopened();
+                    	}                    	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                    	if(prefs.getString("lruButtonDT", "NOTHING").equals("OPENN")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.runItem("lastOpened", Integer.parseInt(prefs.getString("lruButtonDTopenN", "1"))-1);
+                    	}
+                    	else if(prefs.getString("lruButtonDT", "NOTHING").equals("OPENMENU")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.showMenu("lastOpened");
+                    	}
+                    	else if(prefs.getString("lruButtonDT", "NOTHING").equals("OPENSCREEN")) {
+                    		menuLastopened();
+                    	}
                         return true;
                     }                    
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(lru_button.hasWindowFocus()) {
+                        	if(prefs.getString("lruButtonLT", "NOTHING").equals("OPENN")) {
+                            	ListActions la = new ListActions(app, ReLaunch.this);
+                            	la.runItem("lastOpened", Integer.parseInt(prefs.getString("lruButtonLTopenN", "1"))-1);
+                        	}
+                        	else if(prefs.getString("lruButtonLT", "NOTHING").equals("OPENMENU")) {
+                            	ListActions la = new ListActions(app, ReLaunch.this);
+                            	la.showMenu("lastOpened");
+                        	}
+                        	else if(prefs.getString("lruButtonLT", "NOTHING").equals("OPENSCREEN")) {
+                        		menuLastopened();
+                        	}                    		
                     		}
                     	}
                 };
@@ -2012,29 +2114,48 @@ public class ReLaunch extends Activity {
             	class FavSimpleOnGestureListener extends SimpleOnGestureListener {
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
-                    	menuFavorites();
-                    	/*
-                    	if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN1")) {
-                    		openHome(0);
+                    	if(prefs.getString("favButtonST", "OPENSCREEN").equals("OPENN")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.runItem("favorites", Integer.parseInt(prefs.getString("favButtonSTopenN", "1"))-1);
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPEN2")) {
-                    		openHome(1);
+                    	else if(prefs.getString("favButtonST", "OPENSCREEN").equals("OPENMENU")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.showMenu("favorites");
                     	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENMENU")) {
-                    		menuHome();
-                    	}
-                    	else if(prefs.getString("homeButtonST", "OPEN1").equals("OPENSCREEN")) {
-                    		screenHome();
-                    	} */                    	
+                    	else if(prefs.getString("favButtonST", "OPENSCREEN").equals("OPENSCREEN")) {
+                    		menuFavorites();
+                    	}                    	
                         return true;
                     }
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
+                    	if(prefs.getString("favButtonDT", "NOTHING").equals("OPENN")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.runItem("favorites", Integer.parseInt(prefs.getString("favButtonDTopenN", "1"))-1);
+                    	}
+                    	else if(prefs.getString("favButtonDT", "NOTHING").equals("OPENMENU")) {
+                        	ListActions la = new ListActions(app, ReLaunch.this);
+                        	la.showMenu("favorites");
+                    	}
+                    	else if(prefs.getString("favButtonDT", "NOTHING").equals("OPENSCREEN")) {
+                    		menuFavorites();
+                    	}
                         return true;
                     }                    
                     @Override
                     public void onLongPress(MotionEvent e) {
                     	if(fav_button.hasWindowFocus()) {
+                        	if(prefs.getString("favButtonLT", "NOTHING").equals("OPENN")) {
+                            	ListActions la = new ListActions(app, ReLaunch.this);
+                            	la.runItem("favorites", Integer.parseInt(prefs.getString("favButtonLTopenN", "1"))-1);
+                        	}
+                        	else if(prefs.getString("favButtonLT", "NOTHING").equals("OPENMENU")) {
+                            	ListActions la = new ListActions(app, ReLaunch.this);
+                            	la.showMenu("favorites");
+                        	}
+                        	else if(prefs.getString("favButtonLT", "NOTHING").equals("OPENSCREEN")) {
+                        		menuFavorites();
+                        	}                    		
                     		}
                     	}
                 };

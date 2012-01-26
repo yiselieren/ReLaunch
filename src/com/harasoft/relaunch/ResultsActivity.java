@@ -15,9 +15,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -111,6 +115,14 @@ public class ResultsActivity extends Activity {
 		ImageView iv;
 	}
 
+    private Bitmap scaleDrawableById(int id, int size) {	
+    	return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), id), size, size, true);    	
+    	}
+    	    
+    private Bitmap scaleDrawable(Drawable d, int size) {
+    	return Bitmap.createScaledBitmap(((BitmapDrawable)d).getBitmap(), size, size, true);    	
+    	}	
+	
 	class FLSimpleAdapter extends ArrayAdapter<HashMap<String, String>> {
 		FLSimpleAdapter(Context context, int resource,
 				List<HashMap<String, String>> data) {
@@ -179,8 +191,8 @@ public class ResultsActivity extends Activity {
 			TextView tv1 = holder.tv1;
 			TextView tv2 = holder.tv2;
 			
-			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("firstLineFontSize", "8")));
-			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PT,Float.parseFloat(prefs.getString("secondLineFontSize", "8")));
+			tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX,Integer.parseInt(prefs.getString("firstLineFontSizePx", "20")));
+			tv1.setTextSize(TypedValue.COMPLEX_UNIT_PX,Integer.parseInt(prefs.getString("secondLineFontSizePx", "16")));
 			
 			LinearLayout tvHolder = holder.tvHolder;
 			ImageView iv = holder.iv;
@@ -263,33 +275,41 @@ public class ResultsActivity extends Activity {
 					}
 				}
 
+				// setup icon
+				if(prefs.getString("firstLineIconSizePx", "48").equals("0")) {
+					iv.setVisibility(View.GONE);					
+				}
+				else {
 				Drawable d = app.specialIcon(fullName,
 						item.get("type").equals("dir"));
 				if (d != null)
-					iv.setImageDrawable(d);
+					//iv.setImageDrawable(d);
+					iv.setImageBitmap(scaleDrawable(d, Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
 				else {
 					String rdrName = app.readerName(fname);
 					if (rdrName.equals("Nope")) {
 						File f = new File(fullName);
 						if (f.length() > app.viewerMax)
-							iv.setImageDrawable(getResources().getDrawable(
-									R.drawable.file_notok));
+							//iv.setImageDrawable(getResources().getDrawable(R.drawable.file_notok));
+							iv.setImageBitmap(scaleDrawableById(R.drawable.file_notok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
 						else
-							iv.setImageDrawable(getResources().getDrawable(
-									R.drawable.file_ok));
+							//iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+							iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
 					} else if (rdrName.startsWith("Intent:"))
 						// iv.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_view));
-						iv.setImageDrawable(getResources().getDrawable(
-								R.drawable.icon));
+						//iv.setImageDrawable(getResources().getDrawable(R.drawable.icon));
+						iv.setImageBitmap(scaleDrawableById(R.drawable.icon,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
 					else {
 						if (icons.containsKey(rdrName))
-							iv.setImageDrawable(icons.get(rdrName));
+							//iv.setImageDrawable(icons.get(rdrName));
+							iv.setImageBitmap(scaleDrawable(icons.get(rdrName),Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
 						else
-							iv.setImageDrawable(getResources().getDrawable(
-									R.drawable.file_ok));
+							//iv.setImageDrawable(getResources().getDrawable(R.drawable.file_ok));
+							iv.setImageBitmap(scaleDrawableById(R.drawable.file_ok,Integer.parseInt(prefs.getString("firstLineIconSizePx", "48"))));
 					}
 				}
-
+				}
+				
 				// special cases in dname & fname
 				// dname empty - in root dir
 				// fname empty with dname empty - root dir as is
@@ -814,11 +834,27 @@ public class ResultsActivity extends Activity {
 		});
 
 		final Button upScroll = (Button) findViewById(R.id.upscroll_btn);
-		upScroll.setText(app.scrollStep + "%");
+        if(prefs.getBoolean("disableScrollJump", true)==false) {
+        	upScroll.setText(app.scrollStep + "%");
+        	}
+        else {
+        	upScroll.setText(getResources().getString(R.string.jv_relaunch_prev));
+        }
     	class upScrlSimpleOnGestureListener extends SimpleOnGestureListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
 				// GridView gv = (GridView) findViewById(R.id.results_list);
+            	if(DeviceInfo.EINK_NOOK) { // nook
+					MotionEvent ev;
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,100,0);
+					gv.dispatchTouchEvent(ev);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,200,0);
+					gv.dispatchTouchEvent(ev);
+					SystemClock.sleep(100);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,200,0);
+					gv.dispatchTouchEvent(ev);
+				}
+            	else { // other devices
 				int first = gv.getFirstVisiblePosition();
 				int visible = gv.getLastVisiblePosition() - gv.getFirstVisiblePosition() + 1;
 				int total = itemsArray.size();
@@ -831,10 +867,12 @@ public class ResultsActivity extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }            	
+            	}
                 return true;
             }
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+            	if(prefs.getBoolean("disableScrollJump", true)==false) {
 				int first = gv.getFirstVisiblePosition();
 				int total = itemsArray.size();
 				first -= (total * app.scrollStep) / 100;
@@ -846,11 +884,13 @@ public class ResultsActivity extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }            	
+            	}
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(upScroll.hasWindowFocus()) {
+            		if(prefs.getBoolean("disableScrollJump", true)==false) {
     				int first = gv.getFirstVisiblePosition();
     				int total = itemsArray.size();
     				first = 0;
@@ -862,6 +902,7 @@ public class ResultsActivity extends Activity {
                     	}
             		}
             	}
+            }
         };
         upScrlSimpleOnGestureListener upscrl_gl = new upScrlSimpleOnGestureListener();
         final GestureDetector upscrl_gd = new GestureDetector(upscrl_gl);
@@ -889,13 +930,56 @@ public class ResultsActivity extends Activity {
 			}
 		});
 		*/
-		
+
+        class RepeatedDownScroll {
+			public void doIt(int first,int target, int shift) {
+				final GridView gv = (GridView) findViewById(R.id.gl_list);
+                int total = gv.getCount();
+                int last = gv.getLastVisiblePosition();
+                if(total==last+1) return;
+                final int ftarget = target + shift;
+                gv.clearFocus();
+                gv.post(new Runnable() {
+                    public void run() {
+                    	gv.setSelection(ftarget);
+                    }
+                });
+                final int ffirst = first;
+                final int fshift = shift;
+                gv.postDelayed(new Runnable() {
+                    public void run() {
+                    	int nfirst = gv.getFirstVisiblePosition();
+                    	if(nfirst==ffirst) {
+                    		RepeatedDownScroll ds = new RepeatedDownScroll();
+                    		ds.doIt(ffirst, ftarget, fshift+1);
+                    	}
+                    }
+                },100); 
+			}
+		}
+        
 		final Button downScroll = (Button) findViewById(R.id.downscroll_btn);
-		downScroll.setText(app.scrollStep + "%");
+			 if(prefs.getBoolean("disableScrollJump", true)==false) {
+		        	downScroll.setText(app.scrollStep + "%");
+		        	}
+		        else {
+		        	downScroll.setText(getResources().getString(R.string.jv_relaunch_next));
+		        }
     	class dnScrlSimpleOnGestureListener extends SimpleOnGestureListener {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
 				// GridView gv = (GridView) findViewById(R.id.results_list);
+            	if(DeviceInfo.EINK_NOOK) { // nook special
+					MotionEvent ev;
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,200,0);
+					gv.dispatchTouchEvent(ev);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,100,0);
+					gv.dispatchTouchEvent(ev);
+					SystemClock.sleep(100);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,100,0);
+					gv.dispatchTouchEvent(ev);
+				}     
+				else { // other devices
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
@@ -909,30 +993,36 @@ public class ResultsActivity extends Activity {
                 	gv.requestFocusFromTouch();
                 	gv.setSelection(first);
                 }            	
+				}
                 return true;
             }
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+            	if(prefs.getBoolean("disableScrollJump", true)==false) {
                 int first = gv.getFirstVisiblePosition();
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
-                first += (total * app.scrollStep) / 100;
-                if (first <= last)
-                    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
-                if (first > (total-1))
-                    first = total-1;
-                gv.setSelection(first);
+                int target = first +(total * app.scrollStep) / 100;
+                if (target <= last)
+                    target = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                if (target > (total-1))
+                    target = total-1;
+                RepeatedDownScroll ds = new RepeatedDownScroll();
+        		ds.doIt(first, target, 0);  
+                //gv.setSelection(first);
                 // some hack workaround against not scrolling in some cases
-                if(total>0) {
-                	gv.requestFocusFromTouch();
-                	gv.setSelection(first);
-                }            	
+                //if(total>0) {
+                //	gv.requestFocusFromTouch();
+                //	gv.setSelection(first);
+                //}     
+            	}
                 return true;
             }                    
             @Override
             public void onLongPress(MotionEvent e) {
             	if(downScroll.hasWindowFocus()) {
+            		if(prefs.getBoolean("disableScrollJump", true)==false) {
                     int first = gv.getFirstVisiblePosition();
                     int total = itemsArray.size();
                     int last = gv.getLastVisiblePosition();
@@ -950,6 +1040,7 @@ public class ResultsActivity extends Activity {
                     	}	            	
             		}
             	}
+            }
         };
         dnScrlSimpleOnGestureListener dnscrl_gl = new dnScrlSimpleOnGestureListener();
         final GestureDetector dnscrl_gd = new GestureDetector(dnscrl_gl);
