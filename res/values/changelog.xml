@@ -16,7 +16,11 @@
         </string>
     <string name="whats_new">
         &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
-        &lt;b&gt;1.3.0pre2&lt;/b&gt;&lt;br&gt;
+        &lt;b&gt;1.3.0pre3&lt;/b&gt;&lt;br&gt;
+        - fixed filtering on directories, now not under filtering&lt;br&gt;
+        - some fixes in search (strange behavior)&lt;br&gt;
+        - quick scroll in "results screens" fixes&lt;br&gt;
+        - preferences "save dialog" only after changing something&lt;br&gt;
         - added ability configure icon size&lt;br&gt;
         - added on-screen scroll buttons for preferences&lt;br&gt;
         - added ability to disable (buggy) percentage scroll on Nook&lt;br&gt;

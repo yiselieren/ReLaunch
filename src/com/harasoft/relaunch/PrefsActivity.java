@@ -31,7 +31,10 @@ public class PrefsActivity extends PreferenceActivity implements
 		OnSharedPreferenceChangeListener {
 	final String TAG = "PreferenceActivity";
 	final static public int TYPES_ACT = 1;
+	final static public int FILTS_ACT = 2;
 
+	boolean	settings_changed = false;
+	
 	ReLaunchApp app;
 	List<String> applicationsArray;
 	CharSequence[] applications;
@@ -373,7 +376,7 @@ public class PrefsActivity extends PreferenceActivity implements
 					public void onClick(View v) {
 						Intent intent = new Intent(PrefsActivity.this,
 								FiltersActivity.class);
-						startActivity(intent);
+						startActivityForResult(intent, FILTS_ACT);
 					}
 				});
 		((Button) findViewById(R.id.associations))
@@ -452,6 +455,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		((ImageButton) findViewById(R.id.back_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						if(settings_changed) {
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								pact);
 						// builder.setTitle("Decline changes warning");
@@ -498,6 +502,10 @@ public class PrefsActivity extends PreferenceActivity implements
 									}
 								});
 						builder.show();
+						}
+						else {
+							finish();
+						}
 					}
 				});
 
@@ -625,6 +633,9 @@ public class PrefsActivity extends PreferenceActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
+		if (resultCode == Activity.RESULT_OK) {
+			settings_changed = true;
+		}
 		if (resultCode != Activity.RESULT_OK)
 			return;
 		switch (requestCode) {
@@ -643,6 +654,9 @@ public class PrefsActivity extends PreferenceActivity implements
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
+		
+		settings_changed = true;
+		
 		final Preference pref = findPreference(key);
 		// update summary
 		if (pref instanceof ListPreference) {

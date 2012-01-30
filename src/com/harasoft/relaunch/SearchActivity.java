@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -273,8 +272,21 @@ public class SearchActivity extends Activity {
                 //// DEBUG
                 //for (String[] r : searchResults)
                 //      Log.d(TAG, "Found dir: \"" + r[0] + "\"; file: \"" + r[1] + "\"");
-                if (search_sort)
-                    Collections.sort(searchResults, app.getO1Comparator());
+                if (search_sort) {
+                	final class SRComparator implements java.util.Comparator<String[]>
+                    {
+                        public int compare(String[] o1, String[] o2)
+                        {
+                            int rc = o1[1].compareTo(o2[1]);
+                            // next commented, reason - sometimes don't work with russian on Nook 8()
+                            //if (rc == 0)
+                            //    return o1[0].compareTo(o2[0]);
+                            //else
+                            	return rc;                        }
+                    }
+                    SRComparator o1c = new SRComparator();
+                	Collections.sort(searchResults, o1c);
+                }
                 app.setList("searchResults", searchResults);
                 Intent intent = new Intent(SearchActivity.this, ResultsActivity.class);
                 intent.putExtra("list", "searchResults");

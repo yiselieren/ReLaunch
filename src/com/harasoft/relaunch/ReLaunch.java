@@ -1308,7 +1308,7 @@ public class ReLaunch extends Activity {
                     		ds.doIt(ffirst, ftarget, fshift+1);
                     	}
                     }
-                },100); 
+                },150); 
 			}
 		}
         
@@ -1334,20 +1334,20 @@ public class ReLaunch extends Activity {
 					gv.dispatchTouchEvent(ev);
 				}     
 				else { // other devices
-                //int first = gv.getFirstVisiblePosition();
-                int total = itemsArray.size();
-                int last = gv.getLastVisiblePosition();
-                if(total==last+1) return true;
-                int target = last+1;
-                if (target > (total-1))
-                    target = total-1;
-           		//RepeatedDownScroll ds = new RepeatedDownScroll();
-        		//ds.doIt(first, target, 0);                
-                gv.setSelection(target);
-                if(total>0) {
-                	gv.requestFocusFromTouch();
-                	gv.setSelection(target);
-                }
+					int first = gv.getFirstVisiblePosition();
+					int total = itemsArray.size();
+					int last = gv.getLastVisiblePosition();
+					if(total==last+1) return true;
+					int target = last+1;
+					if (target > (total-1))
+						target = total-1;
+					RepeatedDownScroll ds = new RepeatedDownScroll();
+					ds.doIt(first, target, 0);                
+					//	gv.setSelection(target);
+					//if(total>0) {
+					//	gv.requestFocusFromTouch();
+					//	gv.setSelection(target);
+					//	}
 				}
                 return true;
             }
@@ -1384,17 +1384,18 @@ public class ReLaunch extends Activity {
                     int total = itemsArray.size();
                     int last = gv.getLastVisiblePosition();
                     if(total==last+1) return;
-                    first = total-1;
+                    int target = total-1;
                     //if (first <= last)
                     //    first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
                     //if (first > (total-1))
                     //    first = total-1;
-                    gv.setSelection(first);
-                    // some hack workaround against not scrolling in some cases
-                    if(total>0) {
-                    	gv.requestFocusFromTouch();
-                    	gv.setSelection(first);
-                    	}
+               		RepeatedDownScroll ds = new RepeatedDownScroll();
+            		ds.doIt(first, target, 0);
+                    //gv.setSelection(first);
+                    //if(total>0) {
+                    //	gv.requestFocusFromTouch();
+                    //	gv.setSelection(first);
+                    //	}
             		}
             	}
             }

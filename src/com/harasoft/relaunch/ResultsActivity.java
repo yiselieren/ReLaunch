@@ -408,7 +408,7 @@ public class ResultsActivity extends Activity {
 			List<HashMap<String, String>> newItemsArray = new ArrayList<HashMap<String, String>>();
 
 			for (HashMap<String, String> item : itemsArray) {
-				if (app.filterFile(item.get("dname"), item.get("fname")))
+				if (app.filterFile(item.get("dname"), item.get("fname")) || item.get("type").equals("dir"))
 					newItemsArray.add(item);
 			}
 			itemsArray = newItemsArray;
@@ -453,7 +453,7 @@ public class ResultsActivity extends Activity {
 		itemsArray = new ArrayList<HashMap<String, String>>();
 		for (String[] n : app.getList(listName)) {
 			if (!prefs.getBoolean("filterResults", false)
-					|| app.filterFile(n[0], n[1])) {
+					|| ( prefs.getBoolean("filterResults", false) && app.filterFile(n[0], n[1])) || (n[1].equals(app.DIR_TAG)) ) {
 				HashMap<String, String> item = new HashMap<String, String>();
 				item.put("dname", n[0]);
 				item.put("fname", n[1]);
@@ -933,7 +933,7 @@ public class ResultsActivity extends Activity {
 
         class RepeatedDownScroll {
 			public void doIt(int first,int target, int shift) {
-				final GridView gv = (GridView) findViewById(R.id.gl_list);
+				final GridView gv = (GridView) findViewById(R.id.results_list);
                 int total = gv.getCount();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return;
@@ -954,7 +954,7 @@ public class ResultsActivity extends Activity {
                     		ds.doIt(ffirst, ftarget, fshift+1);
                     	}
                     }
-                },100); 
+                },150); 
 			}
 		}
         
@@ -984,15 +984,16 @@ public class ResultsActivity extends Activity {
                 int total = itemsArray.size();
                 int last = gv.getLastVisiblePosition();
                 if(total==last+1) return true;
-                first = last + 1;
-                if (first > (total-1))
-                    first = total-1;
-                gv.setSelection(first);
-                // some hack workaround against not scrolling in some cases
-                if(total>0) {
-                	gv.requestFocusFromTouch();
-                	gv.setSelection(first);
-                }            	
+                int target = last + 1;
+                if (target > (total-1))
+                	target = total-1;
+                RepeatedDownScroll ds = new RepeatedDownScroll();
+        		ds.doIt(first, target, 0);                
+                //gv.setSelection(first);
+                //if(total>0) {
+                //	gv.requestFocusFromTouch();
+                //	gv.setSelection(first);
+                //	}
 				}
                 return true;
             }
@@ -1027,17 +1028,18 @@ public class ResultsActivity extends Activity {
                     int total = itemsArray.size();
                     int last = gv.getLastVisiblePosition();
                     if(total==last+1) return;
-                    first = total - 1;
-                    if (first <= last)
-                        first = last+1;  // Special for NOOK, otherwise it won't redraw the listview
-                    if (first > (total-1))
-                        first = total-1;
-                    gv.setSelection(first);
-                    // some hack workaround against not scrolling in some cases
-                    if(total>0) {
-                    	gv.requestFocusFromTouch();
-                    	gv.setSelection(first);
-                    	}	            	
+                    int target = total - 1;
+                    if (target <= last)
+                        target = last+1;  // Special for NOOK, otherwise it won't redraw the listview
+                    if (target > (total-1))
+                        target = total-1;
+                    RepeatedDownScroll ds = new RepeatedDownScroll();
+            		ds.doIt(first, target, 0);                    
+                    //gv.setSelection(first);
+                    //if(total>0) {
+                    //	gv.requestFocusFromTouch();
+                    //	gv.setSelection(first);
+                    //	}	            	
             		}
             	}
             }
