@@ -1,26 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent"
-	android:layout_width="fill_parent" 
-	android:id="@+id/linearLayout1"
-    android:orientation="vertical" android:background="@color/normal_bg" android:paddingBottom="8dp">
-    <TableLayout android:layout_width="fill_parent" android:stretchColumns="1" android:paddingBottom="0dp" android:paddingRight="10dp" android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:paddingTop="5dp" android:layout_weight="1">
-        <TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1" android:layout_width="fill_parent" android:gravity="center_vertical">
-            <TextView android:text="@string/filters_item_layout_rule" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical" android:layout_width="wrap_content" android:id="@+id/filters_name_title" android:textColor="@color/normal_fg" android:textStyle="bold" android:gravity="center_horizontal"></TextView>
-            <LinearLayout android:id="@+id/linearLayout2" android:layout_weight="1" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:gravity="center_horizontal">
-                <Spinner android:id="@+id/filters_method" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="fill_parent" android:layout_gravity="center_vertical|center" android:layout_marginLeft="4dp" android:paddingLeft="8dp"></Spinner>
-                <ImageButton android:id="@+id/filters_delete" android:src="@drawable/ci_delsmall" android:layout_width="42dp" android:layout_gravity="top|center_horizontal" android:layout_height="42dp" android:layout_marginLeft="4dp" android:background="@drawable/main_button"></ImageButton>
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:paddingBottom="8dp" >
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="0dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:stretchColumns="1" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/filters_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="center_horizontal"
+                android:text="@string/filters_item_layout_rule"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/filters_method"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp" >
+                </Spinner>
+
+                <ImageButton
+                    android:id="@+id/filters_delete"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/main_button"
+                    android:src="@drawable/ci_delsmall" >
+                </ImageButton>
             </LinearLayout>
         </TableRow>
-        <TableRow android:layout_height="fill_parent" android:id="@+id/tableRow2" android:layout_width="fill_parent" android:layout_marginTop="8dp">
-            <TextView android:text="@string/filters_item_layout_value" android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/filters_type_title" android:layout_height="wrap_content" android:layout_gravity="right|center_vertical" android:layout_width="wrap_content" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-            <LinearLayout android:id="@+id/linearLayout2" android:layout_weight="1" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent">
-                <Button android:id="@+id/filters_type" android:layout_height="fill_parent" android:layout_width="fill_parent" android:layout_gravity="center" android:layout_marginLeft="4dp" android:paddingLeft="8dp" android:layout_weight="1"></Button>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="8dp" >
+
+            <TextView
+                android:id="@+id/filters_type_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:text="@string/filters_item_layout_value"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/filters_type"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp" >
+                </Button>
             </LinearLayout>
-         </TableRow>
-         <TableRow android:layout_height="fill_parent" android:id="@+id/tableRow3" android:layout_width="fill_parent" android:layout_marginTop="8dp">
-            <TextView android:text="Value:" android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/filters_pad1" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_width="wrap_content" android:visibility="invisible"></TextView>
-            <TextView android:id="@+id/filters_condition" android:text="@string/filters_item_layout_and" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_gravity="center" android:layout_height="fill_parent" android:gravity="center" android:layout_width="fill_parent" android:textColor="@color/normal_fg" android:textStyle="bold"></TextView>
-         </TableRow>        
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="8dp" >
+
+            <TextView
+                android:id="@+id/filters_pad1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Value:"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="invisible" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/filters_condition"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/filters_item_layout_and"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+        </TableRow>
     </TableLayout>
+
 </LinearLayout>

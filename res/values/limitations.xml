@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="allowed_devices">
         <item>zoom2</item>
         <item>EBX-5047</item>
@@ -14,5 +15,6 @@
     </string-array>
     <string-array name="allowed_products">
         <item>NOOK</item>
-    </string-array>    
+    </string-array>
+
 </resources>

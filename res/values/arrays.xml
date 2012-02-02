@@ -113,7 +113,7 @@
         <item>Open Favorites #</item>
         <item>Open Favorites menu</item>
         <item>Open Favorites screen</item>
-    </string-array>        
+    </string-array>
     <string-array name="advanced_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>
@@ -145,7 +145,7 @@
         <item>Power Off device</item>
         <item>Switch WiFi state</item>
         <item>Run application </item>
-    </string-array>    
+    </string-array>
     <string-array name="mem_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>

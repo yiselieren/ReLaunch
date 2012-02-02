@@ -66,14 +66,6 @@
             android:background="@drawable/main_button"
             android:src="@drawable/ci_gear2" >
         </ImageButton>
-        <!--
-        <ImageButton
-            android:id="@+id/about_btn"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_info_details" android:layout_marginLeft="4dp"/>
-        -->
     </LinearLayout>
 
     <Button
@@ -117,7 +109,8 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableLeft="@drawable/ci_arrowup"
-            android:paddingLeft="8dp" android:text="0%">
+            android:paddingLeft="8dp"
+            android:text="0%" >
         </Button>
 
         <Button
@@ -142,25 +135,6 @@
             android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
-    <!--
-    <LinearLayout
-        android:id="@+id/fl_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="4dp"
-        android:layout_weight="1"
-        android:background="@color/normal_bg" >
-
-        <ListView
-            android:id="@+id/fl_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:divider="@color/normal_transparent"
-            android:fadeScrollbars="false" >
-        </ListView>
-    </LinearLayout>
-    -->
 
     <LinearLayout
         android:id="@+id/gl_layout"

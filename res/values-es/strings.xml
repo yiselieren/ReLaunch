@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string  name="app_name">ReLaunch</string>
-    <string name="model_warning">&lt;h2&gt;Esta aplicación está diseñada sólo para el Nook Simple Touch y el Sony PRS-T1&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;¿Desea continuar?&lt;/b&gt;&lt;/center&gt;</string>
+
+    <string name="app_name">ReLaunch</string>
+    <string name="model_warning">&lt;h2>Esta aplicación está diseñada sólo para el Nook Simple Touch y el Sony PRS-T1&lt;/h2>&lt;br>&lt;center>&lt;b>¿Desea continuar?&lt;/b>&lt;/center></string>
     <string name="advanced_layout_switch_wifi_off">Activar WiFi</string>
     <string name="advanced_layout_setting_wifi">Configuración WiFi</string>
     <string name="advanced_layout_scan">Escanear</string>
@@ -9,12 +10,12 @@
     <string name="advanced_layout_reboot">Reiniciar</string>
     <string name="advanced_layout_poweroff">Apagar</string>
     <string name="editor_layout_save">Guardar</string>
-    <string name="editor_layout_viewtitle">EDICIÓN</string>
+    <string name="editor_layout_viewtitle">== EDICIÓN ==</string>
     <string name="editor_layout_cancel">Cancelar</string>
     <string name="filters_item_layout_rule">Condición:</string>
     <string name="filters_item_layout_value">Valor:</string>
     <string name="filters_item_layout_and">Y</string>
-    <string name="filters_view_layout_title">Filtrar ajustes</string>    
+    <string name="filters_view_layout_title">Filtrar ajustes</string>
     <string name="filters_view_layout_ok">OK</string>
     <string name="filters_view_layout_add_new">Añadir nuevo</string>
     <string name="filters_view_layout_and">Y</string>
@@ -42,7 +43,7 @@
     <string name="search_layout_search">Búsqueda</string>
     <string name="search_layout_cancel">Cancelar</string>
     <string name="search_layout_show_all_books">Mostrar todos los libros(extensiones conocidas) búsqueda desde root</string>
-	<string name="search_layout_title">Búsqueda</string>    
+    <string name="search_layout_title">Búsqueda</string>
     <string name="service_details_layout_kill">Matar</string>
     <string name="service_details_layout_ok">OK</string>
     <string name="service_details_layout_piduid">PID/UID:</string>
@@ -70,9 +71,9 @@
     <string name="types_view_layout_cancel">Cancelar</string>
     <string name="types_view_layout_title">Ajustar Asociaciones</string>
     <string name="viewer_layout_edit">Editar</string>
-    <string name="viewer_layout_title">Visualizador integrado</string>
-	<string name="reboot_layout_text">REINICIAR\n\nEspere...</string>
-	<string name="poweroff_layout_text">Dispositivo apagado\n\nUsar botón de encendido para comenzar de nuevo...</string>    
+    <string name="viewer_layout_title">-- Visualizador integrado --</string>
+    <string name="reboot_layout_text">REINICIAR\n\nEspere...</string>
+    <string name="poweroff_layout_text">Dispositivo apagado\n\nUsar botón de encendido para comenzar de nuevo...</string>
     <string name="jv_advanced_connected">Conectado, IP:</string>
     <string name="jv_advanced_level">Nivel:</string>
     <string name="jv_advanced_notrange">No está en rango</string>
@@ -183,17 +184,17 @@
     <string name="jv_relaunch_launcher_text">Estás seguro de que quieres salir ?</string>
     <string name="jv_relaunch_lru">Abierto recientemente</string>
     <string name="jv_relaunch_fav">Favoritos</string>
-	<string name="jv_relaunch_home">Home</string>
-	<string name="jv_relaunch_select_columns">Elegir columnas</string>
-	<string name="jv_relaunch_default">Por defecto</string>
-	<string name="jv_relaunch_turning_wifi_on">WiFi está activada</string>
-	<string name="jv_relaunch_turning_wifi_off">WiFi está desactivado</string>
-	<string name="jv_relaunch_prev">anterior</string>
-	<string name="jv_relaunch_next">próximo</string>
+    <string name="jv_relaunch_home">Home</string>
+    <string name="jv_relaunch_select_columns">Elegir columnas</string>
+    <string name="jv_relaunch_default">Por defecto</string>
+    <string name="jv_relaunch_turning_wifi_on">WiFi está activada</string>
+    <string name="jv_relaunch_turning_wifi_off">WiFi está desactivado</string>
+    <string name="jv_relaunch_prev">anterior</string>
+    <string name="jv_relaunch_next">próximo</string>
     <string name="jv_rla_activity">Acción</string>
     <string name="jv_rla_not_found">no encontrado!</string>
-    <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;lanzador para el lector electrónico Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Versión: &lt;b&gt;</string>
-    <string name="jv_rla_about_post">&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Código fuente: &lt;a href=\"https://github.com/yiselieren/ReLaunch\"&gt;git://github.com/yiselieren/ReLaunch.git&lt;/a&gt;&lt;/center&gt;</string>
+    <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>lanzador para el lector electrónico Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Versión: &lt;b></string>
+    <string name="jv_rla_about_post">&lt;/b>&lt;/center>&lt;br>&lt;center>Código fuente: &lt;a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git&lt;/a>&lt;/center></string>
     <string name="jv_rla_ok">OK</string>
     <string name="jv_rla_see_changelog">Ver histórico de cambios (changelog)</string>
     <string name="jv_rla_whats_new_title">Histórico de cambios</string>
@@ -214,7 +215,7 @@
     <string name="jv_results_delete_file_text2">\?</string>
     <string name="jv_results_yes">SÍ</string>
     <string name="jv_results_no">NO</string>
-	<string name="jv_results_remove">Borrar de favoritos</string>    
+    <string name="jv_results_remove">Borrar de favoritos</string>
     <string name="jv_results_delete_em_dir_title">Eliminar advertencias de carpeta vacía</string>
     <string name="jv_results_delete_em_dir_text1">¿Estás seguro de eliminar la carpeta vacía</string>
     <string name="jv_results_delete_em_dir_text2">\?</string>
@@ -251,6 +252,5 @@
     <string name="jv_viewer_bytes">bytes</string>
     <string name="jv_viewer_maximum">El máximo tamaño de archivo permitido es</string>
     <string name="jv_viewer_ok">OK</string>
-    
-    
+
 </resources>

@@ -33,8 +33,8 @@ public class PrefsActivity extends PreferenceActivity implements
 	final static public int TYPES_ACT = 1;
 	final static public int FILTS_ACT = 2;
 
-	boolean	settings_changed = false;
-	
+	boolean settings_changed = false;
+
 	ReLaunchApp app;
 	List<String> applicationsArray;
 	CharSequence[] applications;
@@ -124,13 +124,13 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("favButtonDT", "NOTHING"));
 		defItems.add(new PrefItem("favButtonDTopenN", "1"));
 		defItems.add(new PrefItem("favButtonLT", "NOTHING"));
-		defItems.add(new PrefItem("favButtonLTopenN", "1"));		
+		defItems.add(new PrefItem("favButtonLTopenN", "1"));
 		defItems.add(new PrefItem("settingsButtonST", "RELAUNCH"));
 		defItems.add(new PrefItem("settingsButtonSTapp", "%%"));
 		defItems.add(new PrefItem("settingsButtonDT", "NOTHING"));
 		defItems.add(new PrefItem("settingsButtonDTapp", "%%"));
 		defItems.add(new PrefItem("settingsButtonLT", "NOTHING"));
-		defItems.add(new PrefItem("settingsButtonLTapp", "%%"));		
+		defItems.add(new PrefItem("settingsButtonLTapp", "%%"));
 		defItems.add(new PrefItem("advancedButtonST", "RELAUNCH"));
 		defItems.add(new PrefItem("advancedButtonSTapp", "%%"));
 		defItems.add(new PrefItem("advancedButtonDT", "NOTHING"));
@@ -161,7 +161,6 @@ public class PrefsActivity extends PreferenceActivity implements
 		// Scrollbar appearance settings
 		defItems.add(new PrefItem("disableScrollJump", true));
 		defItems.add(new PrefItem("scrollPerc", "10"));
-		// defItems.add(new PrefItem("customScroll", true));
 		defItems.add(new PrefItem("customScroll", app.customScrollDef));
 		defItems.add(new PrefItem("scrollWidth", "25"));
 		defItems.add(new PrefItem("scrollPad", "10"));
@@ -315,6 +314,7 @@ public class PrefsActivity extends PreferenceActivity implements
 				p.setSummary(listPref.getEntry());
 			}
 		}
+		// For future - even more intellectual Settings
 		// if (p instanceof EditTextPreference) {
 		// EditTextPreference editTextPref = (EditTextPreference) p;
 		// p.setSummary(editTextPref.getText());
@@ -331,7 +331,7 @@ public class PrefsActivity extends PreferenceActivity implements
 			updatePrefSummary(p);
 		}
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -387,12 +387,6 @@ public class PrefsActivity extends PreferenceActivity implements
 						startActivityForResult(intent, TYPES_ACT);
 					}
 				});
-		// ((Button) findViewById(R.id.prefs_ok))
-		// .setOnClickListener(new View.OnClickListener() {
-		// public void onClick(View v) {
-		// finish();
-		// }
-		// });
 		((Button) findViewById(R.id.restart_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
@@ -409,14 +403,13 @@ public class PrefsActivity extends PreferenceActivity implements
 					public void onClick(View v) {
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								pact);
-						// builder.setTitle("Default settings warning");
+						// "Default settings warning"
 						builder.setTitle(getResources().getString(
 								R.string.jv_prefs_default_settings_title));
-						// builder.setMessage("Are you sure to restore default settings?");
+						// "Are you sure to restore default settings?"
 						builder.setMessage(getResources().getString(
 								R.string.jv_prefs_default_settings_text));
-						// builder.setPositiveButton("Yes", new
-						// DialogInterface.OnClickListener() {
+						// "Yes"
 						builder.setPositiveButton(
 								getResources().getString(R.string.jv_prefs_yes),
 								new DialogInterface.OnClickListener() {
@@ -430,8 +423,7 @@ public class PrefsActivity extends PreferenceActivity implements
 										System.exit(0);
 									}
 								});
-						// builder.setNegativeButton("No", new
-						// DialogInterface.OnClickListener() {
+						// "No"
 						builder.setNegativeButton(
 								getResources().getString(R.string.jv_prefs_no),
 								new DialogInterface.OnClickListener() {
@@ -443,67 +435,60 @@ public class PrefsActivity extends PreferenceActivity implements
 						builder.show();
 					}
 				});
-		// ((Button) findViewById(R.id.cancel_btn))
-		// .setOnClickListener(new View.OnClickListener() {
-		// public void onClick(View v) {
-		// cancel();
-		// finish();
-		// }
-		// });
 		// back button - work as cancel
-		// final Activity pact = this;
 		((ImageButton) findViewById(R.id.back_btn))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						if(settings_changed) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(
-								pact);
-						// builder.setTitle("Decline changes warning");
-						builder.setTitle(getResources().getString(
-								R.string.jv_prefs_decline_changes_title));
-						// builder.setMessage("Are you sure to decline changes?");
-						builder.setMessage(getResources().getString(
-								R.string.jv_prefs_decline_changes_text));
-						// builder.setPositiveButton("Yes", new
-						// DialogInterface.OnClickListener() {
-						builder.setPositiveButton(
-								getResources().getString(R.string.jv_prefs_yes),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
-										mgr.set(AlarmManager.RTC,
-												System.currentTimeMillis() + 500,
-												app.RestartIntent);
-										System.exit(0);
-									}
-								});
-						// builder.setNegativeButton("No", new
-						// DialogInterface.OnClickListener() {
-						builder.setNegativeButton(
-								getResources().getString(
-										R.string.jv_prefs_cancel),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										dialog.dismiss();
-									}
-								});
-						// builder.setNeutralButton("Cancel", new
-						// DialogInterface.OnClickListener() {
-						builder.setNeutralButton(
-								getResources().getString(R.string.jv_prefs_no),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										dialog.dismiss();
-										cancel();
-										finish();
-									}
-								});
-						builder.show();
-						}
-						else {
+						if (settings_changed) {
+							AlertDialog.Builder builder = new AlertDialog.Builder(
+									pact);
+							// "Decline changes warning"
+							builder.setTitle(getResources().getString(
+									R.string.jv_prefs_decline_changes_title));
+							// "Are you sure to decline changes?"
+							builder.setMessage(getResources().getString(
+									R.string.jv_prefs_decline_changes_text));
+							// "Yes"
+							builder.setPositiveButton(
+									getResources().getString(
+											R.string.jv_prefs_yes),
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int whichButton) {
+											AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+											mgr.set(AlarmManager.RTC,
+													System.currentTimeMillis() + 500,
+													app.RestartIntent);
+											System.exit(0);
+										}
+									});
+							// "No"
+							builder.setNegativeButton(
+									getResources().getString(
+											R.string.jv_prefs_cancel),
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int whichButton) {
+											dialog.dismiss();
+										}
+									});
+							// "Cancel"
+							builder.setNeutralButton(
+									getResources().getString(
+											R.string.jv_prefs_no),
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int whichButton) {
+											dialog.dismiss();
+											cancel();
+											finish();
+										}
+									});
+							builder.show();
+						} else {
 							finish();
 						}
 					}
@@ -513,104 +498,85 @@ public class PrefsActivity extends PreferenceActivity implements
 			initSummary(getPreferenceScreen().getPreference(i));
 		}
 
-		// final ListView lv = (ListView) getListView();
-		ImageButton upScroll = (ImageButton)findViewById(R.id.btn_scrollup);
+		ImageButton upScroll = (ImageButton) findViewById(R.id.btn_scrollup);
 		upScroll.setOnClickListener(new View.OnClickListener() {
-		
+
 			public void onClick(View v) {
-				if(DeviceInfo.EINK_NOOK) {
+				if (DeviceInfo.EINK_NOOK) {
 					MotionEvent ev;
-					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,100,0);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_DOWN, 200, 100, 0);
 					getListView().dispatchTouchEvent(ev);
-					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,200,0);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis() + 100,
+							MotionEvent.ACTION_MOVE, 200, 200, 0);
 					getListView().dispatchTouchEvent(ev);
 					SystemClock.sleep(100);
-					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,200,0);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis(), MotionEvent.ACTION_UP,
+							200, 200, 0);
 					getListView().dispatchTouchEvent(ev);
-				}
-				else {
-				final ListView lv = (ListView) getListView();
-            	int first = lv.getFirstVisiblePosition(); 
-                int visible = lv.getLastVisiblePosition() - lv.getFirstVisiblePosition() + 1;
-                first -= visible;
-                if (first < 0)
-                    first = 0;
-                final int finfirst = first;
-                lv.clearFocus();
-                lv.post(new Runnable() {
+				} else {
+					final ListView lv = (ListView) getListView();
+					int first = lv.getFirstVisiblePosition();
+					int visible = lv.getLastVisiblePosition()
+							- lv.getFirstVisiblePosition() + 1;
+					first -= visible;
+					if (first < 0)
+						first = 0;
+					final int finfirst = first;
+					lv.clearFocus();
+					lv.post(new Runnable() {
 
-                    public void run() {
-                    	lv.setSelection(finfirst);
-                    }
-                }); 
-                }
+						public void run() {
+							lv.setSelection(finfirst);
+						}
+					});
+				}
 			}
 		});
-		
-		/*
-		class RepeatedDownScroll {
-			public void doIt(int first,int target, int shift) {
-				final ListView lv = (ListView) getListView();
-                int total = lv.getCount();
-                int last = lv.getLastVisiblePosition();
-                if(total==last+1) return;
-                final int ftarget = target + shift;
-                lv.clearFocus();
-                lv.post(new Runnable() {
-                    public void run() {
-                    	lv.setSelection(ftarget);
-                    }
-                });
-                final int ffirst = first;
-                final int fshift = shift;
-                lv.postDelayed(new Runnable() {
-                    public void run() {
-                    	int nfirst = lv.getFirstVisiblePosition();
-                    	if(nfirst==ffirst) {
-                    		RepeatedDownScroll ds = new RepeatedDownScroll();
-                    		ds.doIt(ffirst, ftarget, fshift+1);
-                    	}
-                    }
-                },100);                
-			}
-		}
-		*/
-		
-		ImageButton downScroll = (ImageButton)findViewById(R.id.btn_scrolldown);
+
+		ImageButton downScroll = (ImageButton) findViewById(R.id.btn_scrolldown);
 		downScroll.setOnClickListener(new View.OnClickListener() {
-		
+
 			public void onClick(View v) {
-				if(DeviceInfo.EINK_NOOK) {
+				if (DeviceInfo.EINK_NOOK) {
 					MotionEvent ev;
-					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_DOWN,200,200,0);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_DOWN, 200, 200, 0);
 					getListView().dispatchTouchEvent(ev);
-					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis()+100,MotionEvent.ACTION_MOVE,200,100,0);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis() + 100,
+							MotionEvent.ACTION_MOVE, 200, 100, 0);
 					getListView().dispatchTouchEvent(ev);
 					SystemClock.sleep(100);
-					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,200,100,0);
+					ev = MotionEvent.obtain(SystemClock.uptimeMillis(),
+							SystemClock.uptimeMillis(), MotionEvent.ACTION_UP,
+							200, 100, 0);
 					getListView().dispatchTouchEvent(ev);
-					}
-				else {
+				} else {
 					final ListView lv = (ListView) getListView();
-					// int first = lv.getFirstVisiblePosition();
 					int total = lv.getCount();
 					int last = lv.getLastVisiblePosition();
-					if(total==last+1) return;
+					if (total == last + 1)
+						return;
 					int target = last + 1;
-					if (target > (total-1))
-						target = total-1;
+					if (target > (total - 1))
+						target = total - 1;
 					final int ftarget = target;
 					lv.clearFocus();
 					lv.post(new Runnable() {
-					    public void run() {
-					    	lv.setSelection(ftarget);
-					    }
+						public void run() {
+							lv.setSelection(ftarget);
+						}
 					});
 				}
-            
+
 			}
 		});
-		
+
 		ScreenOrientation.set(this, prefs);
 	}
 
@@ -632,7 +598,6 @@ public class PrefsActivity extends PreferenceActivity implements
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// Log.d(TAG, "onActivityResult, " + requestCode + " " + resultCode);
 		if (resultCode == Activity.RESULT_OK) {
 			settings_changed = true;
 		}
@@ -641,8 +606,6 @@ public class PrefsActivity extends PreferenceActivity implements
 		switch (requestCode) {
 		case TYPES_ACT:
 			String newTypes = ReLaunch.createReadersString(app.getReaders());
-			// Log.d(TAG, "New types string: \"" + newTypes + "\"");
-
 			SharedPreferences.Editor editor = prefs.edit();
 			editor.putString("types", newTypes);
 			editor.commit();
@@ -654,9 +617,9 @@ public class PrefsActivity extends PreferenceActivity implements
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		
+
 		settings_changed = true;
-		
+
 		final Preference pref = findPreference(key);
 		// update summary
 		if (pref instanceof ListPreference) {
@@ -671,8 +634,7 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "OPENN").equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
-					// builder1.setTitle("Select number");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -680,13 +642,12 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"homeButtonSTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("OK",
+					// "OK"
 					builder1.setPositiveButton(
 							getResources().getString(R.string.jv_prefs_ok),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -709,7 +670,7 @@ public class PrefsActivity extends PreferenceActivity implements
 						.equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -717,13 +678,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"homeButtonDTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("Ok", new
-					// DialogInterface.OnClickListener() {
+					// "Ok"
 					builder1.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -746,7 +705,7 @@ public class PrefsActivity extends PreferenceActivity implements
 						"OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -754,13 +713,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"homeButtonLTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("Ok", new
-					// DialogInterface.OnClickListener() {
+					// "Ok"
 					builder1.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -780,11 +737,11 @@ public class PrefsActivity extends PreferenceActivity implements
 			}
 			// LRU
 			if (key.equals("lruButtonST")) {
-				if (sharedPreferences.getString(key, "OPENSCREEN").equals("OPENN")) {
+				if (sharedPreferences.getString(key, "OPENSCREEN").equals(
+						"OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
-					// builder1.setTitle("Select number");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -792,13 +749,12 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"lruButtonSTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("OK",
+					// "OK"
 					builder1.setPositiveButton(
 							getResources().getString(R.string.jv_prefs_ok),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -817,11 +773,10 @@ public class PrefsActivity extends PreferenceActivity implements
 				}
 			}
 			if (key.equals("lruButtonDT")) {
-				if (sharedPreferences.getString(key, "NOTHING")
-						.equals("OPENN")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -829,13 +784,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"lruButtonDTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("Ok", new
-					// DialogInterface.OnClickListener() {
+					// "Ok"
 					builder1.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -854,11 +807,10 @@ public class PrefsActivity extends PreferenceActivity implements
 				}
 			}
 			if (key.equals("lruButtonLT")) {
-				if (sharedPreferences.getString(key, "NOTHING").equals(
-						"OPENN")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -866,13 +818,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"lruButtonLTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("Ok", new
-					// DialogInterface.OnClickListener() {
+					// "Ok"
 					builder1.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -892,11 +842,11 @@ public class PrefsActivity extends PreferenceActivity implements
 			}
 			// FAV
 			if (key.equals("favButtonST")) {
-				if (sharedPreferences.getString(key, "OPENSCREEN").equals("OPENN")) {
+				if (sharedPreferences.getString(key, "OPENSCREEN").equals(
+						"OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
-					// builder1.setTitle("Select number");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -904,13 +854,12 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"favButtonSTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("OK",
+					// "OK"
 					builder1.setPositiveButton(
 							getResources().getString(R.string.jv_prefs_ok),
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -929,11 +878,10 @@ public class PrefsActivity extends PreferenceActivity implements
 				}
 			}
 			if (key.equals("favButtonDT")) {
-				if (sharedPreferences.getString(key, "NOTHING")
-						.equals("OPENN")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -941,13 +889,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"favButtonDTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("Ok", new
-					// DialogInterface.OnClickListener() {
+					// "Ok"
 					builder1.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -966,11 +912,10 @@ public class PrefsActivity extends PreferenceActivity implements
 				}
 			}
 			if (key.equals("favButtonLT")) {
-				if (sharedPreferences.getString(key, "NOTHING").equals(
-						"OPENN")) {
+				if (sharedPreferences.getString(key, "NOTHING").equals("OPENN")) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder1.setTitle("Intent type");
+					// "Select number"
 					builder1.setTitle(getResources().getString(
 							R.string.jv_prefs_select_number));
 					final EditText input = new EditText(PrefsActivity.this);
@@ -978,13 +923,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					input.setText(sharedPreferences.getString(
 							"favButtonLTopenN", "1"));
 					builder1.setView(input);
-					// builder1.setPositiveButton("Ok", new
-					// DialogInterface.OnClickListener() {
+					// "Ok"
 					builder1.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// input.getText().toString()
 									InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 									imm.hideSoftInputFromWindow(
 											input.getWindowToken(), 0);
@@ -1001,13 +944,14 @@ public class PrefsActivity extends PreferenceActivity implements
 					imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 					builder1.show();
 				}
-			}			
+			}
 			if (key.equals("settingsButtonST")) {
 				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1028,8 +972,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1050,8 +995,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1067,13 +1013,14 @@ public class PrefsActivity extends PreferenceActivity implements
 							});
 					builder.show();
 				}
-			}			
+			}
 			if (key.equals("advancedButtonST")) {
 				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1094,8 +1041,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1116,8 +1064,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1138,8 +1087,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1160,8 +1110,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1182,8 +1133,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1204,8 +1156,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1226,8 +1179,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1248,8 +1202,9 @@ public class PrefsActivity extends PreferenceActivity implements
 				if (sharedPreferences.getString(key, "NOTHING").equals("RUN")) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(
 							PrefsActivity.this);
-					// builder2.setTitle("Select application");
-					builder.setTitle(getResources().getString(R.string.jv_prefs_select_application));
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
 					builder.setSingleChoiceItems(happlications, -1,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -1265,7 +1220,7 @@ public class PrefsActivity extends PreferenceActivity implements
 							});
 					builder.show();
 				}
-			}			
+			}
 		}
 	}
 }

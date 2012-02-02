@@ -6,17 +6,6 @@
     android:orientation="vertical"
     android:padding="8dp" >
 
-    <!--
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_weight="0.1" android:layout_height="2dp">
-        <Button android:layout_width="wrap_content" android:text="Save" android:layout_weight="0.1" android:id="@+id/edit_save" android:layout_height="fill_parent"></Button>
-        <LinearLayout android:id="@+id/linearLayout2" android:orientation="vertical" android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="fill_parent">
-           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:maxLines="1" android:text="EDITOR" android:layout_gravity="center" android:id="@+id/view_title1" android:layout_width="fill_parent" android:gravity="center" android:layout_weight="1" android:layout_height="0dp"></TextView>
-           <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#000000" android:background="#ffffff" android:maxLines="1" android:text="TextView" android:layout_gravity="center" android:layout_width="fill_parent" android:gravity="center" android:id="@+id/edit_title" android:layout_weight="1" android:layout_height="0dp"></TextView>
-        </LinearLayout>
-        <Button android:layout_width="wrap_content" android:text="Cancel" android:layout_weight="0.1" android:id="@+id/edit_cancel" android:layout_height="fill_parent"></Button>
-    </LinearLayout>
-    -->
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
@@ -38,9 +27,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:gravity="left|center"
                 android:maxLines="1"
-                android:padding="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
                 android:text="@string/editor_layout_viewtitle"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/normal_fg"
@@ -54,8 +46,12 @@
                 android:background="@color/normal_bg"
                 android:editable="false"
                 android:focusable="false"
-                android:gravity="center"
+                android:gravity="left"
                 android:inputType="textMultiLine"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
                 android:text="Filename"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/normal_fg"
@@ -71,14 +67,15 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
             android:layout_weight="0"
             android:background="@drawable/main_button"
             android:drawableLeft="@drawable/ci_save"
             android:minWidth="96dp"
             android:paddingRight="8dp"
-            android:text="@string/editor_layout_save" android:layout_marginLeft="4dp">
-        </Button>            
-            
+            android:text="@string/editor_layout_save" >
+        </Button>
+
         <Button
             android:id="@+id/edit_cancel"
             android:layout_width="wrap_content"

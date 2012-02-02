@@ -74,11 +74,6 @@
             android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
-    <!--
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/fl_layout" android:layout_marginTop="4dp">
-        <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="fill_parent" android:fadeScrollbars="false" android:layout_weight="1" android:divider="@color/normal_transparent"></ListView>
-    </LinearLayout>
-    -->
 
     <LinearLayout
         android:id="@+id/gl_layout"

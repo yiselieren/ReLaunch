@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/setting" android:title="Settings" android:icon="@drawable/ci_gear2">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ci_gear2"
+        android:title="Settings">
     </item>
-    <item android:id="@+id/about" android:title="Information" android:icon="@drawable/ci_question">
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ci_question"
+        android:title="Information">
     </item>
+
 </menu>

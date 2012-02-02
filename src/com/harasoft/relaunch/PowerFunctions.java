@@ -49,14 +49,13 @@ public class PowerFunctions {
 		File isrooted = new File("/system/bin", "su");
 		if (isrooted.exists()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(act);
-			// builder.setTitle("Reboot confirmation");
+			// "Reboot confirmation"
 			builder.setTitle(act.getResources().getString(
 					R.string.jv_advanced_reboot_confirm_title));
-			// builder.setMessage("Are you sure to reboot your device ? ");
+			// "Are you sure to reboot your device ? "
 			builder.setMessage(act.getResources().getString(
 					R.string.jv_advanced_reboot_confirm_text));
-			// builder.setPositiveButton("YES", new
-			// DialogInterface.OnClickListener() {
+			// "YES"
 			final Activity fact = act;
 			builder.setPositiveButton(
 					act.getResources().getString(R.string.jv_advanced_yes),
@@ -87,8 +86,7 @@ public class PowerFunctions {
 							}, 500);
 						}
 					});
-			// builder.setNegativeButton("NO", new
-			// DialogInterface.OnClickListener() {
+			// "NO"
 			builder.setNegativeButton(
 					act.getResources().getString(R.string.jv_advanced_no),
 					new DialogInterface.OnClickListener() {
@@ -111,14 +109,13 @@ public class PowerFunctions {
 		File isrooted = new File("/system/bin", "su");
 		if (isrooted.exists()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(act);
-			// builder.setTitle("Reboot confirmation");
+			// "Reboot confirmation"
 			builder.setTitle(act.getResources().getString(
 					R.string.jv_advanced_poweroff_confirm_title));
-			// builder.setMessage("Are you sure to reboot your device ? ");
+			// "Are you sure to reboot your device ? "
 			builder.setMessage(act.getResources().getString(
 					R.string.jv_advanced_poweroff_confirm_text));
-			// builder.setPositiveButton("YES", new
-			// DialogInterface.OnClickListener() {
+			// "YES"
 			final Activity fact = act;
 			builder.setPositiveButton(
 					act.getResources().getString(R.string.jv_advanced_yes),
@@ -149,8 +146,7 @@ public class PowerFunctions {
 							}, 500);
 						}
 					});
-			// builder.setNegativeButton("NO", new
-			// DialogInterface.OnClickListener() {
+			// "NO"
 			builder.setNegativeButton(
 					act.getResources().getString(R.string.jv_advanced_no),
 					new DialogInterface.OnClickListener() {

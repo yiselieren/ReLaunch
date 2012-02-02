@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="horizontal"
-  android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="@color/normal_bg" android:paddingBottom="2dp" android:paddingTop="2dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp" >
 
-  <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:layout_width="wrap_content" android:layout_height="fill_parent" android:id="@+id/wf_icon" android:layout_marginLeft="4dp"></ImageView>
-  <LinearLayout android:id="@+id/linearLayout1" android:background="@color/normal_bg" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="4dp">
-      <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="SSID" android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="@color/normal_fg" android:background="@color/normal_bg" android:layout_width="fill_parent" android:id="@+id/wf_ssid" android:layout_marginLeft="4dp"></TextView>
-      <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="capabilities" android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/normal_fg" android:background="@color/normal_bg"  android:layout_width="fill_parent" android:id="@+id/wf_capabilities" android:layout_marginLeft="4dp"></TextView>
-      <TextView android:gravity="center_vertical" android:layout_height="wrap_content" android:text="other" android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="@color/normal_fg" android:background="@color/normal_bg"  android:layout_width="fill_parent" android:id="@+id/wf_other" android:layout_marginLeft="4dp"></TextView>
-  </LinearLayout>
-    
+    <ImageView
+        android:id="@+id/wf_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="4dp"
+        android:background="@color/normal_bg"
+        android:src="@drawable/dir_ok" >
+    </ImageView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="4dp"
+        android:background="@color/normal_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/wf_ssid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="SSID"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/wf_capabilities"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="capabilities"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/wf_other"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="other"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,40 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:background="@color/normal_bg" android:layout_gravity="center" android:gravity="center">
-
-  <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/normal_bg" android:layout_gravity="center" android:layout_weight="1">
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/normal_bg"
+    android:gravity="center"
+    android:orientation="vertical" >
 
-    <ImageView android:src="@drawable/dir_ok" android:background="@color/normal_bg" android:id="@+id/app_icon" android:layout_height="48dp" android:layout_marginLeft="4dp" android:layout_width="48dp" android:layout_marginBottom="2dp" android:layout_marginRight="2dp" android:layout_marginTop="2dp"></ImageView>
-    <TextView android:gravity="center_vertical" android:text="App.name" android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="@color/normal_fg" android:background="@color/normal_bg" android:id="@+id/app_name" android:layout_width="0dp" android:layout_height="fill_parent" android:layout_weight="1" android:layout_marginLeft="4dp"></TextView>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@color/normal_bg"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/normal_bg"
+            android:src="@drawable/dir_ok" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="App.name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/verticalDivider"
+            android:layout_width="2dp"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000000" >
+        </TextView>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/verticalDivider"
-        android:layout_width="2dp"
-        android:layout_height="fill_parent"
+        android:id="@+id/horizontalDivider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_weight="1"
         android:background="@color/normal_bg"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#000000" >
-</TextView>
-  </LinearLayout>
+    </TextView>
 
-  <TextView
-      android:id="@+id/horizontalDivider"
-      android:layout_width="fill_parent"
-      android:layout_height="2dp"
-      android:layout_weight="1"
-      android:background="@color/normal_bg"
-      android:text=""
-      android:textAppearance="?android:attr/textAppearanceSmall"
-      android:textColor="#000000" >
-</TextView>
 </LinearLayout>

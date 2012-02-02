@@ -119,19 +119,6 @@
             android:title="\&apos;Create intent...\&apos; context menu item" >
         </CheckBoxPreference>
 
-        <!--
-        <ListPreference
-            android:defaultValue="5"
-            android:enabled="true"
-            android:entries="@array/GL16_modes_names"
-            android:entryValues="@array/GL16_modes_values"
-            android:key="gl16Mode"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="GL16 mode"
-            android:title="Screen update mode (GL16 mode)" />
-        -->
-
         <ListPreference
             android:defaultValue="NO"
             android:enabled="true"
@@ -164,30 +151,11 @@
 
     <PreferenceCategory android:title="Appearance" >
 
-        <!--
-        <EditTextPreference
-            android:defaultValue="8"
-            android:enabled="true"
-            android:key="firstLineFontSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Font size for files and directories names in all lists"
-            android:title="Files and directories names font size" />
-
-        <EditTextPreference
-            android:defaultValue="6"
-            android:enabled="true"
-            android:key="secondLineFontSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Font size for additional directories names in Favorites and so on lists"
-            android:title="Additional directories names font size" />
-        -->
-
         <EditTextPreference
             android:defaultValue="20"
             android:enabled="true"
             android:key="firstLineFontSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Font size for files and directories names in all lists... px"
@@ -197,6 +165,7 @@
             android:defaultValue="16"
             android:enabled="true"
             android:key="secondLineFontSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Font size for additional directories names in Favorites and so on lists"
@@ -206,6 +175,7 @@
             android:defaultValue="48"
             android:enabled="true"
             android:key="firstLineIconSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Icon size for files and directories... px (0 - disable icon)"
@@ -392,8 +362,8 @@
             android:key="settingsButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Settings Button Long Tap" />        
-        
+            android:title="Settings Button Long Tap" />
+
         <ListPreference
             android:defaultValue="RELAUNCH"
             android:enabled="true"
@@ -548,7 +518,7 @@
             android:defaultValue="true"
             android:key="disableScrollJump"
             android:persistent="true"
-            android:summaryOff="Fast scroll enabled (incorrect on Nook Simple Touch!)"
+            android:summaryOff="Fast scroll enabled (often inaccurate!)"
             android:summaryOn="Fast scroll disabled"
             android:title="Disable fast scroll with buttons" >
         </CheckBoxPreference>

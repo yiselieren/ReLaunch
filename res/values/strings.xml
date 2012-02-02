@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string  name="app_name">ReLaunch</string>
-    <string name="model_warning">&lt;h2&gt;The tool is for Nook Simple Touch or Sony PRS-T1 only!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Continue anyway ?&lt;/b&gt;&lt;/center&gt;</string>
+
+    <string name="app_name">ReLaunch</string>
+    <string name="model_warning">&lt;h2>The tool is for Nook Simple Touch or Sony PRS-T1 only!&lt;/h2>&lt;br>&lt;center>&lt;b>Continue anyway ?&lt;/b>&lt;/center></string>
     <string name="advanced_layout_switch_wifi_off">WiFi off</string>
     <string name="advanced_layout_setting_wifi">Setup WiFi</string>
     <string name="advanced_layout_scan">Scan</string>
@@ -9,12 +10,12 @@
     <string name="advanced_layout_reboot">Reboot</string>
     <string name="advanced_layout_poweroff">Power Off</string>
     <string name="editor_layout_save">Save</string>
-    <string name="editor_layout_viewtitle">EDITOR   --   EDITOR   --   EDITOR</string>
+    <string name="editor_layout_viewtitle">== EDITOR ==</string>
     <string name="editor_layout_cancel">Cancel</string>
     <string name="filters_item_layout_rule">Rule:</string>
     <string name="filters_item_layout_value">Value:</string>
     <string name="filters_item_layout_and">AND</string>
-    <string name="filters_view_layout_title">Filter Settings</string>    
+    <string name="filters_view_layout_title">Filter Settings</string>
     <string name="filters_view_layout_ok">OK</string>
     <string name="filters_view_layout_add_new">Add new</string>
     <string name="filters_view_layout_and">AND</string>
@@ -42,7 +43,7 @@
     <string name="search_layout_search">Search</string>
     <string name="search_layout_cancel">Cancel</string>
     <string name="search_layout_show_all_books">Show all books (known extensions) from search root</string>
-	<string name="search_layout_title">Search</string>    
+    <string name="search_layout_title">Search</string>
     <string name="service_details_layout_kill">Kill</string>
     <string name="service_details_layout_ok">OK</string>
     <string name="service_details_layout_piduid">PID/UID:</string>
@@ -70,9 +71,9 @@
     <string name="types_view_layout_cancel">Cancel</string>
     <string name="types_view_layout_title">Associations Settings</string>
     <string name="viewer_layout_edit">Edit</string>
-    <string name="viewer_layout_title">VIEWER   --   VIEWER   --   VIEWER</string>
-	<string name="reboot_layout_text">REBOOT\n\nWait...</string>
-	<string name="poweroff_layout_text">Powered Off\n\nUse Power button to start again...</string>    
+    <string name="viewer_layout_title">-- VIEWER --</string>
+    <string name="reboot_layout_text">REBOOT\n\nWait...</string>
+    <string name="poweroff_layout_text">Powered Off\n\nUse Power button to start again...</string>
     <string name="jv_advanced_connected">Connected, IP:</string>
     <string name="jv_advanced_level">Level:</string>
     <string name="jv_advanced_notrange">Not in range</string>
@@ -131,7 +132,7 @@
     <string name="jv_filters_and">AND</string>
     <string name="jv_filters_or">OR</string>
     <string name="jv_prefs_select_number">Select number</string>
-	<string name="jv_prefs_select_application">Select application</string>    
+    <string name="jv_prefs_select_application">Select application</string>
     <string name="jv_prefs_ok">OK</string>
     <string name="jv_prefs_decline_changes_title">Decline changes warning</string>
     <string name="jv_prefs_decline_changes_text">Do you want to save all configuration\'s changes?</string>
@@ -183,17 +184,17 @@
     <string name="jv_relaunch_launcher_text">Are you sure you want to quit ?</string>
     <string name="jv_relaunch_lru">Last opened</string>
     <string name="jv_relaunch_fav">Favorites</string>
-	<string name="jv_relaunch_home">Home</string>
-	<string name="jv_relaunch_select_columns">Select columns</string>
-	<string name="jv_relaunch_default">Default</string>
-	<string name="jv_relaunch_turning_wifi_on">WiFi is ON</string>
-	<string name="jv_relaunch_turning_wifi_off">WiFi is off</string>
-	<string name="jv_relaunch_prev">prev</string>
-	<string name="jv_relaunch_next">next</string>
+    <string name="jv_relaunch_home">Home</string>
+    <string name="jv_relaunch_select_columns">Select columns</string>
+    <string name="jv_relaunch_default">Default</string>
+    <string name="jv_relaunch_turning_wifi_on">WiFi is ON</string>
+    <string name="jv_relaunch_turning_wifi_off">WiFi is off</string>
+    <string name="jv_relaunch_prev">prev</string>
+    <string name="jv_relaunch_next">next</string>
     <string name="jv_rla_activity">Activity</string>
     <string name="jv_rla_not_found">not found!</string>
-    <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Reader launcher for Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>
-    <string name="jv_rla_about_post">&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Source code: &lt;a href=\"https://github.com/yiselieren/ReLaunch\"&gt;git://github.com/yiselieren/ReLaunch.git&lt;/a&gt;&lt;/center&gt;</string>
+    <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Reader launcher for Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
+    <string name="jv_rla_about_post">&lt;/b>&lt;/center>&lt;br>&lt;center>Source code: &lt;a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git&lt;/a>&lt;/center></string>
     <string name="jv_rla_ok">OK</string>
     <string name="jv_rla_see_changelog">Information</string>
     <string name="jv_rla_whats_new_title">Information</string>
@@ -214,7 +215,7 @@
     <string name="jv_results_delete_file_text2">\?</string>
     <string name="jv_results_yes">YES</string>
     <string name="jv_results_no">NO</string>
-	<string name="jv_results_remove">Remove from favorites</string>    
+    <string name="jv_results_remove">Remove from favorites</string>
     <string name="jv_results_delete_em_dir_title">Delete empty directory warning</string>
     <string name="jv_results_delete_em_dir_text1">Are you sure to delete empty directory</string>
     <string name="jv_results_delete_em_dir_text2">\?</string>
@@ -251,6 +252,5 @@
     <string name="jv_viewer_bytes">bytes</string>
     <string name="jv_viewer_maximum">Maximal allowed size is</string>
     <string name="jv_viewer_ok">OK</string>
-    
-    
+
 </resources>

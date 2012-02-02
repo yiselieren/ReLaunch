@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string  name="app_name">ReLaunch</string>
-    <string name="model_warning">
-    &lt;h2&gt;Эта программа разработана для Nook Simple Touch или Sony PRS-T1!&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;Хотите продолжить?&lt;/b&gt;&lt;/center&gt;</string>
+
+    <string name="app_name">ReLaunch</string>
+    <string name="model_warning">&lt;h2>Эта программа разработана для Nook Simple Touch или Sony PRS-T1!&lt;/h2>&lt;br>&lt;center>&lt;b>Хотите продолжить?&lt;/b>&lt;/center></string>
     <string name="advanced_layout_switch_wifi_off">Выкл. WiFi</string>
     <string name="advanced_layout_setting_wifi">Настройка WiFi</string>
     <string name="advanced_layout_scan">Поиск сетей</string>
     <string name="advanced_layout_lock">Заблокировать</string>
     <string name="advanced_layout_reboot">Перезагрузить</string>
     <string name="advanced_layout_poweroff">Выключить</string>
-    <string name="editor_layout_save">Сохранить</string>
-    <string name="editor_layout_viewtitle">РЕДАКТИРОВАНИЕ</string>
-    <string name="editor_layout_cancel">Отмена</string>
+    <string name="editor_layout_save">Сохр.</string>
+    <string name="editor_layout_viewtitle">== РЕДАКТИРОВАНИЕ ==</string>
+    <string name="editor_layout_cancel">Отм.</string>
     <string name="filters_item_layout_rule">Условие:</string>
     <string name="filters_item_layout_value">Значение:</string>
     <string name="filters_item_layout_and">И</string>
-    <string name="filters_view_layout_title">Настройки файлового фильтра</string> 
+    <string name="filters_view_layout_title">Настройки файлового фильтра</string>
     <string name="filters_view_layout_ok">OK</string>
     <string name="filters_view_layout_add_new">Новый</string>
     <string name="filters_view_layout_and">И</string>
@@ -43,7 +43,7 @@
     <string name="search_layout_search">Искать</string>
     <string name="search_layout_cancel">Отмена</string>
     <string name="search_layout_show_all_books">Показать все книги (известных расширений) в папках для поиска</string>
-    <string name="search_layout_title">Поиск</string>    
+    <string name="search_layout_title">Поиск</string>
     <string name="service_details_layout_kill">Завершить</string>
     <string name="service_details_layout_ok">OK</string>
     <string name="service_details_layout_piduid">PID / UID:</string>
@@ -63,17 +63,17 @@
     <string name="taskmanager_layout_sort_by_alpha">Сортировать по алфавиту</string>
     <string name="taskmanager_layout_tasks">Задачи</string>
     <string name="taskmanager_layout_services">Сервисы</string>
-	<string name="taskmanager_layout_wait">Ожидайте...</string>    
+    <string name="taskmanager_layout_wait">Ожидайте...</string>
     <string name="types_layout_file_suffix">Расширение файла:</string>
     <string name="types_layout_application">Приложение:</string>
     <string name="types_view_layout_ok">OK</string>
     <string name="types_view_layout_add_new">Новая</string>
     <string name="types_view_layout_cancel">Отмена</string>
-	<string name="types_view_layout_title">Настройка ассоциаций</string>    
-    <string name="viewer_layout_edit">Редактировать</string>
-    <string name="viewer_layout_title">ПРОСМОТР</string>
-	<string name="reboot_layout_text">ПЕРЕЗАГРУЗКА\n\nОжидайте...</string>
-	<string name="poweroff_layout_text">ВЫКЛЮЧЕНО\n\nНажмите кнопку Power для включения...</string>    
+    <string name="types_view_layout_title">Настройка ассоциаций</string>
+    <string name="viewer_layout_edit">Ред.</string>
+    <string name="viewer_layout_title">-- ПРОСМОТР --</string>
+    <string name="reboot_layout_text">ПЕРЕЗАГРУЗКА\n\nОжидайте...</string>
+    <string name="poweroff_layout_text">ВЫКЛЮЧЕНО\n\nНажмите кнопку Power для включения...</string>
     <string name="jv_advanced_connected">IP:</string>
     <string name="jv_advanced_level">Сигнал:</string>
     <string name="jv_advanced_notrange">Недоступно</string>
@@ -82,7 +82,7 @@
     <string name="jv_advanced_turn_wifi_off">Выкл. WiFi</string>
     <string name="jv_advanced_turning_wifi_on">Включение</string>
     <string name="jv_advanced_turn_wifi_on">Вкл. WiFi</string>
-    <string name="jv_advanced_title">Дополнительные функции и информация</string>
+    <string name="jv_advanced_title">Дополн. функции и информация</string>
     <string name="jv_advanced_reboot_confirm_title">Подтверждение перезагруки</string>
     <string name="jv_advanced_reboot_confirm_text">Вы действительно хотите перезагрузиться?</string>
     <string name="jv_advanced_yes">Да</string>
@@ -116,8 +116,8 @@
     <string name="jv_editor_save_text">Вы хотите сохранить изменения?</string>
     <string name="jv_editor_yes">Да</string>
     <string name="jv_editor_no">Нет</string>
-    <string name="jv_editor_back">Отмена</string>
-    <string name="jv_editor_cancel">Отмена</string>
+    <string name="jv_editor_back">Отм.</string>
+    <string name="jv_editor_cancel">Отм.</string>
     <string name="jv_editor_openerr_title">Ошибка открытия</string>
     <string name="jv_editor_openerr_text1">Невозможно открыть файл</string>
     <string name="jv_editor_openerr_text2">для записи</string>
@@ -137,7 +137,7 @@
     <string name="jv_prefs_decline_changes_title">Предупреждение</string>
     <string name="jv_prefs_decline_changes_text">Вы хотите сохранить все внесенные изменения?</string>
     <string name="jv_prefs_default_settings_title">Предупреждение</string>
-    <string name="jv_prefs_default_settings_text">Вы ДЕЙСТВИТЕЛЬНО хотите восстановить настройки по умолчанию?</string>    
+    <string name="jv_prefs_default_settings_text">Вы ДЕЙСТВИТЕЛЬНО хотите восстановить настройки по умолчанию?</string>
     <string name="jv_prefs_yes">Да</string>
     <string name="jv_prefs_no">Нет</string>
     <string name="jv_prefs_cancel">Отмена</string>
@@ -153,7 +153,7 @@
     <string name="jv_relaunch_fav_a">Избранные приложения</string>
     <string name="jv_relaunch_whats_new">Список изменений</string>
     <string name="jv_relaunch_ok">OK</string>
-    <string name="jv_relaunch_add">Добавить в \&quot;Избранное\&quot;</string>
+    <string name="jv_relaunch_add">Добавить в \"Избранное\"</string>
     <string name="jv_relaunch_mark">Отметить как прочтенное</string>
     <string name="jv_relaunch_unmark">Снять пометку о прочтении</string>
     <string name="jv_relaunch_unmarkall">Снять все пометки</string>
@@ -186,15 +186,15 @@
     <string name="jv_relaunch_fav">Избранное</string>
     <string name="jv_relaunch_home">Домашние папки</string>
     <string name="jv_relaunch_select_columns">Вывод данной папки</string>
-	<string name="jv_relaunch_default">По умолчанию</string>
-	<string name="jv_relaunch_turning_wifi_on">WiFi ВКЛЮЧЕН</string>
-	<string name="jv_relaunch_turning_wifi_off">WiFi выключен</string>
-	<string name="jv_relaunch_prev">пред.</string>
-	<string name="jv_relaunch_next">след.</string>
+    <string name="jv_relaunch_default">По умолчанию</string>
+    <string name="jv_relaunch_turning_wifi_on">WiFi ВКЛЮЧЕН</string>
+    <string name="jv_relaunch_turning_wifi_off">WiFi выключен</string>
+    <string name="jv_relaunch_prev">пред.</string>
+    <string name="jv_relaunch_next">след.</string>
     <string name="jv_rla_activity">Действие</string>
     <string name="jv_rla_not_found">не найдено!</string>
-    <string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version: &lt;b&gt;</string>
-    <string name="jv_rla_about_post">&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Source code: &lt;a href=\"https://github.com/yiselieren/ReLaunch\"&gt;git://github.com/yiselieren/ReLaunch.git&lt;/a&gt;&lt;/center&gt;</string>
+    <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
+    <string name="jv_rla_about_post">&lt;/b>&lt;/center>&lt;br>&lt;center>Source code: &lt;a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git&lt;/a>&lt;/center></string>
     <string name="jv_rla_ok">OK</string>
     <string name="jv_rla_see_changelog">Справка</string>
     <string name="jv_rla_whats_new_title">Справка</string>
@@ -215,14 +215,14 @@
     <string name="jv_results_delete_file_text2">\?</string>
     <string name="jv_results_yes">Да</string>
     <string name="jv_results_no">Нет</string>
-	<string name="jv_results_remove">Удалить из &quot;Избранного&quot;</string>    
+    <string name="jv_results_remove">Удалить из "Избранного"</string>
     <string name="jv_results_delete_em_dir_title">Предупреждение</string>
     <string name="jv_results_delete_em_dir_text1">Вы действительно хотите удалить пустую папку</string>
     <string name="jv_results_delete_em_dir_text2">\?</string>
     <string name="jv_results_delete_ne_dir_title">Предупреждение</string>
     <string name="jv_results_delete_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
     <string name="jv_results_delete_ne_dir_text2">(потенциально опасное действие)\?</string>
-	<string name="jv_results_activity_not_found">Действие не найдено</string>    
+    <string name="jv_results_activity_not_found">Действие не найдено</string>
     <string name="jv_search_in_progress">Производится поиск</string>
     <string name="jv_search_cancel">Отмена</string>
     <string name="jv_search_results">Результаты поиска</string>
@@ -252,4 +252,5 @@
     <string name="jv_viewer_bytes">байт</string>
     <string name="jv_viewer_maximum">Максимальный размер файла</string>
     <string name="jv_viewer_ok">OK</string>
+
 </resources>

@@ -66,7 +66,6 @@
             android:background="@drawable/main_button"
             android:src="@drawable/ci_gear2" >
         </ImageButton>
-        <!-- <ImageButton android:src="@android:drawable/ic_menu_info_details" android:layout_weight="1" android:layout_width="0dp" android:id="@+id/about_btn" android:layout_gravity="center" android:layout_height="fill_parent" android:layout_marginLeft="4dp"></ImageButton> -->
     </LinearLayout>
 
     <Button
@@ -136,11 +135,6 @@
             android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
-    <!--
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:id="@+id/fl_layout" android:layout_marginTop="4dp" android:background="@color/normal_bg">
-        <ListView android:layout_width="fill_parent" android:id="@+id/fl_list" android:layout_height="fill_parent" android:fadeScrollbars="false" android:layout_weight="1" android:divider="@color/normal_transparent"></ListView>
-    </LinearLayout>
-    -->
 
     <LinearLayout
         android:id="@+id/gl_layout"

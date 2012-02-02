@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="56dp"
         android:minHeight="32dp" >
-
+
         <ImageView
             android:id="@+id/filters_icon"
             android:layout_width="wrap_content"
@@ -29,20 +29,23 @@
             android:focusable="false"
             android:gravity="left|center_vertical"
             android:inputType="textMultiLine"
+            android:paddingLeft="8dp"
             android:text="@string/filters_view_layout_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
-            android:textStyle="bold" android:paddingLeft="8dp">
+            android:textStyle="bold" >
 
             <requestFocus />
         </EditText>
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.8"
             android:background="@drawable/main_button"
             android:minWidth="96dp"
             android:src="@drawable/ci_exit" />
@@ -73,7 +76,10 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/filters_view_layout_ok" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_ok" android:gravity="center">
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_ok"
+            android:gravity="center"
+            android:text="@string/filters_view_layout_ok" >
         </Button>
 
         <Button
@@ -83,7 +89,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:text="@string/filters_view_layout_add_new" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_add" android:gravity="center">
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_add"
+            android:gravity="center"
+            android:text="@string/filters_view_layout_add_new" >
         </Button>
 
         <Button
@@ -92,7 +101,9 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:text="@string/filters_view_layout_and" android:background="@drawable/main_button" android:gravity="center">
+            android:background="@drawable/main_button"
+            android:gravity="center"
+            android:text="@string/filters_view_layout_and" >
         </Button>
 
         <Button
@@ -102,7 +113,10 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:text="@string/filters_view_layout_cancel" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_del" android:gravity="center">
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_del"
+            android:gravity="center"
+            android:text="@string/filters_view_layout_cancel" >
         </Button>
     </LinearLayout>
 

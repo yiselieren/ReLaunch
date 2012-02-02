@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="56dp" >
-
+
         <ImageView
             android:id="@+id/results_icon"
             android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:id="@+id/results_title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="0.355"
+            android:layout_weight="1"
             android:background="@color/normal_bg_gray"
             android:editable="false"
             android:focusable="false"
@@ -36,12 +36,14 @@
 
         <ImageButton
             android:id="@+id/results_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="4dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.8"
             android:background="@drawable/main_button"
             android:minWidth="96dp"
-            android:src="@drawable/ci_exit">
+            android:src="@drawable/ci_exit" >
         </ImageButton>
     </LinearLayout>
 
@@ -68,7 +70,9 @@
             android:layout_weight="0.757"
             android:background="@drawable/main_button"
             android:drawableLeft="@drawable/ci_levelup"
-            android:text="@string/main_launcher_nb_layout_go_one_level_up" android:paddingLeft="8dp" android:paddingRight="8dp">
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/main_launcher_nb_layout_go_one_level_up" >
         </Button>
 
         <Button
@@ -79,7 +83,8 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableLeft="@drawable/ci_arrowup"
-            android:text="0%" android:paddingLeft="8dp">
+            android:paddingLeft="8dp"
+            android:text="0%" >
         </Button>
 
         <Button
@@ -90,7 +95,8 @@
             android:layout_weight="1"
             android:background="@drawable/main_button"
             android:drawableLeft="@drawable/ci_arrowdown"
-            android:text="0%" android:paddingLeft="8dp">
+            android:paddingLeft="8dp"
+            android:text="0%" >
         </Button>
 
         <ImageButton
@@ -103,24 +109,6 @@
             android:src="@drawable/ci_tools" >
         </ImageButton>
     </LinearLayout>
-    <!--
-    <LinearLayout android:layout_width="fill_parent" 
-    android:layout_height="0dp" 
-    android:layout_weight="1" 
-    android:id="@+id/results_fl" 
-    android:background="@color/normal_bg" 
-    android:layout_marginTop="4dp">
-
-        <ListView
-            android:id="@+id/results_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:fadeScrollbars="false" android:divider="@color/normal_transparent">
-        </ListView>
-
-    </LinearLayout>
-    -->
 
     <LinearLayout
         android:id="@+id/results_fl"

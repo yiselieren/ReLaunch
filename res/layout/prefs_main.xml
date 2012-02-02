@@ -18,7 +18,7 @@
             android:layout_height="fill_parent"
             android:background="@color/normal_bg_gray"
             android:src="@drawable/ci_gear2" />
-        
+
         <EditText
             android:id="@+id/prefernces_title"
             android:layout_width="fill_parent"
@@ -29,21 +29,26 @@
             android:focusable="false"
             android:gravity="left|center_vertical"
             android:inputType="textMultiLine"
+            android:paddingLeft="8dp"
             android:text="@string/prefs_layout_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/normal_fg"
-            android:textStyle="bold" android:paddingLeft="8dp">
+            android:textStyle="bold" >
 
             <requestFocus />
         </EditText>
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:src="@drawable/ci_exit" android:background="@drawable/main_button" android:minWidth="96dp"/>
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.8"
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,21 +62,25 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/prefs_layout_revert_default" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_default">
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_default"
+            android:text="@string/prefs_layout_revert_default" >
         </Button>
-        
+
         <Button
             android:id="@+id/restart_btn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_save"
             android:minHeight="72dp"
-            android:text="@string/prefs_layout_save_restart" android:layout_marginLeft="4dp" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_save">
+            android:text="@string/prefs_layout_save_restart" >
         </Button>
-
     </LinearLayout>
-        
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
@@ -85,7 +94,9 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/prefs_layout_filter_setting" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_filter"/>
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_filter"
+            android:text="@string/prefs_layout_filter_setting" />
 
         <Button
             android:id="@+id/associations"
@@ -94,31 +105,12 @@
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
-            android:text="@string/prefs_layout_associations" android:background="@drawable/main_button" android:drawableLeft="@drawable/ci_associations">
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_associations"
+            android:text="@string/prefs_layout_associations" >
         </Button>
-		
-        <!--
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1"
-            android:text="@string/prefs_layout_cancel" >
-        </Button>
-
-        <Button
-            android:id="@+id/prefs_ok"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1"
-            android:text="@string/prefs_layout_ok" />
-        -->
-        
     </LinearLayout>
-
+
     <LinearLayout
         android:id="@+id/LLlist"
         android:layout_width="fill_parent"
@@ -130,29 +122,35 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="8dp"
-            android:fadeScrollbars="false" android:layout_weight="1" android:duplicateParentState="true" android:fadingEdge="none">
+            android:layout_weight="1"
+            android:duplicateParentState="true"
+            android:fadeScrollbars="false"
+            android:fadingEdge="none" >
         </ListView>
-
+
         <LinearLayout
             android:id="@+id/LLbuttons"
             android:layout_width="fill_parent"
             android:layout_height="56dp"
             android:layout_marginTop="8dp" >
-
+
             <ImageButton
                 android:id="@+id/btn_scrollup"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:src="@drawable/ci_arrowup" android:layout_weight="1" android:background="@drawable/main_button"/>
-
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:src="@drawable/ci_arrowup" />
+
             <ImageButton
                 android:id="@+id/btn_scrolldown"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:src="@drawable/ci_arrowdown" android:layout_weight="1" android:layout_marginLeft="4dp" android:background="@drawable/main_button"/>
-
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/main_button"
+                android:src="@drawable/ci_arrowdown" />
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

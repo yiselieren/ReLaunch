@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about_help">
+        &lt;b>INFORMACIÓN&lt;/b>&lt;br>
+        Relanzamiento es un lanzador versátil y todo el sistema de programas de lectura
+        shell (de escritorio) para Touch Rincón simple (también apoyado por el Sony PRS-T1).&lt;br>
+        Se supone que el usuario de la biblioteca se organiza en una estructura ordenada
+        carpetas y los archivos tienen nombres de los libros que coincidan con sus nombres.&lt;br>
+        Relanzamiento compatible con la configuración flexible de los muchos botones en pantalla para una rápida
+        el acceso a ciertas características del programa y ejecutar aplicaciones de terceros.&lt;br>
+        No evidentes características:&lt;br>
+        - Varias funciones del programa son accesibles sólo funcionan como un sistema de escritorio&lt;br>
+        - Algunas funciones requieren un dispositivo con acceso a la raíz, o sólo se aplican para
+        Toque rincón simple (usted recibirá un aviso adecuado).&lt;br>
+        - El soporte de pantalla de desplazamiento doble clic en el botón para desplazarse a la especificada
+        número y porcentaje de tiempo del ratón para moverse con rapidez hasta el final (inicio) de la lista de archivos.
+        Esta característica no suele funcionar sólo tenga cuidado (se requiere un permiso adicional en la configuración).&lt;br>
+        - Si se abre con el botón, por ejemplo, el segundo libro de lectura, será después de la apertura de la primera.
+        Por lo tanto, usted descubrirá en la línea dos (tres, etc, dependiendo de la configuración), el último libro de lectura.&lt;br>
+		&lt;br>
+    </string>
+    <string name="about_appr">
+        &lt;b>GRACIAS&lt;/b>&lt;br>
+        - CoolReader Engine project (EInk código de soporte)&lt;br> 
+        &amp;nbsp;&amp;nbsp;&lt;a href="http://sourceforge.net/projects/crengine/">http://sourceforge.net/projects/crengine/&lt;/a>&lt;br>
+        - Interactivemania (pack iconos)&lt;br>
+        &amp;nbsp;&amp;nbsp;&lt;a href="http://www.interactivemania.com/">http://www.interactivemania.com/&lt;/a>&lt;br>
+        &amp;nbsp;&amp;nbsp;&lt;a href="http://www.defaulticon.com/">http://www.defaulticon.com/&lt;/a>&lt;br> 
+        &lt;br>
+        </string>
+
+</resources>

@@ -27,9 +27,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:gravity="left"
                 android:maxLines="1"
-                android:padding="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
                 android:text="@string/viewer_layout_title"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/normal_fg"
@@ -43,8 +46,12 @@
                 android:background="@color/normal_bg"
                 android:editable="false"
                 android:focusable="false"
-                android:gravity="center"
+                android:gravity="left"
                 android:inputType="textMultiLine"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
                 android:text="Filename"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/normal_fg"
@@ -54,17 +61,20 @@
                 </requestFocus>
             </EditText>
         </LinearLayout>
-        
+
         <Button
             android:id="@+id/viewedit_btn"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_edit"
             android:minWidth="96dp"
-            android:text="@string/viewer_layout_edit" android:layout_marginLeft="4dp" android:drawableLeft="@drawable/ci_edit" android:paddingRight="8dp">
+            android:paddingRight="8dp"
+            android:text="@string/viewer_layout_edit" >
         </Button>
-        
+
         <ImageButton
             android:id="@+id/view_btn"
             android:layout_width="wrap_content"

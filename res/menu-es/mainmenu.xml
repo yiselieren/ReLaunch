@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/setting" android:title="Opciones" android:icon="@drawable/ci_gear2">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ci_gear2"
+        android:title="Opciones">
     </item>
-    <item android:id="@+id/mime_types" android:title="Asociación" android:icon="@drawable/ci_associations">
+
+    <item
+        android:id="@+id/mime_types"
+        android:icon="@drawable/ci_associations"
+        android:title="Asociación">
     </item>
-    <item android:id="@+id/search" android:title="Buscar" android:icon="@drawable/ci_search">
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ci_search"
+        android:title="Buscar">
     </item>
-    <item android:id="@+id/lastopened" android:title="Último abierto" android:icon="@drawable/ci_lre">
+
+    <item
+        android:id="@+id/lastopened"
+        android:icon="@drawable/ci_lre"
+        android:title="Último abierto">
     </item>
-    <item android:id="@+id/favorites" android:title="Favoritos" android:icon="@drawable/ci_fav">
+
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/ci_fav"
+        android:title="Favoritos">
     </item>
-    <item android:id="@+id/about" android:title="Acerca de" android:icon="@drawable/ci_question">
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ci_question"
+        android:title="Acerca de">
     </item>
+
 </menu>

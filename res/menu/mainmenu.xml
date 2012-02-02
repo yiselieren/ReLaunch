@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/setting" android:title="Settings" android:icon="@drawable/ci_gear2">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ci_gear2"
+        android:title="Settings">
     </item>
-    <item android:id="@+id/mime_types" android:title="Associations" android:icon="@drawable/ci_associations">
+
+    <item
+        android:id="@+id/mime_types"
+        android:icon="@drawable/ci_associations"
+        android:title="Associations">
     </item>
-    <item android:id="@+id/search" android:title="Search" android:icon="@drawable/ci_search">
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ci_search"
+        android:title="Search">
     </item>
-    <item android:id="@+id/lastopened" android:title="Last opened" android:icon="@drawable/ci_lre">
+
+    <item
+        android:id="@+id/lastopened"
+        android:icon="@drawable/ci_lre"
+        android:title="Last opened">
     </item>
-    <item android:id="@+id/favorites" android:title="Favorites" android:icon="@drawable/ci_fav">
+
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/ci_fav"
+        android:title="Favorites">
     </item>
-    <item android:id="@+id/about" android:title="Informatoin" android:icon="@drawable/ci_question">
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ci_question"
+        android:title="Informatoin">
     </item>
+
 </menu>

@@ -90,7 +90,7 @@
             android:summaryOff="Mostrar los nombres completos, con extensiones"
             android:summaryOn="Ocultar las extensiones conocidas (por associaciations)"
             android:title="Ocultar las extensiones conocidas" >
-        </CheckBoxPreference>            
+        </CheckBoxPreference>
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -99,8 +99,8 @@
             android:summaryOff="Mostrar los nombres de directorios completos (incluso en los directorios de inicio)"
             android:summaryOn="Ocultar parte más conocida (inicio dir) del nombre de dir"
             android:title="Ocultar parte más conocida de los directorios" >
-        </CheckBoxPreference>            
-            
+        </CheckBoxPreference>
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="openWith"
@@ -118,19 +118,6 @@
             android:summaryOn="Mostrar \&apos;Crear evento...\&apos; en menú contextual"
             android:title="Elemento de menú contextual \&apos;Crear evento...\&apos;" >
         </CheckBoxPreference>
-
-        <!--
-        <ListPreference
-            android:defaultValue="5"
-            android:enabled="true"
-            android:entries="@array/GL16_modes_names"
-            android:entryValues="@array/GL16_modes_values"
-            android:key="gl16Mode"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="GL16 mode"
-            android:title="Actualizar el modo de pantalla (GL16 mode)" />
-        -->
 
         <ListPreference
             android:defaultValue="NO"
@@ -164,30 +151,11 @@
 
     <PreferenceCategory android:title="Aspecto" >
 
-        <!--
-        <EditTextPreference
-            android:defaultValue="8"
-            android:enabled="true"
-            android:key="firstLineFontSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Tamaño de fuente en nobres de archivos y directorios de cualquer lista"
-            android:title="Tamaño de fuente en nombres de archivos/carpetas" />
-
-        <EditTextPreference
-            android:defaultValue="6"
-            android:enabled="true"
-            android:key="secondLineFontSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Tamaño de fuente para de otros directorios como Favoritos y otras listas"
-            android:title="Tamaño de fuente para nombres de directorios adicionales" />
-		-->
-		
         <EditTextPreference
             android:defaultValue="20"
             android:enabled="true"
             android:key="firstLineFontSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Tamaño de fuente en nobres de archivos y directorios de cualquer lista... px"
@@ -197,20 +165,22 @@
             android:defaultValue="16"
             android:enabled="true"
             android:key="secondLineFontSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Tamaño de fuente para de otros directorios como Favoritos y otras listas... px"
-            android:title="Tamaño de fuente para nombres de directorios adicionales" />		
+            android:title="Tamaño de fuente para nombres de directorios adicionales" />
 
         <EditTextPreference
             android:defaultValue="48"
             android:enabled="true"
             android:key="firstLineIconSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Icono de tamaño para los archivos y directorios ... px (0 - desactivar el icono)"
             android:title="Archivos y el tamaño de los iconos de directorios" />
-        
+
         <ListPreference
             android:defaultValue="-1"
             android:enabled="true"
@@ -332,7 +302,7 @@
             android:key="lruButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Última recientes botón que se usa mucho toque" />        
+            android:title="Última recientes botón que se usa mucho toque" />
 
         <ListPreference
             android:defaultValue="OPENSCREEN"
@@ -362,7 +332,7 @@
             android:key="favButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Pulse el botón Favoritos de largo" />        
+            android:title="Pulse el botón Favoritos de largo" />
 
         <ListPreference
             android:defaultValue="RELAUNCH"
@@ -392,8 +362,8 @@
             android:key="settingsButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Toque el botón Configuración de largo" />        
-        
+            android:title="Toque el botón Configuración de largo" />
+
         <ListPreference
             android:defaultValue="RELAUNCH"
             android:enabled="true"
@@ -483,7 +453,6 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Pulse el botón de la batería de larga" />
-        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Ajustes del modo lanzador" >
@@ -545,15 +514,15 @@
 
     <PreferenceCategory android:title="Apariencia de la barra de desplazamiento" >
 
-		<CheckBoxPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="disableScrollJump"
             android:persistent="true"
-            android:summaryOff="Desplazamiento rápido habilitado (incorrecta en Nook Simple Touch!)"
+            android:summaryOff="Desplazamiento rápido habilitado (a menudo incorrecta!)"
             android:summaryOn="Desplazamiento rápido con discapacidad"
             android:title="Desactivar desplazamiento rápido con botones" >
         </CheckBoxPreference>
-        
+
         <EditTextPreference
             android:defaultValue="10"
             android:enabled="true"

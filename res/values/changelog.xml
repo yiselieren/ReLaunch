@@ -1,99 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="about_help">
-        &lt;b&gt;HELP&lt;/b&gt;&lt;br&gt;
-        ... coming soon ...&lt;br&gt;
-        &lt;br&gt;
+        &lt;b>HELP&lt;/b>&lt;br>
+        ReLaunch is a versatile reading programs launcher and system-wide shell for Nook Simple Touch (also supported by Sony PRS-T1).&lt;br>
+        It is assumed that the user library is organized in an ordered structure
+        of folders and files have names of books that match their names.&lt;br>
+        ReLaunch supports flexible configuration of many on-screen buttons for quick
+        access to certain features of the program and run third party applications.&lt;br>
+        Non-obvious possibilities:&lt;br>
+        - Some functions of the program available only with run as a desktop shell for system.&lt;br>
+        - Some functions require a device with root-access, or only implemented for
+        Nook Simple Touch (you will receive appropriate notice).&lt;br>
+        - On-screen scrolling buttons support double click to navigate to the specified
+        number of percents in list and long-click to quickly move to the end (beginning) of the file list.
+        This feature often will not work properly, be careful (you need to enable it in settings).&lt;br>
+        - If you open with the button, for example, the second-to-read book, it will be after the opening of the first.
+        Thus, you will start in round fashion two (three, etc., depending on the configuration), the last-readed books.&lt;br>
+        &lt;br>
     </string>
     <string name="about_appr">
-        &lt;b&gt;APPRECIATIONS&lt;/b&gt;&lt;br&gt;
-        - CoolReader Engine project (Eink support code)&lt;br&gt; 
-        &amp;nbsp;&amp;nbsp;&lt;a href=&quot;http://sourceforge.net/projects/crengine/&quot;&gt;http://sourceforge.net/projects/crengine/&lt;/a&gt;&lt;br&gt;
-        - Interactivemania (icons pack)&lt;br&gt;
-        &amp;nbsp;&amp;nbsp;&lt;a href=&quot;http://www.interactivemania.com/&quot;&gt;http://www.interactivemania.com/&lt;/a&gt;&lt;br&gt;
-        &amp;nbsp;&amp;nbsp;&lt;a href=&quot;http://www.defaulticon.com/&quot;&gt;http://www.defaulticon.com/&lt;/a&gt;&lt;br&gt; 
-        &lt;br&gt;
+        &lt;b>APPRECIATIONS&lt;/b>&lt;br>
+        - CoolReader Engine project (Eink support code)&lt;br> 
+        &amp;nbsp;&amp;nbsp;&lt;a href="http://sourceforge.net/projects/crengine/">http://sourceforge.net/projects/crengine/&lt;/a>&lt;br>
+        - Interactivemania (icons pack)&lt;br>
+        &amp;nbsp;&amp;nbsp;&lt;a href="http://www.interactivemania.com/">http://www.interactivemania.com/&lt;/a>&lt;br>
+        &amp;nbsp;&amp;nbsp;&lt;a href="http://www.defaulticon.com/">http://www.defaulticon.com/&lt;/a>&lt;br> 
+        &lt;br>
         </string>
     <string name="whats_new">
-        &lt;b&gt;CHANGELOG&lt;/b&gt;&lt;br&gt;
-        &lt;b&gt;1.3.0pre3&lt;/b&gt;&lt;br&gt;
-        - fixed filtering on directories, now not under filtering&lt;br&gt;
-        - some fixes in search (strange behavior)&lt;br&gt;
-        - quick scroll in "results screens" fixes&lt;br&gt;
-        - preferences "save dialog" only after changing something&lt;br&gt;
-        - added ability configure icon size&lt;br&gt;
-        - added on-screen scroll buttons for preferences&lt;br&gt;
-        - added ability to disable (buggy) percentage scroll on Nook&lt;br&gt;
-        - added extended functionality to Last Used, Favorites and Settings buttons&lt;br&gt;
-        - added Setup WiFi button to advanced screen&lt;br&gt;
-        - Advanced, Memory, Battery buttons now configurable&lt;br&gt;
-        - Full new icons and some layout changes - in original NOOK look and feel.&lt;br&gt;
-        - Scroll by on-screen buttons changed to satisfy Sony users.&lt;br&gt;
-        - Lock functionality in Advanced screen.&lt;br&gt;
-        - some changes in Home button configuration.&lt;br&gt;
-        - simplify buttons on Preferences screen.&lt;br&gt;
-        - force screen orientation change (configurable).&lt;br&gt;
-        - Some fixes in power adapter show when attached.&lt;br&gt;
-        - Configurable File Manager (now implemented deletion only, sorry) menu items (user can disable).&lt;br&gt;
-        - Configurable hiding of known (via associations) file extensions (user can enable).&lt;br&gt;
-		- Configurable hiding of known (via home dirs) parts of directories names (user can enable).&lt;br&gt;
-		- Fixes in context menu creation for empty dir and leaking of mount sdcard broadcast receiver.&lt;br&gt;
-		&lt;b&gt;1.2.10&lt;/b&gt;&lt;br&gt;
-		- skipped due quick development&lt;br&gt;
-        &lt;b&gt;1.2.9&lt;/b&gt;&lt;br&gt;
-        - Home icon changed.&lt;br&gt;
-        - Spanish translation added.&lt;br&gt;
-        &lt;b&gt;1.2.8&lt;/b&gt;&lt;br&gt;
-        - Added USB or AC adapter connection information.&lt;br&gt;
-        - Redone support for Eink Nook display.&lt;br&gt;
-        - Configurable multicolumn output.&lt;br&gt;
-        - Close Fav, Lru and so on windows after start reader (configurable).&lt;br&gt;
-        - Font size for files and directory names (configurable).&lt;br&gt;
-        - User may have now many home folders.&lt;br&gt;
-        - User may disable to go up from home folders.&lt;br&gt;
-		- Smart configurable Home button with distinct reaction to tap, double tap and long tap introduced.&lt;br&gt;                
-        - Fixes: "scroll buttons" sometimes not working; invocation dir from favorites and search results, now shown in main window; search results representation when search from root.&lt;br&gt;
-        &lt;b&gt;1.2.7&lt;/b&gt;&lt;br&gt;
-        - Preferences Light Theme for Sony reader and mobiles.&lt;br&gt;
-        - Application and readers invocation code fixes.&lt;br&gt;
-        - Small layout and visual fixes.&lt;br&gt;
-    	&lt;b&gt;1.2.6&lt;/b&gt;&lt;br&gt;
-        - Source code and resources reformatted, caused by i18n.&lt;br&gt;
-        - Russian translation.&lt;br&gt;
-		- WiFi signal strength receive fixed, now with dBm level and "classic" visual output.&lt;br&gt;
-		- Application and readers detection and invocation code rewritten, many bugfixes.&lt;br&gt;
-		- Fully redesigned to original White NOOK ST "look and feel".&lt;br&gt;
-        - Startup as launcher at boot fixes.&lt;br&gt;
-        - History supporting fixes.&lt;br&gt;
-    	&lt;b&gt;1.2.5&lt;/b&gt;&lt;br&gt;
-        - Source code cleaned, now compiled without warnings.&lt;br&gt;
-        - Source code prepared to i18n.&lt;br&gt;
-        - Reading Lists (i.e. FAVs, LRUs) with full UTF8 support.&lt;br&gt;
-		- Writing Lists (i.e. FAVs, LRUs) now is more frequent.&lt;br&gt;        
-		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.&lt;br&gt;
-    	&lt;b&gt;1.2.4&lt;/b&gt;&lt;br&gt;
-    	- Sony PRS-T1 support is added, some layout changes.&lt;br&gt;
-    	- Optional return to main window after application starts from \"All Applications\" window.&lt;br&gt;
-        &lt;b&gt;1.2.3&lt;/b&gt;&lt;br&gt;
-        - Context menu items \'Open with ...\' and \'Create intent ...\' added. Note that these items can be disabled via configuration settings.&lt;br&gt;
+        &lt;b>CHANGELOG&lt;/b>&lt;br>
+        &lt;b>1.3.0&lt;/b>&lt;br>
+        - source code cleaning and formatting&lt;br>
+        - fixed filtering on directories, now not under filtering&lt;br>
+        - some fixes in search (strange behavior)&lt;br>
+        - quick scroll in "results screens" fixes&lt;br>
+        - preferences "save dialog" only after changing something&lt;br>
+        - added ability configure icon size&lt;br>
+        - added on-screen scroll buttons for preferences&lt;br>
+        - added ability to disable (buggy) percentage scroll on Nook&lt;br>
+        - added extended functionality to Last Used, Favorites and Settings buttons&lt;br>
+        - added Setup WiFi button to advanced screen&lt;br>
+        - Advanced, Memory, Battery buttons now configurable&lt;br>
+        - Full new icons and some layout changes - in original NOOK look and feel.&lt;br>
+        - Scroll by on-screen buttons changed to satisfy Sony users.&lt;br>
+        - Lock functionality in Advanced screen.&lt;br>
+        - some changes in Home button configuration.&lt;br>
+        - simplify buttons on Preferences screen.&lt;br>
+        - force screen orientation change (configurable).&lt;br>
+        - Some fixes in power adapter show when attached.&lt;br>
+        - Configurable File Manager (now implemented deletion only, sorry) menu items (user can disable).&lt;br>
+        - Configurable hiding of known (via associations) file extensions (user can enable).&lt;br>
+		- Configurable hiding of known (via home dirs) parts of directories names (user can enable).&lt;br>
+		- Fixes in context menu creation for empty dir and leaking of mount sdcard broadcast receiver.&lt;br>
+		&lt;b>1.2.10&lt;/b>&lt;br>
+		- skipped due quick development&lt;br>
+        &lt;b>1.2.9&lt;/b>&lt;br>
+        - Home icon changed.&lt;br>
+        - Spanish translation added.&lt;br>
+        &lt;b>1.2.8&lt;/b>&lt;br>
+        - Added USB or AC adapter connection information.&lt;br>
+        - Redone support for Eink Nook display.&lt;br>
+        - Configurable multicolumn output.&lt;br>
+        - Close Fav, Lru and so on windows after start reader (configurable).&lt;br>
+        - Font size for files and directory names (configurable).&lt;br>
+        - User may have now many home folders.&lt;br>
+        - User may disable to go up from home folders.&lt;br>
+		- Smart configurable Home button with distinct reaction to tap, double tap and long tap introduced.&lt;br>                
+        - Fixes: "scroll buttons" sometimes not working; invocation dir from favorites and search results, now shown in main window; search results representation when search from root.&lt;br>
+        &lt;b>1.2.7&lt;/b>&lt;br>
+        - Preferences Light Theme for Sony reader and mobiles.&lt;br>
+        - Application and readers invocation code fixes.&lt;br>
+        - Small layout and visual fixes.&lt;br>
+    	&lt;b>1.2.6&lt;/b>&lt;br>
+        - Source code and resources reformatted, caused by i18n.&lt;br>
+        - Russian translation.&lt;br>
+		- WiFi signal strength receive fixed, now with dBm level and "classic" visual output.&lt;br>
+		- Application and readers detection and invocation code rewritten, many bugfixes.&lt;br>
+		- Fully redesigned to original White NOOK ST "look and feel".&lt;br>
+        - Startup as launcher at boot fixes.&lt;br>
+        - History supporting fixes.&lt;br>
+    	&lt;b>1.2.5&lt;/b>&lt;br>
+        - Source code cleaned, now compiled without warnings.&lt;br>
+        - Source code prepared to i18n.&lt;br>
+        - Reading Lists (i.e. FAVs, LRUs) with full UTF8 support.&lt;br>
+		- Writing Lists (i.e. FAVs, LRUs) now is more frequent.&lt;br>        
+		- Added \"Power Off\" functionality (in complement to \"Reboot\") and rewriting implementation.&lt;br>
+    	&lt;b>1.2.4&lt;/b>&lt;br>
+    	- Sony PRS-T1 support is added, some layout changes.&lt;br>
+    	- Optional return to main window after application starts from \"All Applications\" window.&lt;br>
+        &lt;b>1.2.3&lt;/b>&lt;br>
+        - Context menu items \'Open with ...\' and \'Create intent ...\' added. Note that these items can be disabled via configuration settings.&lt;br>
         - Search root can be comma separated directories list as well as a single directory.
-        &lt;br&gt;&lt;b&gt;1.2.2&lt;/b&gt;&lt;br&gt;
+        &lt;br>&lt;b>1.2.2&lt;/b>&lt;br>
         - All configured networks now are present in advanced screen.
-        &lt;br&gt;&lt;b&gt;1.2.1&lt;/b&gt;&lt;br&gt;
-         - New buttons: scroll up/down by big steps. Note that the step length is configurable.&lt;br&gt;
+        &lt;br>&lt;b>1.2.1&lt;/b>&lt;br>
+         - New buttons: scroll up/down by big steps. Note that the step length is configurable.&lt;br>
          - New advanced information screen (marked with \'#\' character).
-        &lt;br&gt;&lt;b&gt;1.2.0&lt;/b&gt;&lt;br&gt;
-        - New directory navigation, visible scrollbar (see settings).&lt;br&gt;
+        &lt;br>&lt;b>1.2.0&lt;/b>&lt;br>
+        - New directory navigation, visible scrollbar (see settings).&lt;br>
         - gl16 mode (eInk refresh mode) may be set now via settings.
-        &lt;br&gt;&lt;b&gt;1.1.3&lt;/b&gt;&lt;br&gt;
+        &lt;br>&lt;b>1.1.3&lt;/b>&lt;br>
         - Check HW and warn if it isn\'t NookSimpleTouch.
-        &lt;br&gt;&lt;b&gt;1.1.2&lt;/b&gt;&lt;br&gt;
-        - Associations settings allows now to configure explicit applications invocation  as well as general intent creation.&lt;br&gt;
+        &lt;br>&lt;b>1.1.2&lt;/b>&lt;br>
+        - Associations settings allows now to configure explicit applications invocation  as well as general intent creation.&lt;br>
         - Obsolete \'how to call readers\' setting removed.
-        &lt;br&gt;&lt;b&gt;1.1.1&lt;/b&gt;&lt;br&gt;
+        &lt;br>&lt;b>1.1.1&lt;/b>&lt;br>
         - New Cancel/Revert buttons in settings screen.
-        &lt;br&gt;&lt;b&gt;1.1.0&lt;/b&gt;&lt;br&gt;
+        &lt;br>&lt;b>1.1.0&lt;/b>&lt;br>
         - Task manager / battery manager - just tap on memory or battery status (bottom of the main screen, launcher mode only).
         </string>
-    
+
 </resources>

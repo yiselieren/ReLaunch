@@ -119,19 +119,6 @@
             android:title="Пункт меню \&quot;Создать событие...\&quot;" >
         </CheckBoxPreference>
 
-        <!--
-        <ListPreference
-            android:defaultValue="5"
-            android:enabled="true"
-            android:entries="@array/GL16_modes_names"
-            android:entryValues="@array/GL16_modes_values"
-            android:key="gl16Mode"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Режим GL16"
-            android:title="Режим обновления экрана (GL16 mode)" />
-        -->
-
         <ListPreference
             android:defaultValue="NO"
             android:enabled="true"
@@ -164,30 +151,11 @@
 
     <PreferenceCategory android:title="Внешний вид" >
 
-        <!--
-        <EditTextPreference
-            android:defaultValue="8"
-            android:enabled="true"
-            android:key="firstLineFontSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Размер шрифта для имен файлов и папок во всех списках"
-            android:title="Размер шрифта имен файлов/папок" />
-
-        <EditTextPreference
-            android:defaultValue="6"
-            android:enabled="true"
-            android:key="secondLineFontSize"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п."
-            android:title="Размер шрифта дополнительных имен папок" />
-		-->
-
         <EditTextPreference
             android:defaultValue="20"
             android:enabled="true"
             android:key="firstLineFontSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Размер шрифта для имен файлов и папок во всех списках... px"
@@ -197,15 +165,17 @@
             android:defaultValue="16"
             android:enabled="true"
             android:key="secondLineFontSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Размер шрифта имен папок в списках \&quot;Избранного\&quot; и т.п... px"
             android:title="Размер шрифта дополнительных имен папок" />
 
-		<EditTextPreference
+        <EditTextPreference
             android:defaultValue="48"
             android:enabled="true"
             android:key="firstLineIconSizePx"
+            android:numeric="integer"
             android:persistent="true"
             android:selectable="true"
             android:summary="Размер иконок для имен файлов и папок во всех списках... px (0 - без иконок)"
@@ -332,7 +302,7 @@
             android:key="lruButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Длительное нажатие кнопки \&quot;Недавно открытые\&quot;" />        
+            android:title="Длительное нажатие кнопки \&quot;Недавно открытые\&quot;" />
 
         <ListPreference
             android:defaultValue="OPENSCREEN"
@@ -362,7 +332,7 @@
             android:key="favButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Длительное нажатие кнопки \&quot;Избранное\&quot;" />        
+            android:title="Длительное нажатие кнопки \&quot;Избранное\&quot;" />
 
         <ListPreference
             android:defaultValue="RELAUNCH"
@@ -392,8 +362,8 @@
             android:key="settingsButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Длительное нажатие кнопки \&quot;Настройки\&quot;" />        
-        
+            android:title="Длительное нажатие кнопки \&quot;Настройки\&quot;" />
+
         <ListPreference
             android:defaultValue="RELAUNCH"
             android:enabled="true"
@@ -423,8 +393,8 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Длительное нажатие кнопки \&quot;Доп.функции\&quot;" />
-        
-<ListPreference
+
+        <ListPreference
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -482,7 +452,7 @@
             android:key="batButtonLT"
             android:persistent="true"
             android:selectable="true"
-            android:title="Длительное нажатие кнопки \&quot;Ост.батареи\&quot;" />        
+            android:title="Длительное нажатие кнопки \&quot;Ост.батареи\&quot;" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Режим рабочего стола" >
@@ -548,11 +518,11 @@
             android:defaultValue="true"
             android:key="disableScrollJump"
             android:persistent="true"
-            android:summaryOff="Быстрая прокрутка разрешена (ненадежно на Nook Simple Touch!)"
+            android:summaryOff="Быстрая прокрутка разрешена (часто неточно!)"
             android:summaryOn="Быстрая прокрутка запрещена"
             android:title="Запрет быстрой прокрутки кнопками" >
-        </CheckBoxPreference>        
-        
+        </CheckBoxPreference>
+
         <EditTextPreference
             android:defaultValue="10"
             android:enabled="true"

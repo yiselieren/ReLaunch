@@ -113,7 +113,7 @@
         <item>Открыть Избранное #</item>
         <item>Открыть меню Избранного</item>
         <item>Открыть окно избранного</item>
-    </string-array>    
+    </string-array>
     <string-array name="advanced_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>
@@ -145,7 +145,7 @@
         <item>Выключить устройство</item>
         <item>Переключить состояние WiFi</item>
         <item>Выполнить приложение</item>
-    </string-array>    
+    </string-array>
     <string-array name="mem_button_actions_values">
         <item>NOTHING</item>
         <item>RELAUNCH</item>
@@ -177,7 +177,7 @@
         <item>Выключить устройство</item>
         <item>Переключить состояние WiFi</item>
         <item>Выполнить приложение</item>
-    </string-array>        
+    </string-array>
     <string-array name="output_columns_values">
         <item>-1</item>
         <item>1</item>
