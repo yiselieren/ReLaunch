@@ -85,6 +85,33 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="showHidden"
+            android:persistent="true"
+            android:summaryOff="Don't show hidden files and folders"
+            android:summaryOn="Show hidden files and folders"
+            android:title="Show hidden files" >
+        </CheckBoxPreference>
+   
+        <CheckBoxPreference 
+                android:title="Show book titles" 
+                android:defaultValue="false" 
+                android:key="showBookTitles" 
+                android:persistent="true" 
+                android:summaryOn="Show file names" 
+                android:summaryOff="Show book titles" 
+                android:summary="Show book titles instead of filenames"
+                android:disableDependentsState="false">
+        </CheckBoxPreference>
+        
+        <EditTextPreference 
+                android:key="bookTitleFormat" 
+                android:title="Format of title of the book"
+                android:dependency="showBookTitles"
+                android:summary="%f - author's first name, %l - last name, %t - book title, %s - series title, %n - number in series">
+        </EditTextPreference>
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="hideKnownExts"
             android:persistent="true"
             android:summaryOff="Mostrar los nombres completos, con extensiones"

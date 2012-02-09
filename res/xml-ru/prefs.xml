@@ -85,6 +85,32 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="showHidden"
+            android:persistent="true"
+            android:summaryOff="Не показывать скрытые файлы и папки"
+            android:summaryOn="Показывать скрытые файлы и папки"
+            android:title="Показывать скрытые файлы" >
+        </CheckBoxPreference>
+   
+        <CheckBoxPreference 
+                android:title="Показывать названия книг" 
+                android:defaultValue="false" 
+                android:key="showBookTitles" 
+                android:persistent="true" 
+                android:summaryOff="Показывать названия книг" 
+                android:summaryOn="Показывать имена файлов"
+                android:disableDependentsState="false" >
+        </CheckBoxPreference>
+        
+        <EditTextPreference 
+                android:key="bookTitleFormat" 
+                android:title="Формат заголовка книги" 
+                android:dependency="showBookTitles"
+                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии"> 
+        </EditTextPreference>
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="hideKnownExts"
             android:persistent="true"
             android:summaryOff="Всегда показывать полные имена файлов с расширенимя"

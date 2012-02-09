@@ -159,6 +159,9 @@
     <string name="jv_relaunch_unmarkall">Forget all marks</string>
     <string name="jv_relaunch_openwith">Open with ...</string>
     <string name="jv_relaunch_createintent">Create Intent ...</string>
+    <string name="jv_relaunch_copy">Copy</string>
+    <string name="jv_relaunch_move">Move</string>
+    <string name="jv_relaunch_paste">Paste</string>
     <string name="jv_relaunch_delete">Delete</string>
     <string name="jv_relaunch_delete_non_emp_dir">Delete NON-EMPTY directory!</string>
     <string name="jv_relaunch_delete_emp_dir">Delete empty directory</string>
@@ -180,6 +183,8 @@
     <string name="jv_relaunch_del_ne_dir_title">Delete non empty directory warning</string>
     <string name="jv_relaunch_del_ne_dir_text1">Are you sure to delete non-empty directory</string>
     <string name="jv_relaunch_del_ne_dir_text2">(dangerous) \?</string>
+    <string name="jv_relaunch_paste_fail_title">File copy/move error</string>
+    <string name="jv_relaunch_paste_fail_text">Unable to copy/move file</string>
     <string name="jv_relaunch_launcher">This is a launcher!</string>
     <string name="jv_relaunch_launcher_text">Are you sure you want to quit ?</string>
     <string name="jv_relaunch_lru">Last opened</string>
@@ -252,5 +257,6 @@
     <string name="jv_viewer_bytes">bytes</string>
     <string name="jv_viewer_maximum">Maximal allowed size is</string>
     <string name="jv_viewer_ok">OK</string>
+    
 
 </resources>

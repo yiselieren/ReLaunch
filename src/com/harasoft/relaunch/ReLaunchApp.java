@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -490,6 +491,36 @@ public class ReLaunchApp extends Application {
 		return rc;
 	}
 
+	//Copy file src to dst
+	public boolean copyFile(String from, String to) {
+		File srcFile = new File(from); 
+		File dstFile = new File(to); 
+	    FileChannel src = null;
+	    FileChannel dst = null;
+	    boolean ret;
+	    try {
+	    	if(!dstFile.exists()) {
+		        dstFile.createNewFile();
+		    }
+	        src = new FileInputStream(srcFile).getChannel();
+	        dst = new FileOutputStream(dstFile).getChannel();
+	        dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+            ret = true;
+	    } catch (IOException e) {
+	    	ret = false;
+	    }
+	    return ret;
+	}
+	
+	//Copy file src to dst
+	public boolean moveFile(String from, String to) {
+		File src = new File(from);
+		File dst = new File(to);
+		return src.renameTo(dst);
+	}
+	
 	// common utility - get intent by label, null if not found
 	public Intent getIntentByLabel(String label) {
 		String[] labelp = label.split("\\%");

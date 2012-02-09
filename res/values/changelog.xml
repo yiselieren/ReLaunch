@@ -30,6 +30,10 @@
         </string>
     <string name="whats_new">
         &lt;b>CHANGELOG&lt;/b>&lt;br>
+        &lt;b>1.3.1&lt;/b>&lt;br>
+        - Option "Show hidden files" added to preferences&lt;br>
+        - Copy/move file functions added to context menu&lt;br>
+        - Show book titles functionality implemented for .fb2 and .epub files &lt;br>
         &lt;b>1.3.0&lt;/b>&lt;br>
         - source code cleaning and formatting&lt;br>
         - fixed filtering on directories, now not under filtering&lt;br>

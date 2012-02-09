@@ -159,6 +159,9 @@
     <string name="jv_relaunch_unmarkall">Olvidar todas las marcas</string>
     <string name="jv_relaunch_openwith">Obrir con ...</string>
     <string name="jv_relaunch_createintent">Crear cadena de eventos ...</string>
+    <string name="jv_relaunch_copy">Copy</string>
+    <string name="jv_relaunch_move">Move</string>
+    <string name="jv_relaunch_paste">Paste</string>
     <string name="jv_relaunch_delete">Eliminar</string>
     <string name="jv_relaunch_delete_non_emp_dir">¡No eliminar carpetas vacías!</string>
     <string name="jv_relaunch_delete_emp_dir">Eliminar carpetas vacías</string>

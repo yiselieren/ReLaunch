@@ -9,6 +9,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+
+import ebook.EBook;
+import ebook.parser.InstantParser;
+import ebook.parser.Parser;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -61,6 +65,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +97,9 @@ public class ReLaunch extends Activity {
 	final static int CNTXT_MENU_MARK_FORGET = 8;
 	final static int CNTXT_MENU_INTENT = 9;
 	final static int CNTXT_MENU_OPENWITH = 10;
+	final static int CNTXT_MENU_COPY = 11;
+	final static int CNTXT_MENU_MOVE = 12;
+	final static int CNTXT_MENU_PASTE = 13;
 	String currentRoot = "/sdcard";
 	Integer currentPosition = -1;
 	List<HashMap<String, String>> itemsArray;
@@ -127,6 +135,11 @@ public class ReLaunch extends Activity {
 	TextView battTitle;
 	TextView battLevel;
 	IntentFilter batteryLevelFilter;
+	
+	BooksBase dataBase;
+	String fileOpFile;
+	String fileOpDir;
+	int fileOp;
 
 	private void actionSwitchWiFi() {
 		WifiManager wifiManager;
@@ -973,6 +986,8 @@ public class ReLaunch extends Activity {
 		Collections.sort(files);
 		String upDir = "";
 		for (String f : dirs) {
+			if ((f.charAt(0) == '.') && (f.charAt(1) != '.') && (!prefs.getBoolean("showHidden", false)))
+				continue;
 			HashMap<String, String> item = new HashMap<String, String>();
 			item.put("name", f);
 			item.put("dname", dir.getAbsolutePath());
@@ -986,8 +1001,13 @@ public class ReLaunch extends Activity {
 			itemsArray.add(item);
 		}
 		for (String f : files) {
+			if ((f.startsWith(".")) && (!prefs.getBoolean("showHidden", false)))
+				continue;
 			HashMap<String, String> item = new HashMap<String, String>();
-			item.put("name", f);
+			if (prefs.getBoolean("showBookTitles", false))
+				item.put("name", getEbookName(dir.getAbsolutePath(), f));
+			else
+				item.put("name", f);
 			item.put("dname", dir.getAbsolutePath());
 			item.put("fname", dir.getAbsolutePath() + "/" + f);
 			item.put("type", "file");
@@ -1476,6 +1496,8 @@ public class ReLaunch extends Activity {
 			useDirViewer = data.getBooleanExtra("dirviewer", false);
 		}
 
+		dataBase = new BooksBase(this);
+
 		// Global arrays
 		allowedModels = getResources().getStringArray(R.array.allowed_models);
 		allowedDevices = getResources().getStringArray(R.array.allowed_devices);
@@ -1569,11 +1591,13 @@ public class ReLaunch extends Activity {
 				drawDirectory(start_dir, -1);
 		} else {
 			// Main layout
+			setContentView(R.layout.main);
+			if (!prefs.getBoolean("showButtons", true)) {
+				hideLayout(R.id.linearLayoutTop);
+			}
 			if (useHome) {
 				app.readFile("app_last", APP_LRU_FILE, ":");
 				app.readFile("app_favorites", APP_FAV_FILE, ":");
-				setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main_launcher
-						: R.layout.main_launcher_nb);
 
 				final ImageButton lrua_button = ((ImageButton) findViewById(R.id.app_last));
 				class LruaSimpleOnGestureListener extends
@@ -1688,9 +1712,10 @@ public class ReLaunch extends Activity {
 						return false;
 					}
 				});
-			} else
-				setContentView(prefs.getBoolean("showButtons", true) ? R.layout.main
-						: R.layout.main_nobuttons);
+			} else {
+				hideLayout(R.id.linearLayoutBottom);
+			}
+
 			if (prefs.getBoolean("showButtons", true)) {
 
 				final ImageButton home_button = (ImageButton) findViewById(R.id.home_btn);
@@ -2398,9 +2423,17 @@ public class ReLaunch extends Activity {
 						getResources().getString(
 								R.string.jv_relaunch_createintent));
 			// "Delete"
-			if (prefs.getBoolean("useFileManagerFunctions", true))
+			if (prefs.getBoolean("useFileManagerFunctions", true)) {
+				menu.add(Menu.NONE, CNTXT_MENU_COPY, Menu.NONE,
+						getResources().getString(R.string.jv_relaunch_copy));
+				menu.add(Menu.NONE, CNTXT_MENU_MOVE, Menu.NONE,
+						getResources().getString(R.string.jv_relaunch_move));
+				if (fileOp != 0)
+					menu.add(Menu.NONE, CNTXT_MENU_PASTE, Menu.NONE,
+							getResources().getString(R.string.jv_relaunch_paste));
 				menu.add(Menu.NONE, CNTXT_MENU_DELETE_F, Menu.NONE,
 						getResources().getString(R.string.jv_relaunch_delete));
+			}
 		} else {
 			File d = new File(fullName);
 			String[] allEntries = d.list();
@@ -2427,6 +2460,11 @@ public class ReLaunch extends Activity {
 							getResources().getString(
 									R.string.jv_relaunch_delete_emp_dir));
 			}
+			if (prefs.getBoolean("useFileManagerFunctions", true) && (fileOp != 0)) {
+					menu.add(Menu.NONE, CNTXT_MENU_PASTE, Menu.NONE,
+							getResources().getString(R.string.jv_relaunch_paste));
+			}
+
 		}
 		// "Cancel"
 		menu.add(Menu.NONE, CNTXT_MENU_CANCEL, Menu.NONE, getResources()
@@ -2795,6 +2833,55 @@ public class ReLaunch extends Activity {
 				redrawList();
 			}
 			break;
+			
+		case CNTXT_MENU_COPY:
+			fileOpFile = fname;
+			fileOpDir = dname;
+			fileOp = CNTXT_MENU_COPY;
+			break;
+
+		case CNTXT_MENU_MOVE:
+			fileOpFile = fname;
+			fileOpDir = dname;
+			fileOp = CNTXT_MENU_MOVE;
+			break;
+
+		case CNTXT_MENU_PASTE:
+			String src = fileOpDir + "/" + fileOpFile;
+			String dst = dname + "/" + fileOpFile;
+			boolean retCode = false;
+			if (fileOp == CNTXT_MENU_COPY)
+				retCode = app.copyFile(src, dst);
+			else if (fileOp == CNTXT_MENU_MOVE)
+				retCode = app.moveFile(src, dst);
+			if (retCode) {
+				fileOp = 0;
+				HashMap<String, String> fitem = new HashMap<String, String>();
+				fitem.put("name", fileOpFile);
+				fitem.put("dname", dname);
+				fitem.put("fname", dname + "/" + fileOpFile);
+				fitem.put("type", "file");
+				fitem.put("reader", app.readerName(fileOpFile));
+				itemsArray.add(fitem);
+				redrawList();
+			} else {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(getResources().getString(
+						R.string.jv_relaunch_paste_fail_title));
+				builder.setMessage(getResources().getString(
+						R.string.jv_relaunch_paste_fail_text)
+						+ " " + fileOpFile);
+				builder.setNeutralButton(
+						getResources().getString(R.string.jv_relaunch_ok),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								dialog.dismiss();
+							}
+						});
+				builder.show();
+			}
+			break;
 		}
 		return true;
 	}
@@ -2992,6 +3079,49 @@ public class ReLaunch extends Activity {
 			columns = app.columns.get(dir);
 		}
 		return columns;
+	}
+
+	private String getEbookName(String dir, String file) {
+		EBook eBook;
+		String fileName = dir + "/" + file;
+		eBook = dataBase.getBookByFileName(dir + "/" + file);
+		if (!eBook.isOk) {
+			Parser parser = new InstantParser();
+			eBook = parser.parse(fileName);
+			if (eBook.isOk)
+				dataBase.addBook(eBook);
+		}
+		if (eBook.isOk) {
+			String output = prefs.getString("bookTitleFormat", "%a. %t");
+			if (eBook.authors.size() > 0) {
+				String author = "";
+				if (eBook.authors.get(0).firstName != null)
+					author += eBook.authors.get(0).firstName;
+				if (eBook.authors.get(0).lastName != null)
+					author += " " + eBook.authors.get(0).lastName;
+					output = output.replace("%a", author);
+			}
+			if (eBook.title != null)
+				output = output.replace("%t", eBook.title);
+			if (eBook.sequenceName != null)
+				output = output.replace("%s", eBook.sequenceName);
+			else
+				output = output.replace("%s", "");
+			if (eBook.sequenceNumber != null)
+				output = output.replace("%n", eBook.sequenceNumber);
+			else
+				output = output.replace("%n", "");
+			return output;
+		} else
+			return file;
+	}
+
+	private void hideLayout(int id) {
+		View v = (View) findViewById(id);
+		LayoutParams p = (LayoutParams) v.getLayoutParams();
+		p.height = 0;
+		p.width = 0;
+		v.setLayoutParams(p);
 	}
 
 }

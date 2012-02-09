@@ -159,6 +159,9 @@
     <string name="jv_relaunch_unmarkall">Снять все пометки</string>
     <string name="jv_relaunch_openwith">Открыть с помощью...</string>
     <string name="jv_relaunch_createintent">Создать событие...</string>
+    <string name="jv_relaunch_copy">Копировать</string>
+    <string name="jv_relaunch_move">Переместить</string>
+    <string name="jv_relaunch_paste">Вставить</string>
     <string name="jv_relaunch_delete">Удалить</string>
     <string name="jv_relaunch_delete_non_emp_dir">Удалить НЕ ПУСТУЮ папку!</string>
     <string name="jv_relaunch_delete_emp_dir">Удалить пустую папку</string>
@@ -180,6 +183,8 @@
     <string name="jv_relaunch_del_ne_dir_title">Предупреждение</string>
     <string name="jv_relaunch_del_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
     <string name="jv_relaunch_del_ne_dir_text2">(потенциально опасное действие)?</string>
+    <string name="jv_relaunch_paste_fail_title">Ошибка вставки файла</string>
+    <string name="jv_relaunch_paste_fail_text">Не удалось скопировать/переместить файл</string>
     <string name="jv_relaunch_launcher">Режим рабочего стола!</string>
     <string name="jv_relaunch_launcher_text">Вы действительно хотите выйти?</string>
     <string name="jv_relaunch_lru">Недавно открытые</string>
