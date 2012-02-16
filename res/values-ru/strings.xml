@@ -162,6 +162,11 @@
     <string name="jv_relaunch_copy">Копировать</string>
     <string name="jv_relaunch_move">Переместить</string>
     <string name="jv_relaunch_paste">Вставить</string>
+    <string name="jv_relaunch_create_folder">Создать новую папку...</string>
+    <string name="jv_relaunch_create_folder_title">Введите имя новой папки</string>
+    <string name="jv_relaunch_create_folder_fail_text">Не удалось создать папку</string>
+    <string name="jv_relaunch_rename">Переименовать...</string>
+    <string name="jv_relaunch_rename_title">Введите новое имя файла</string>
     <string name="jv_relaunch_delete">Удалить</string>
     <string name="jv_relaunch_delete_non_emp_dir">Удалить НЕ ПУСТУЮ папку!</string>
     <string name="jv_relaunch_delete_emp_dir">Удалить пустую папку</string>
@@ -183,8 +188,9 @@
     <string name="jv_relaunch_del_ne_dir_title">Предупреждение</string>
     <string name="jv_relaunch_del_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
     <string name="jv_relaunch_del_ne_dir_text2">(потенциально опасное действие)?</string>
-    <string name="jv_relaunch_paste_fail_title">Ошибка вставки файла</string>
-    <string name="jv_relaunch_paste_fail_text">Не удалось скопировать/переместить файл</string>
+    <string name="jv_relaunch_error_title">Ошибка</string>
+    <string name="jv_relaunch_paste_fail_text">Не удалось скопировать/переместить</string>
+    <string name="jv_relaunch_rename_fail_text">Не удалось переименовать</string>
     <string name="jv_relaunch_launcher">Режим рабочего стола!</string>
     <string name="jv_relaunch_launcher_text">Вы действительно хотите выйти?</string>
     <string name="jv_relaunch_lru">Недавно открытые</string>
@@ -196,6 +202,9 @@
     <string name="jv_relaunch_turning_wifi_off">WiFi выключен</string>
     <string name="jv_relaunch_prev">пред.</string>
     <string name="jv_relaunch_next">след.</string>
+    <string name="jv_relaunch_switch_titles_on">Показать названия книг</string>
+    <string name="jv_relaunch_switch_titles_off">Показать файлы</string>
+    <string name="jv_relaunch_tags_rename">Переименовать по тегам fb2/epub...</string>
     <string name="jv_rla_activity">Действие</string>
     <string name="jv_rla_not_found">не найдено!</string>
     <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>

@@ -162,6 +162,11 @@
     <string name="jv_relaunch_copy">Copy</string>
     <string name="jv_relaunch_move">Move</string>
     <string name="jv_relaunch_paste">Paste</string>
+    <string name="jv_relaunch_rename">Rename...</string>
+    <string name="jv_relaunch_create_folder">Create new folder...</string>
+    <string name="jv_relaunch_create_folder_title">Enter the name of new folder</string>
+    <string name="jv_relaunch_create_folder_fail_text">Unable to create the folder</string>
+    <string name="jv_relaunch_rename_title">Enter new name of file</string>
     <string name="jv_relaunch_delete">Delete</string>
     <string name="jv_relaunch_delete_non_emp_dir">Delete NON-EMPTY directory!</string>
     <string name="jv_relaunch_delete_emp_dir">Delete empty directory</string>
@@ -183,8 +188,9 @@
     <string name="jv_relaunch_del_ne_dir_title">Delete non empty directory warning</string>
     <string name="jv_relaunch_del_ne_dir_text1">Are you sure to delete non-empty directory</string>
     <string name="jv_relaunch_del_ne_dir_text2">(dangerous) \?</string>
-    <string name="jv_relaunch_paste_fail_title">File copy/move error</string>
-    <string name="jv_relaunch_paste_fail_text">Unable to copy/move file</string>
+    <string name="jv_relaunch_error_title">Error</string>
+    <string name="jv_relaunch_paste_fail_text">Unable to copy/move</string>
+    <string name="jv_relaunch_rename_fail_text">Unable to rename</string>
     <string name="jv_relaunch_launcher">This is a launcher!</string>
     <string name="jv_relaunch_launcher_text">Are you sure you want to quit ?</string>
     <string name="jv_relaunch_lru">Last opened</string>
@@ -196,6 +202,9 @@
     <string name="jv_relaunch_turning_wifi_off">WiFi is off</string>
     <string name="jv_relaunch_prev">prev</string>
     <string name="jv_relaunch_next">next</string>
+    <string name="jv_relaunch_switch_titles_on">Show book titles</string>
+    <string name="jv_relaunch_switch_titles_off">Show file names</string>
+    <string name="jv_relaunch_tags_rename">Rename file with fb2/epub tags...</string>
     <string name="jv_rla_activity">Activity</string>
     <string name="jv_rla_not_found">not found!</string>
     <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Reader launcher for Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>

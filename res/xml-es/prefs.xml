@@ -107,7 +107,7 @@
                 android:key="bookTitleFormat" 
                 android:title="Format of title of the book"
                 android:dependency="showBookTitles"
-                android:summary="%f - author's first name, %l - last name, %t - book title, %s - series title, %n - number in series">
+                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series">
         </EditTextPreference>
         
         <CheckBoxPreference

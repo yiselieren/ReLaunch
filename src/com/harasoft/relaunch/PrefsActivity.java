@@ -86,7 +86,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("showNew", true));
         defItems.add(new PrefItem("showBookTitles", false));
         defItems.add(new PrefItem("showBookCovers", false));
-        defItems.add(new PrefItem("bookTitleFormat", "%a. %t"));
+        defItems.add(new PrefItem("bookTitleFormat", "[%a. ]%t"));
 		defItems.add(new PrefItem("hideKnownExts", false));
 		defItems.add(new PrefItem("hideKnownDirs", false));
 		defItems.add(new PrefItem("openWith", true));

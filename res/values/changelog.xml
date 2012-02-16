@@ -30,6 +30,12 @@
         </string>
     <string name="whats_new">
         &lt;b>CHANGELOG&lt;/b>&lt;br>
+        &lt;b>1.3.2&lt;/b>&lt;br>
+        - almost fully implemented file operations (create, rename, copy, move file and folders)&lt;br>
+        - book title pattern changed&lt;br>
+        - added context menu item [Rename from fb2/epub tags]&lt;br>
+        - added saving current position in the directory between calls bookreaders&lt;br>
+        - fixed sorting in book titles mode&lt;br>
         &lt;b>1.3.1&lt;/b>&lt;br>
         - Option "Show hidden files" added to preferences&lt;br>
         - Copy/move file functions added to context menu&lt;br>

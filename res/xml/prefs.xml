@@ -82,7 +82,7 @@
             android:summaryOn="Use color/bold fonts to show new and finished books"
             android:title="Show new/read books" >
         </CheckBoxPreference>
-   
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="showHidden"
@@ -91,7 +91,7 @@
             android:summaryOn="Show hidden files and folders"
             android:title="Show hidden files" >
         </CheckBoxPreference>
-   
+
         <CheckBoxPreference 
                 android:title="Show book titles" 
                 android:defaultValue="false" 

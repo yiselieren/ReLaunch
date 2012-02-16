@@ -493,32 +493,46 @@ public class ReLaunchApp extends Application {
 
 	//Copy file src to dst
 	public boolean copyFile(String from, String to) {
-		File srcFile = new File(from); 
-		File dstFile = new File(to); 
-	    FileChannel src = null;
-	    FileChannel dst = null;
-	    boolean ret;
-	    try {
-	    	if(!dstFile.exists()) {
-		        dstFile.createNewFile();
-		    }
-	        src = new FileInputStream(srcFile).getChannel();
-	        dst = new FileOutputStream(dstFile).getChannel();
-	        dst.transferFrom(src, 0, src.size());
-            src.close();
-            dst.close();
-            ret = true;
-	    } catch (IOException e) {
-	    	ret = false;
-	    }
-	    return ret;
+		File srcFile = new File(from);
+		File dstFile = new File(to);
+		FileChannel src = null;
+		FileChannel dst = null;
+		boolean ret;
+//		if ((!srcFile.canRead()) || (!dstFile.canWrite()) || (dstFile.exists()))
+		if ((!srcFile.canRead()) || (dstFile.exists()))
+			return false;
+		try {
+			dstFile.createNewFile();
+			src = new FileInputStream(srcFile).getChannel();
+			dst = new FileOutputStream(dstFile).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+			ret = true;
+		} catch (IOException e) {
+			ret = false;
+		}
+		return ret;
 	}
 	
-	//Copy file src to dst
+	//Move file src to dst
 	public boolean moveFile(String from, String to) {
-		File src = new File(from);
-		File dst = new File(to);
-		return src.renameTo(dst);
+		boolean ret = false;
+		if (from.split("/")[0].equalsIgnoreCase(to.split("/")[0])) {
+			File src = new File(from);
+			File dst = new File(to);
+			ret = src.renameTo(dst);
+		} else {
+			if (copyFile(from, to))
+				ret = removeFile(from);
+		}
+		return ret;
+	}
+	
+	public boolean createDir(String dst) {
+		boolean ret = false;
+		File dir = new File(dst);
+		return dir.mkdir();
 	}
 	
 	// common utility - get intent by label, null if not found

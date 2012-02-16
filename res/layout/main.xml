@@ -5,7 +5,6 @@
     android:background="@color/normal_bg"
     android:orientation="vertical"
     android:padding="8dp" >
-
     <LinearLayout
     	android:id="@+id/linearLayoutTop"
     	android:layout_width="fill_parent"
