@@ -31,7 +31,7 @@
     <string name="prefs_layout_cancel">Отмена</string>
     <string name="prefs_layout_ok">OK</string>
     <string name="prefs_layout_save_restart">Сохранить и перезапустить</string>
-    <string name="prefs_layout_revert_default">Вернуть настройки по умолчанию</string>
+    <string name="prefs_layout_revert_default">Сброс/Сохр./Восст.\n настроек</string>
     <string name="search_layout_case_sensitive">Регистр различается</string>
     <string name="search_layout_search_known">Только файлы известных расширений</string>
     <string name="search_layout_sort_search">Отсортировать результаты</string>
@@ -141,6 +141,13 @@
     <string name="jv_prefs_yes">Да</string>
     <string name="jv_prefs_no">Нет</string>
     <string name="jv_prefs_cancel">Отмена</string>
+    <string name="jv_prefs_rsr_reset">Вернуть настройки по умолчанию</string>
+    <string name="jv_prefs_rsr_save">Сохранить настройки на карту памяти</string>
+    <string name="jv_prefs_rsr_restore">Восстановить настройки с карты памяти</string>
+    <string name="jv_prefs_rsr_ok_title">Выполнено!</string>
+    <string name="jv_prefs_rsr_ok_text">Операция выполнена успешно</string>
+    <string name="jv_prefs_rsr_fail_title">Ошибка!</string>
+    <string name="jv_prefs_rsr_fail_text">Не удалось выполнить операцию</string>
     <string name="jv_relaunch_wrong_model">Не верная модель устройства!</string>
     <string name="jv_relaunch_yes">Да</string>
     <string name="jv_relaunch_no">Нет</string>
@@ -161,6 +168,7 @@
     <string name="jv_relaunch_createintent">Создать событие...</string>
     <string name="jv_relaunch_copy">Копировать</string>
     <string name="jv_relaunch_move">Переместить</string>
+    <string name="jv_relaunch_move_dir">Переместить</string>
     <string name="jv_relaunch_paste">Вставить</string>
     <string name="jv_relaunch_create_folder">Создать новую папку...</string>
     <string name="jv_relaunch_create_folder_title">Введите имя новой папки</string>
@@ -204,7 +212,12 @@
     <string name="jv_relaunch_next">след.</string>
     <string name="jv_relaunch_switch_titles_on">Показать названия книг</string>
     <string name="jv_relaunch_switch_titles_off">Показать файлы</string>
-    <string name="jv_relaunch_tags_rename">Переименовать по тегам fb2/epub...</string>
+    <string name="jv_relaunch_tags_rename">Переименовать по тегам fb2/epub…</string>
+    <string name="jv_relaunch_sort_header">Сортировать файлы по</string>
+    <string name="jv_relaunch_sort_file_dir">имени файла А-Я</string>
+    <string name="jv_relaunch_sort_file_rev">имени файла Я-А</string>
+    <string name="jv_relaunch_sort_title_dir">названию книги А-Я</string>
+    <string name="jv_relaunch_sort_title_rev">названию книги Я-А</string>
     <string name="jv_rla_activity">Действие</string>
     <string name="jv_rla_not_found">не найдено!</string>
     <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
@@ -237,6 +250,8 @@
     <string name="jv_results_delete_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
     <string name="jv_results_delete_ne_dir_text2">(потенциально опасное действие)\?</string>
     <string name="jv_results_activity_not_found">Действие не найдено</string>
+    <string name="jv_results_menu_title">Выберите файл</string>
+    <string name="jv_results_menu_button">Отмена</string>
     <string name="jv_search_in_progress">Производится поиск</string>
     <string name="jv_search_cancel">Отмена</string>
     <string name="jv_search_results">Результаты поиска</string>

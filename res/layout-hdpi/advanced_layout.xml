@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="5.3dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="37dp" >
+
+        <ImageView
+            android:id="@+id/results_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_tools" />
+
+        <TextView
+            android:id="@+id/results_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="left|center_vertical"
+            android:inputType="textMultiLine"
+            android:paddingLeft="5.3dp"
+            android:text="Text View"
+            android:textAppearance="@style/sonyTextAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/results_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_marginRight="0.7dp"
+            android:layout_weight="2.8"
+            android:background="@drawable/main_button"
+            android:minWidth="96dp"
+            android:src="@drawable/ci_exit" >
+        </ImageButton>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_lv_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5.3dp"
+        android:layout_weight="0.4"
+        android:background="@drawable/main_button"
+        android:padding="5.3dp" >
+
+        <ListView
+            android:id="@+id/wifi_lv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="2.7dp"
+        android:layout_weight="0.5" >
+
+        <Button
+            android:id="@+id/wifi_scan_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_wifiscan"
+            android:paddingBottom="11dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="5.3dp"
+            android:text="@string/advanced_layout_scan" >
+        </Button>
+
+        <Button
+            android:id="@+id/wifi_onoff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/wifi_off"
+            android:drawableRight="@drawable/wifi_off"
+            android:drawableTop="@drawable/ci_wifi"
+            android:paddingBottom="11dp"
+            android:paddingLeft="5.3dp"
+            android:paddingRight="5.3dp"
+            android:paddingTop="5.3dp"
+            android:text="@string/advanced_layout_switch_wifi_off" >
+        </Button>
+
+        <Button
+            android:id="@+id/wifi_setup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_wifisetup"
+            android:paddingBottom="11dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="5.3dp"
+            android:text="@string/advanced_layout_setting_wifi" >
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5.3dp"
+        android:layout_weight="0.4"
+        android:background="@drawable/main_button"
+        android:orientation="vertical"
+        android:padding="2.7dp" >
+
+        <WebView
+            android:id="@+id/webview1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fadeScrollbars="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5.3dp"
+        android:layout_weight="0.5" >
+
+        <Button
+            android:id="@+id/lock_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_lock"
+            android:paddingBottom="11dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="5.3dp"
+            android:text="@string/advanced_layout_lock" >
+        </Button>
+
+        <Button
+            android:id="@+id/reboot_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_reboot"
+            android:paddingBottom="11dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="5.3dp"
+            android:text="@string/advanced_layout_reboot" >
+        </Button>
+
+        <Button
+            android:id="@+id/poweroff_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableTop="@drawable/ci_power"
+            android:paddingBottom="11dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="5.3dp"
+            android:text="@string/advanced_layout_poweroff" >
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

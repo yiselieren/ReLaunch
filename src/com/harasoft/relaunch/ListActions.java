@@ -140,7 +140,7 @@ public class ListActions {
 			AlertDialog.Builder builder = new AlertDialog.Builder(act);
 			// "Select home directory"
 			final String flistName = listName;
-			builder.setTitle("Выберите");
+			builder.setTitle(app.getResources().getString(R.string.jv_results_menu_title));
 			builder.setSingleChoiceItems(lnames, -1,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int i) {
@@ -149,7 +149,7 @@ public class ListActions {
 							dialog.dismiss();
 						}
 					});
-			builder.setNegativeButton("Отмена",
+			builder.setNegativeButton(app.getResources().getString(R.string.jv_results_menu_button),
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {

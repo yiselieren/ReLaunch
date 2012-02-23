@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="Theme.Light.Hack" parent="@android:Theme.Light">
+		<item name="android:textColorPrimaryInverse">
+		@android:color/primary_text_light
+		</item>
+	</style>
+	
+	<style name="sonyTextAppearanceSmall" parent="@android:attr/textAppearanceSmall">
+		<item name="android:textSize">10sp</item>
+	</style>
+	<style name="sonyTextAppearanceMedium" parent="@android:attr/textAppearanceMedium">
+		<item name="android:textSize">12sp</item>
+	</style>
+	<style name="sonyTextAppearanceLarge" parent="@android:attr/textAppearanceLarge">
+		<item name="android:textSize">14sp</item>
+	</style>
+	<style name="sonyTextAppearanceMenu" parent="@android:attr/textAppearanceLarge">
+		<item name="android:textSize">15sp</item>
+	</style>
+</resources>

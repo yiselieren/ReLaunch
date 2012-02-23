@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/normal_bg"
+    android:orientation="horizontal"
+    android:paddingBottom="1.3dp"
+    android:paddingTop="1.3dp" >
+
+    <ImageView
+        android:id="@+id/tm_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="top|left"
+        android:layout_marginBottom="1.3dp"
+        android:layout_marginLeft="2.7dp"
+        android:layout_marginRight="1.3dp"
+        android:layout_marginTop="1.3dp"
+        android:background="@color/normal_bg"
+        android:clickable="false"
+        android:focusable="false"
+        android:src="@drawable/dir_ok" >
+    </ImageView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2.7dp"
+        android:background="@color/normal_bg"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/tm_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_weight="1"
+            android:background="@color/normal_bg"
+            android:clickable="false"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:text="Filename"
+            android:textAppearance="@style/sonyTextAppearanceLarge"
+            android:textColor="#000000" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/tm_fullname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:clickable="false"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:text="Full path"
+            android:textAppearance="@style/sonyTextAppearanceSmall"
+            android:textColor="#000000" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/tm_extra"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:clickable="false"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:text="Full path"
+            android:textAppearance="@style/sonyTextAppearanceMedium"
+            android:textColor="#000000" >
+        </EditText>
+    </LinearLayout>
+
+</LinearLayout>

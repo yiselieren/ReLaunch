@@ -1,7 +1,5 @@
 package com.harasoft.relaunch;
 
-import java.util.ArrayList;
-
 import ebook.EBook;
 import ebook.Person;
 
@@ -10,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class BooksBase {
 	DbHelper dbHelper;
@@ -95,6 +92,7 @@ public class BooksBase {
 		return bookId;
 	}
 
+	@SuppressWarnings("unused")
 	private long getAuthorIdByName(String name) {
 		long id;
 		Cursor cursor = db.rawQuery("select ID from AUTHORS where NAME=?",

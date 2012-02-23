@@ -10,8 +10,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -71,6 +73,9 @@ public class ReLaunchApp extends Application {
 	public int FLT_NEW;
 	public int FLT_NEW_AND_READING;
 	public boolean filters_and;
+	
+	public final String BACKUP_DIR = "/sdcard/.relaunch";
+	public final String DATA_DIR = "/data/data/com.harasoft.relaunch";
 
 	public HashMap<String, Integer> history = new HashMap<String, Integer>();
 	public HashMap<String, Integer> columns = new HashMap<String, Integer>();
@@ -78,6 +83,8 @@ public class ReLaunchApp extends Application {
 	private HashMap<String, Drawable> icons;
 	private List<HashMap<String, String>> readers;
 	private List<String> apps;
+
+	public static BooksBase dataBase;
 
 	// Icons
 	public HashMap<String, Drawable> getIcons() {
@@ -492,14 +499,14 @@ public class ReLaunchApp extends Application {
 	}
 
 	//Copy file src to dst
-	public boolean copyFile(String from, String to) {
+	public boolean copyFile(String from, String to, boolean rewrite) {
 		File srcFile = new File(from);
 		File dstFile = new File(to);
 		FileChannel src = null;
 		FileChannel dst = null;
 		boolean ret;
 //		if ((!srcFile.canRead()) || (!dstFile.canWrite()) || (dstFile.exists()))
-		if ((!srcFile.canRead()) || (dstFile.exists()))
+		if ((!srcFile.canRead()) || ((dstFile.exists()) && (!rewrite)))
 			return false;
 		try {
 			dstFile.createNewFile();
@@ -523,14 +530,13 @@ public class ReLaunchApp extends Application {
 			File dst = new File(to);
 			ret = src.renameTo(dst);
 		} else {
-			if (copyFile(from, to))
+			if (copyFile(from, to, false))
 				ret = removeFile(from);
 		}
 		return ret;
 	}
 	
 	public boolean createDir(String dst) {
-		boolean ret = false;
 		File dir = new File(dst);
 		return dir.mkdir();
 	}
@@ -756,4 +762,35 @@ public class ReLaunchApp extends Application {
 	public void generalOnResume(String name, Activity a) {
 		Log.d(TAG, "--- onResume(" + name + ")");
 	}
+
+	public boolean copyPrefs(String from, String to) {
+		File fromDir = new File(from);
+		File toDir = new File(to);
+		if (!fromDir.exists())
+			return false;
+		if (!toDir.exists())
+			if (!toDir.mkdir())
+				return false;
+		File tDir = new File(toDir.getAbsolutePath() + "/files"); 
+		if (!tDir.exists())
+			if (!tDir.mkdir())
+				return false;
+		tDir = new File(toDir.getAbsolutePath() + "/shared_prefs"); 
+		if (!tDir.exists())
+			if (!tDir.mkdir())
+				return false;
+		String[] files = {"AppFavorites.txt", "AppLruFile.txt", "Columns.txt", "Filters.txt", "History.txt", "LruFile.txt"};
+		for (String f : files) {
+			String src = fromDir.getAbsolutePath() + "/files/" + f;
+			String dst = toDir.getAbsolutePath() + "/files/" + f;
+			copyFile(src, dst, true);
+		}
+		String src = fromDir.getAbsolutePath() + "/shared_prefs/com.harasoft.relaunch_preferences.xml";
+		String dst = toDir.getAbsolutePath() + "/shared_prefs/com.harasoft.relaunch_preferences.xml";
+//		boolean ret = copyFile(src, dst, true);
+		if (!copyFile(src, dst, true))
+			return false;
+		return true;
+	}
+
 }

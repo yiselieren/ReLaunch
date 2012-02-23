@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+
+import ebook.EBook;
+import ebook.parser.InstantParser;
+import ebook.parser.Parser;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -77,6 +82,8 @@ public class ResultsActivity extends Activity {
 	Integer currentPosition = -1;
 	boolean addSView = true;
 	boolean oldHome;
+	Pattern purgeBracketsPattern;
+
 
 	private void setEinkController() {
 		if (prefs != null) {
@@ -217,7 +224,7 @@ public class ResultsActivity extends Activity {
 			HashMap<String, String> item = itemsArray.get(position);
 			if (item != null) {
 				String fname = item.get("fname");
-				String sname = item.get("fname");
+				String sname = item.get("sname");
 				String dname = item.get("dname");
 				String sdname = item.get("dname");
 				String fullName = dname + "/" + fname;
@@ -481,17 +488,23 @@ public class ResultsActivity extends Activity {
 				HashMap<String, String> item = new HashMap<String, String>();
 				item.put("dname", n[0]);
 				item.put("fname", n[1]);
+				item.put("sname", n[1]);
 				if (n[1].equals(app.DIR_TAG)) {
 					int ind = n[0].lastIndexOf('/');
 					if (ind == -1) {
 						item.put("fname", "");
+						item.put("sname", "");
 					} else {
 						item.put("fname", n[0].substring(ind + 1));
+						item.put("sname", n[0].substring(ind + 1));
 						item.put("dname", n[0].substring(0, ind));
 					}
 					item.put("type", "dir");
-				} else
+				} else {
 					item.put("type", "file");
+					if (prefs.getBoolean("showBookTitles", false))
+						item.put("sname", getEbookName(n[0], n[1]));
+				}
 				itemsArray.add(item);
 			}
 		}
@@ -511,6 +524,12 @@ public class ResultsActivity extends Activity {
 		setContentView(R.layout.results_layout);
 
 		icons = app.getIcons();
+
+		if (app.dataBase == null)
+			app.dataBase = new BooksBase(this);
+		if (!app.dataBase.db.isOpen())
+			app.dataBase = new BooksBase(this);
+		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
 
 		// Recreate readers list
 		final Intent data = getIntent();
@@ -1451,5 +1470,39 @@ public class ResultsActivity extends Activity {
 		setEinkController();
 		super.onResume();
 		app.generalOnResume(TAG, this);
+	}
+
+	private String getEbookName(String dir, String file) {
+		EBook eBook;
+		if ((!file.endsWith("fb2")) && (!file.endsWith("fb2.zip")) &&(!file.endsWith("epub")))
+			return file;
+		String fileName = dir + "/" + file;
+		eBook = app.dataBase.getBookByFileName(dir + "/" + file);
+		if (eBook.isOk) {
+			String output = prefs.getString("bookTitleFormat", "[%a. ]%t");
+			if (eBook.authors.size() > 0) {
+				String author = "";
+				if (eBook.authors.get(0).firstName != null)
+					author += eBook.authors.get(0).firstName;
+				if (eBook.authors.get(0).lastName != null)
+					author += " " + eBook.authors.get(0).lastName;
+					output = output.replace("%a", author);
+			}
+			if (eBook.title != null)
+				output = output.replace("%t", eBook.title);
+			if (eBook.sequenceName != null)
+				output = output.replace("%s", eBook.sequenceName);
+			else
+				output = output.replace("%s", "");
+			if (eBook.sequenceNumber != null)
+				output = output.replace("%n", eBook.sequenceNumber);
+			else
+				output = output.replace("%n", "");
+			output = purgeBracketsPattern.matcher(output).replaceAll("");
+			output = output.replace("[", "");
+			output = output.replace("]", "");
+			return output;
+		} else
+			return file;
 	}
 }

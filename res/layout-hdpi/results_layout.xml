@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="5.3dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="37.3dp" >
+
+        <ImageView
+            android:id="@+id/results_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/normal_bg_gray"
+            android:src="@drawable/ci_home" />
+
+        <Button
+            android:id="@+id/results_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5.3dp"
+            android:text="Text View"
+            android:textAppearance="@style/sonyTextAppearanceMedium"
+            android:textColor="@color/normal_fg"
+            android:textStyle="bold" >
+        </Button>
+
+        <ImageButton
+            android:id="@+id/results_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="2.8"
+            android:background="@drawable/main_button"
+            android:minWidth="64dp"
+            android:src="@drawable/ci_exit" >
+        </ImageButton>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@color/normal_transparent"
+        android:text="TextView"
+        android:textAppearance="@style/sonyTextAppearanceSmall"
+        android:textColor="@color/normal_transparent" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="37.3dp"
+        android:layout_marginTop="5.3dp" >
+
+        <Button
+            android:id="@+id/goup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.757"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_levelup"
+            android:paddingLeft="5.3dp"
+            android:paddingRight="5.3dp"
+            android:text="@string/main_launcher_nb_layout_go_one_level_up" >
+        </Button>
+
+        <Button
+            android:id="@+id/upscroll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowup"
+            android:paddingLeft="5.3dp"
+            android:text="0%" >
+        </Button>
+
+        <Button
+            android:id="@+id/downscroll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowdown"
+            android:paddingLeft="5.3dp"
+            android:text="0%" >
+        </Button>
+
+        <ImageButton
+            android:id="@+id/advanced_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_tools" >
+        </ImageButton>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/results_fl"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5.3dp" >
+
+        <GridView
+            android:id="@+id/results_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:duplicateParentState="true"
+            android:numColumns="3"
+            android:smoothScrollbar="false"
+            android:stretchMode="columnWidth" >
+        </GridView>
+    </LinearLayout>
+
+</LinearLayout>

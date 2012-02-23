@@ -97,8 +97,8 @@
                 android:defaultValue="false" 
                 android:key="showBookTitles" 
                 android:persistent="true" 
-                android:summaryOff="Показывать названия книг" 
-                android:summaryOn="Показывать имена файлов"
+                android:summaryOn="Показывать названия книг" 
+                android:summaryOff="Показывать имена файлов"
                 android:disableDependentsState="false" >
         </CheckBoxPreference>
         
@@ -106,7 +106,7 @@
                 android:key="bookTitleFormat" 
                 android:title="Формат заголовка книги" 
                 android:dependency="showBookTitles"
-                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии"> 
+                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии" android:defaultValue="[%a. ]%t"> 
         </EditTextPreference>
         
         <CheckBoxPreference
@@ -125,6 +125,15 @@
             android:summaryOff="Всегда показывать полные имена папок"
             android:summaryOn="Для папок внутри начальных не показывать первую часть имени"
             android:title="Не показывать часть имени известных папок" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="showFullDirPath"
+            android:persistent="true"
+            android:summaryOff="Показывать имя текущей папки в заголовке"
+            android:summaryOn="Показывать полный путь к папке в заголовке"
+            android:title="Показывать полный путь к папке в заголовке" >
         </CheckBoxPreference>
 
         <CheckBoxPreference

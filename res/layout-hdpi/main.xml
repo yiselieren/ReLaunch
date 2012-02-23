@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="5.3dp" >
+    <LinearLayout
+    	android:id="@+id/linearLayoutTop"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_gravity="center"
+    	android:minHeight="21dp" >
+
+        <ImageButton
+            android:id="@+id/home_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_home" >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/lru_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_lre" >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/favor_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_fav" >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_search" >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/settings_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_gear2" >
+        </ImageButton>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/title_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5.3dp"
+        android:background="@color/normal_bg_gray"
+        android:gravity="center"
+        android:padding="1.3dp"
+        android:text="TITLE"
+        android:textAppearance="@style/sonyTextAppearanceMedium"
+        android:textColor="@color/normal_fg"
+        android:textStyle="bold" >
+    </Button>
+
+    <LinearLayout
+    	android:id="@+id/linearLayoutNavigate"
+    	android:layout_width="fill_parent"
+    	android:layout_height="37dp"
+    	android:layout_marginTop="5.3dp" >
+
+        <Button
+            android:id="@+id/goup_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.757"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_levelup"
+            android:paddingLeft="5.3dp"
+            android:paddingRight="5.3dp"
+            android:text="@string/main_launcher_nb_layout_go_one_level_up" >
+        </Button>
+
+        <Button
+            android:id="@+id/upscroll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowup"
+            android:paddingLeft="5.3dp"
+            android:text="0%" >
+        </Button>
+
+        <Button
+            android:id="@+id/downscroll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_arrowdown"
+            android:paddingLeft="5.3dp"
+            android:text="0%" >
+        </Button>
+
+        <ImageButton
+            android:id="@+id/advanced_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_tools" >
+        </ImageButton>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gl_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5.3dp"
+        android:layout_weight="1" >
+
+        <GridView
+            android:id="@+id/gl_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:duplicateParentState="true"
+            android:numColumns="3"
+            android:smoothScrollbar="false"
+            android:stretchMode="columnWidth" >
+        </GridView>
+    </LinearLayout>
+
+    <LinearLayout
+    	android:id="@+id/linearLayoutBottom"
+    	android:layout_width="fill_parent"
+    	android:layout_height="37dp"
+    	android:layout_gravity="center"
+    	android:layout_marginTop="5.3dp" >
+
+        <LinearLayout
+            android:id="@+id/mem_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/mem_title"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="1.3dp"
+                android:layout_marginRight="1.3dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:gravity="center"
+                android:text="@string/main_launcher_nb_layout_memory"
+                android:textAppearance="@style/sonyTextAppearanceSmall"
+                android:textColor="@color/normal_fg" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/mem_level"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2.7dp"
+                android:layout_marginRight="2.7dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:gravity="center"
+                android:text="@string/main_launcher_nb_layout_mem"
+                android:textAppearance="@style/sonyTextAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/app_last"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="0.65"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_lrea" >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/all_applications_btn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="0.65"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_grid"
+            android:text="All applications" >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/app_favorites"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="0.65"
+            android:background="@drawable/main_button"
+            android:src="@drawable/ci_fava" >
+        </ImageButton>
+
+        <LinearLayout
+            android:id="@+id/bat_layout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/bat_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2.7dp"
+                android:layout_marginRight="2.7dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:drawableRight="@drawable/wifi_on"
+                android:gravity="center"
+                android:text="@string/main_launcher_nb_layout_battery"
+                android:textAppearance="@style/sonyTextAppearanceSmall"
+                android:textColor="@color/normal_fg" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/bat_level"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2.7dp"
+                android:layout_marginRight="2.7dp"
+                android:layout_weight="1"
+                android:background="@color/normal_transparent"
+                android:gravity="center"
+                android:text="@string/main_launcher_nb_layout_b"
+                android:textAppearance="@style/sonyTextAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

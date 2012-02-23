@@ -18,11 +18,16 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.os.SystemClock;
 import android.view.MotionEvent;
@@ -89,6 +94,7 @@ public class PrefsActivity extends PreferenceActivity implements
         defItems.add(new PrefItem("bookTitleFormat", "[%a. ]%t"));
 		defItems.add(new PrefItem("hideKnownExts", false));
 		defItems.add(new PrefItem("hideKnownDirs", false));
+		defItems.add(new PrefItem("showFullDirPath", false));
 		defItems.add(new PrefItem("openWith", true));
 		defItems.add(new PrefItem("createIntent", true));
 		defItems.add(new PrefItem("gl16Mode", "5"));
@@ -374,6 +380,7 @@ public class PrefsActivity extends PreferenceActivity implements
 			savedItems.add(s);
 		}
 
+		final Context context = this;
 		((Button) findViewById(R.id.filter_settings))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
@@ -391,53 +398,198 @@ public class PrefsActivity extends PreferenceActivity implements
 					}
 				});
 		((Button) findViewById(R.id.restart_btn))
-				.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
-						mgr.set(AlarmManager.RTC,
-								System.currentTimeMillis() + 500,
-								app.RestartIntent);
-						System.exit(0);
-					}
-				});
+		.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+				mgr.set(AlarmManager.RTC,
+						System.currentTimeMillis() + 500,
+						app.RestartIntent);
+				System.exit(0);
+			}
+		});
 		final Activity pact = this;
 		((Button) findViewById(R.id.revert_btn))
-				.setOnClickListener(new View.OnClickListener() {
+		.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						final String[] list = {
+								getResources().getString(
+										R.string.jv_prefs_rsr_reset),
+								getResources().getString(
+										R.string.jv_prefs_rsr_save),
+								getResources().getString(
+										R.string.jv_prefs_rsr_restore),
+								getResources().getString(
+										R.string.jv_prefs_cancel) };
+						ListAdapter cmAdapter = new ArrayAdapter<String>(
+								getApplicationContext(),
+								R.layout.cmenu_list_item, list);
 						AlertDialog.Builder builder = new AlertDialog.Builder(
-								pact);
-						// "Default settings warning"
-						builder.setTitle(getResources().getString(
-								R.string.jv_prefs_default_settings_title));
-						// "Are you sure to restore default settings?"
-						builder.setMessage(getResources().getString(
-								R.string.jv_prefs_default_settings_text));
-						// "Yes"
-						builder.setPositiveButton(
-								getResources().getString(R.string.jv_prefs_yes),
+								context);
+						builder.setAdapter(cmAdapter,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										revert();
-										AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
-										mgr.set(AlarmManager.RTC,
-												System.currentTimeMillis() + 500,
-												app.RestartIntent);
-										System.exit(0);
+											int item) {
+										switch (item) {
+										case 0: {
+											AlertDialog.Builder builder = new AlertDialog.Builder(
+													pact);
+											// "Default settings warning"
+											builder.setTitle(getResources()
+													.getString(
+															R.string.jv_prefs_default_settings_title));
+											// "Are you sure to restore default settings?"
+											builder.setMessage(getResources()
+													.getString(
+															R.string.jv_prefs_default_settings_text));
+											// "Yes"
+											builder.setPositiveButton(
+													getResources()
+															.getString(
+																	R.string.jv_prefs_yes),
+													new DialogInterface.OnClickListener() {
+														public void onClick(
+																DialogInterface dialog,
+																int whichButton) {
+															revert();
+															AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+															mgr.set(AlarmManager.RTC,
+																	System.currentTimeMillis() + 500,
+																	app.RestartIntent);
+															System.exit(0);
+														}
+													});
+											// "No"
+											builder.setNegativeButton(
+													getResources()
+															.getString(
+																	R.string.jv_prefs_no),
+													new DialogInterface.OnClickListener() {
+														public void onClick(
+																DialogInterface dialog,
+																int whichButton) {
+															dialog.dismiss();
+														}
+													});
+											builder.show();
+										}
+											break;
+										case 1: {
+											boolean ret = app.copyPrefs(
+													app.DATA_DIR,
+													app.BACKUP_DIR);
+											AlertDialog.Builder builder = new AlertDialog.Builder(
+													context);
+											if (ret) {
+												builder.setTitle(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_ok_title));
+												builder.setMessage(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_ok_text));
+											} else {
+												builder.setTitle(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_fail_title));
+												builder.setMessage(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_fail_text));
+											}
+											builder.setNeutralButton(
+													getResources()
+															.getString(
+																	R.string.jv_prefs_ok),
+													new DialogInterface.OnClickListener() {
+														public void onClick(
+																DialogInterface dialog,
+																int whichButton) {
+															dialog.dismiss();
+														}
+													});
+											builder.show();
+										}
+											break;
+										case 2: {
+											boolean ret = app.copyPrefs(
+													app.BACKUP_DIR,
+													app.DATA_DIR);
+											AlertDialog.Builder builder = new AlertDialog.Builder(
+													context);
+											if (ret) {
+												builder.setTitle(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_ok_title));
+												builder.setMessage(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_ok_text));
+											} else {
+												builder.setTitle(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_fail_title));
+												builder.setMessage(getResources()
+														.getString(
+																R.string.jv_prefs_rsr_fail_text));
+											}
+											builder.setNeutralButton(
+													getResources()
+															.getString(
+																	R.string.jv_prefs_ok),
+													new DialogInterface.OnClickListener() {
+														public void onClick(
+																DialogInterface dialog,
+																int whichButton) {
+															dialog.dismiss();
+														}
+													});
+											builder.show();
+										}
+											break;
+										}
 									}
 								});
-						// "No"
-						builder.setNegativeButton(
-								getResources().getString(R.string.jv_prefs_no),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										dialog.dismiss();
-									}
-								});
-						builder.show();
-					}
-				});
+						AlertDialog alert = builder.create();
+						alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						alert.show();
+			}
+		});
+/*
+ * 		((Button) findViewById(R.id.revert_btn))
+		.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						pact);
+				// "Default settings warning"
+				builder.setTitle(getResources().getString(
+						R.string.jv_prefs_default_settings_title));
+				// "Are you sure to restore default settings?"
+				builder.setMessage(getResources().getString(
+						R.string.jv_prefs_default_settings_text));
+				// "Yes"
+				builder.setPositiveButton(
+						getResources().getString(R.string.jv_prefs_yes),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								revert();
+								AlarmManager mgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+								mgr.set(AlarmManager.RTC,
+										System.currentTimeMillis() + 500,
+										app.RestartIntent);
+								System.exit(0);
+							}
+						});
+				// "No"
+				builder.setNegativeButton(
+						getResources().getString(R.string.jv_prefs_no),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								dialog.dismiss();
+							}
+						});
+				builder.show();
+			}
+		});
+*/
 		// back button - work as cancel
 		((ImageButton) findViewById(R.id.back_btn))
 				.setOnClickListener(new View.OnClickListener() {

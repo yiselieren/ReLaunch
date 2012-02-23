@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/normal_transparent"
+    android:orientation="vertical"
+    android:padding="5.3dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" >
+
+        <Button
+            android:id="@+id/tm1_kill"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_kill"
+            android:paddingRight="5.3dp"
+            android:text="@string/service_details_layout_kill" >
+        </Button>
+
+        <Button
+            android:id="@+id/tm1_ok"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_ok"
+            android:gravity="center"
+            android:text="@string/service_details_layout_ok" >
+        </Button>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10.7dp"
+        android:gravity="center"
+        android:text="@string/task_details_layout_task_details"
+        android:textAppearance="@style/sonyTextAppearanceLarge"
+        android:textColor="@color/normal_fg"
+        android:textStyle="bold" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5.3dp" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="0.7dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="right"
+                android:text="@string/service_details_layout_piduid"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="right"
+                android:text="@string/service_details_layout_label"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="right"
+                android:text="@string/service_details_layout_name"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="right"
+                android:text="@string/service_details_layout_flags"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.38"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tm1_pid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tm1_label"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tm1_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tm1_extra"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0.7dp"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAppearance="@style/sonyTextAppearanceLarge"
+                android:textColor="#000000" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10.7dp"
+        android:gravity="center"
+        android:text="@string/task_details_layout_related_packages"
+        android:textAppearance="@style/sonyTextAppearanceLarge"
+        android:textColor="@color/normal_fg"
+        android:textStyle="bold" >
+    </TextView>
+
+    <ListView
+        android:id="@+id/tm1_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5.3dp"
+        android:background="@color/normal_bg"
+        android:fadeScrollbars="false" >
+    </ListView>
+
+</LinearLayout>

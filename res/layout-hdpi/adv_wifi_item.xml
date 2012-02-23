@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="horizontal"
+    android:paddingBottom="1.3dp"
+    android:paddingTop="1.3dp" >
+
+    <ImageView
+        android:id="@+id/wf_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="2.7dp"
+        android:background="@color/normal_bg"
+        android:src="@drawable/dir_ok" >
+    </ImageView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="2.7dp"
+        android:background="@color/normal_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/wf_ssid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2.7dp"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="SSID"
+            android:textAppearance="@style/sonyTextAppearanceMedium"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/wf_capabilities"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2.7dp"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="capabilities"
+            android:textAppearance="@style/sonyTextAppearanceSmall"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/wf_other"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2.7dp"
+            android:background="@color/normal_bg"
+            android:gravity="center_vertical"
+            android:text="other"
+            android:textAppearance="@style/sonyTextAppearanceMedium"
+            android:textColor="@color/normal_fg" >
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

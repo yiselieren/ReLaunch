@@ -107,7 +107,7 @@
                 android:key="bookTitleFormat" 
                 android:title="Format of title of the book"
                 android:dependency="showBookTitles"
-                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series">
+                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series" android:defaultValue="[%a. ]%t">
         </EditTextPreference>
    
         <CheckBoxPreference
@@ -126,6 +126,15 @@
             android:summaryOff="Show full dirs names (even in start dirs)"
             android:summaryOn="Hide known part (start dir) from dir name"
             android:title="Hide known part of directories" >
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="showFullDirPath"
+            android:persistent="true"
+            android:summaryOff="Show current directory name in title"
+            android:summaryOn="Show full directory path in title"
+            android:title="Show full directory path in title" >
         </CheckBoxPreference>
 
         <CheckBoxPreference

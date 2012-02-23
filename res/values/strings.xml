@@ -31,7 +31,7 @@
     <string name="prefs_layout_cancel">Cancel</string>
     <string name="prefs_layout_ok">OK</string>
     <string name="prefs_layout_save_restart">Save settings and restart ReLaunch (some settings work only after restart)</string>
-    <string name="prefs_layout_revert_default">Revert all settings to default values</string>
+    <string name="prefs_layout_revert_default">Reset/Backup\n/Restore Settings</string>
     <string name="search_layout_case_sensitive">Case sensitive</string>
     <string name="search_layout_search_known">Search known extensions only</string>
     <string name="search_layout_sort_search">Sort search results</string>
@@ -141,6 +141,13 @@
     <string name="jv_prefs_yes">Yes</string>
     <string name="jv_prefs_no">No</string>
     <string name="jv_prefs_cancel">Cancel</string>
+    <string name="jv_prefs_rsr_reset">Revert all settings to default values</string>
+    <string name="jv_prefs_rsr_save">Save settings to SD Card</string>
+    <string name="jv_prefs_rsr_restore">Restore settings from SD Card</string>
+    <string name="jv_prefs_rsr_ok_title">Success!</string>
+    <string name="jv_prefs_rsr_ok_text">Operation finished successfully</string>
+    <string name="jv_prefs_rsr_fail_title">Error!</string>
+    <string name="jv_prefs_rsr_fail_text">Unable to perfom operation</string>
     <string name="jv_relaunch_wrong_model">Wrong model!</string>
     <string name="jv_relaunch_yes">YES</string>
     <string name="jv_relaunch_no">NO</string>
@@ -161,6 +168,7 @@
     <string name="jv_relaunch_createintent">Create Intent ...</string>
     <string name="jv_relaunch_copy">Copy</string>
     <string name="jv_relaunch_move">Move</string>
+    <string name="jv_relaunch_move_dir">Move</string>
     <string name="jv_relaunch_paste">Paste</string>
     <string name="jv_relaunch_rename">Rename...</string>
     <string name="jv_relaunch_create_folder">Create new folder...</string>
@@ -205,6 +213,11 @@
     <string name="jv_relaunch_switch_titles_on">Show book titles</string>
     <string name="jv_relaunch_switch_titles_off">Show file names</string>
     <string name="jv_relaunch_tags_rename">Rename file with fb2/epub tags...</string>
+    <string name="jv_relaunch_sort_header">Sort the files in the order by</string>
+    <string name="jv_relaunch_sort_file_dir">filename A-Z</string>
+    <string name="jv_relaunch_sort_file_rev">filename Z-A</string>
+    <string name="jv_relaunch_sort_title_dir">book title A-Z</string>
+    <string name="jv_relaunch_sort_title_rev">book title Z-A</string>
     <string name="jv_rla_activity">Activity</string>
     <string name="jv_rla_not_found">not found!</string>
     <string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Reader launcher for Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
@@ -227,6 +240,8 @@
     <string name="jv_results_delete_file_title">Delete file warning</string>
     <string name="jv_results_delete_file_text1">Are you sure to delete file</string>
     <string name="jv_results_delete_file_text2">\?</string>
+    <string name="jv_results_menu_title">Select file</string>
+    <string name="jv_results_menu_button">Cancel</string>
     <string name="jv_results_yes">YES</string>
     <string name="jv_results_no">NO</string>
     <string name="jv_results_remove">Remove from favorites</string>

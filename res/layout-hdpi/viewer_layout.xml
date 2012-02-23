@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/normal_bg"
+    android:orientation="vertical"
+    android:padding="5.3dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:layout_weight="1"
+            android:background="@color/normal_bg_gray"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/view_title1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:maxLines="1"
+                android:paddingBottom="1.3dp"
+                android:paddingLeft="5.3dp"
+                android:paddingRight="1.3dp"
+                android:paddingTop="1.3dp"
+                android:text="@string/viewer_layout_title"
+                android:textAppearance="@style/sonyTextAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/view_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/normal_bg"
+                android:editable="false"
+                android:focusable="false"
+                android:gravity="left"
+                android:inputType="textMultiLine"
+                android:paddingBottom="1.3dp"
+                android:paddingLeft="5.3dp"
+                android:paddingRight="1.3dp"
+                android:paddingTop="1.3dp"
+                android:text="Filename"
+                android:textAppearance="@style/sonyTextAppearanceMedium"
+                android:textColor="@color/normal_fg"
+                android:textStyle="bold" >
+
+                <requestFocus >
+                </requestFocus>
+            </EditText>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/viewedit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:background="@drawable/main_button"
+            android:drawableLeft="@drawable/ci_edit"
+            android:minWidth="96dp"
+            android:paddingRight="5.3dp"
+            android:text="@string/viewer_layout_edit" >
+        </Button>
+
+        <ImageButton
+            android:id="@+id/view_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="2.7dp"
+            android:background="@drawable/main_button"
+            android:minWidth="64dp"
+            android:src="@drawable/ci_exit" >
+        </ImageButton>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="1.3dp"
+        android:layout_marginTop="2.7dp"
+        android:layout_weight="0"
+        android:background="@color/normal_bg_gray"
+        android:text="TextView"
+        android:textAppearance="@style/sonyTextAppearanceSmall"
+        android:textColor="#000000" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/view_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2.7dp"
+        android:layout_weight="1"
+        android:background="@color/normal_bg"
+        android:editable="false"
+        android:focusable="false"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/sonyTextAppearanceMedium"
+        android:textColor="@color/normal_fg"
+        android:typeface="monospace" >
+
+        <requestFocus >
+        </requestFocus>
+    </EditText>
+
+</LinearLayout>
