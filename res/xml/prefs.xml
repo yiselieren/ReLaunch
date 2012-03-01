@@ -4,6 +4,7 @@
     <PreferenceCategory android:title="General" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="filterResults"
             android:persistent="true"
@@ -13,6 +14,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="fullScreen"
             android:persistent="true"
@@ -22,6 +24,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="showButtons"
             android:persistent="true"
@@ -31,6 +34,7 @@
         </CheckBoxPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="/sdcard,/media/My Files"
             android:enabled="true"
             android:key="startDir"
@@ -41,6 +45,7 @@
         </EditTextPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="notLeaveStartDir"
             android:persistent="true"
@@ -49,6 +54,7 @@
             android:title="Don\&apos;t leave start directory(s)" />
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="saveDir"
             android:persistent="true"
@@ -58,6 +64,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="returnFileToMain"
             android:persistent="true"
@@ -66,6 +73,7 @@
             android:title="Reader invocation behavior" />
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="askAmbig"
             android:persistent="true"
@@ -75,6 +83,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="showNew"
             android:persistent="true"
@@ -84,6 +93,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="showHidden"
             android:persistent="true"
@@ -93,6 +103,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference 
+        	android:layout="@+layout/pref_child"
                 android:title="Show book titles" 
                 android:defaultValue="false" 
                 android:key="showBookTitles" 
@@ -104,13 +115,15 @@
         </CheckBoxPreference>
         
         <EditTextPreference 
+        	android:layout="@+layout/pref_child"
                 android:key="bookTitleFormat" 
                 android:title="Format of title of the book"
                 android:dependency="showBookTitles"
-                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series" android:defaultValue="[%a. ]%t">
+                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series" android:defaultValue="%t\n[%a][. %s][-%n]">
         </EditTextPreference>
-   
+
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="hideKnownExts"
             android:persistent="true"
@@ -120,6 +133,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="hideKnownDirs"
             android:persistent="true"
@@ -129,6 +143,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="showFullDirPath"
             android:persistent="true"
@@ -138,6 +153,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="openWith"
             android:persistent="true"
@@ -147,6 +163,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="createIntent"
             android:persistent="true"
@@ -156,6 +173,7 @@
         </CheckBoxPreference>
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NO"
             android:enabled="true"
             android:entries="@array/screen_orientation_names"
@@ -166,6 +184,7 @@
             android:title="Screen Orientation" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="1"
             android:enabled="true"
             android:entries="@array/einkUpdateMode_names"
@@ -176,6 +195,7 @@
             android:title="EInk Screen Update Mode" />
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="10"
             android:enabled="true"
             android:key="einkUpdateInterval"
@@ -183,11 +203,13 @@
             android:selectable="true"
             android:summary="How often EInk will be fully updated"
             android:title="EInk Screen Full Update Interval" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Appearance" >
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="20"
             android:enabled="true"
             android:key="firstLineFontSizePx"
@@ -198,6 +220,7 @@
             android:title="Files and directories names font size" />
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="16"
             android:enabled="true"
             android:key="secondLineFontSizePx"
@@ -208,6 +231,7 @@
             android:title="Additional directories names font size... px" />
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="48"
             android:enabled="true"
             android:key="firstLineIconSizePx"
@@ -218,6 +242,7 @@
             android:title="Files and directories icons size" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -228,6 +253,7 @@
             android:title="Files and directories list (default)" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -238,6 +264,7 @@
             android:title="Home directories list" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -248,6 +275,7 @@
             android:title="Last recent used list" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -258,6 +286,7 @@
             android:title="Favorites list" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -268,6 +297,7 @@
             android:title="Search results list" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="70 3:5 7:4 15:3 48:2"
             android:enabled="true"
             android:entries="@array/output_columns_intensity_names"
@@ -276,11 +306,26 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Determining the number of columns" />
+
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:title="Accelerate the display of the list of files"
+            android:key="speedupDisplay"
+            android:defaultValue="false">
+        </CheckBoxPreference>    
+        
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:title="Show separator betwwen rows in files list"
+            android:key="rowSeparator"
+            android:defaultValue="false">
+        </CheckBoxPreference>    
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Main screen buttons behavior" >
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENN"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
@@ -291,6 +336,7 @@
             android:title="Home Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENMENU"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
@@ -301,6 +347,7 @@
             android:title="Home Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENSCREEN"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
@@ -311,6 +358,7 @@
             android:title="Home Button Long Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENSCREEN"
             android:enabled="true"
             android:entries="@array/lru_button_actions_names"
@@ -321,6 +369,7 @@
             android:title="Last Recent Used Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/lru_button_actions_names"
@@ -331,6 +380,7 @@
             android:title="Last Recent Used Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/lru_button_actions_names"
@@ -341,6 +391,7 @@
             android:title="Last Recent Used Button Long Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENSCREEN"
             android:enabled="true"
             android:entries="@array/fav_button_actions_names"
@@ -351,6 +402,7 @@
             android:title="Favorites Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/fav_button_actions_names"
@@ -361,6 +413,7 @@
             android:title="Favorites Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/fav_button_actions_names"
@@ -371,6 +424,7 @@
             android:title="Favorites Button Long Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/settings_button_actions_names"
@@ -381,6 +435,7 @@
             android:title="Settings Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/settings_button_actions_names"
@@ -391,6 +446,7 @@
             android:title="Settings Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/settings_button_actions_names"
@@ -401,6 +457,7 @@
             android:title="Settings Button Long Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/advanced_button_actions_names"
@@ -411,6 +468,7 @@
             android:title="Advanced Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/advanced_button_actions_names"
@@ -421,6 +479,7 @@
             android:title="Advanced Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/advanced_button_actions_names"
@@ -431,6 +490,7 @@
             android:title="Advanced Button Long Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -441,6 +501,7 @@
             android:title="Memory Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -451,6 +512,7 @@
             android:title="Memory Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -461,6 +523,7 @@
             android:title="Memory Button Long Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/bat_button_actions_names"
@@ -471,6 +534,7 @@
             android:title="Battery Button Single Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/bat_button_actions_names"
@@ -481,6 +545,7 @@
             android:title="Battery Button Double Tap" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/bat_button_actions_names"
@@ -494,6 +559,7 @@
     <PreferenceCategory android:title="Launcher mode settings" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="homeMode"
             android:persistent="true"
@@ -503,6 +569,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="libraryMode"
             android:persistent="true"
@@ -512,6 +579,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="shopMode"
             android:persistent="true"
@@ -521,6 +589,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="returnToMain"
             android:persistent="true"
@@ -530,6 +599,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="filterSelf"
             android:persistent="true"
@@ -539,6 +609,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="dateUS"
             android:persistent="true"
@@ -551,6 +622,7 @@
     <PreferenceCategory android:title="Scrollbar appearance " >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="disableScrollJump"
             android:persistent="true"
@@ -560,6 +632,7 @@
         </CheckBoxPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="10"
             android:enabled="true"
             android:key="scrollPerc"
@@ -571,6 +644,7 @@
         </EditTextPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="customScroll"
             android:persistent="true"
@@ -580,6 +654,7 @@
         </CheckBoxPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="25"
             android:enabled="true"
             android:key="scrollWidth"
@@ -591,6 +666,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="10"
             android:enabled="true"
             android:key="scrollPad"
@@ -600,11 +676,19 @@
             android:summary="Scrollbar left margin"
             android:title="Custom scrollbar left margin" >
         </EditTextPreference>
+
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:summary="Allow turn over the pages by buttons" 
+            android:title="use buttons on Sony PRS-T1"
+            android:key="useSonyButtons" >
+        </CheckBoxPreference>    
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Search settings" >
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="5000"
             android:enabled="true"
             android:key="searchSize"
@@ -616,6 +700,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="100"
             android:enabled="true"
             android:key="searchReport"
@@ -627,6 +712,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="/media,/sdcard"
             android:enabled="true"
             android:key="searchRoot"
@@ -640,6 +726,7 @@
     <PreferenceCategory android:title="Internal viewer/editor settings" >
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="1048576"
             android:enabled="true"
             android:key="viewerMaxSize"
@@ -651,6 +738,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="262144"
             android:enabled="true"
             android:key="editorMaxSize"
@@ -665,6 +753,7 @@
     <PreferenceCategory android:title="Maximal size of misc. persistent lists" >
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="lruSize"
@@ -676,6 +765,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="favSize"
@@ -687,6 +777,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="appLruSize"
@@ -698,6 +789,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="appFavSize"
@@ -712,6 +804,7 @@
     <PreferenceCategory android:title="File manager functions" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="useFileManagerFunctions"
             android:persistent="true"
@@ -721,6 +814,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="confirmFileDelete"
             android:persistent="true"
@@ -730,6 +824,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="confirmDirDelete"
             android:persistent="true"
@@ -739,6 +834,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="confirmNonEmptyDirDelete"
             android:persistent="true"
@@ -746,6 +842,14 @@
             android:summaryOn="Ask confirmation for recoursive directory deletion"
             android:title="Confirm deletion of non empty directory" >
         </CheckBoxPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Database functions">
+        <Preference 
+        	android:layout="@+layout/pref_child"
+            android:title="Cleanup fb2/epub tags cache"
+            android:key="cleanupDatabase">
+        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>

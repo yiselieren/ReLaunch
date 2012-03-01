@@ -91,7 +91,7 @@ public class PrefsActivity extends PreferenceActivity implements
 		defItems.add(new PrefItem("showNew", true));
         defItems.add(new PrefItem("showBookTitles", false));
         defItems.add(new PrefItem("showBookCovers", false));
-        defItems.add(new PrefItem("bookTitleFormat", "[%a. ]%t"));
+        defItems.add(new PrefItem("bookTitleFormat", "%t[\n%a][. %s][-%n]"));
 		defItems.add(new PrefItem("hideKnownExts", false));
 		defItems.add(new PrefItem("hideKnownDirs", false));
 		defItems.add(new PrefItem("showFullDirPath", false));
@@ -379,6 +379,9 @@ public class PrefsActivity extends PreferenceActivity implements
 			}
 			savedItems.add(s);
 		}
+
+		Preference prefCleanupDatabase = findPreference("cleanupDatabase");
+		prefCleanupDatabase.setOnPreferenceClickListener(cleanupDatabaseListener);
 
 		final Context context = this;
 		((Button) findViewById(R.id.filter_settings))
@@ -1378,4 +1381,34 @@ public class PrefsActivity extends PreferenceActivity implements
 			}
 		}
 	}
+
+	public Preference.OnPreferenceClickListener cleanupDatabaseListener = new Preference.OnPreferenceClickListener() {
+	    public boolean onPreferenceClick(Preference pref) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					PrefsActivity.this);
+			builder.setTitle(getResources().getString(
+					R.string.jv_prefs_cleanup_database_title));
+			builder.setMessage(getResources().getString(
+					R.string.jv_prefs_cleanup_database_text));
+			builder.setPositiveButton(
+					getResources().getString(R.string.jv_prefs_yes),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							app.dataBase.resetDb();
+							dialog.dismiss();
+						}
+					});
+			builder.setNegativeButton(
+					getResources().getString(R.string.jv_relaunch_no),
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							dialog.dismiss();
+						}
+					});
+			builder.show();
+			return true;
+	    }
+	};
 }

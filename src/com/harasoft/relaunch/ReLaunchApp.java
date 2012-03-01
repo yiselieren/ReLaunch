@@ -84,7 +84,7 @@ public class ReLaunchApp extends Application {
 	private List<HashMap<String, String>> readers;
 	private List<String> apps;
 
-	public static BooksBase dataBase;
+	public BooksBase dataBase;
 
 	// Icons
 	public HashMap<String, Drawable> getIcons() {

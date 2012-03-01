@@ -107,7 +107,7 @@
                 android:key="bookTitleFormat" 
                 android:title="Format of title of the book"
                 android:dependency="showBookTitles"
-                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series" android:defaultValue="[%a. ]%t">
+                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series" android:defaultValue="%t\n[%a][. %s][-%n]">
         </EditTextPreference>
         
         <CheckBoxPreference
@@ -276,7 +276,20 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Algoritmo para determinar el número de columnas" />
-    </PreferenceCategory>
+
+        <CheckBoxPreference
+            android:title="Accelerate the display of the list of files"
+            android:key="speedupDisplay"
+            android:defaultValue="false">
+        </CheckBoxPreference>    
+        
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:title="Show separator betwwen rows in files list"
+            android:key="rowSeparator"
+            android:defaultValue="false">
+        </CheckBoxPreference>    
+        </PreferenceCategory>
 
     <PreferenceCategory android:title="Comportamiento de botones en pantalla principal" >
 
@@ -600,7 +613,14 @@
             android:summary="barra desplazamiento del margen izquierdo (píxeles)"
             android:title="Personalizar barra desplazamiento a margen izquierdo" >
         </EditTextPreference>
-    </PreferenceCategory>
+
+        <CheckBoxPreference
+            android:summary="Allow turn over the pages by buttons" 
+            android:title="use buttons on Sony PRS-T1"
+            android:key="useSonyButtons" >
+        </CheckBoxPreference>    
+
+        </PreferenceCategory>
 
     <PreferenceCategory android:title="Ajustes de búsqueda" >
 

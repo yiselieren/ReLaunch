@@ -4,40 +4,71 @@
 	android:layout_height="wrap_content"
 	android:layout_gravity="top|left"
 	android:background="@color/normal_bg"
-	android:orientation="horizontal"
-	android:paddingBottom="2dp"
-	android:paddingTop="2dp" >
+	android:orientation="vertical"
+	android:paddingBottom="0dp"
+	android:paddingTop="0dp" >
 
 	<ImageView
-		android:id="@+id/fl_icon"
+		android:id="@+id/fl_separator"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:src="@drawable/flist_separator" />
+
+	<LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="top|left"
-		android:layout_marginLeft="4dp"
 		android:background="@color/normal_bg"
-		android:src="@drawable/dir_ok" >
-	</ImageView>
-
-	<LinearLayout
-		android:id="@+id/fl_holder"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_gravity="top|left"
-		android:layout_marginLeft="4dp"
-		android:layout_marginRight="4dp"
-		android:background="@color/normal_bg"
-		android:orientation="vertical" >
+		android:orientation="horizontal"
+		android:paddingBottom="2dp"
+		android:paddingTop="2dp" >
 
-		<TextView
-			android:id="@+id/fl_text"
+		<ImageView
+			android:id="@+id/fl_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="top|left"
+			android:layout_marginLeft="4dp"
+			android:background="@color/normal_bg"
+			android:src="@drawable/dir_ok" >
+		</ImageView>
+
+		<LinearLayout
+			android:id="@+id/fl_holder"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
+			android:layout_gravity="top|left"
 			android:layout_marginLeft="4dp"
-			android:background="@color/normal_transparent"
-			android:gravity="center_vertical"
-			android:text="TextView"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="@color/normal_fg" />
+			android:layout_marginRight="4dp"
+			android:background="@color/normal_bg"
+			android:orientation="vertical" >
+
+			<TextView
+				android:id="@+id/fl_text"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="top|left"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:background="@color/normal_transparent"
+				android:gravity="center_vertical"
+				android:text="TextView"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+
+			<TextView
+				android:id="@+id/fl_text2"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="top|left"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:background="@color/normal_transparent"
+				android:gravity="center_vertical"
+				android:text=""
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textColor="@color/normal_fg" />
+		</LinearLayout>
 	</LinearLayout>
 
 </LinearLayout>

@@ -148,6 +148,8 @@
     <string name="jv_prefs_rsr_ok_text">Операция выполнена успешно</string>
     <string name="jv_prefs_rsr_fail_title">Ошибка!</string>
     <string name="jv_prefs_rsr_fail_text">Не удалось выполнить операцию</string>
+    <string name="jv_prefs_cleanup_database_title">Операции с базой данных</string>
+    <string name="jv_prefs_cleanup_database_text">Вы действительно хотите очистить кэш?</string>
     <string name="jv_relaunch_wrong_model">Не верная модель устройства!</string>
     <string name="jv_relaunch_yes">Да</string>
     <string name="jv_relaunch_no">Нет</string>

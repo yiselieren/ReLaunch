@@ -141,6 +141,8 @@
     <string name="jv_prefs_yes">Sí</string>
     <string name="jv_prefs_no">No</string>
     <string name="jv_prefs_cancel">Cancelar</string>
+    <string name="jv_prefs_cleanup_database_title">Database operations</string>
+    <string name="jv_prefs_cleanup_database_text">Do you really want to cleanup cache?</string>
     <string name="jv_relaunch_wrong_model">¡Modelo erroneo!</string>
     <string name="jv_relaunch_yes">Sí</string>
     <string name="jv_relaunch_no">NO</string>

@@ -4,6 +4,7 @@
     <PreferenceCategory android:title="Общие" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="filterResults"
             android:persistent="true"
@@ -13,6 +14,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="fullScreen"
             android:persistent="true"
@@ -22,6 +24,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="showButtons"
             android:persistent="true"
@@ -31,6 +34,7 @@
         </CheckBoxPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="/sdcard,/media/My Files"
             android:enabled="true"
             android:key="startDir"
@@ -41,6 +45,7 @@
         </EditTextPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="notLeaveStartDir"
             android:persistent="true"
@@ -49,6 +54,7 @@
             android:title="Не покидать начальную папку(и)" />
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="saveDir"
             android:persistent="true"
@@ -58,6 +64,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="returnFileToMain"
             android:persistent="true"
@@ -66,6 +73,7 @@
             android:title="После запуска программы чтения" />
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="askAmbig"
             android:persistent="true"
@@ -75,6 +83,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="showNew"
             android:persistent="true"
@@ -84,6 +93,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="showHidden"
             android:persistent="true"
@@ -93,6 +103,7 @@
         </CheckBoxPreference>
    
         <CheckBoxPreference 
+        	android:layout="@+layout/pref_child"
                 android:title="Показывать названия книг" 
                 android:defaultValue="false" 
                 android:key="showBookTitles" 
@@ -103,13 +114,15 @@
         </CheckBoxPreference>
         
         <EditTextPreference 
+        	android:layout="@+layout/pref_child"
                 android:key="bookTitleFormat" 
                 android:title="Формат заголовка книги" 
                 android:dependency="showBookTitles"
-                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии" android:defaultValue="[%a. ]%t"> 
+                android:summary="%a - автор, %t - название книги, %s - название серии, %n - номер в серии" android:defaultValue="%t\n[%a][. %s][-%n]"> 
         </EditTextPreference>
-        
+
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="hideKnownExts"
             android:persistent="true"
@@ -119,6 +132,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="hideKnownDirs"
             android:persistent="true"
@@ -128,6 +142,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="showFullDirPath"
             android:persistent="true"
@@ -137,6 +152,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="openWith"
             android:persistent="true"
@@ -146,6 +162,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="createIntent"
             android:persistent="true"
@@ -155,6 +172,7 @@
         </CheckBoxPreference>
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NO"
             android:enabled="true"
             android:entries="@array/screen_orientation_names"
@@ -165,6 +183,7 @@
             android:title="Ориентация экрана" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="1"
             android:enabled="true"
             android:entries="@array/einkUpdateMode_names"
@@ -175,6 +194,7 @@
             android:title="Режим обновления экрана EInk" />
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="10"
             android:enabled="true"
             android:key="einkUpdateInterval"
@@ -187,6 +207,7 @@
     <PreferenceCategory android:title="Внешний вид" >
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="20"
             android:enabled="true"
             android:key="firstLineFontSizePx"
@@ -197,6 +218,7 @@
             android:title="Размер шрифта имен файлов/папок" />
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="16"
             android:enabled="true"
             android:key="secondLineFontSizePx"
@@ -207,6 +229,7 @@
             android:title="Размер шрифта дополнительных имен папок" />
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="48"
             android:enabled="true"
             android:key="firstLineIconSizePx"
@@ -217,6 +240,7 @@
             android:title="Размер иконок имен файлов/папок" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -227,6 +251,7 @@
             android:title="Список папок и файлов (по умолчанию)" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -237,6 +262,7 @@
             android:title="Список Начальных папок" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -247,6 +273,7 @@
             android:title="Список Недавно открытых" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -257,6 +284,7 @@
             android:title="Список Избранного" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="-1"
             android:enabled="true"
             android:entries="@array/output_columns_names"
@@ -267,6 +295,7 @@
             android:title="Список результатов поиска" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="70 3:5 7:4 15:3 48:2"
             android:enabled="true"
             android:entries="@array/output_columns_intensity_names"
@@ -275,11 +304,26 @@
             android:persistent="true"
             android:selectable="true"
             android:title="Алгоритм определения числа колонок" />
-    </PreferenceCategory>
+
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:title="Ускорить отображение списка файлов"
+            android:key="speedupDisplay"
+            android:defaultValue="false">
+        </CheckBoxPreference>    
+        
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:title="Показывать разделитель строк в списке файлов"
+            android:key="rowSeparator"
+            android:defaultValue="false">
+        </CheckBoxPreference>    
+        </PreferenceCategory>
 
     <PreferenceCategory android:title="Кнопки рабочего стола" >
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENN"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
@@ -290,6 +334,7 @@
             android:title="Одиночное нажатие кнопки \&quot;К Началу\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENMENU"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
@@ -300,6 +345,7 @@
             android:title="Двойное нажатие кнопки \&quot;К Началу\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENSCREEN"
             android:enabled="true"
             android:entries="@array/home_button_actions_names"
@@ -310,6 +356,7 @@
             android:title="Длительное нажатие кнопки \&quot;К Началу\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENSCREEN"
             android:enabled="true"
             android:entries="@array/lru_button_actions_names"
@@ -320,6 +367,7 @@
             android:title="Одиночное нажатие кнопки \&quot;Недавно открытые\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/lru_button_actions_names"
@@ -330,6 +378,7 @@
             android:title="Двойное нажатие кнопки \&quot;Недавно открытые\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/lru_button_actions_names"
@@ -340,6 +389,7 @@
             android:title="Длительное нажатие кнопки \&quot;Недавно открытые\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="OPENSCREEN"
             android:enabled="true"
             android:entries="@array/fav_button_actions_names"
@@ -350,6 +400,7 @@
             android:title="Одиночное нажатие кнопки \&quot;Избранное\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/fav_button_actions_names"
@@ -360,6 +411,7 @@
             android:title="Двойное нажатие кнопки \&quot;Избранное\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/fav_button_actions_names"
@@ -370,6 +422,7 @@
             android:title="Длительное нажатие кнопки \&quot;Избранное\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/settings_button_actions_names"
@@ -380,6 +433,7 @@
             android:title="Одиночное нажатие кнопки \&quot;Настройки\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/settings_button_actions_names"
@@ -390,6 +444,7 @@
             android:title="Двойное нажатие кнопки \&quot;Настройки\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/settings_button_actions_names"
@@ -400,6 +455,7 @@
             android:title="Длительное нажатие кнопки \&quot;Настройки\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/advanced_button_actions_names"
@@ -410,6 +466,7 @@
             android:title="Одиночное нажатие кнопки \&quot;Доп.функции\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/advanced_button_actions_names"
@@ -420,6 +477,7 @@
             android:title="Двойное нажатие кнопки \&quot;Доп.функции\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/advanced_button_actions_names"
@@ -430,6 +488,7 @@
             android:title="Длительное нажатие кнопки \&quot;Доп.функции\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -440,6 +499,7 @@
             android:title="Одиночное нажатие кнопки \&quot;Об.памяти\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -450,6 +510,7 @@
             android:title="Двойное нажатие кнопки \&quot;Об.памяти\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/mem_button_actions_names"
@@ -460,6 +521,7 @@
             android:title="Длительное нажатие кнопки \&quot;Об.памяти\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="RELAUNCH"
             android:enabled="true"
             android:entries="@array/bat_button_actions_names"
@@ -470,6 +532,7 @@
             android:title="Одиночное нажатие кнопки \&quot;Ост.батареи\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/bat_button_actions_names"
@@ -480,6 +543,7 @@
             android:title="Двойное нажатие кнопки \&quot;Ост.батареи\&quot;" />
 
         <ListPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="NOTHING"
             android:enabled="true"
             android:entries="@array/bat_button_actions_names"
@@ -493,6 +557,7 @@
     <PreferenceCategory android:title="Режим рабочего стола" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="homeMode"
             android:persistent="true"
@@ -502,6 +567,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="libraryMode"
             android:persistent="true"
@@ -511,6 +577,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="shopMode"
             android:persistent="true"
@@ -520,6 +587,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="returnToMain"
             android:persistent="true"
@@ -529,6 +597,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="filterSelf"
             android:persistent="true"
@@ -538,6 +607,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="false"
             android:key="dateUS"
             android:persistent="true"
@@ -550,6 +620,7 @@
     <PreferenceCategory android:title="Прокрутка" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="disableScrollJump"
             android:persistent="true"
@@ -559,6 +630,7 @@
         </CheckBoxPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="10"
             android:enabled="true"
             android:key="scrollPerc"
@@ -570,6 +642,7 @@
         </EditTextPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="customScroll"
             android:persistent="true"
@@ -579,6 +652,7 @@
         </CheckBoxPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="25"
             android:enabled="true"
             android:key="scrollWidth"
@@ -590,6 +664,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="10"
             android:enabled="true"
             android:key="scrollPad"
@@ -599,11 +674,20 @@
             android:summary="Левый отступ собственной полосы прокрутки... (пикс.)"
             android:title="Отступ полосы прокрутки" >
         </EditTextPreference>
-    </PreferenceCategory>
+
+        <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
+            android:summary="Перелистывание сттраниц кнопками" 
+            android:title="Использовать кнопки Sony PRS-T1"
+            android:key="useSonyButtons" >
+        </CheckBoxPreference>    
+
+        </PreferenceCategory>
 
     <PreferenceCategory android:title="Поиск" >
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="5000"
             android:enabled="true"
             android:key="searchSize"
@@ -615,6 +699,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="100"
             android:enabled="true"
             android:key="searchReport"
@@ -626,6 +711,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+         	android:layout="@+layout/pref_child"
             android:defaultValue="/media,/sdcard"
             android:enabled="true"
             android:key="searchRoot"
@@ -639,6 +725,7 @@
     <PreferenceCategory android:title="Внутренний просмотр/редактирование" >
 
         <EditTextPreference
+         	android:layout="@+layout/pref_child"
             android:defaultValue="1048576"
             android:enabled="true"
             android:key="viewerMaxSize"
@@ -650,6 +737,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+         	android:layout="@+layout/pref_child"
             android:defaultValue="262144"
             android:enabled="true"
             android:key="editorMaxSize"
@@ -664,6 +752,7 @@
     <PreferenceCategory android:title="История и избранное" >
 
         <EditTextPreference
+         	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="lruSize"
@@ -675,6 +764,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="favSize"
@@ -686,6 +776,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="appLruSize"
@@ -697,6 +788,7 @@
         </EditTextPreference>
 
         <EditTextPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="30"
             android:enabled="true"
             android:key="appFavSize"
@@ -711,6 +803,7 @@
     <PreferenceCategory android:title="Функции файлового менеджера" >
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="useFileManagerFunctions"
             android:persistent="true"
@@ -720,6 +813,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="confirmFileDelete"
             android:persistent="true"
@@ -729,6 +823,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="confirmDirDelete"
             android:persistent="true"
@@ -738,6 +833,7 @@
         </CheckBoxPreference>
 
         <CheckBoxPreference
+        	android:layout="@+layout/pref_child"
             android:defaultValue="true"
             android:key="confirmNonEmptyDirDelete"
             android:persistent="true"
@@ -747,4 +843,11 @@
         </CheckBoxPreference>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Database functions">
+        <Preference
+            android:layout="@+layout/pref_child"
+            android:title="Очистить кэш тегов fb2/epub"
+            android:key="cleanupDatabase"/>    
+    </PreferenceCategory>
+    
 </PreferenceScreen>

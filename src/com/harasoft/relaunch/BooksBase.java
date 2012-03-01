@@ -1,7 +1,10 @@
 package com.harasoft.relaunch;
 
+import java.util.regex.Pattern;
 import ebook.EBook;
 import ebook.Person;
+import ebook.parser.InstantParser;
+import ebook.parser.Parser;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,8 +13,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class BooksBase {
+	Context context;
 	DbHelper dbHelper;
-	public SQLiteDatabase db;
+	public static SQLiteDatabase db;
+
+	private Pattern purgeBracketsPattern = Pattern
+			.compile("\\[[\\s\\.\\-_]*\\]");
 
 	private class DbHelper extends SQLiteOpenHelper {
 		final static int VERSION = 1;
@@ -45,14 +52,22 @@ public class BooksBase {
 	}
 
 	public BooksBase(Context context) {
+		this.context = context;
 		dbHelper = new DbHelper(context);
 		db = dbHelper.getWritableDatabase();
 	}
 
 	public BooksBase(Context context, String path) {
+		this.context = context;
 		String dbName = (path.replaceAll("\\/", "_")).concat(".db");
 		dbHelper = new DbHelper(context, dbName);
 		db = dbHelper.getWritableDatabase();
+	}
+
+	private void open() {
+		if (!db.isOpen())
+			db = SQLiteDatabase.openDatabase("library.db", null,
+					SQLiteDatabase.OPEN_READWRITE);
 	}
 
 	public long addBook(EBook book) {
@@ -71,24 +86,6 @@ public class BooksBase {
 			cv.put("NUMBER", book.sequenceNumber);
 		}
 		bookId = db.insertOrThrow("BOOKS", null, cv);
-//		if (book.authors.size() == 0) {
-//			book.authors.add(new Person("Unknown Author"));
-//		}
-//		if (book.title == null)
-//			book.title = "";
-//		if (book.authors.get(0).firstName == null)
-//			book.authors.get(0).firstName = "";
-//		if (book.authors.get(0).lastName == null)
-//			book.authors.get(0).lastName = "";
-//		if (book.sequenceName == null)
-//			book.sequenceName = "";
-//		if (book.sequenceNumber == null)
-//			book.sequenceNumber = "";
-//		db.rawQuery("insert into BOOKS (FILE, TITLE, FIRSTNAME, LASTNAME, " +
-//				"SERIES, NUMBER) values(?, ?, ?, ?, ?, ?)", new String[] {
-//				book.fileName, book.title, book.authors.get(0).firstName, 
-//				book.authors.get(0).lastName, book.sequenceName, book.sequenceNumber });
-
 		return bookId;
 	}
 
@@ -160,16 +157,60 @@ public class BooksBase {
 		return book;
 	}
 
-	public byte[] getCoverByBookId(long id) {
-		byte[] cover;
-		Cursor cursor = db.rawQuery("select * from COVERS where BOOK=?",
-				new String[] { "" + id });
-		if (cursor.moveToFirst()) {
-			cover = cursor.getBlob(cursor.getColumnIndex("COVER"));
+	public String getEbookName(String fileName, String format) {
+		EBook eBook;
+		String file = fileName.substring(fileName.lastIndexOf('/') + 1,
+				fileName.length());
+		if ((!file.endsWith("fb2")) && (!file.endsWith("fb2.zip"))
+				&& (!file.endsWith("epub")))
+			return file;
+		eBook = getBookByFileName(fileName);
+		if (!eBook.isOk) {
+			Parser parser = new InstantParser();
+			eBook = parser.parse(fileName);
+			if (eBook.isOk) {
+				if ((eBook.sequenceNumber != null)
+						&& (eBook.sequenceNumber.length() == 1))
+					eBook.sequenceNumber = "0" + eBook.sequenceNumber;
+				addBook(eBook);
+			}
+		}
+		if (eBook.isOk) {
+			String output = format;
+			if (eBook.authors.size() > 0) {
+				String author = "";
+				if (eBook.authors.get(0).firstName != null)
+					author += eBook.authors.get(0).firstName;
+				if (eBook.authors.get(0).lastName != null)
+					author += " " + eBook.authors.get(0).lastName;
+				output = output.replace("%a", author);
+			}
+			if (eBook.title != null)
+				output = output.replace("%t", eBook.title);
+			if (eBook.sequenceName != null)
+				output = output.replace("%s", eBook.sequenceName);
+			else
+				output = output.replace("%s", "");
+			if (eBook.sequenceNumber != null)
+				output = output.replace("%n", eBook.sequenceNumber);
+			else
+				output = output.replace("%n", "");
+			output = purgeBracketsPattern.matcher(output).replaceAll("");
+			output = output.replace("[", "");
+			output = output.replace("]", "");
+			return output;
 		} else
-			cover = null;
-		cursor.close();
-		return cover;
+			return file;
 	}
 
+	public String getEbookName(String dir, String file, String format) {
+		return getEbookName(dir + "/" + file, format);
+	}
+
+	public void resetDb() {
+		db.execSQL("delete from BOOKS");
+		db.execSQL("delete from COVERS");
+		db.execSQL("reindex INDEX1");
+		db.execSQL("reindex INDEX3");
+	}
 }

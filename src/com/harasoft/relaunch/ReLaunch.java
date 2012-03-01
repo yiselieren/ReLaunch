@@ -11,11 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
-import java.util.regex.Pattern;
-
-import ebook.EBook;
-import ebook.parser.InstantParser;
-import ebook.parser.Parser;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -42,12 +37,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.text.GetChars;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.KeyEvent;
@@ -60,11 +53,9 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -78,8 +69,6 @@ import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class ReLaunch extends Activity {
 
@@ -115,6 +104,13 @@ public class ReLaunch extends Activity {
 	final static int CNTXT_MENU_MOVE_DIR = 17;
 	final static int CNTXT_MENU_SWITCH_TITLES = 18;
 	final static int CNTXT_MENU_TAGS_RENAME = 19;
+	final static int BROWSE_FILES = 0;
+	final static int BROWSE_TITLES = 1;
+	final static int BROWSE_COVERS = 2;
+	final static int SORT_FILES_ASC = 0;
+	final static int SORT_FILES_DESC = 1;
+	final static int SORT_TITLES_ASC = 2;
+	final static int SORT_TITLES_DESC = 3;
 	String currentRoot = "/sdcard";
 	Integer currentPosition = -1;
 	List<HashMap<String, String>> itemsArray;
@@ -134,7 +130,6 @@ public class ReLaunch extends Activity {
 	String[] allowedManufacts;
 	String[] allowedProducts;
 	boolean addSView = true;
-	Pattern purgeBracketsPattern;
 
 	// multicolumns per directory configuration
 	List<String[]> columnsArray = new ArrayList<String[]>();
@@ -178,6 +173,7 @@ public class ReLaunch extends Activity {
 					Toast.LENGTH_SHORT).show();
 			wifiManager.setWifiEnabled(true);
 		}
+		refreshBottomInfo();
 	}
 
 	private void actionLock() {
@@ -322,7 +318,9 @@ public class ReLaunch extends Activity {
 
 	static class ViewHolder {
 		TextView tv;
+		TextView tv2;
 		ImageView iv;
+		ImageView is;
 		LinearLayout tvHolder;
 	}
 
@@ -338,10 +336,12 @@ public class ReLaunch extends Activity {
 	}
 
 	class FLSimpleAdapter extends SimpleAdapter {
-
+		View[] cachedViews;
+		
 		FLSimpleAdapter(Context context, List<HashMap<String, String>> data,
 				int resource, String[] from, int[] to) {
 			super(context, data, resource, from, to);
+			this.cachedViews = new View[getCount()];
 		}
 
 		@Override
@@ -351,6 +351,10 @@ public class ReLaunch extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			if (prefs.getBoolean("speedupDisplay", false)) {
+				if ((cachedViews != null) && (cachedViews[position] != null))
+					return cachedViews[position];
+			}
 			ViewHolder holder;
 			View v = convertView;
 			if (v == null) {
@@ -359,7 +363,9 @@ public class ReLaunch extends Activity {
 				v = vi.inflate(R.layout.flist_layout, null);
 				holder = new ViewHolder();
 				holder.tv = (TextView) v.findViewById(R.id.fl_text);
+				holder.tv2 = (TextView) v.findViewById(R.id.fl_text2);
 				holder.iv = (ImageView) v.findViewById(R.id.fl_icon);
+				holder.is = (ImageView) v.findViewById(R.id.fl_separator);
 				holder.tvHolder = (LinearLayout) v.findViewById(R.id.fl_holder);
 				v.setTag(holder);
 			} else
@@ -401,8 +407,13 @@ public class ReLaunch extends Activity {
 			HashMap<String, String> item = itemsArray.get(position);
 			if (item != null) {
 				TextView tv = holder.tv;
+				TextView tv2 = holder.tv2;
 				LinearLayout tvHolder = holder.tvHolder;
 				ImageView iv = holder.iv;
+				ImageView is = holder.is;
+				if (!prefs.getBoolean("rowSeparator", false))
+					is.setVisibility(View.GONE);
+
 				String sname = item.get("sname");
 				// clean extension, if needed
 				if (prefs.getBoolean("hideKnownExts", false)) {
@@ -420,8 +431,12 @@ public class ReLaunch extends Activity {
 
 				tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Integer
 						.parseInt(prefs.getString("firstLineFontSizePx", "20")));
+				tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, Integer
+						.parseInt(prefs.getString("secondLineFontSizePx", "16")));
 
 				if (item.get("type").equals("dir")) {
+					tv2.setVisibility(View.GONE);
+					tv2.getLayoutParams().height = 0;
 					if (useFaces) {
 						tvHolder.setBackgroundColor(getResources().getColor(
 								R.color.dir_bg));
@@ -443,21 +458,29 @@ public class ReLaunch extends Activity {
 										.getColor(R.color.file_reading_bg));
 								tv.setTextColor(getResources().getColor(
 										R.color.file_reading_fg));
+								tv2.setTextColor(getResources().getColor(
+										R.color.file_reading_fg));
 							} else if (app.history.get(fname) == app.FINISHED) {
 								tvHolder.setBackgroundColor(getResources()
 										.getColor(R.color.file_finished_bg));
 								tv.setTextColor(getResources().getColor(
+										R.color.file_finished_fg));
+								tv2.setTextColor(getResources().getColor(
 										R.color.file_finished_fg));
 							} else {
 								tvHolder.setBackgroundColor(getResources()
 										.getColor(R.color.file_unknown_bg));
 								tv.setTextColor(getResources().getColor(
 										R.color.file_unknown_fg));
+								tv2.setTextColor(getResources().getColor(
+										R.color.file_unknown_fg));
 							}
 						} else {
 							tvHolder.setBackgroundColor(getResources()
 									.getColor(R.color.file_new_bg));
 							tv.setTextColor(getResources().getColor(
+									R.color.file_new_fg));
+							tv2.setTextColor(getResources().getColor(
 									R.color.file_new_fg));
 							if (getResources().getBoolean(
 									R.bool.show_new_as_bold))
@@ -519,16 +542,35 @@ public class ReLaunch extends Activity {
 					}
 				}
 
+				String sname1 = sname;
+				String sname2 = "";
+				int newLinePos = sname.indexOf('\n');
+				if ((newLinePos != -1) && (newLinePos != 0)) {
+					sname1 = sname.substring(0, newLinePos).trim();
+					sname2 = sname.substring(newLinePos, sname.length()).trim();
+				}
 				if (useFaces) {
-					SpannableString s = new SpannableString(sname);
-					s.setSpan(new StyleSpan(setBold ? Typeface.BOLD
-							: Typeface.NORMAL), 0, sname.length(), 0);
-					tv.setText(s);
+					SpannableString s1 = new SpannableString(sname1);
+					s1.setSpan(new StyleSpan(setBold ? Typeface.BOLD
+							: Typeface.NORMAL), 0, sname1.length(), 0);
+					tv.setText(s1);
+					if (!sname2.equalsIgnoreCase("")) {
+						SpannableString s2 = new SpannableString(sname2);
+						s2.setSpan(new StyleSpan(setBold ? Typeface.BOLD
+							: Typeface.NORMAL), 0, sname2.length(), 0);
+						tv2.setText(s2);
+					}
 				} else {
 					tvHolder.setBackgroundColor(getResources().getColor(
 							R.color.normal_bg));
 					tv.setTextColor(getResources().getColor(R.color.normal_fg));
-					tv.setText(sname);
+					tv.setText(sname1);
+					tv2.setTextColor(getResources().getColor(R.color.normal_fg));
+					tv2.setText(sname2);
+				}
+				if (sname2.equalsIgnoreCase("")) {
+					tv2.setVisibility(View.GONE);
+					tv2.getLayoutParams().height = 0;
 				}
 			}
 			// fixes on rows height in grid
@@ -554,6 +596,7 @@ public class ReLaunch extends Activity {
 					v.setMinimumHeight(recalc_height + after_row_space);
 				}
 			}
+			this.cachedViews[position] = v;
 			return v;
 		}
 	}
@@ -1059,7 +1102,7 @@ public class ReLaunch extends Activity {
 				continue;
 			HashMap<String, String> item = new HashMap<String, String>();
 			if (prefs.getBoolean("showBookTitles", false))
-				item.put("sname", getEbookName(dir.getAbsolutePath(), f));
+				item.put("sname", app.dataBase.getEbookName(dir.getAbsolutePath(), f, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]")));
 			else
 				item.put("sname", f);
 			item.put("name", f);
@@ -1070,6 +1113,7 @@ public class ReLaunch extends Activity {
 			fileItemsArray.add(item);
 		}
 
+		setSortMode(prefs.getInt("sortMode", 0));
 		fileItemsArray = sortFiles(fileItemsArray, sortType[0], sortOrder[0]);
 		itemsArray.addAll(fileItemsArray);
 
@@ -1084,12 +1128,6 @@ public class ReLaunch extends Activity {
 				from, to);
 		gv.setAdapter(adapter);
 
-//		LayoutParams gvParams = (LayoutParams) gv.getLayoutParams();
-//		if (adapter.isEmpty())
-//			gvParams.height = 0;
-//		else
-//			gvParams.height = LayoutParams.FILL_PARENT;
-//
 		gv.setHorizontalSpacing(0);
 		Integer colsNum = -1;
 		if (getDirectoryColumns(currentRoot) != 0) {
@@ -1150,8 +1188,6 @@ public class ReLaunch extends Activity {
 			});
 		}
 
-//		registerForContextMenu(gv);
-//		registerForContextMenu(findViewById(R.id.gl_layout));
 		if (startPosition != -1)
 			gv.setSelection(startPosition);
 
@@ -1244,11 +1280,6 @@ public class ReLaunch extends Activity {
 				}
 				return true;
 			}
-
-//			@Override
-//			public boolean onDoubleTap(MotionEvent e) {
-//				return true;
-//			}
 
 			@Override
 			public void onLongPress(MotionEvent e) {
@@ -1421,69 +1452,6 @@ public class ReLaunch extends Activity {
 			}
 		});
 
-/*
-		gv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-
-				HashMap<String, String> item = itemsArray.get(position);
-
-				if (item.get("type").equals("dir")) {
-					// Goto directory
-					pushCurrentPos(parent, true);
-					drawDirectory(item.get("fname"), -1);
-				} else if (app.specialAction(ReLaunch.this, item.get("fname")))
-					pushCurrentPos(parent, false);
-				else {
-					SharedPreferences.Editor editor = prefs.edit();
-					editor.putInt("posInFolder", parent.getFirstVisiblePosition());
-					editor.commit();
-					pushCurrentPos(parent, false);
-					if (item.get("reader").equals("Nope"))
-						app.defaultAction(ReLaunch.this, item.get("fname"));
-					else {
-						// Launch reader
-						if (app.askIfAmbiguous) {
-							List<String> rdrs = app.readerNames(item
-									.get("fname"));
-							if (rdrs.size() < 1)
-								return;
-							else if (rdrs.size() == 1)
-								start(app.launchReader(rdrs.get(0),
-										item.get("fname")));
-							else {
-								final CharSequence[] applications = rdrs
-										.toArray(new CharSequence[rdrs.size()]);
-								final String rdr1 = item.get("fname");
-								AlertDialog.Builder builder = new AlertDialog.Builder(
-										ReLaunch.this);
-								// "Select application"
-								builder.setTitle(getResources()
-										.getString(
-												R.string.jv_relaunch_select_application));
-								builder.setSingleChoiceItems(applications, -1,
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int i) {
-												start(app
-														.launchReader(
-																(String) applications[i],
-																rdr1));
-												dialog.dismiss();
-											}
-										});
-								AlertDialog alert = builder.create();
-								alert.show();
-							}
-						} else
-							start(app.launchReader(item.get("reader"),
-									item.get("fname")));
-					}
-				}
-			}
-		});
-*/
 		final Button upScroll = (Button) findViewById(R.id.upscroll_btn);
 		if (prefs.getBoolean("disableScrollJump", true) == false) {
 			upScroll.setText(app.scrollStep + "%");
@@ -1833,12 +1801,6 @@ public class ReLaunch extends Activity {
 			useDirViewer = data.getBooleanExtra("dirviewer", false);
 		}
 
-		if (app.dataBase == null)
-			app.dataBase = new BooksBase(this);
-		if (!app.dataBase.db.isOpen())
-			app.dataBase = new BooksBase(this);
-		purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
-
 		// Global arrays
 		allowedModels = getResources().getStringArray(R.array.allowed_models);
 		allowedDevices = getResources().getStringArray(R.array.allowed_devices);
@@ -1889,6 +1851,8 @@ public class ReLaunch extends Activity {
 		app.fullScreen = prefs.getBoolean("fullScreen", true);
 		app.setFullScreenIfNecessary(this);
 
+		if (app.dataBase == null)
+			app.dataBase = new BooksBase(this);
 		// Create application icons map
 		app.setIcons(createIconsList(getPackageManager()));
 
@@ -1916,7 +1880,7 @@ public class ReLaunch extends Activity {
 			else if (r[1].equals("FINISHED"))
 				app.history.put(r[0], app.FINISHED);
 		}
-
+		setSortMode(prefs.getInt("sortMode", 0));
 		if (useDirViewer) {
 			String start_dir = null;
 			setContentView(R.layout.results_layout);
@@ -2654,6 +2618,8 @@ public class ReLaunch extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		if (app.dataBase == null)
+			app.dataBase = new BooksBase(this);
 
 		// Reread preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -2715,6 +2681,7 @@ public class ReLaunch extends Activity {
 		}
 	}
 
+/*
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -2900,6 +2867,7 @@ public class ReLaunch extends Activity {
 			}	
 		}
 	}
+*/
 
 	public boolean onContextMenuSelected(int itemId, int mPos) {
 		if (itemId == CNTXT_MENU_CANCEL)
@@ -3310,7 +3278,7 @@ public class ReLaunch extends Activity {
 					fitem.put("type", "file");
 					fitem.put("reader", app.readerName(fileOpFile));
 					if (prefs.getBoolean("showBookTitles", false))
-						fitem.put("sname", getEbookName(dname, fileOpFile));
+						fitem.put("sname", app.dataBase.getEbookName(dname, fileOpFile, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]")));
 					else
 						fitem.put("sname", fileOpFile);
 				} else if (fileOp == CNTXT_MENU_MOVE_DIR) {
@@ -3344,7 +3312,8 @@ public class ReLaunch extends Activity {
 		case CNTXT_MENU_TAGS_RENAME: {
 			final Context mThis = this;
 			final String oldFullName = dname + "/" + fname;
-			String newName = getEbookName(dname, fname);
+			String newName = app.dataBase.getEbookName(dname, fname, prefs.getString("bookTitleFormat", "%t[\n%a][. %s][-%n]"));
+			newName = newName.replaceAll("[\n\r]", "");
 			if (fname.endsWith("fb2"))
 				newName = newName.concat(".fb2");
 			else if (fname.endsWith("fb2.zip"))
@@ -3370,7 +3339,7 @@ public class ReLaunch extends Activity {
 								itemsArray.get(pos).put("name", newName);
 								itemsArray.get(pos).put("sname", newName);
 								itemsArray.get(pos).put("fname", newFullName);
-								redrawList();
+								drawDirectory(dname, currentPosition);
 							} else {
 								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
 								builder.setTitle(getResources().getString(
@@ -3425,7 +3394,7 @@ public class ReLaunch extends Activity {
 								itemsArray.get(pos).put("name", newName);
 								itemsArray.get(pos).put("sname", newName);
 								itemsArray.get(pos).put("fname", newFullName);
-								redrawList();
+								drawDirectory(dname, currentPosition);
 							} else {
 								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
 								builder.setTitle(getResources().getString(
@@ -3533,647 +3502,13 @@ public class ReLaunch extends Activity {
 		}
 		return true;
 	}
-
-/*
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		if (item.getItemId() == CNTXT_MENU_CANCEL)
-			return true;
-		HashMap<String, String> i;
-		int tpos = 0;
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-		if (info == null) {
-			i = new HashMap<String, String>();
-			i.put("dname", prefs.getString("lastdir", "."));
-			i.put("name", "");
-		} else {
-			tpos = info.position;
-			i = itemsArray.get(tpos);
-		}
-		final int pos = tpos;
-		final String fname = i.get("name");
-		final String dname = i.get("dname");
-		final String fullName = dname + "/" + fname;
-		final String type = i.get("type");
-
-		switch (item.getItemId()) {
-		case CNTXT_MENU_ADD:
-			if (type.equals("file"))
-				app.addToList("favorites", dname, fname, false);
-			else
-				app.addToList("favorites", fullName, app.DIR_TAG, false);
-			break;
-		case CNTXT_MENU_MARK_READING:
-			app.history.put(fullName, app.READING);
-			app.saveList("history");
-			redrawList();
-			break;
-		case CNTXT_MENU_MARK_FINISHED:
-			app.history.put(fullName, app.FINISHED);
-			app.saveList("history");
-			redrawList();
-			break;
-		case CNTXT_MENU_MARK_FORGET:
-			app.history.remove(fullName);
-			app.saveList("history");
-			redrawList();
-			break;
-		case CNTXT_MENU_OPENWITH: {
-			final CharSequence[] applications = app.getApps().toArray(
-					new CharSequence[app.getApps().size()]);
-			CharSequence[] happlications = app.getApps().toArray(
-					new CharSequence[app.getApps().size()]);
-			for (int j = 0; j < happlications.length; j++) {
-				String happ = (String) happlications[j];
-				String[] happp = happ.split("\\%");
-				happlications[j] = happp[2];
-			}
-			AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
-			// "Select application"
-			builder.setTitle(getResources().getString(
-					R.string.jv_relaunch_select_application));
-			builder.setSingleChoiceItems(happlications, -1,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int i) {
-							start(app.launchReader((String) applications[i],
-									fullName));
-							dialog.dismiss();
-						}
-					});
-			builder.setNegativeButton(
-					getResources().getString(R.string.jv_relaunch_cancel),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-						}
-					});
-			builder.show();
-			break;
-		}
-		case CNTXT_MENU_INTENT: {
-			String re[] = fname.split("\\.");
-			List<String> ilist = new ArrayList<String>();
-			for (int j = 1; j < re.length; j++) {
-				String act = "application/";
-				String typ = re[j];
-				if (typ.equals("jpg"))
-					typ = "jpeg";
-				if (typ.equals("jpeg") || typ.equals("png"))
-					act = "image/";
-				ilist.add(act + typ);
-				if (re.length > 2) {
-					for (int k = j + 1; k < re.length; k++) {
-						String x = "";
-						for (int l = k; l < re.length; l++)
-							x += "+" + re[l];
-						ilist.add(act + typ + x);
-					}
-				}
-			}
-
-			final CharSequence[] intents = ilist.toArray(new CharSequence[ilist
-					.size()]);
-			AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
-			// "Select intent type"
-			builder.setTitle(getResources().getString(
-					R.string.jv_relaunch_select_intent_type));
-			builder.setSingleChoiceItems(intents, -1,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int i) {
-							Intent in = new Intent();
-							in.setAction(Intent.ACTION_VIEW);
-							in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-									| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							in.setDataAndType(Uri.parse("file://" + fullName),
-									(String) intents[i]);
-							dialog.dismiss();
-							try {
-								startActivity(in);
-							} catch (ActivityNotFoundException e) {
-								AlertDialog.Builder builder1 = new AlertDialog.Builder(
-										ReLaunch.this);
-								// "Activity not found"
-								builder1.setTitle(getResources()
-										.getString(
-												R.string.jv_relaunch_activity_not_found_title));
-								// "Activity for file \"" + fullName +
-								// "\" with type \"" + intents[i] +
-								// "\" not found"
-								builder1.setMessage(getResources()
-										.getString(
-												R.string.jv_relaunch_activity_not_found_text1)
-										+ " \""
-										+ fullName
-										+ "\" "
-										+ getResources()
-												.getString(
-														R.string.jv_relaunch_activity_not_found_text2)
-										+ " \""
-										+ intents[i]
-										+ "\" "
-										+ getResources()
-												.getString(
-														R.string.jv_relaunch_activity_not_found_text3));
-								builder1.setPositiveButton(getResources()
-										.getString(R.string.jv_relaunch_ok),
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int whichButton) {
-											}
-										});
-								builder1.show();
-							}
-						}
-					});
-			// "Other"
-			builder.setPositiveButton(
-					getResources().getString(R.string.jv_relaunch_other),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							AlertDialog.Builder builder1 = new AlertDialog.Builder(
-									ReLaunch.this);
-							// "Intent type"
-							builder1.setTitle(getResources().getString(
-									R.string.jv_relaunch_intent_type));
-							final EditText input = new EditText(ReLaunch.this);
-							input.setText("application/");
-							builder1.setView(input);
-							// "Ok"
-							builder1.setPositiveButton(getResources()
-									.getString(R.string.jv_relaunch_ok),
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int whichButton) {
-											Intent in = new Intent();
-											in.setAction(Intent.ACTION_VIEW);
-											in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-													| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-											in.setDataAndType(
-													Uri.parse("file://"
-															+ fullName), input
-															.getText()
-															.toString());
-											dialog.dismiss();
-											try {
-												startActivity(in);
-											} catch (ActivityNotFoundException e) {
-												AlertDialog.Builder builder2 = new AlertDialog.Builder(
-														ReLaunch.this);
-												// "Activity not found"
-												builder2.setTitle(getResources()
-														.getString(
-																R.string.jv_relaunch_activity_not_found_title));
-												// "Activity for file \"" +
-												// fullName + "\" with type \""
-												// + input.getText() +
-												// "\" not found"
-												builder2.setMessage(getResources()
-														.getString(
-																R.string.jv_relaunch_activity_not_found_text1)
-														+ " \""
-														+ fullName
-														+ "\" "
-														+ getResources()
-																.getString(
-																		R.string.jv_relaunch_activity_not_found_text2)
-														+ " \""
-														+ input.getText()
-														+ "\" "
-														+ getResources()
-																.getString(
-																		R.string.jv_relaunch_activity_not_found_text3));
-												// "OK"
-												builder2.setPositiveButton(
-														getResources()
-																.getString(
-																		R.string.jv_relaunch_ok),
-														new DialogInterface.OnClickListener() {
-															public void onClick(
-																	DialogInterface dialog,
-																	int whichButton) {
-															}
-														});
-												builder2.show();
-											}
-										}
-									});
-							builder1.show();
-						}
-					});
-			// "Cancel"
-			builder.setNegativeButton(
-					getResources().getString(R.string.jv_relaunch_cancel),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-						}
-					});
-
-			builder.show();
-			break;
-		}
-		case CNTXT_MENU_DELETE_F:
-			if (prefs.getBoolean("confirmFileDelete", true)) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				// "Delete file warning"
-				builder.setTitle(getResources().getString(
-						R.string.jv_relaunch_del_file_title));
-				// "Are you sure to delete file \"" + fname + "\" ?"
-				builder.setMessage(getResources().getString(
-						R.string.jv_relaunch_del_file_text1)
-						+ " \""
-						+ fname
-						+ "\" "
-						+ getResources().getString(
-								R.string.jv_relaunch_del_file_text2));
-				// "Yes"
-				builder.setPositiveButton(
-						getResources().getString(R.string.jv_relaunch_yes),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-								if (app.removeFile(dname, fname)) {
-									itemsArray.remove(pos);
-									redrawList();
-								}
-							}
-						});
-				// "No"
-				builder.setNegativeButton(
-						getResources().getString(R.string.jv_relaunch_no),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-							}
-						});
-				builder.show();
-			} else if (app.removeFile(dname, fname)) {
-				itemsArray.remove(pos);
-				redrawList();
-			}
-			break;
-		case CNTXT_MENU_DELETE_D_EMPTY:
-			if (prefs.getBoolean("confirmDirDelete", true)) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				// "Delete empty directory warning"
-				builder.setTitle(getResources().getString(
-						R.string.jv_relaunch_del_em_dir_title));
-				// "Are you sure to delete empty directory \"" + fname + "\" ?"
-				builder.setMessage(getResources().getString(
-						R.string.jv_relaunch_del_em_dir_text1)
-						+ " \""
-						+ fname
-						+ "\" "
-						+ getResources().getString(
-								R.string.jv_relaunch_del_em_dir_text2));
-				// "Yes"
-				builder.setPositiveButton(
-						getResources().getString(R.string.jv_relaunch_yes),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-								if (app.removeFile(dname, fname)) {
-									itemsArray.remove(pos);
-									redrawList();
-								}
-							}
-						});
-				// "No"
-				builder.setNegativeButton(
-						getResources().getString(R.string.jv_relaunch_no),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-							}
-						});
-				builder.show();
-			} else if (app.removeFile(dname, fname)) {
-				itemsArray.remove(pos);
-				redrawList();
-			}
-			break;
-		case CNTXT_MENU_DELETE_D_NON_EMPTY:
-			if (prefs.getBoolean("confirmNonEmptyDirDelete", true)) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				// "Delete non empty directory warning"
-				builder.setTitle(getResources().getString(
-						R.string.jv_relaunch_del_ne_dir_title));
-				// "Are you sure to delete non-empty directory \"" + fname +
-				// "\" (dangerous) ?"
-				builder.setMessage(getResources().getString(
-						R.string.jv_relaunch_del_ne_dir_text1)
-						+ " \""
-						+ fname
-						+ "\" "
-						+ getResources().getString(
-								R.string.jv_relaunch_del_ne_dir_text2));
-				// "Yes"
-				builder.setPositiveButton(
-						getResources().getString(R.string.jv_relaunch_yes),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-								if (app.removeDirectory(dname, fname)) {
-									itemsArray.remove(pos);
-									redrawList();
-								}
-							}
-						});
-				// "No"
-				builder.setNegativeButton(
-						getResources().getString(R.string.jv_relaunch_no),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-							}
-						});
-				builder.show();
-			} else if (app.removeDirectory(dname, fname)) {
-				itemsArray.remove(pos);
-				redrawList();
-			}
-			break;
-			
-		case CNTXT_MENU_COPY_FILE:
-			fileOpFile = fname;
-			fileOpDir = dname;
-			fileOp = CNTXT_MENU_COPY_FILE;
-			break;
-
-		case CNTXT_MENU_MOVE_FILE:
-			fileOpFile = fname;
-			fileOpDir = dname;
-			fileOp = CNTXT_MENU_MOVE_FILE;
-			break;
-
-		case CNTXT_MENU_MOVE_DIR:
-			fileOpFile = fname;
-			fileOpDir = dname;
-			fileOp = CNTXT_MENU_MOVE_DIR;
-			break;
-
-		case CNTXT_MENU_PASTE:
-			String src;
-			if (fileOpDir.equalsIgnoreCase("/"))
-				src = fileOpDir + fileOpFile;
-			else
-				src = fileOpDir + "/" + fileOpFile;
-			String dst = dname + "/" + fileOpFile;
-			boolean retCode = false;
-			if (fileOp == CNTXT_MENU_COPY_FILE)
-				retCode = app.copyFile(src, dst);
-			else if ((fileOp == CNTXT_MENU_MOVE_FILE) || (fileOp == CNTXT_MENU_MOVE_DIR))
-				retCode = app.moveFile(src, dst);
-			if (retCode) {
-				HashMap<String, String> fitem = new HashMap<String, String>();
-				fitem.put("name", fileOpFile);
-				fitem.put("dname", dname);
-				fitem.put("fname", dname + "/" + fileOpFile);
-				if ((fileOp == CNTXT_MENU_MOVE_FILE) || (fileOp == CNTXT_MENU_COPY_FILE)) {
-					fitem.put("type", "file");
-					fitem.put("reader", app.readerName(fileOpFile));
-					if (prefs.getBoolean("showBookTitles", false))
-						fitem.put("sname", getEbookName(dname, fileOpFile));
-					else
-						fitem.put("sname", fileOpFile);
-				} else if (fileOp == CNTXT_MENU_MOVE_DIR) {
-					fitem.put("sname", fileOpFile);
-					fitem.put("type", "dir");
-					fitem.put("reader", "nope");
-				}
-				itemsArray.add(fitem);
-				fileOp = 0;
-//				redrawList();
-				drawDirectory(dname, currentPosition);
-			} else {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle(getResources().getString(
-						R.string.jv_relaunch_error_title));
-				builder.setMessage(getResources().getString(
-						R.string.jv_relaunch_paste_fail_text)
-						+ " " + fileOpFile);
-				builder.setNeutralButton(
-						getResources().getString(R.string.jv_relaunch_ok),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.dismiss();
-							}
-						});
-				builder.show();
-			}
-			break;
-
-		case CNTXT_MENU_TAGS_RENAME: {
-			final Context mThis = this;
-			final String oldFullName = dname + "/" + fname;
-			String newName = getEbookName(dname, fname);
-			if (fname.endsWith("fb2"))
-				newName = newName.concat(".fb2");
-			else if (fname.endsWith("fb2.zip"))
-				newName = newName.concat(".fb2.zip");
-			else if (fname.endsWith("epub"))
-				newName = newName.concat(".epub");
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			final EditText input = new EditText(this);
-			input.setText(newName);
-			builder.setView(input);
-			builder.setTitle(getResources().getString(
-					R.string.jv_relaunch_rename_title));
-			// "OK"
-			builder.setPositiveButton(
-					getResources().getString(R.string.jv_relaunch_ok),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-							String newName = input.getText().toString().trim();
-							String newFullName = dname + "/" + newName;
-							if (app.moveFile(oldFullName, newFullName)) {
-								itemsArray.get(pos).put("name", newName);
-								itemsArray.get(pos).put("sname", newName);
-								itemsArray.get(pos).put("fname", newFullName);
-								redrawList();
-							} else {
-								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
-								builder.setTitle(getResources().getString(
-										R.string.jv_relaunch_error_title));
-								builder.setMessage(getResources().getString(
-										R.string.jv_relaunch_rename_fail_text)
-										+ " " + fname);
-								builder.setNeutralButton(
-										getResources().getString(R.string.jv_relaunch_ok),
-										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog,
-													int whichButton) {
-												dialog.dismiss();
-											}
-										});
-								builder.show();
-							}
-						}
-					});
-			// "Cancel"
-			builder.setNegativeButton(
-					getResources().getString(R.string.jv_relaunch_cancel),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-						}
-					});
-
-			builder.show();
-			}
-			break;
-
-		case CNTXT_MENU_RENAME: {
-			final Context mThis = this;
-			final String oldFullName = dname + "/" + fname;
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			final EditText input = new EditText(this);
-			builder.setView(input);
-			builder.setTitle(getResources().getString(
-					R.string.jv_relaunch_rename_title));
-			// "OK"
-			builder.setPositiveButton(
-					getResources().getString(R.string.jv_relaunch_ok),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-							String newName = input.getText().toString().trim();
-							String newFullName = dname + "/" + newName;
-							if (app.moveFile(oldFullName, newFullName)) {
-								itemsArray.get(pos).put("name", newName);
-								itemsArray.get(pos).put("sname", newName);
-								itemsArray.get(pos).put("fname", newFullName);
-								redrawList();
-							} else {
-								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
-								builder.setTitle(getResources().getString(
-										R.string.jv_relaunch_error_title));
-								builder.setMessage(getResources().getString(
-										R.string.jv_relaunch_rename_fail_text)
-										+ " " + fname);
-								builder.setNeutralButton(
-										getResources().getString(R.string.jv_relaunch_ok),
-										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog,
-													int whichButton) {
-												dialog.dismiss();
-											}
-										});
-								builder.show();
-							}
-						}
-					});
-			// "Cancel"
-			builder.setNegativeButton(
-					getResources().getString(R.string.jv_relaunch_cancel),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-						}
-					});
-
-			builder.show();
-			}
-			break;
-
-		case CNTXT_MENU_CREATE_DIR: {
-			final Context mThis = this;
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			final EditText input = new EditText(this);
-			builder.setView(input);
-			builder.setTitle(getResources().getString(
-					R.string.jv_relaunch_create_folder_title));
-			// "OK"
-			builder.setPositiveButton(
-					getResources().getString(R.string.jv_relaunch_ok),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-							String dname = prefs.getString("lastdir", ".");
-							String newName = input.getText().toString().trim();
-							if (newName.equalsIgnoreCase("")) {
-								return;
-							}
-							String newFullName = dname + "/" + newName;
-							if (app.createDir(newFullName)) {
-								HashMap<String, String> fitem = new HashMap<String, String>();
-								fitem.put("name", newName);
-								fitem.put("sname", newName);
-								fitem.put("dname", dname);
-								fitem.put("fname", newFullName);
-								fitem.put("type", "dir");
-								fitem.put("reader", "nope");
-								itemsArray.add(fitem);
-//								redrawList();
-								drawDirectory(dname, currentPosition);
-							} else {
-								AlertDialog.Builder builder = new AlertDialog.Builder(mThis);
-								builder.setTitle(getResources().getString(
-										R.string.jv_relaunch_error_title));
-								builder.setMessage(getResources().getString(
-										R.string.jv_relaunch_create_folder_fail_text)
-										+ " " + newFullName);
-								builder.setNeutralButton(
-										getResources().getString(R.string.jv_relaunch_ok),
-										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog,
-													int whichButton) {
-												dialog.dismiss();
-											}
-										});
-								builder.show();
-							}
-						}
-					});
-			// "Cancel"
-			builder.setNegativeButton(
-					getResources().getString(R.string.jv_relaunch_cancel),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							dialog.dismiss();
-						}
-					});
-
-			builder.show();
-			}
-			break;
-
-		case CNTXT_MENU_SWITCH_TITLES:
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putBoolean("showBookTitles", !prefs.getBoolean("showBookTitles", false));
-			editor.commit();
-			drawDirectory(dname, currentPosition);
-			break;
-
-		}
-		return true;
-	}
-*/
 
 	@Override
 	protected void onResume() {
 		setEinkController();
 		super.onResume();
+		if (app.dataBase == null)
+			app.dataBase = new BooksBase(this);
 		app.generalOnResume(TAG, this);
 		refreshBottomInfo();
 		redrawList();
@@ -4364,49 +3699,6 @@ public class ReLaunch extends Activity {
 		}
 		return columns;
 	}
-
-	private String getEbookName(String dir, String file) {
-		EBook eBook;
-		if ((!file.endsWith("fb2")) && (!file.endsWith("fb2.zip")) &&(!file.endsWith("epub")))
-			return file;
-		String fileName = dir + "/" + file;
-		eBook = app.dataBase.getBookByFileName(dir + "/" + file);
-		if (!eBook.isOk) {
-			Parser parser = new InstantParser();
-			eBook = parser.parse(fileName);
-			if (eBook.isOk) {
-				if ((eBook.sequenceNumber != null) && (eBook.sequenceNumber.length() == 1))
-					eBook.sequenceNumber = "0" + eBook.sequenceNumber;
-					app.dataBase.addBook(eBook);
-			}
-		}
-		if (eBook.isOk) {
-			String output = prefs.getString("bookTitleFormat", "[%a. ]%t");
-			if (eBook.authors.size() > 0) {
-				String author = "";
-				if (eBook.authors.get(0).firstName != null)
-					author += eBook.authors.get(0).firstName;
-				if (eBook.authors.get(0).lastName != null)
-					author += " " + eBook.authors.get(0).lastName;
-					output = output.replace("%a", author);
-			}
-			if (eBook.title != null)
-				output = output.replace("%t", eBook.title);
-			if (eBook.sequenceName != null)
-				output = output.replace("%s", eBook.sequenceName);
-			else
-				output = output.replace("%s", "");
-			if (eBook.sequenceNumber != null)
-				output = output.replace("%n", eBook.sequenceNumber);
-			else
-				output = output.replace("%n", "");
-			output = purgeBracketsPattern.matcher(output).replaceAll("");
-			output = output.replace("[", "");
-			output = output.replace("]", "");
-			return output;
-		} else
-			return file;
-	}
 	
 	private void hideLayout(int id) {
 		View v = (View) findViewById(id);
@@ -4447,23 +3739,30 @@ public class ReLaunch extends Activity {
 	}
 
 	private void menuSort() {
-		final String[] orderList = new String[4];
-		orderList[0] = getString(R.string.jv_relaunch_sort_file_dir);
-		orderList[1] = getString(R.string.jv_relaunch_sort_file_rev);
-		orderList[2] = getString(R.string.jv_relaunch_sort_title_dir);
-		orderList[3] = getString(R.string.jv_relaunch_sort_title_rev);
+		final String[] orderList;
+		if (prefs.getBoolean("showBookTitles", false)) {
+			orderList = new String[4];
+			orderList[0] = getString(R.string.jv_relaunch_sort_file_dir);
+			orderList[1] = getString(R.string.jv_relaunch_sort_file_rev);
+			orderList[2] = getString(R.string.jv_relaunch_sort_title_dir);
+			orderList[3] = getString(R.string.jv_relaunch_sort_title_rev);
+		} else {
+			orderList = new String[2];
+			orderList[0] = getString(R.string.jv_relaunch_sort_file_dir);
+			orderList[1] = getString(R.string.jv_relaunch_sort_file_rev);
+		}
+		int sortMode = prefs.getInt("sortMode", 0);
+		if (sortMode > orderList.length - 1)
+			sortMode = 0;
 		AlertDialog.Builder builder = new AlertDialog.Builder(ReLaunch.this);
 		builder.setTitle(R.string.jv_relaunch_sort_header);
-		builder.setSingleChoiceItems(orderList, -1,
+		builder.setSingleChoiceItems(orderList, sortMode,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int i) {
-						if ((i == 0) || (i == 2)) {
-							sortType[0] = "sname";
-							sortOrder[0] = true;
-						} else if ((i == 1) || (i == 3)) {
-							sortType[0] = "sname";
-							sortOrder[0] = false;
-						}
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.putInt("sortMode", i);
+						editor.commit();
+						setSortMode(i);
 						dialog.dismiss();
 						drawDirectory(currentRoot, -1);
 					}
@@ -4480,7 +3779,7 @@ public class ReLaunch extends Activity {
 
 	@Override
 	public void onDestroy() {
-		app.dataBase.db.close();
+//		app.dataBase.db.close();
 		unregisterReceiver(this.SDCardChangeReceiver);
 		unregisterReceiver(this.PowerChangeReceiver);
 		unregisterReceiver(this.WiFiChangeReceiver);
@@ -4489,5 +3788,22 @@ public class ReLaunch extends Activity {
 		mountReceiverRegistered = false;
 		super.onDestroy();
 	}
-	
+
+	private void setSortMode(int i) {
+		if ((!prefs.getBoolean("showBookTitles", false)) && (i > 1))
+			i = 0;
+		if (i == SORT_FILES_ASC) {
+			sortType[0] = "name";
+			sortOrder[0] = true;
+		} else if (i == SORT_FILES_DESC) {
+			sortType[0] = "name";
+			sortOrder[0] = false;
+		} else if (i == SORT_TITLES_ASC) {
+			sortType[0] = "sname";
+			sortOrder[0] = true;
+		} else if (i == SORT_TITLES_DESC) {
+			sortType[0] = "sname";
+			sortOrder[0] = false;
+		}
+	}
 }
