@@ -30,6 +30,12 @@
         </string>
     <string name="whats_new">
         &lt;b>CHANGELOG&lt;/b>&lt;br>
+        &lt;b>1.3.5&lt;/b>&lt;br>
+        - new appearance of preference screen&lt;br>
+        - added support for Sony PRS-T1 buttons&lt;br>
+        - added new file associations&lt;br>
+        - fixed bug with second line of book title disappearance&lt;br>
+        - added options for clear Favorites and Last opened lists&lt;br>
         &lt;b>1.3.4&lt;/b>&lt;br>
         - showing the book title in two lines&lt;br>
         - database cleanup function implemented&lt;br>

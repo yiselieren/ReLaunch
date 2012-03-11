@@ -2,8 +2,8 @@
 <resources>
 
     <string-array name="search_as_values">
-        <item>Substring</item>
-        <item>Regexp</item>
+        <item>@string/arr_search_as_values_substring</item>
+        <item>@string/arr_search_as_values_regexp</item>
     </string-array>
 
     <integer name="SEARCH_FILE">    0 </integer>
@@ -12,10 +12,10 @@
     <integer name="SEARCH_PATH">    3 </integer>
 
     <string-array name="search_in_values">
-        <item>File name</item>
-        <item>Innermost directory name</item>
-        <item>Full path including file name</item>
-        <item>Path only, without file</item>
+        <item>@string/arr_search_in_values_1</item>
+        <item>@string/arr_search_in_values_2</item>
+        <item>@string/arr_search_in_values_3</item>
+        <item>@string/arr_search_in_values_4</item>
     </string-array>
 
     <integer name="FLT_SELECT">          0 </integer>
@@ -27,13 +27,13 @@
     <integer name="FLT_NEW_AND_READING"> 6 </integer>
 
     <string-array name="filter_values">
-        <item>Select filter method</item>
-        <item>Filename starts with</item>
-        <item>Filename ends with</item>
-        <item>Filename contains</item>
-        <item>Filename matches regexp</item>
-        <item>New books</item>
-        <item>New books and books you are reading now</item>
+        <item>@string/arr_filter_values_1</item>
+        <item>@string/arr_filter_values_2</item>
+        <item>@string/arr_filter_values_3</item>
+        <item>@string/arr_filter_values_4</item>
+        <item>@string/arr_filter_values_5</item>
+        <item>@string/arr_filter_values_6</item>
+        <item>@string/arr_filter_values_7</item>
     </string-array>
     <string-array name="do_not_kill_names">
         <item>android.process.</item>
@@ -73,10 +73,10 @@
         <item>2</item>
     </string-array>
     <string-array name="einkUpdateMode_names">
-        <item>Disable</item>
-        <item>Quality (GC+ONESHOT_ALL)</item>
-        <item>Speed (GU+ONESHOT_ALL)</item>
-        <item>Speed (GL16+ACTIVE_ALL)</item>
+        <item>@string/arr_einkUpdateMode_names_1</item>
+        <item>@string/arr_einkUpdateMode_names_2</item>
+        <item>@string/arr_einkUpdateMode_names_3</item>
+        <item>@string/arr_einkUpdateMode_names_4</item>
     </string-array>
     <string-array name="home_button_actions_values">
         <item>NOTHING</item>
@@ -85,10 +85,10 @@
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="home_button_actions_names">
-        <item>Nothing</item>
-        <item>Open home directory #</item>
-        <item>Open home directories menu</item>
-        <item>Open home directories screen</item>
+        <item>@string/arr_home_button_actions_names_1</item>
+        <item>@string/arr_home_button_actions_names_2</item>
+        <item>@string/arr_home_button_actions_names_3</item>
+        <item>@string/arr_home_button_actions_names_4</item>
     </string-array>
     <string-array name="lru_button_actions_values">
         <item>NOTHING</item>
@@ -97,10 +97,10 @@
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="lru_button_actions_names">
-        <item>Nothing</item>
-        <item>Open Last opened #</item>
-        <item>Open Last opened menu</item>
-        <item>Open Last opened screen</item>
+        <item>@string/arr_lru_button_actions_names_1</item>
+        <item>@string/arr_lru_button_actions_names_2</item>
+        <item>@string/arr_lru_button_actions_names_3</item>
+        <item>@string/arr_lru_button_actions_names_4</item>
     </string-array>
     <string-array name="fav_button_actions_values">
         <item>NOTHING</item>
@@ -109,10 +109,10 @@
         <item>OPENSCREEN</item>
     </string-array>
     <string-array name="fav_button_actions_names">
-        <item>Nothing</item>
-        <item>Open Favorites #</item>
-        <item>Open Favorites menu</item>
-        <item>Open Favorites screen</item>
+        <item>@string/arr_fav_button_actions_names_1</item>
+        <item>@string/arr_fav_button_actions_names_2</item>
+        <item>@string/arr_fav_button_actions_names_3</item>
+        <item>@string/arr_fav_button_actions_names_4</item>
     </string-array>
     <string-array name="advanced_button_actions_values">
         <item>NOTHING</item>
@@ -123,12 +123,12 @@
         <item>RUN</item>
     </string-array>
     <string-array name="advanced_button_actions_names">
-        <item>Nothing</item>
-        <item>Open \"Advanced functions\" window</item>
-        <item>Lock device</item>
-        <item>Power Off device</item>
-        <item>Switch WiFi state</item>
-        <item>Run application </item>
+        <item>@string/arr_advanced_button_actions_names_1</item>
+        <item>@string/arr_advanced_button_actions_names_2</item>
+        <item>@string/arr_advanced_button_actions_names_3</item>
+        <item>@string/arr_advanced_button_actions_names_4</item>
+        <item>@string/arr_advanced_button_actions_names_5</item>
+        <item>@string/arr_advanced_button_actions_names_6</item>
     </string-array>
     <string-array name="settings_button_actions_values">
         <item>NOTHING</item>
@@ -139,12 +139,12 @@
         <item>RUN</item>
     </string-array>
     <string-array name="settings_button_actions_names">
-        <item>Nothing</item>
-        <item>Open \"Settings\" window</item>
-        <item>Lock device</item>
-        <item>Power Off device</item>
-        <item>Switch WiFi state</item>
-        <item>Run application </item>
+        <item>@string/arr_settings_button_actions_names_1</item>
+        <item>@string/arr_settings_button_actions_names_2</item>
+        <item>@string/arr_settings_button_actions_names_3</item>
+        <item>@string/arr_settings_button_actions_names_4</item>
+        <item>@string/arr_settings_button_actions_names_5</item>
+        <item>@string/arr_settings_button_actions_names_6</item>
     </string-array>
     <string-array name="mem_button_actions_values">
         <item>NOTHING</item>
@@ -155,12 +155,12 @@
         <item>RUN</item>
     </string-array>
     <string-array name="mem_button_actions_names">
-        <item>Nothing</item>
-        <item>Open \"Application manager\" window</item>
-        <item>Lock device</item>
-        <item>Power Off device</item>
-        <item>Switch WiFi state</item>
-        <item>Run application </item>
+        <item>@string/arr_mem_button_actions_names_1</item>
+        <item>@string/arr_mem_button_actions_names_2</item>
+        <item>@string/arr_mem_button_actions_names_3</item>
+        <item>@string/arr_mem_button_actions_names_4</item>
+        <item>@string/arr_mem_button_actions_names_5</item>
+        <item>@string/arr_mem_button_actions_names_6</item>
     </string-array>
     <string-array name="bat_button_actions_values">
         <item>NOTHING</item>
@@ -171,12 +171,12 @@
         <item>RUN</item>
     </string-array>
     <string-array name="bat_button_actions_names">
-        <item>Nothing</item>
-        <item>Open \"battery consumption\" window</item>
-        <item>Lock device</item>
-        <item>Power Off device</item>
-        <item>Switch WiFi state</item>
-        <item>Run application </item>
+        <item>@string/arr_bat_button_actions_names_1</item>
+        <item>@string/arr_bat_button_actions_names_2</item>
+        <item>@string/arr_bat_button_actions_names_3</item>
+        <item>@string/arr_bat_button_actions_names_4</item>
+        <item>@string/arr_bat_button_actions_names_5</item>
+        <item>@string/arr_bat_button_actions_names_6</item>
     </string-array>
     <string-array name="output_columns_values">
         <item>-1</item>
@@ -187,12 +187,12 @@
         <item>5</item>
     </string-array>
     <string-array name="output_columns_names">
-        <item>Detect automatically</item>
-        <item>1 column</item>
-        <item>2 columns</item>
-        <item>3 columns</item>
-        <item>4 columns</item>
-        <item>5 columns</item>
+        <item>@string/arr_output_columns_names_1</item>
+        <item>@string/arr_output_columns_names_2</item>
+        <item>@string/arr_output_columns_names_3</item>
+        <item>@string/arr_output_columns_names_4</item>
+        <item>@string/arr_output_columns_names_5</item>
+        <item>@string/arr_output_columns_names_6</item>
     </string-array>
     <string-array name="output_columns_intensity_values">
         <item>60 5:5 9:4 19:3 64:2</item>
@@ -200,9 +200,9 @@
         <item>80 2:5 5:4 11:3 32:2</item>
     </string-array>
     <string-array name="output_columns_intensity_names">
-        <item>Aggressive (more columns)</item>
-        <item>Moderate</item>
-        <item>Sluggish (less columns)</item>
+        <item>@string/arr_output_columns_intensity_names_1</item>
+        <item>@string/arr_output_columns_intensity_names_2</item>
+        <item>@string/arr_output_columns_intensity_names_3</item>
     </string-array>
     <string-array name="screen_orientation_values">
         <item>NO</item>
@@ -210,9 +210,31 @@
         <item>LANDSCAPE</item>
     </string-array>
     <string-array name="screen_orientation_names">
-        <item>Don\'t change</item>
-        <item>Force to portrait</item>
-        <item>Force to landscape</item>
+        <item>@string/arr_screen_orientation_names_1</item>
+        <item>@string/arr_screen_orientation_names_2</item>
+        <item>@string/arr_screen_orientation_names_3</item>
     </string-array>
 
+    <string-array name="start_mode_values">
+        <item>LAUNCHER</item>
+        <item>PROGRAM</item>
+        <item>UNKNOWN</item>
+    </string-array>
+    <string-array name="start_mode_names">
+        <item>@string/arr_start_mode_names_1</item>
+        <item>@string/arr_start_mode_names_2</item>
+        <item>@string/arr_start_mode_names_3</item>
+    </string-array>
+    <string-array name="work_mode_values">
+        <item>FILES</item>
+        <item>BOOKS</item>
+        <item>UNKNOWN</item>
+    </string-array>
+    <string-array name="work_mode_names">
+        <item>@string/arr_work_mode_names_1</item>
+        <item>@string/arr_work_mode_names_2</item>
+        <item>@string/arr_work_mode_names_3</item>
+    </string-array>
+    
+    
 </resources>

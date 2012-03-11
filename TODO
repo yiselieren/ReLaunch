@@ -8,13 +8,11 @@ CASUAL
 FUTURE >1.3
 - (delayed at least for 1.3) may be some extended functionality for advanced screen (i.e. start to configure selected WiFi net, for example)
 - (delayed at least for 1.3) add manual scrolling for Sony devices
-- (delayed at least for 1.3) save configuration to sdcard (for restore) and save library state (fav, lru and so on)
-	in library (with restore ability), so user may save state, edit library with external 
-	filemanager and then restore state.
-- (delayed at least for 1.3) more file manager functions (with optional on-off future)
 
 ==========
 DONE
+- (DONE) more file manager functions (with optional on-off future)
+- (DONE) save configuration to sdcard (for restore) and save library state (fav, lru and so on)
 - (DONE) add "Not show known file suffixes" functionality
 - (DONE) add "Not show known directory prefixes" functionality
 - (DONE) add close fav, searches, lru after file launched functionality

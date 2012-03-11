@@ -1,855 +1,798 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="General" >
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="filterResults"
-            android:persistent="true"
-            android:summaryOff="Show all files"
-            android:summaryOn="Filter results according to filter definitions"
-            android:title="Filter results" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="fullScreen"
-            android:persistent="true"
-            android:summaryOff="Show upper title bar"
-            android:summaryOn="Work in full screen mode"
-            android:title="Full screen" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="showButtons"
-            android:persistent="true"
-            android:summaryOff="Do not show buttons on main screen"
-            android:summaryOn="Show buttons on main screen"
-            android:title="Show buttons on main screen" >
-        </CheckBoxPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="/sdcard,/media/My Files"
-            android:enabled="true"
-            android:key="startDir"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Start here or last visited (see next)"
-            android:title="Start directory(s)" >
-        </EditTextPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="notLeaveStartDir"
-            android:persistent="true"
-            android:summaryOff="You can go up from start directory(s)"
-            android:summaryOn="You can\&apos;t go up from start directory(s)"
-            android:title="Don\&apos;t leave start directory(s)" />
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="saveDir"
-            android:persistent="true"
-            android:summaryOff="Always start from start directory"
-            android:summaryOn="Start from last visited directory"
-            android:title="Save last visited directory" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="returnFileToMain"
-            android:persistent="true"
-            android:summaryOff="When launched reader, return to original screen"
-            android:summaryOn="When launched reader, exits to main screen"
-            android:title="Reader invocation behavior" />
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="askAmbig"
-            android:persistent="true"
-            android:summaryOff="Run first association"
-            android:summaryOn="Ask if association is ambiguous"
-            android:title="Ambiguous associations" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="showNew"
-            android:persistent="true"
-            android:summaryOff="Show all files in a normal way"
-            android:summaryOn="Use color/bold fonts to show new and finished books"
-            android:title="Show new/read books" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="showHidden"
-            android:persistent="true"
-            android:summaryOff="Don't show hidden files and folders"
-            android:summaryOn="Show hidden files and folders"
-            android:title="Show hidden files" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference 
-        	android:layout="@+layout/pref_child"
-                android:title="Show book titles" 
-                android:defaultValue="false" 
-                android:key="showBookTitles" 
-                android:persistent="true" 
-                android:summaryOn="Show file names" 
-                android:summaryOff="Show book titles" 
-                android:summary="Show book titles instead of filenames"
-                android:disableDependentsState="false">
-        </CheckBoxPreference>
-        
-        <EditTextPreference 
-        	android:layout="@+layout/pref_child"
-                android:key="bookTitleFormat" 
-                android:title="Format of title of the book"
-                android:dependency="showBookTitles"
-                android:summary="%a - author's name, %t - book title, %s - series title, %n - number in series" android:defaultValue="%t\n[%a][. %s][-%n]">
-        </EditTextPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="hideKnownExts"
-            android:persistent="true"
-            android:summaryOff="Show full file names, with extensions"
-            android:summaryOn="Hide known extensions (by associaciations)"
-            android:title="Hide known extensions" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="hideKnownDirs"
-            android:persistent="true"
-            android:summaryOff="Show full dirs names (even in start dirs)"
-            android:summaryOn="Hide known part (start dir) from dir name"
-            android:title="Hide known part of directories" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="showFullDirPath"
-            android:persistent="true"
-            android:summaryOff="Show current directory name in title"
-            android:summaryOn="Show full directory path in title"
-            android:title="Show full directory path in title" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="openWith"
-            android:persistent="true"
-            android:summaryOff="Do not show \&apos;Open with...\&apos; context menu item"
-            android:summaryOn="Show \&apos;Open with...\&apos; context menu item"
-            android:title="\&apos;Open with...\&apos; context menu item" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="createIntent"
-            android:persistent="true"
-            android:summaryOff="Do not show \&apos;Create intent...\&apos; context menu item"
-            android:summaryOn="Show \&apos;Create intent...\&apos; context menu item"
-            android:title="\&apos;Create intent...\&apos; context menu item" >
-        </CheckBoxPreference>
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NO"
-            android:enabled="true"
-            android:entries="@array/screen_orientation_names"
-            android:entryValues="@array/screen_orientation_values"
-            android:key="screenOrientation"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Screen Orientation" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="1"
-            android:enabled="true"
-            android:entries="@array/einkUpdateMode_names"
-            android:entryValues="@array/einkUpdateMode_values"
-            android:key="einkUpdateMode"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="EInk Screen Update Mode" />
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="10"
-            android:enabled="true"
-            android:key="einkUpdateInterval"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="How often EInk will be fully updated"
-            android:title="EInk Screen Full Update Interval" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Appearance" >
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="20"
-            android:enabled="true"
-            android:key="firstLineFontSizePx"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Font size for files and directories names in all lists... px"
-            android:title="Files and directories names font size" />
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="16"
-            android:enabled="true"
-            android:key="secondLineFontSizePx"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Font size for additional directories names in Favorites and so on lists"
-            android:title="Additional directories names font size... px" />
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="48"
-            android:enabled="true"
-            android:key="firstLineIconSizePx"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Icon size for files and directories... px (0 - disable icon)"
-            android:title="Files and directories icons size" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="-1"
-            android:enabled="true"
-            android:entries="@array/output_columns_names"
-            android:entryValues="@array/output_columns_values"
-            android:key="columnsDirsFiles"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Files and directories list (default)" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="-1"
-            android:enabled="true"
-            android:entries="@array/output_columns_names"
-            android:entryValues="@array/output_columns_values"
-            android:key="columnsHomeList"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Home directories list" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="-1"
-            android:enabled="true"
-            android:entries="@array/output_columns_names"
-            android:entryValues="@array/output_columns_values"
-            android:key="columnsLRU"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Last recent used list" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="-1"
-            android:enabled="true"
-            android:entries="@array/output_columns_names"
-            android:entryValues="@array/output_columns_values"
-            android:key="columnsFAV"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Favorites list" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="-1"
-            android:enabled="true"
-            android:entries="@array/output_columns_names"
-            android:entryValues="@array/output_columns_values"
-            android:key="columnsSearch"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Search results list" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="70 3:5 7:4 15:3 48:2"
-            android:enabled="true"
-            android:entries="@array/output_columns_intensity_names"
-            android:entryValues="@array/output_columns_intensity_values"
-            android:key="columnsAlgIntensity"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Determining the number of columns" />
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:title="Accelerate the display of the list of files"
-            android:key="speedupDisplay"
-            android:defaultValue="false">
-        </CheckBoxPreference>    
-        
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:title="Show separator betwwen rows in files list"
-            android:key="rowSeparator"
-            android:defaultValue="false">
-        </CheckBoxPreference>    
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Main screen buttons behavior" >
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="OPENN"
-            android:enabled="true"
-            android:entries="@array/home_button_actions_names"
-            android:entryValues="@array/home_button_actions_values"
-            android:key="homeButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Home Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="OPENMENU"
-            android:enabled="true"
-            android:entries="@array/home_button_actions_names"
-            android:entryValues="@array/home_button_actions_values"
-            android:key="homeButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Home Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="OPENSCREEN"
-            android:enabled="true"
-            android:entries="@array/home_button_actions_names"
-            android:entryValues="@array/home_button_actions_values"
-            android:key="homeButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Home Button Long Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="OPENSCREEN"
-            android:enabled="true"
-            android:entries="@array/lru_button_actions_names"
-            android:entryValues="@array/lru_button_actions_values"
-            android:key="lruButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Last Recent Used Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/lru_button_actions_names"
-            android:entryValues="@array/lru_button_actions_values"
-            android:key="lruButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Last Recent Used Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/lru_button_actions_names"
-            android:entryValues="@array/lru_button_actions_values"
-            android:key="lruButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Last Recent Used Button Long Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="OPENSCREEN"
-            android:enabled="true"
-            android:entries="@array/fav_button_actions_names"
-            android:entryValues="@array/fav_button_actions_values"
-            android:key="favButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Favorites Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/fav_button_actions_names"
-            android:entryValues="@array/fav_button_actions_values"
-            android:key="favButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Favorites Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/fav_button_actions_names"
-            android:entryValues="@array/fav_button_actions_values"
-            android:key="favButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Favorites Button Long Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="RELAUNCH"
-            android:enabled="true"
-            android:entries="@array/settings_button_actions_names"
-            android:entryValues="@array/settings_button_actions_values"
-            android:key="settingsButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Settings Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/settings_button_actions_names"
-            android:entryValues="@array/settings_button_actions_values"
-            android:key="settingsButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Settings Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/settings_button_actions_names"
-            android:entryValues="@array/settings_button_actions_values"
-            android:key="settingsButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Settings Button Long Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="RELAUNCH"
-            android:enabled="true"
-            android:entries="@array/advanced_button_actions_names"
-            android:entryValues="@array/advanced_button_actions_values"
-            android:key="advancedButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Advanced Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/advanced_button_actions_names"
-            android:entryValues="@array/advanced_button_actions_values"
-            android:key="advancedButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Advanced Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/advanced_button_actions_names"
-            android:entryValues="@array/advanced_button_actions_values"
-            android:key="advancedButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Advanced Button Long Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="RELAUNCH"
-            android:enabled="true"
-            android:entries="@array/mem_button_actions_names"
-            android:entryValues="@array/mem_button_actions_values"
-            android:key="memButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Memory Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/mem_button_actions_names"
-            android:entryValues="@array/mem_button_actions_values"
-            android:key="memButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Memory Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/mem_button_actions_names"
-            android:entryValues="@array/mem_button_actions_values"
-            android:key="memButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Memory Button Long Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="RELAUNCH"
-            android:enabled="true"
-            android:entries="@array/bat_button_actions_names"
-            android:entryValues="@array/bat_button_actions_values"
-            android:key="batButtonST"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Battery Button Single Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/bat_button_actions_names"
-            android:entryValues="@array/bat_button_actions_values"
-            android:key="batButtonDT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Battery Button Double Tap" />
-
-        <ListPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="NOTHING"
-            android:enabled="true"
-            android:entries="@array/bat_button_actions_names"
-            android:entryValues="@array/bat_button_actions_values"
-            android:key="batButtonLT"
-            android:persistent="true"
-            android:selectable="true"
-            android:title="Battery Button Long Tap" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Launcher mode settings" >
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="homeMode"
-            android:persistent="true"
-            android:summaryOff="Work as application when invoked by Home button"
-            android:summaryOn="Work as launcher when invoked by Home button"
-            android:title="Work mode when invoked by Home button" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="libraryMode"
-            android:persistent="true"
-            android:summaryOff="Work as application when invoked by Library button"
-            android:summaryOn="Work as launcher when invoked by Library button"
-            android:title="Work mode when invoked by Library button" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="shopMode"
-            android:persistent="true"
-            android:summaryOff="Work as application when invoked by Shop button"
-            android:summaryOn="Work as launcher when invoked by Shop button"
-            android:title="Work mode when invoked by Shop button" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="returnToMain"
-            android:persistent="true"
-            android:summaryOff="When launched appl. exits return to original screen"
-            android:summaryOn="When launched appl. exits return to main screen"
-            android:title="Application invocation behavior" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="filterSelf"
-            android:persistent="true"
-            android:summaryOff="Show all apps, including myself"
-            android:summaryOn="Filter out my name from apps list"
-            android:title="Filter selfname from apps list" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="false"
-            android:key="dateUS"
-            android:persistent="true"
-            android:summaryOff="European style date and time"
-            android:summaryOn="US style date and time"
-            android:title="Date and time presentation style" >
-        </CheckBoxPreference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Scrollbar appearance " >
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="disableScrollJump"
-            android:persistent="true"
-            android:summaryOff="Fast scroll enabled (often inaccurate!)"
-            android:summaryOn="Fast scroll disabled"
-            android:title="Disable fast scroll with buttons" >
-        </CheckBoxPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="10"
-            android:enabled="true"
-            android:key="scrollPerc"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Fast scroll step"
-            android:title="Fast scrolling step (percents)" >
-        </EditTextPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="customScroll"
-            android:persistent="true"
-            android:summaryOff="System scrollbar indication"
-            android:summaryOn="Draw custom scrollbar"
-            android:title="Custom scrollbar indication" >
-        </CheckBoxPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="25"
-            android:enabled="true"
-            android:key="scrollWidth"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Scrollbar width"
-            android:title="Custom scrollbar width" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="10"
-            android:enabled="true"
-            android:key="scrollPad"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Scrollbar left margin"
-            android:title="Custom scrollbar left margin" >
-        </EditTextPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:summary="Allow turn over the pages by buttons" 
-            android:title="use buttons on Sony PRS-T1"
-            android:key="useSonyButtons" >
-        </CheckBoxPreference>    
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Search settings" >
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="5000"
-            android:enabled="true"
-            android:key="searchSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal size of search results list"
-            android:title="Maximal amount of search results" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="100"
-            android:enabled="true"
-            android:key="searchReport"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Report search progress every ... files"
-            android:title="How often report search progress" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="/media,/sdcard"
-            android:enabled="true"
-            android:key="searchRoot"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Search always start here"
-            android:title="Root search directory" >
-        </EditTextPreference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Internal viewer/editor settings" >
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="1048576"
-            android:enabled="true"
-            android:key="viewerMaxSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal file size allowed for viewer"
-            android:title="Maximal file size for viewer" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="262144"
-            android:enabled="true"
-            android:key="editorMaxSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal file size allowed for editor"
-            android:title="Maximal file size for editor" >
-        </EditTextPreference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Maximal size of misc. persistent lists" >
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="30"
-            android:enabled="true"
-            android:key="lruSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal size of last opened list"
-            android:title="Last opened list size" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="30"
-            android:enabled="true"
-            android:key="favSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal size of favorites list"
-            android:title="Favorites list size" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="30"
-            android:enabled="true"
-            android:key="appLruSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal size of last opened applications list"
-            android:title="Applications last opened list size" >
-        </EditTextPreference>
-
-        <EditTextPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="30"
-            android:enabled="true"
-            android:key="appFavSize"
-            android:numeric="integer"
-            android:persistent="true"
-            android:selectable="true"
-            android:summary="Maximal size of applications favorites list"
-            android:title="Application favorites list size" >
-        </EditTextPreference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="File manager functions" >
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="useFileManagerFunctions"
-            android:persistent="true"
-            android:summaryOff="Show file manager menu items"
-            android:summaryOn="Don&apos;t show file manager menu items"
-            android:title="Use file management functions" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="confirmFileDelete"
-            android:persistent="true"
-            android:summaryOff="Delete file without confirmation"
-            android:summaryOn="Ask confirmation for file deletion"
-            android:title="Confirm file deletion" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="confirmDirDelete"
-            android:persistent="true"
-            android:summaryOff="Delete directories without confirmation"
-            android:summaryOn="Ask confirmation for directory deletion"
-            android:title="Confirm deletion of every directory" >
-        </CheckBoxPreference>
-
-        <CheckBoxPreference
-        	android:layout="@+layout/pref_child"
-            android:defaultValue="true"
-            android:key="confirmNonEmptyDirDelete"
-            android:persistent="true"
-            android:summaryOff="Recoursive delete non empty directories without confirmation (dangerous!)"
-            android:summaryOn="Ask confirmation for recoursive directory deletion"
-            android:title="Confirm deletion of non empty directory" >
-        </CheckBoxPreference>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Database functions">
-        <Preference 
-        	android:layout="@+layout/pref_child"
-            android:title="Cleanup fb2/epub tags cache"
-            android:key="cleanupDatabase">
-        </Preference>
-    </PreferenceCategory>
+	<PreferenceCategory android:title="@string/pref_c_mGeneral_title" >
+		<ListPreference
+			android:defaultValue="LAUNCHER"
+			android:enabled="true"
+			android:entries="@array/start_mode_names"
+			android:entryValues="@array/start_mode_values"
+			android:key="startMode"
+			android:layout="@+layout/pref_child"
+			android:persistent="true"
+			android:selectable="true"
+			android:title="@string/pref_i_startMode_title" />
+		<ListPreference
+			android:defaultValue="FILES"
+			android:enabled="true"
+			android:entries="@array/work_mode_names"
+			android:entryValues="@array/work_mode_values"
+			android:key="workMode"
+			android:layout="@+layout/pref_child"
+			android:persistent="true"
+			android:selectable="true"
+			android:title="@string/pref_i_workMode_title" />
+		<ListPreference
+			android:defaultValue="NO"
+			android:enabled="true"
+			android:entries="@array/screen_orientation_names"
+			android:entryValues="@array/screen_orientation_values"
+			android:key="screenOrientation"
+			android:layout="@+layout/pref_child"
+			android:persistent="true"
+			android:selectable="true"
+			android:title="@string/pref_i_screenOrientation_title" />
+
+		<CheckBoxPreference
+			android:defaultValue="true"
+			android:key="screenUpdateMode"
+			android:layout="@+layout/pref_child"
+			android:persistent="true"
+			android:summaryOff="@string/pref_i_sg_screenUpdateMode_off"
+			android:summaryOn="@string/pref_i_sg_screenUpdateMode_on"
+			android:title="@string/pref_i_sg_screenUpdateMode_title" />
+
+		<EditTextPreference
+			android:defaultValue="20"
+			android:enabled="true"
+			android:key="fileFontSize"
+			android:layout="@+layout/pref_child"
+			android:numeric="integer"
+			android:persistent="true"
+			android:selectable="true"
+			android:summary="@string/pref_i_fileFontSize_sum"
+			android:title="@string/pref_i_fileFontSize_title" />
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:key="categoryAdvanced"
+		android:title="@string/pref_c_mSystem_title" >
+		<Preference
+			android:key="resetSettings"
+			android:layout="@+layout/pref_child"
+			android:title="@string/pref_i_resetSettings_title" />
+
+		<PreferenceScreen
+			android:key="screenAdvanced"
+			android:layout="@+layout/pref_child"
+			android:title="@string/pref_s_screenAdvanced_title" >
+			<PreferenceScreen android:title="@string/pref_s_general_title" >
+				<EditTextPreference
+					android:defaultValue="/sdcard,/media/My Files"
+					android:enabled="true"
+					android:key="startDir"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_startDir_desc"
+					android:title="@string/pref_i_startDir_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="saveDir"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_saveDir_off"
+					android:summaryOn="@string/pref_i_saveDir_on"
+					android:title="@string/pref_i_saveDir_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="notLeaveStartDir"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_notLeaveStartDir_off"
+					android:summaryOn="@string/pref_i_notLeaveStartDir_on"
+					android:title="@string/pref_i_notLeaveStartDir_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="returnFileToMain"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_returnFileToMain_off"
+					android:summaryOn="@string/pref_i_returnFileToMain_on"
+					android:title="@string/pref_i_returnFileToMain_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="showBookTitles"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_showBookTitles_off"
+					android:summaryOn="@string/pref_i_showBookTitles_on"
+					android:title="@string/pref_i_showBookTitles_title" />
+
+				<EditTextPreference
+					android:defaultValue="[%a. ]%t[\n[%s][-%n]]"
+					android:key="bookTitleFormat"
+					android:layout="@+layout/pref_child"
+					android:summary="@string/pref_i_bookTitleFormat_sum"
+					android:title="@string/pref_i_bookTitleFormat_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="openWith"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_openWith_off"
+					android:summaryOn="@string/pref_i_openWith_on"
+					android:title="@string/pref_i_openWith_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="createIntent"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_createIntent_off"
+					android:summaryOn="@string/pref_i_createIntent_on"
+					android:title="@string/pref_i_createIntent_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_appearance_title" >
+				<ListPreference
+					android:defaultValue="1"
+					android:enabled="true"
+					android:entries="@array/einkUpdateMode_names"
+					android:entryValues="@array/einkUpdateMode_values"
+					android:key="einkUpdateMode"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_einkUpdateMode_title" />
+
+				<EditTextPreference
+					android:defaultValue="10"
+					android:enabled="true"
+					android:key="einkUpdateInterval"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_einkUpdateInterval_sum"
+					android:title="@string/pref_i_einkUpdateInterval_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="fullScreen"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_fullScreen_off"
+					android:summaryOn="@string/pref_i_fullScreen_on"
+					android:title="@string/pref_i_fullScreen_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="showNew"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_showNew_off"
+					android:summaryOn="@string/pref_i_showNew_on"
+					android:title="@string/pref_i_showNew_title" />
+
+				<EditTextPreference
+					android:defaultValue="20"
+					android:enabled="true"
+					android:key="firstLineFontSizePx"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_firstLineFontSizePx_sum"
+					android:title="@string/pref_i_firstLineFontSizePx_title" />
+				<EditTextPreference
+					android:defaultValue="16"
+					android:enabled="true"
+					android:key="secondLineFontSizePx"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_secondLineFontSizePx_sum"
+					android:title="@string/pref_i_secondLineFontSizePx_title" />
+				<EditTextPreference
+					android:defaultValue="48"
+					android:enabled="true"
+					android:key="firstLineIconSizePx"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_firstLineIconSizePx_sum"
+					android:title="@string/pref_i_firstLineIconSizePx_title" />
+
+				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsDirsFiles"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsDirsFiles_title" />
+				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsHomeList"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsHomeList_title" />
+				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsLRU"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsLRU_title" />
+				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsFAV"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsFAV_title" />
+				<ListPreference
+					android:defaultValue="-1"
+					android:enabled="true"
+					android:entries="@array/output_columns_names"
+					android:entryValues="@array/output_columns_values"
+					android:key="columnsSearch"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsSearch_title" />
+				<ListPreference
+					android:defaultValue="70 3:5 7:4 15:3 48:2"
+					android:enabled="true"
+					android:entries="@array/output_columns_intensity_names"
+					android:entryValues="@array/output_columns_intensity_values"
+					android:key="columnsAlgIntensity"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_columnsAlgIntensity_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="rowSeparator"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_rowSeparator_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_file_title" >
+				<Preference
+					android:key="fileAssociations"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_fileAssociations_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="askAmbig"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_askAmbig_off"
+					android:summaryOn="@string/pref_i_askAmbig_on"
+					android:title="@string/pref_i_askAmbig_title" />
+
+				<Preference
+					android:key="fileFilter"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_fileFilter_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="filterResults"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_filterResults_off"
+					android:summaryOn="@string/pref_i_filterResults_on"
+					android:title="@string/pref_i_filterResults_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="showHidden"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_showHidden_off"
+					android:summaryOn="@string/pref_i_showHidden_on"
+					android:title="@string/pref_i_showHidden_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="hideKnownExts"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_hideKnownExts_off"
+					android:summaryOn="@string/pref_i_hideKnownExts_on"
+					android:title="@string/pref_i_hideKnownExts_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="hideKnownDirs"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_hideKnownDirs_off"
+					android:summaryOn="@string/pref_i_hideKnownDirs_on"
+					android:title="@string/pref_i_hideKnownDirs_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="useFileManagerFunctions"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_useFileManagerFunctions_off"
+					android:summaryOn="@string/pref_i_useFileManagerFunctions_on"
+					android:title="@string/pref_i_useFileManagerFunctions_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="confirmFileDelete"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_confirmFileDelete_off"
+					android:summaryOn="@string/pref_i_confirmFileDelete_on"
+					android:title="@string/pref_i_confirmFileDelete_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="confirmDirDelete"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_confirmDirDelete_off"
+					android:summaryOn="@string/pref_i_confirmDirDelete_on"
+					android:title="@string/pref_i_confirmDirDelete_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="confirmNonEmptyDirDelete"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_confirmNonEmptyDirDelete_off"
+					android:summaryOn="@string/pref_i_confirmNonEmptyDirDelete_on"
+					android:title="@string/pref_i_confirmNonEmptyDirDelete_title" />
+			</PreferenceScreen>
+			<PreferenceScreen
+				android:key="psButtons"
+				android:title="@string/pref_s_buttons_title" >
+				<ListPreference
+					android:defaultValue="OPENN"
+					android:enabled="true"
+					android:entries="@array/home_button_actions_names"
+					android:entryValues="@array/home_button_actions_values"
+					android:key="homeButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_homeButtonST_title" />
+				<ListPreference
+					android:defaultValue="OPENMENU"
+					android:enabled="true"
+					android:entries="@array/home_button_actions_names"
+					android:entryValues="@array/home_button_actions_values"
+					android:key="homeButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_homeButtonDT_title" />
+				<ListPreference
+					android:defaultValue="OPENSCREEN"
+					android:enabled="true"
+					android:entries="@array/home_button_actions_names"
+					android:entryValues="@array/home_button_actions_values"
+					android:key="homeButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_homeButtonLT_title" />
+				<ListPreference
+					android:defaultValue="OPENSCREEN"
+					android:enabled="true"
+					android:entries="@array/lru_button_actions_names"
+					android:entryValues="@array/lru_button_actions_values"
+					android:key="lruButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_lruButtonST_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/lru_button_actions_names"
+					android:entryValues="@array/lru_button_actions_values"
+					android:key="lruButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_lruButtonDT_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/lru_button_actions_names"
+					android:entryValues="@array/lru_button_actions_values"
+					android:key="lruButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_lruButtonLT_title" />
+				<ListPreference
+					android:defaultValue="OPENSCREEN"
+					android:enabled="true"
+					android:entries="@array/fav_button_actions_names"
+					android:entryValues="@array/fav_button_actions_values"
+					android:key="favButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_favButtonST_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/fav_button_actions_names"
+					android:entryValues="@array/fav_button_actions_values"
+					android:key="favButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_favButtonDT_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/fav_button_actions_names"
+					android:entryValues="@array/fav_button_actions_values"
+					android:key="favButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_favButtonLT_title" />
+				<ListPreference
+					android:defaultValue="RELAUNCH"
+					android:enabled="true"
+					android:entries="@array/settings_button_actions_names"
+					android:entryValues="@array/settings_button_actions_values"
+					android:key="settingsButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_settingsButtonST_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/settings_button_actions_names"
+					android:entryValues="@array/settings_button_actions_values"
+					android:key="settingsButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_settingsButtonDT_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/settings_button_actions_names"
+					android:entryValues="@array/settings_button_actions_values"
+					android:key="settingsButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_settingsButtonLT_title" />
+				<ListPreference
+					android:defaultValue="RELAUNCH"
+					android:enabled="true"
+					android:entries="@array/advanced_button_actions_names"
+					android:entryValues="@array/advanced_button_actions_values"
+					android:key="advancedButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_advancedButtonST_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/advanced_button_actions_names"
+					android:entryValues="@array/advanced_button_actions_values"
+					android:key="advancedButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_advancedButtonDT_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/advanced_button_actions_names"
+					android:entryValues="@array/advanced_button_actions_values"
+					android:key="advancedButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_advancedButtonLT_title" />
+				<ListPreference
+					android:defaultValue="RELAUNCH"
+					android:enabled="true"
+					android:entries="@array/mem_button_actions_names"
+					android:entryValues="@array/mem_button_actions_values"
+					android:key="memButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_memButtonST_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/mem_button_actions_names"
+					android:entryValues="@array/mem_button_actions_values"
+					android:key="memButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_memButtonDT_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/mem_button_actions_names"
+					android:entryValues="@array/mem_button_actions_values"
+					android:key="memButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_memButtonLT_title" />
+				<ListPreference
+					android:defaultValue="RELAUNCH"
+					android:enabled="true"
+					android:entries="@array/bat_button_actions_names"
+					android:entryValues="@array/bat_button_actions_values"
+					android:key="batButtonST"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_batButtonST_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/bat_button_actions_names"
+					android:entryValues="@array/bat_button_actions_values"
+					android:key="batButtonDT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_batButtonDT_title" />
+				<ListPreference
+					android:defaultValue="NOTHING"
+					android:enabled="true"
+					android:entries="@array/bat_button_actions_names"
+					android:entryValues="@array/bat_button_actions_values"
+					android:key="batButtonLT"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:title="@string/pref_i_batButtonLT_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_launcherSettings_title" >
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="homeMode"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_homeMode_off"
+					android:summaryOn="@string/pref_i_homeMode_on"
+					android:title="@string/pref_i_homeMode_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="libraryMode"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_libraryMode_off"
+					android:summaryOn="@string/pref_i_libraryMode_on"
+					android:title="@string/pref_i_libraryMode_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="shopMode"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_shopMode_off"
+					android:summaryOn="@string/pref_i_shopMode_on"
+					android:title="@string/pref_i_shopMode_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="returnToMain"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_returnToMain_off"
+					android:summaryOn="@string/pref_i_returnToMain_on"
+					android:title="@string/pref_i_returnToMain_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="filterSelf"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_filterSelf_off"
+					android:summaryOn="@string/pref_i_filterSelf_on"
+					android:title="@string/pref_i_filterSelf_title" />
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="dateUS"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_dateUS_off"
+					android:summaryOn="@string/pref_i_dateUS_on"
+					android:title="@string/pref_i_dateUS_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_scroll_title" >
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="disableScrollJump"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_disableScrollJump_off"
+					android:summaryOn="@string/pref_i_disableScrollJump_on"
+					android:title="@string/pref_i_disableScrollJump_title" />
+
+				<EditTextPreference
+					android:defaultValue="10"
+					android:enabled="true"
+					android:key="scrollPerc"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_scrollPerc_sum"
+					android:title="@string/pref_i_scrollPerc_title" />
+
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="customScroll"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_customScroll_off"
+					android:summaryOn="@string/pref_i_customScroll_on"
+					android:title="@string/pref_i_customScroll_title" />
+
+				<EditTextPreference
+					android:defaultValue="25"
+					android:enabled="true"
+					android:key="scrollWidth"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_scrollWidth_sum"
+					android:title="@string/pref_i_scrollWidth_title" />
+				<EditTextPreference
+					android:defaultValue="10"
+					android:enabled="true"
+					android:key="scrollPad"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_scrollPad_sum"
+					android:title="@string/pref_i_scrollPad_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_search_title" >
+				<EditTextPreference
+					android:defaultValue="5000"
+					android:enabled="true"
+					android:key="searchSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_searchSize_sum"
+					android:title="@string/pref_i_searchSize_title" />
+				<EditTextPreference
+					android:defaultValue="100"
+					android:enabled="true"
+					android:key="searchReport"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_searchReport_sum"
+					android:title="@string/pref_i_searchReport_title" />
+				<EditTextPreference
+					android:defaultValue="/sdcard,/media/My Files"
+					android:enabled="true"
+					android:key="searchRoot"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_searchRoot_sum"
+					android:title="@string/pref_i_searchRoot_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_viewer_title" >
+				<EditTextPreference
+					android:defaultValue="1048576"
+					android:enabled="true"
+					android:key="viewerMaxSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_viewerMaxSize_sum"
+					android:title="@string/pref_i_viewerMaxSize_title" />
+				<EditTextPreference
+					android:defaultValue="262144"
+					android:enabled="true"
+					android:key="editorMaxSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_editorMaxSize_sum"
+					android:title="@string/pref_i_editorMaxSize_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_listSize_title" >
+				<EditTextPreference
+					android:defaultValue="30"
+					android:enabled="true"
+					android:key="lruSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_lruSize_sum"
+					android:title="@string/pref_i_lruSize_title" />
+				<EditTextPreference
+					android:defaultValue="30"
+					android:enabled="true"
+					android:key="favSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_favSize_sum"
+					android:title="@string/pref_i_favSize_title" />
+				<EditTextPreference
+					android:defaultValue="30"
+					android:enabled="true"
+					android:key="appLruSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_appLruSize_sum"
+					android:title="@string/pref_i_appLruSize_title" />
+				<EditTextPreference
+					android:defaultValue="30"
+					android:enabled="true"
+					android:key="appFavSize"
+					android:layout="@+layout/pref_child"
+					android:numeric="integer"
+					android:persistent="true"
+					android:selectable="true"
+					android:summary="@string/pref_i_appFavSize_sum"
+					android:title="@string/pref_i_appFavSize_title" />
+			</PreferenceScreen>
+			<PreferenceScreen android:title="@string/pref_s_system_title" >
+				<Preference
+					android:key="loadSettings"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_loadSettings_title" />
+				<Preference
+					android:key="saveSettings"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_saveSettings_title" />
+				<Preference
+					android:key="cleanupDatabase"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_cleanupDatabase_title" />
+				<Preference
+					android:key="cleanupLRU"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_cleanupLRU_title" />
+				<Preference
+					android:key="cleanupFAV"
+					android:layout="@+layout/pref_child"
+					android:title="@string/pref_i_cleanupFAV_title" />
+			</PreferenceScreen>
+
+			<Preference
+				android:key="restart"
+				android:layout="@+layout/pref_child"
+				android:title="@string/pref_i_restart_title" />
+		</PreferenceScreen>
+	</PreferenceCategory>
 
 </PreferenceScreen>
