@@ -30,6 +30,14 @@
         </string>
     <string name="whats_new">
         &lt;b>CHANGELOG&lt;/b>&lt;br>
+        &lt;b>1.3.6&lt;/b>&lt;br>
+        - updated preferences screen for SONY PRS-T1&lt;br>
+        - new option \"Add start folder\" in context menu&lt;br>
+        - new options for double and long taps on "Favorite applications" button&lt;br>
+        - disabled fullscreen mode in Preferences activity&lt;br>
+        - fixed bug with symbol # in file names&lt;br>
+        - tunable number of columns of All and Favorite applications&lt;br>
+		- added new variable %f to book name template&lt;br>
         &lt;b>1.3.5&lt;/b>&lt;br>
         - new appearance of preference screen&lt;br>
         - added support for Sony PRS-T1 buttons&lt;br>

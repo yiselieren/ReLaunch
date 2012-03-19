@@ -182,6 +182,21 @@ public class PrefsActivity extends PreferenceActivity implements
 				String[] appa = prefs.getString("batButtonLTapp", "%%").split(
 						"\\%");
 				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("appFavButtonST")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("appFavButtonSTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("appFavButtonDT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("appFavButtonDTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
+			} else if (p.getKey().equals("appFavButtonLT")
+					&& listPref.getValue().toString().equals("RUN")) {
+				String[] appa = prefs.getString("appFavButtonLTapp", "%%").split(
+						"\\%");
+				p.setSummary(listPref.getEntry() + " \"" + appa[2] + "\"");
 			} else {
 				p.setSummary(listPref.getEntry());
 			}
@@ -213,7 +228,7 @@ public class PrefsActivity extends PreferenceActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 
 		app = ((ReLaunchApp) getApplicationContext());
-		app.setFullScreenIfNecessary(this);
+//		app.setFullScreenIfNecessary(this);
 
 		applicationsArray = app.getApps();
 		applications = applicationsArray
@@ -711,7 +726,12 @@ public class PrefsActivity extends PreferenceActivity implements
 					((CheckBoxPreference) findPreference("useFileManagerFunctions"))
 							.setChecked(true);
 					((CheckBoxPreference) findPreference("openWith"))
-							.setChecked(true);
+					.setChecked(true);
+					((CheckBoxPreference) findPreference("showFullDirPath"))
+					.setChecked(true);
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putInt("sortMode", 0);
+					editor.commit();
 					do_pref_subrequest = true;
 				} else if (value.equals("BOOKS")) {
 					do_pref_subrequest = false;
@@ -723,6 +743,11 @@ public class PrefsActivity extends PreferenceActivity implements
 							.setChecked(false);
 					((CheckBoxPreference) findPreference("openWith"))
 							.setChecked(false);
+					((CheckBoxPreference) findPreference("showFullDirPath"))
+					.setChecked(false);
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putInt("sortMode", 2);
+					editor.commit();
 					do_pref_subrequest = true;
 				}
 			} else if (key.equals("screenUpdateMode")) {
@@ -1352,6 +1377,76 @@ public class PrefsActivity extends PreferenceActivity implements
 					builder.show();
 				}
 			}
+			if (key.equals("appFavButtonST")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("appFavButtonSTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("appFavButtonDT")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("appFavButtonDTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			if (key.equals("appFavButtonLT")) {
+				if (sharedPreferences.getString(key, "RELAUNCH").equals("RUN")) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							PrefsActivity.this);
+					// "Select application"
+					builder.setTitle(getResources().getString(
+							R.string.jv_prefs_select_application));
+					builder.setSingleChoiceItems(happlications, -1,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int i) {
+									SharedPreferences.Editor editor = prefs
+											.edit();
+									editor.putString("appFavButtonLTapp",
+											(String) applications[i]);
+									editor.commit();
+									updatePrefSummary(pref);
+									dialog.dismiss();
+								}
+							});
+					builder.show();
+				}
+			}
+			
 		}
 	}
 

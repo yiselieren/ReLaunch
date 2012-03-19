@@ -560,7 +560,7 @@ public class ReLaunchApp extends Application {
 			i.setAction(Intent.ACTION_VIEW);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 					| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			i.setDataAndType(Uri.parse("file://" + file), re[1]);
+			i.setDataAndType(Uri.parse("file:///" + Uri.encode(file.substring(1))), re[1]);
 			addToList("lastOpened", file, false);
 			saveList("lastOpened");
 			if (!history.containsKey(file) || history.get(file) == FINISHED) {
@@ -587,7 +587,7 @@ public class ReLaunchApp extends Application {
 						| Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); - ALREADY DONE! in
 				// getIntentByLabel
-				i.setData(Uri.parse("file://" + file));
+				i.setData(Uri.parse("file:///" + Uri.encode(file.substring(1))));
 				addToList("lastOpened", file, false);
 				saveList("lastOpened");
 				if (!history.containsKey(file) || history.get(file) == FINISHED) {
@@ -791,6 +791,25 @@ public class ReLaunchApp extends Application {
 		if (!copyFile(src, dst, true))
 			return false;
 		return true;
+	}
+
+	public boolean isStartDir(String dir) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		String startDirs = prefs.getString("startDir", "/sdcard,/media/My Files");
+		if (startDirs.contains(dir))
+			return true;
+		return false;
+	}
+
+	public void addStartDir(String dir) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences.Editor editor = prefs.edit();
+		String startDirs = prefs.getString("startDir", "/sdcard,/media/My Files");
+		startDirs = startDirs + "," + dir;
+		editor.putString("startDir", startDirs);
+		editor.commit();
 	}
 
 }

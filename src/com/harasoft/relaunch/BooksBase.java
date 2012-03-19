@@ -195,6 +195,7 @@ public class BooksBase {
 				output = output.replace("%n", eBook.sequenceNumber);
 			else
 				output = output.replace("%n", "");
+			output = output.replace("%f", fileName);
 			output = purgeBracketsPattern.matcher(output).replaceAll("");
 			output = output.replace("[", "");
 			output = output.replace("]", "");

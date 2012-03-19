@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
 	<string name="app_name">ReLaunch</string>
-	<string name="model_warning">&lt;h2>Esta aplicación está diseñada sólo para el Nook Simple Touch y el Sony PRS-T1&lt;/h2>&lt;br>&lt;center>&lt;b>¿Desea continuar?&lt;/b>&lt;/center></string>
+	<string name="model_warning">&lt;h2&gt;Esta aplicación está diseñada sólo para
+		el Nook Simple Touch y el Sony
+		PRS-T1&lt;/h2&gt;&lt;br&gt;&lt;center&gt;&lt;b&gt;¿Desea
+		continuar?&lt;/b&gt;&lt;/center&gt;</string>
 	<string name="advanced_layout_switch_wifi_off">Activar WiFi</string>
 	<string name="advanced_layout_setting_wifi">Configuración WiFi</string>
 	<string name="advanced_layout_scan">Escanear</string>
@@ -30,19 +32,23 @@
 	<string name="prefs_layout_associations">Personalizar: Asociaciones</string>
 	<string name="prefs_layout_cancel">Cancelar</string>
 	<string name="prefs_layout_ok">OK</string>
-	<string name="prefs_layout_save_restart">Guardar configuraciones y reiniciar ReLaunch (algunos ajustes solo trabajan después de reiniciar)</string>
-	<string name="prefs_layout_revert_default">Revertir todas las configuraciones a los valores por defecto</string>
+	<string name="prefs_layout_save_restart">Guardar configuraciones y reiniciar ReLaunch
+		(algunos ajustes solo trabajan después de reiniciar)</string>
+	<string name="prefs_layout_revert_default">Revertir todas las configuraciones a los valores
+		por defecto</string>
 	<string name="search_layout_case_sensitive">Direfenciar mayusculas/minúsculas</string>
 	<string name="search_layout_search_known">Buscar sólo extensiones conocidas</string>
 	<string name="search_layout_sort_search">Ordenar resultados de búsquedas</string>
 	<string name="search_layout_search_as">Buscar como</string>
 	<string name="search_layout_search_in">Buscar en</string>
 	<string name="search_layout_search_root">Buscar root</string>
-	<string name="search_layout_search_root_comment">Puede ser uno varios directorios separados por comas</string>
+	<string name="search_layout_search_root_comment">Puede ser uno varios directorios separados por
+		comas</string>
 	<string name="search_layout_search_string">Cadena de búsqueda</string>
 	<string name="search_layout_search">Búsqueda</string>
 	<string name="search_layout_cancel">Cancelar</string>
-	<string name="search_layout_show_all_books">Mostrar todos los libros(extensiones conocidas) búsqueda desde root</string>
+	<string name="search_layout_show_all_books">Mostrar todos los libros(extensiones conocidas)
+		búsqueda desde root</string>
 	<string name="search_layout_title">Búsqueda</string>
 	<string name="service_details_layout_kill">Matar</string>
 	<string name="service_details_layout_ok">OK</string>
@@ -73,7 +79,8 @@
 	<string name="viewer_layout_edit">Editar</string>
 	<string name="viewer_layout_title">-- Visualizador integrado --</string>
 	<string name="reboot_layout_text">REINICIAR\n\nEspere...</string>
-	<string name="poweroff_layout_text">Dispositivo apagado\n\nUsar botón de encendido para comenzar de nuevo...</string>
+	<string name="poweroff_layout_text">Dispositivo apagado\n\nUsar botón de encendido para
+		comenzar de nuevo...</string>
 	<string name="jv_advanced_connected">Conectado, IP:</string>
 	<string name="jv_advanced_level">Nivel:</string>
 	<string name="jv_advanced_notrange">No está en rango</string>
@@ -88,7 +95,8 @@
 	<string name="jv_advanced_yes">SÍ</string>
 	<string name="jv_advanced_no">NO</string>
 	<string name="jv_advanced_poweroff_confirm_title">Confirmación de apagado</string>
-	<string name="jv_advanced_poweroff_confirm_text">¿Estás seguro de que apagar el dispositivo? </string>
+	<string name="jv_advanced_poweroff_confirm_text">¿Estás seguro de que apagar el dispositivo?
+	</string>
 	<string name="jv_advanced_mount_diskspartitions">Discos/particiones</string>
 	<string name="jv_advanced_mount_mountpoint">Punto de montaje</string>
 	<string name="jv_advanced_mount_FS">FS</string>
@@ -99,7 +107,8 @@
 	<string name="jv_advanced_mount_ro">Sólo lectura RO</string>
 	<string name="jv_advanced_mount_rw">Lectura/escritura RW</string>
 	<string name="jv_advanced_nook_only">Implementar en los NOOK Simple Touch.</string>
-	<string name="jv_advanced_root_only">Implementar en los dispositivos arraigados.</string>
+	<string name="jv_advanced_root_only">Implementar en los dispositivos arraigados.
+	</string>
 	<string name="jv_allapp_move_up">Mover una posición hacia arriba</string>
 	<string name="jv_allapp_move_down">Mover una posición hacia abajo</string>
 	<string name="jv_allapp_remove">Borrar de favoritos</string>
@@ -135,9 +144,11 @@
 	<string name="jv_prefs_select_application">Seleccione la aplicación</string>
 	<string name="jv_prefs_ok">OK</string>
 	<string name="jv_prefs_decline_changes_title">Cambios disminución de alerta</string>
-	<string name="jv_prefs_decline_changes_text">¿Desea guardar los cambios de configuración de todos los?</string>
+	<string name="jv_prefs_decline_changes_text">¿Desea guardar los cambios de configuración de
+		todos los?</string>
 	<string name="jv_prefs_default_settings_title">Configuración por defecto de advertencia</string>
-	<string name="jv_prefs_default_settings_text">¿Está seguro de restaurar la configuración por defecto?</string>
+	<string name="jv_prefs_default_settings_text">¿Está seguro de restaurar la configuración por
+		defecto?</string>
 	<string name="jv_prefs_yes">Sí</string>
 	<string name="jv_prefs_no">No</string>
 	<string name="jv_prefs_cancel">Cancelar</string>
@@ -198,8 +209,14 @@
 	<string name="jv_relaunch_next">próximo</string>
 	<string name="jv_rla_activity">Acción</string>
 	<string name="jv_rla_not_found">no encontrado!</string>
-	<string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>lanzador para el lector electrónico Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Versión: &lt;b></string>
-	<string name="jv_rla_about_post">&lt;/b>&lt;/center>&lt;br>&lt;center>Código fuente: &lt;a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git&lt;/a>&lt;/center></string>
+	<string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;lanzador
+		para el lector electrónico Nook Simple
+		Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Versión:
+		&lt;b&gt;</string>
+	<string name="jv_rla_about_post">&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Código
+		fuente: &lt;a
+		href=\"https://github.com/yiselieren/ReLaunch\"&gt;git://github.com/yiselieren/ReLaunch.git&lt;/a&gt;&lt;/center&gt;
+	</string>
 	<string name="jv_rla_ok">OK</string>
 	<string name="jv_rla_see_changelog">Ver histórico de cambios (changelog)</string>
 	<string name="jv_rla_whats_new_title">Histórico de cambios</string>
@@ -225,7 +242,8 @@
 	<string name="jv_results_delete_em_dir_text1">¿Estás seguro de eliminar la carpeta vacía</string>
 	<string name="jv_results_delete_em_dir_text2">\?</string>
 	<string name="jv_results_delete_ne_dir_title">Eliminar advertencias de carpeta no vacía</string>
-	<string name="jv_results_delete_ne_dir_text1">¿Estás seguro de eliminar la carpeta no vacía</string>
+	<string name="jv_results_delete_ne_dir_text1">¿Estás seguro de eliminar la carpeta no vacía
+	</string>
 	<string name="jv_results_delete_ne_dir_text2">(acciones potencialmente peligrosas)</string>
 	<string name="jv_results_activity_not_found">Acción no encontrada</string>
 	<string name="jv_search_in_progress">Búsqueda en progreso</string>
@@ -246,74 +264,109 @@
 	<string name="jv_types_cancel">Cancelar</string>
 	<string name="jv_types_cant_be_empty">¡Debe especificar la extensión!</string>
 	<string name="jv_types_app_or_int_title">¿Aplicación o acción general?</string>
-	<string name="jv_types_app_or_int_text">Cuando haces clic sobre un archivo con una extensión, ReLaunch te permite abrirlo con una aplicación determinada o crear una acción predeterminada para ese tipo de archivo. ¿Qué método te gustaría usar?</string>
+	<string name="jv_types_app_or_int_text">Cuando haces clic sobre un archivo con una
+		extensión, ReLaunch te permite abrirlo con una aplicación determinada
+		o crear una acción predeterminada para ese tipo de archivo. ¿Qué
+		método te gustaría usar?</string>
 	<string name="jv_types_explicit_application">Aplicación determinada</string>
 	<string name="jv_types_select_application">Elegir aplicación</string>
 	<string name="jv_types_general_intent">Acción general</string>
 	<string name="jv_types_intent_type">Tipo de acción</string>
 	<string name="jv_viewer_file_too_big">Archivo demasiado grande</string>
 	<string name="jv_viewer_file">Archivo</string>
-	<string name="jv_viewer_too_big">es demasiado grande para el visor integrado</string>
+	<string name="jv_viewer_too_big">es demasiado grande para el visor integrado
+	</string>
 	<string name="jv_viewer_bytes">bytes</string>
 	<string name="jv_viewer_maximum">El máximo tamaño de archivo permitido es</string>
 	<string name="jv_viewer_ok">OK</string>
 	<string name="pref_i_filterResults_title">Resultados filtrados</string>
-	<string name="pref_i_filterResults_on">Filtrar resultados de acuerdo a definiciones de filtros</string>
+	<string name="pref_i_filterResults_on">Filtrar resultados de acuerdo a definiciones de
+		filtros</string>
 	<string name="pref_i_filterResults_off">Mostrar todos los archivos</string>
 	<string name="pref_i_fullScreen_title">Pantalla completa</string>
 	<string name="pref_i_fullScreen_on">Trabajar en modo de pantalla completa</string>
 	<string name="pref_i_fullScreen_off">Mostrar barra de título superior</string>
 	<string name="pref_i_startDir_title">Directorio/s de inicio</string>
-	<string name="pref_i_startDir_desc">Iniciar aquí o en último visitado (ver siguiente)</string>
-	<string name="pref_i_notLeaveStartDir_title">No permite acceder al directorio/s de inicio</string>
+	<string name="pref_i_startDir_desc">Iniciar aquí o en último visitado (ver siguiente)
+	</string>
+	<string name="pref_i_notLeaveStartDir_title">No permite acceder al directorio/s de inicio
+	</string>
 	<string name="pref_i_notLeaveStartDir_on">No puede acceder al directorio/s de inicio</string>
 	<string name="pref_i_notLeaveStartDir_off">Acceder al directorio/s de inicio</string>
 	<string name="pref_i_saveDir_title">Guardar el último directorio visitado</string>
-	<string name="pref_i_saveDir_on">Comenzar desde el último directorio visitado</string>
+	<string name="pref_i_saveDir_on">Comenzar desde el último directorio visitado
+	</string>
 	<string name="pref_i_saveDir_off">Guardar el último directorio visitado</string>
-	<string name="pref_i_returnFileToMain_title">Después de iniciar la aplicación de lectura</string>
+	<string name="pref_i_returnFileToMain_title">Después de iniciar la aplicación de lectura
+	</string>
 	<string name="pref_i_returnFileToMain_on">Volver a la pantalla principal</string>
 	<string name="pref_i_returnFileToMain_off">Volver a la pantalla original</string>
 	<string name="pref_i_askAmbig_title">Varias asociaciones para el archivo</string>
 	<string name="pref_i_askAmbig_on">Ofrecer opciones al usuario</string>
-	<string name="pref_i_askAmbig_off">Asociar con la primera aplicación que se abra</string>
+	<string name="pref_i_askAmbig_off">Asociar con la primera aplicación que se abra
+	</string>
 	<string name="pref_i_showNew_title">Mostrar libros nuevos/leídos</string>
-	<string name="pref_i_showNew_on">Usar color/negrita para identificar libros nuevos y terminados</string>
-	<string name="pref_i_showNew_off">Mostrar todos los archivos como de costumbre</string>
+	<string name="pref_i_showNew_on">Usar color/negrita para identificar libros nuevos y
+		terminados</string>
+	<string name="pref_i_showNew_off">Mostrar todos los archivos como de costumbre
+	</string>
 	<string name="pref_i_hideKnownExts_title">Ocultar las extensiones conocidas</string>
-	<string name="pref_i_hideKnownExts_on">Ocultar las extensiones conocidas (por associaciations)</string>
-	<string name="pref_i_hideKnownExts_off">Mostrar los nombres completos, con extensiones</string>
-	<string name="pref_i_hideKnownDirs_title">Ocultar parte más conocida de los directorios</string>
-	<string name="pref_i_hideKnownDirs_on">Ocultar parte más conocida (inicio dir) del nombre de dir</string>
-	<string name="pref_i_hideKnownDirs_off">Mostrar los nombres de directorios completos (incluso en los directorios de inicio)</string>
-	<string name="pref_i_openWith_title">Elemento de menú contextual \'Abrir con...\'</string>
-	<string name="pref_i_openWith_on">Mostrar \'Abrir con...\' en menú contextual</string>
-	<string name="pref_i_openWith_off">No volver a mostrar \'Abrir con...\' en menú contextual de archivo</string>
-	<string name="pref_i_createIntent_title">Elemento de menú contextual \'Crear evento...\'</string>
-	<string name="pref_i_createIntent_on">Mostrar \'Crear evento...\' en menú contextual</string>
-	<string name="pref_i_createIntent_off">Ocultar \'Crear evento...\' en menú contextual de archivo</string>
+	<string name="pref_i_hideKnownExts_on">Ocultar las extensiones conocidas (por
+		associaciations)</string>
+	<string name="pref_i_hideKnownExts_off">Mostrar los nombres completos, con extensiones
+	</string>
+	<string name="pref_i_hideKnownDirs_title">Ocultar parte más conocida de los directorios
+	</string>
+	<string name="pref_i_hideKnownDirs_on">Ocultar parte más conocida (inicio dir) del nombre
+		de dir</string>
+	<string name="pref_i_hideKnownDirs_off">Mostrar los nombres de directorios completos
+		(incluso en los directorios de inicio)</string>
+	<string name="pref_i_openWith_title">Elemento de menú contextual \'Abrir con...\'
+	</string>
+	<string name="pref_i_openWith_on">Mostrar \'Abrir con...\' en menú contextual
+	</string>
+	<string name="pref_i_openWith_off">No volver a mostrar \'Abrir con...\' en menú
+		contextual de archivo</string>
+	<string name="pref_i_createIntent_title">Elemento de menú contextual \'Crear evento...\'
+	</string>
+	<string name="pref_i_createIntent_on">Mostrar \'Crear evento...\' en menú contextual
+	</string>
+	<string name="pref_i_createIntent_off">Ocultar \'Crear evento...\' en menú contextual de
+		archivo</string>
 	<string name="pref_i_screenOrientation_title">Orientación de la pantalla</string>
 	<string name="pref_i_einkUpdateMode_title">Modo de refresco de pantalla eInk</string>
-	<string name="pref_i_einkUpdateInterval_title">Frecuencia de una completa actualización de la pantalla eInk</string>
-	<string name="pref_i_einkUpdateInterval_sum">Con qué frecuencia la pantalla se actualiza por completo</string>
-	<string name="pref_i_firstLineFontSizePx_title">Tamaño de fuente en nombres de archivos/carpetas</string>
-	<string name="pref_i_firstLineFontSizePx_sum">Tamaño de fuente en nobres de archivos y directorios de cualquer lista... px</string>
-	<string name="pref_i_secondLineFontSizePx_title">Tamaño de fuente para nombres de directorios adicionales</string>
-	<string name="pref_i_secondLineFontSizePx_sum">Tamaño de fuente para de otros directorios como Favoritos y otras listas... px</string>
-	<string name="pref_i_firstLineIconSizePx_title">Archivos y el tamaño de los iconos de directorios</string>
-	<string name="pref_i_firstLineIconSizePx_sum">Icono de tamaño para los archivos y directorios ... px (0 - desactivar el icono)</string>
+	<string name="pref_i_einkUpdateInterval_title">Frecuencia de una completa actualización de la
+		pantalla eInk</string>
+	<string name="pref_i_einkUpdateInterval_sum">Con qué frecuencia la pantalla se actualiza por
+		completo</string>
+	<string name="pref_i_firstLineFontSizePx_title">Tamaño de fuente en nombres de archivos/carpetas
+	</string>
+	<string name="pref_i_firstLineFontSizePx_sum">Tamaño de fuente en nobres de archivos y
+		directorios de cualquer lista... px</string>
+	<string name="pref_i_secondLineFontSizePx_title">Tamaño de fuente para nombres de directorios
+		adicionales</string>
+	<string name="pref_i_secondLineFontSizePx_sum">Tamaño de fuente para de otros directorios como
+		Favoritos y otras listas... px</string>
+	<string name="pref_i_firstLineIconSizePx_title">Archivos y el tamaño de los iconos de directorios
+	</string>
+	<string name="pref_i_firstLineIconSizePx_sum">Icono de tamaño para los archivos y directorios ...
+		px (0 - desactivar el icono)</string>
 	<string name="pref_i_columnsDirsFiles_title">Lista de archivos y carpetas (por defecto)</string>
 	<string name="pref_i_columnsHomeList_title">Lista de carpetas inicial</string>
 	<string name="pref_i_columnsLRU_title">Lista de reciente apertura</string>
 	<string name="pref_i_columnsFAV_title">Lista de favoritos</string>
 	<string name="pref_i_columnsSearch_title">Lista de resultados de búsqueda</string>
-	<string name="pref_i_columnsAlgIntensity_title">Algoritmo para determinar el número de columnas</string>
+	<string name="pref_i_columnsAlgIntensity_title">Algoritmo para determinar el número de columnas
+	</string>
 	<string name="pref_i_homeButtonST_title">Un sólo clic en botón \'Home\'</string>
 	<string name="pref_i_homeButtonDT_title">Doble clic en botón \'Home\'</string>
 	<string name="pref_i_homeButtonLT_title">Pulsación larga del botón \'Home\'</string>
-	<string name="pref_i_lruButtonST_title">Última recientes botón que se usa solo toque</string>
-	<string name="pref_i_lruButtonDT_title">Última recientes botón que se usa Double Tap</string>
-	<string name="pref_i_lruButtonLT_title">Última recientes botón que se usa mucho toque</string>
+	<string name="pref_i_lruButtonST_title">Última recientes botón que se usa solo toque
+	</string>
+	<string name="pref_i_lruButtonDT_title">Última recientes botón que se usa Double Tap
+	</string>
+	<string name="pref_i_lruButtonLT_title">Última recientes botón que se usa mucho toque
+	</string>
 	<string name="pref_i_favButtonST_title">Favoritos Toque solo botón</string>
 	<string name="pref_i_favButtonDT_title">Pulse el botón Favoritos doble</string>
 	<string name="pref_i_favButtonLT_title">Pulse el botón Favoritos de largo</string>
@@ -329,65 +382,89 @@
 	<string name="pref_i_batButtonST_title">Toca la batería solo botón</string>
 	<string name="pref_i_batButtonDT_title">Pulse el botón de la batería doble</string>
 	<string name="pref_i_batButtonLT_title">Pulse el botón de la batería de larga</string>
-	<string name="pref_i_homeMode_title">Modo de ejecución al pulsar el botón \'Home\'</string>
+	<string name="pref_i_homeMode_title">Modo de ejecución al pulsar el botón \'Home\'
+	</string>
 	<string name="pref_i_homeMode_on">Ejecutar como lanzador</string>
 	<string name="pref_i_homeMode_off">Ejecutar como una aplicación normal</string>
-	<string name="pref_i_libraryMode_title">Modo de ejecución al pulsar el botón \'Library\'</string>
+	<string name="pref_i_libraryMode_title">Modo de ejecución al pulsar el botón \'Library\'
+	</string>
 	<string name="pref_i_libraryMode_on">Ejecutar como lanzador</string>
 	<string name="pref_i_libraryMode_off">Ejecutar como una aplicación normal</string>
-	<string name="pref_i_shopMode_title">Modo de ejecución al pulsar el botón \'Shop\'</string>
+	<string name="pref_i_shopMode_title">Modo de ejecución al pulsar el botón \'Shop\'
+	</string>
 	<string name="pref_i_shopMode_on">Ejecutar como lanzador</string>
 	<string name="pref_i_shopMode_off">Ejecutar como una aplicación normal</string>
 	<string name="pref_i_returnToMain_title">Después de ejecutar la aplicación</string>
 	<string name="pref_i_returnToMain_on">Volver a la página psrincipal</string>
 	<string name="pref_i_returnToMain_off">Permanecer en la página de aplicaciones</string>
-	<string name="pref_i_filterSelf_title">Filtrar nombres idénticos de la lista de aplicaciones</string>
+	<string name="pref_i_filterSelf_title">Filtrar nombres idénticos de la lista de
+		aplicaciones</string>
 	<string name="pref_i_filterSelf_on">Ocultar nombres de aplicaciones repetidas</string>
-	<string name="pref_i_filterSelf_off">Mostrar todas las aplicaciones, repetidas tb.</string>
+	<string name="pref_i_filterSelf_off">Mostrar todas las aplicaciones, repetidas tb.
+	</string>
 	<string name="pref_i_dateUS_title">Formato de fecha/hora</string>
 	<string name="pref_i_dateUS_on">Americano (dd/mm/aaaa)</string>
 	<string name="pref_i_dateUS_off">Europeo (dd.mm.aaaa)</string>
-	<string name="pref_i_disableScrollJump_title">Desactivar desplazamiento rápido con botones</string>
+	<string name="pref_i_disableScrollJump_title">Desactivar desplazamiento rápido con botones
+	</string>
 	<string name="pref_i_disableScrollJump_on">Desplazamiento rápido con discapacidad</string>
-	<string name="pref_i_disableScrollJump_off">Desplazamiento rápido habilitado (a menudo incorrecta!)</string>
+	<string name="pref_i_disableScrollJump_off">Desplazamiento rápido habilitado (a menudo
+		incorrecta!)</string>
 	<string name="pref_i_scrollPerc_title">Desplazamiento rápido (porcentajes)</string>
 	<string name="pref_i_scrollPerc_sum">Paso rápido</string>
 	<string name="pref_i_customScroll_title">Personalizar barra de desplazamiento</string>
 	<string name="pref_i_customScroll_on">Usar barra de desplazamiento personalizada</string>
 	<string name="pref_i_customScroll_off">Usar barra de desplazamiento de sistema</string>
-	<string name="pref_i_scrollWidth_title">Personalizar ancho de la barra de desplazamiento</string>
-	<string name="pref_i_scrollWidth_sum">Ancho de la barra de desplazamiento en pixeles</string>
-	<string name="pref_i_scrollPad_title">Personalizar barra desplazamiento a margen izquierdo</string>
-	<string name="pref_i_scrollPad_sum">barra desplazamiento del margen izquierdo (píxeles)</string>
+	<string name="pref_i_scrollWidth_title">Personalizar ancho de la barra de desplazamiento
+	</string>
+	<string name="pref_i_scrollWidth_sum">Ancho de la barra de desplazamiento en pixeles
+	</string>
+	<string name="pref_i_scrollPad_title">Personalizar barra desplazamiento a margen
+		izquierdo</string>
+	<string name="pref_i_scrollPad_sum">barra desplazamiento del margen izquierdo (píxeles)
+	</string>
 	<string name="pref_i_searchSize_title">Cantidad máxima de sultados de la búsqueda</string>
-	<string name="pref_i_searchSize_sum">Tamaño máximo de resultado en la lista de búsqueda</string>
+	<string name="pref_i_searchSize_sum">Tamaño máximo de resultado en la lista de búsqueda
+	</string>
 	<string name="pref_i_searchReport_title">Notificación del estado de la búsqueda</string>
-	<string name="pref_i_searchReport_sum">Informe sobre el estado de búsqueda cada ... archivos</string>
+	<string name="pref_i_searchReport_sum">Informe sobre el estado de búsqueda cada ...
+		archivos</string>
 	<string name="pref_i_searchRoot_title">Carpeta de búsqueda inicial</string>
 	<string name="pref_i_searchRoot_sum">Comenzar búsquedas desde aquí</string>
-	<string name="pref_i_viewerMaxSize_title">Tamaño máximo de archivo abierto con visor interno</string>
+	<string name="pref_i_viewerMaxSize_title">Tamaño máximo de archivo abierto con visor interno
+	</string>
 	<string name="pref_i_viewerMaxSize_sum">Tamaño máximo permitido de archivo (bytes)</string>
-	<string name="pref_i_editorMaxSize_title">Tamaño máximo de archivo abierto con editor interno</string>
+	<string name="pref_i_editorMaxSize_title">Tamaño máximo de archivo abierto con editor interno
+	</string>
 	<string name="pref_i_editorMaxSize_sum">Tamaño máximo permitido de archivo (bytes)</string>
 	<string name="pref_i_lruSize_title">Tamaño del historial</string>
 	<string name="pref_i_lruSize_sum">Tamaño máximo del historial</string>
 	<string name="pref_i_favSize_title">Tamaño del listado de favoritos</string>
 	<string name="pref_i_favSize_sum">Tamaño máximo del listado de favoritos</string>
-	<string name="pref_i_appLruSize_title">Tamaño del listado de aplicaciones recientes</string>
-	<string name="pref_i_appLruSize_sum">Tamaño máximo de la lista de últimas aplicaciones abiertas</string>
-	<string name="pref_i_appFavSize_title">Tamaño del listado de aplicaciones favoritas</string>
-	<string name="pref_i_appFavSize_sum">Tamaño máximo del listado de aplicaciones favoritas</string>
-	<string name="pref_i_useFileManagerFunctions_title">Use las funciones de administración de archivos</string>
-	<string name="pref_i_useFileManagerFunctions_on">No volver a mostrar los elementos del menú archivo gerente</string>
-	<string name="pref_i_useFileManagerFunctions_off">Mostrar archivo de elementos de menú gerente</string>
+	<string name="pref_i_appLruSize_title">Tamaño del listado de aplicaciones recientes
+	</string>
+	<string name="pref_i_appLruSize_sum">Tamaño máximo de la lista de últimas aplicaciones
+		abiertas</string>
+	<string name="pref_i_appFavSize_title">Tamaño del listado de aplicaciones favoritas
+	</string>
+	<string name="pref_i_appFavSize_sum">Tamaño máximo del listado de aplicaciones favoritas
+	</string>
+	<string name="pref_i_useFileManagerFunctions_title">Use las funciones de administración de archivos
+	</string>
+	<string name="pref_i_useFileManagerFunctions_on">No volver a mostrar los elementos del menú archivo
+		gerente</string>
+	<string name="pref_i_useFileManagerFunctions_off">Mostrar archivo de elementos de menú gerente
+	</string>
 	<string name="pref_i_confirmFileDelete_title">Confirmar eliminar archivos</string>
 	<string name="pref_i_confirmFileDelete_on">Pedir confirmación al eliminar un archivo</string>
 	<string name="pref_i_confirmFileDelete_off">Eliminar archivos sin preguntar</string>
 	<string name="pref_i_confirmDirDelete_title">Confirmar eliminar carpeta</string>
 	<string name="pref_i_confirmDirDelete_on">Pedir confirmación al borrar una carpeta</string>
 	<string name="pref_i_confirmDirDelete_off">Borrar carpetas sin pedir confirmaciónn</string>
-	<string name="pref_i_confirmNonEmptyDirDelete_title">Confirmar eliminación de carpetas no vacias</string>
-	<string name="pref_i_confirmNonEmptyDirDelete_on">Pedir confirmación recursivamente para eliminar carpetas no vacías</string>
-	<string name="pref_i_confirmNonEmptyDirDelete_off">Eliminar carpetas vacías recursivamente sin confirmación (¡peligroso!)</string>
-
+	<string name="pref_i_confirmNonEmptyDirDelete_title">Confirmar eliminación de carpetas no vacias
+	</string>
+	<string name="pref_i_confirmNonEmptyDirDelete_on">Pedir confirmación recursivamente para eliminar
+		carpetas no vacías</string>
+	<string name="pref_i_confirmNonEmptyDirDelete_off">Eliminar carpetas vacías recursivamente sin
+		confirmación (¡peligroso!)</string>
 </resources>

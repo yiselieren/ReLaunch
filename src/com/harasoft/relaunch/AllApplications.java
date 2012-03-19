@@ -56,6 +56,7 @@ public class AllApplications extends Activity {
 	String title;
 	SharedPreferences prefs;
 	boolean addSView = true;
+	int gcols = 2;
 
 	private void setEinkController() {
 		if (prefs != null) {
@@ -221,6 +222,8 @@ public class AllApplications extends Activity {
 		if (listName.equals("app_all")) {
 			app_icon.setImageDrawable(getResources().getDrawable(
 					R.drawable.ci_grid));
+			String cols = prefs.getString("columnsAppAll", "-1");
+			gcols = Integer.parseInt(cols);
 		}
 		if (listName.equals("app_last")) {
 			app_icon.setImageDrawable(getResources().getDrawable(
@@ -229,6 +232,9 @@ public class AllApplications extends Activity {
 		if (listName.equals("app_favorites")) {
 			app_icon.setImageDrawable(getResources().getDrawable(
 					R.drawable.ci_fava));
+			String cols = prefs.getString("columnsAppFav", "-1");
+			gcols = Integer.parseInt(cols);
+
 		}
 		((ImageButton) findViewById(R.id.app_btn))
 				.setOnClickListener(new View.OnClickListener() {
@@ -255,6 +261,9 @@ public class AllApplications extends Activity {
 
 		adapter = new AppAdapter(this, R.layout.applications_item, itemsArray);
 		lv = (GridView) findViewById(R.id.app_grid);
+		if (gcols <= 0)
+			gcols = 2;
+		lv.setNumColumns(gcols);
 		lv.setAdapter(adapter);
 		registerForContextMenu(lv);
 		if (prefs.getBoolean("customScroll", app.customScrollDef)) {

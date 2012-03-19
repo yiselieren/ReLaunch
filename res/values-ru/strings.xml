@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
 	<string name="app_name">ReLaunch</string>
-	<string name="model_warning">&lt;h2>Эта программа разработана для Nook Simple Touch или Sony PRS-T1!&lt;/h2>&lt;br>&lt;center>&lt;b>Хотите продолжить?&lt;/b>&lt;/center></string>
+	<string name="model_warning">&lt;h2>Эта программа разработана для Nook Simple
+		Touch или Sony PRS-T1!&lt;/h2>&lt;br>&lt;center>&lt;b>Хотите
+		продолжить?&lt;/b>&lt;/center></string>
 	<string name="advanced_layout_switch_wifi_off">Выкл. WiFi</string>
 	<string name="advanced_layout_setting_wifi">Настройка WiFi</string>
 	<string name="advanced_layout_scan">Поиск сетей</string>
@@ -42,7 +43,8 @@
 	<string name="search_layout_search_string">Строка поиска</string>
 	<string name="search_layout_search">Искать</string>
 	<string name="search_layout_cancel">Отмена</string>
-	<string name="search_layout_show_all_books">Показать все книги (известных расширений) в папках для поиска</string>
+	<string name="search_layout_show_all_books">Показать все книги (известных расширений) в папках
+		для поиска</string>
 	<string name="search_layout_title">Поиск</string>
 	<string name="service_details_layout_kill">Завершить</string>
 	<string name="service_details_layout_ok">OK</string>
@@ -73,7 +75,8 @@
 	<string name="viewer_layout_edit">Ред.</string>
 	<string name="viewer_layout_title">-- ПРОСМОТР --</string>
 	<string name="reboot_layout_text">ПЕРЕЗАГРУЗКА\n\nОжидайте...</string>
-	<string name="poweroff_layout_text">ВЫКЛЮЧЕНО\n\nНажмите кнопку Power для включения...</string>
+	<string name="poweroff_layout_text">ВЫКЛЮЧЕНО\n\nНажмите кнопку Power для включения...
+	</string>
 	<string name="jv_advanced_connected">IP:</string>
 	<string name="jv_advanced_level">Сигнал:</string>
 	<string name="jv_advanced_notrange">Недоступно</string>
@@ -135,9 +138,11 @@
 	<string name="jv_prefs_select_application">Выберите приложение</string>
 	<string name="jv_prefs_ok">OK</string>
 	<string name="jv_prefs_decline_changes_title">Предупреждение</string>
-	<string name="jv_prefs_decline_changes_text">Вы хотите сохранить все внесенные изменения?</string>
+	<string name="jv_prefs_decline_changes_text">Вы хотите сохранить все внесенные изменения?
+	</string>
 	<string name="jv_prefs_default_settings_title">Предупреждение</string>
-	<string name="jv_prefs_default_settings_text">Вы ДЕЙСТВИТЕЛЬНО хотите восстановить настройки по умолчанию?</string>
+	<string name="jv_prefs_default_settings_text">Вы ДЕЙСТВИТЕЛЬНО хотите восстановить настройки по
+		умолчанию?</string>
 	<string name="jv_prefs_yes">Да</string>
 	<string name="jv_prefs_no">Нет</string>
 	<string name="jv_prefs_cancel">Отмена</string>
@@ -146,14 +151,17 @@
 	<string name="jv_prefs_rsr_restore">Восстановить настройки с карты памяти</string>
 	<string name="jv_prefs_rsr_ok_title">Выполнено!</string>
 	<string name="jv_prefs_rsr_ok_text">Операция выполнена успешно</string>
-	<string name="jv_prefs_rsr_okrst_text">Операция выполнена успешно\nПрограмма будет перезапущена с новыми настройками</string>
+	<string name="jv_prefs_rsr_okrst_text">Операция выполнена успешно\nПрограмма будет
+		перезапущена с новыми настройками</string>
 	<string name="jv_prefs_rsr_fail_title">Ошибка!</string>
 	<string name="jv_prefs_rsr_fail_text">Не удалось выполнить операцию</string>
 	<string name="jv_prefs_cleanup_database_title">Операции с базой данных</string>
 	<string name="jv_prefs_cleanup_database_text">Вы действительно хотите очистить кэш?</string>
 	<string name="jv_prefs_clear_lists_title">Операции со списками</string>
-	<string name="jv_prefs_clear_lru_text">Вы действительно хотите очистить список \"Недавно открытые\"?</string>
-	<string name="jv_prefs_clear_favorites_text">Вы действительно хотите очистить список \"Избранное\"?</string>
+	<string name="jv_prefs_clear_lru_text">Вы действительно хотите очистить список \"Недавно
+		открытые\"?</string>
+	<string name="jv_prefs_clear_favorites_text">Вы действительно хотите очистить список
+		\"Избранное\"?</string>
 	<string name="jv_relaunch_wrong_model">Не верная модель устройства!</string>
 	<string name="jv_relaunch_yes">Да</string>
 	<string name="jv_relaunch_no">Нет</string>
@@ -197,10 +205,12 @@
 	<string name="jv_relaunch_del_file_text1">Вы действительно хотите удалить файл</string>
 	<string name="jv_relaunch_del_file_text2">\?</string>
 	<string name="jv_relaunch_del_em_dir_title">Предупреждение</string>
-	<string name="jv_relaunch_del_em_dir_text1">Вы действительно хотите удалить пустую папку</string>
+	<string name="jv_relaunch_del_em_dir_text1">Вы действительно хотите удалить пустую папку
+	</string>
 	<string name="jv_relaunch_del_em_dir_text2">\?</string>
 	<string name="jv_relaunch_del_ne_dir_title">Предупреждение</string>
-	<string name="jv_relaunch_del_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
+	<string name="jv_relaunch_del_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку
+	</string>
 	<string name="jv_relaunch_del_ne_dir_text2">(потенциально опасное действие)?</string>
 	<string name="jv_relaunch_error_title">Ошибка</string>
 	<string name="jv_relaunch_paste_fail_text">Не удалось скопировать/переместить</string>
@@ -226,8 +236,14 @@
 	<string name="jv_relaunch_sort_title_rev">алфавиту Я-А</string>
 	<string name="jv_rla_activity">Действие</string>
 	<string name="jv_rla_not_found">не найдено!</string>
-	<string name="jv_rla_about_prev">&lt;h1>&lt;center>ReLaunch&lt;/center>&lt;/h1>&lt;center>&lt;b>Запуск программ чтения книг и рабочий стол для Nook Simple Touch&lt;/b>&lt;/center>&lt;br>&lt;center>Version: &lt;b></string>
-	<string name="jv_rla_about_post">&lt;/b>&lt;/center>&lt;br>&lt;center>Source code: &lt;a href=\"https://github.com/yiselieren/ReLaunch\">git://github.com/yiselieren/ReLaunch.git&lt;/a>&lt;/center></string>
+	<string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Запуск
+		программ чтения книг и рабочий стол для Nook Simple
+		Touch&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Version:
+		&lt;b&gt;</string>
+	<string name="jv_rla_about_post">&lt;/b&gt;&lt;/center&gt;&lt;br&gt;&lt;center&gt;Source
+		code: &lt;a
+		href=\"https://github.com/yiselieren/ReLaunch\"&gt;git://github.com/yiselieren/ReLaunch.git&lt;/a&gt;&lt;/center&gt;
+	</string>
 	<string name="jv_rla_ok">OK</string>
 	<string name="jv_rla_see_changelog">Справка</string>
 	<string name="jv_rla_whats_new_title">Справка</string>
@@ -250,10 +266,12 @@
 	<string name="jv_results_no">Нет</string>
 	<string name="jv_results_remove">Удалить из "Избранного"</string>
 	<string name="jv_results_delete_em_dir_title">Предупреждение</string>
-	<string name="jv_results_delete_em_dir_text1">Вы действительно хотите удалить пустую папку</string>
+	<string name="jv_results_delete_em_dir_text1">Вы действительно хотите удалить пустую папку
+	</string>
 	<string name="jv_results_delete_em_dir_text2">\?</string>
 	<string name="jv_results_delete_ne_dir_title">Предупреждение</string>
-	<string name="jv_results_delete_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку</string>
+	<string name="jv_results_delete_ne_dir_text1">Вы действительно хотите удалить НЕ ПУСТУЮ папку
+	</string>
 	<string name="jv_results_delete_ne_dir_text2">(потенциально опасное действие)\?</string>
 	<string name="jv_results_activity_not_found">Действие не найдено</string>
 	<string name="jv_results_menu_title">Выберите файл</string>
@@ -262,7 +280,7 @@
 	<string name="jv_search_cancel">Отмена</string>
 	<string name="jv_search_results">Результаты поиска</string>
 	<string name="jv_search_files_total">Файлов (найдено / просмотрено)</string>
-	<string name="jv_taskman_total"></string>
+	<string name="jv_taskman_total" />
 	<string name="jv_taskman_free">Своб.</string>
 	<string name="jv_taskman_tasks">Задачи</string>
 	<string name="jv_taskman_services">Сервисы</string>
@@ -276,7 +294,10 @@
 	<string name="jv_types_cancel">Отмена</string>
 	<string name="jv_types_cant_be_empty">Необходимо указать расширение!</string>
 	<string name="jv_types_app_or_int_title">Конкретное приложение или общее действие?</string>
-	<string name="jv_types_app_or_int_text">Когда Вы нажимаете на файл с определенным расширением ReLaunch может вызвать конкретное приложение или сгенерировать запрос общего действия для указанного типа (действие ACTION_VIEW). Какой из методов Вы хотите использовать?</string>
+	<string name="jv_types_app_or_int_text">Когда Вы нажимаете на файл с определенным
+		расширением ReLaunch может вызвать конкретное приложение или
+		сгенерировать запрос общего действия для указанного типа (действие
+		ACTION_VIEW). Какой из методов Вы хотите использовать?</string>
 	<string name="jv_types_explicit_application">Конкр. приложение</string>
 	<string name="jv_types_select_application">Выберите приложение</string>
 	<string name="jv_types_general_intent">Общ. действие</string>
@@ -288,13 +309,19 @@
 	<string name="jv_viewer_maximum">Максимальный размер файла</string>
 	<string name="jv_viewer_ok">OK</string>
 	<string name="pref_i_filterResults_title">Файловый фильтр</string>
-	<string name="pref_i_filterResults_on">Показывать только файлы, соответствующие фильтру</string>
+	<string name="pref_i_filterResults_on">Показывать только файлы, соответствующие фильтру
+	</string>
 	<string name="pref_i_filterResults_off">Показывать все файлы</string>
 	<string name="pref_i_fullScreen_title">Полноэкранный режим</string>
 	<string name="pref_i_fullScreen_on">Использовать весь экран</string>
 	<string name="pref_i_fullScreen_off">Показывать системный заголовок</string>
+	<string name="pref_i_showAddStartDir_title">Включить выбор начальной папки</string>
+	<string name="pref_i_showAddStartDir_on">Показывать в контекстном меню выбор папки</string>
+	<string name="pref_i_showAddStartDir_off">Не показывать пункт "Выбрать начальную папку"
+	</string>
 	<string name="pref_i_startDir_title">Начальная папка(и)</string>
-	<string name="pref_i_startDir_desc">Начинать просмотр отсюда, если указано (см. ниже)</string>
+	<string name="pref_i_startDir_desc">Начинать просмотр отсюда, если указано (см. ниже)
+	</string>
 	<string name="pref_i_notLeaveStartDir_title">Не покидать начальную папку(и)</string>
 	<string name="pref_i_notLeaveStartDir_on">Вы не сможете выйти из начальной папки</string>
 	<string name="pref_i_notLeaveStartDir_off">Вы можете выйти из любой папки</string>
@@ -302,13 +329,16 @@
 	<string name="pref_i_saveDir_on">Начинать с последней посещенной папки</string>
 	<string name="pref_i_saveDir_off">Начинать с указанной папки (см. выше)</string>
 	<string name="pref_i_returnFileToMain_title">После запуска программы чтения</string>
-	<string name="pref_i_returnFileToMain_on">Вернуться к списку файлов (со страниц \"Избранное" и т.д.)</string>
-	<string name="pref_i_returnFileToMain_off">Остаться на предыдущей странице (напр. на \"Избранном")</string>
+	<string name="pref_i_returnFileToMain_on">Вернуться к списку файлов (со страниц \"Избранное"
+		и т.д.)</string>
+	<string name="pref_i_returnFileToMain_off">Остаться на предыдущей странице (напр. на
+		\"Избранном")</string>
 	<string name="pref_i_askAmbig_title">Несколько ассоциаций для файла</string>
 	<string name="pref_i_askAmbig_on">Предложить выбор пользователю</string>
 	<string name="pref_i_askAmbig_off">Использовать первую найденную</string>
 	<string name="pref_i_showNew_title">Отображать новые/прочитанные книги</string>
-	<string name="pref_i_showNew_on">Использовать цвет/шрифт для отображения новых и прочитанных книг</string>
+	<string name="pref_i_showNew_on">Использовать цвет/шрифт для отображения новых и
+		прочитанных книг</string>
 	<string name="pref_i_showNew_off">Показывать все файлы как обычно</string>
 	<string name="pref_i_showHidden_title">Показывать скрытые файлы</string>
 	<string name="pref_i_showHidden_on">Показывать скрытые файлы и папки</string>
@@ -317,42 +347,59 @@
 	<string name="pref_i_showBookTitles_on">Показывать названия книг</string>
 	<string name="pref_i_showBookTitles_off">Показывать имена файлов</string>
 	<string name="pref_i_bookTitleFormat_title">Шаблон заголовка книги</string>
-	<string name="pref_i_bookTitleFormat_sum" formatted="false">%a - автор, %t - название книги, %s - название серии, %n - номер в серии</string>
+	<string formatted="false" name="pref_i_bookTitleFormat_sum">%a - автор, %t - название книги,
+		%s - название серии, %n - номер в серии, %f - имя файла</string>
 	<string name="pref_i_hideKnownExts_title">Не показывать известные расширения файлов</string>
-	<string name="pref_i_hideKnownExts_on">Для известных по ассоциациям файлов показывать только имена</string>
-	<string name="pref_i_hideKnownExts_off">Всегда показывать полные имена файлов с расширенимя</string>
+	<string name="pref_i_hideKnownExts_on">Для известных по ассоциациям файлов показывать
+		только имена</string>
+	<string name="pref_i_hideKnownExts_off">Всегда показывать полные имена файлов с расширенимя
+	</string>
 	<string name="pref_i_hideKnownDirs_title">Не показывать часть имени известных папок</string>
-	<string name="pref_i_hideKnownDirs_on">Для папок внутри начальных не показывать первую часть имени</string>
+	<string name="pref_i_hideKnownDirs_on">Для папок внутри начальных не показывать первую
+		часть имени</string>
 	<string name="pref_i_hideKnownDirs_off">Всегда показывать полные имена папок</string>
 	<string name="pref_i_openWith_title">Пункт меню \"Открыть с помощью...\"</string>
-	<string name="pref_i_openWith_on">Показывать пункт \"Открыть с помощью...\" в контекстом меню файла</string>
-	<string name="pref_i_openWith_off">Не показывать пункт \"Открыть с помощью...\" в контекстом меню файла</string>
+	<string name="pref_i_openWith_on">Показывать пункт \"Открыть с помощью...\" в
+		контекстом меню файла</string>
+	<string name="pref_i_openWith_off">Не показывать пункт \"Открыть с помощью...\" в
+		контекстом меню файла</string>
 	<string name="pref_i_createIntent_title">Пункт меню \"Создать событие...\"</string>
-	<string name="pref_i_createIntent_on">Показывать пункт \"Создать событие...\" в контекстном меню файла</string>
-	<string name="pref_i_createIntent_off">Не показывать пункт \"Создать событие...\" в контекстном меню файла</string>
+	<string name="pref_i_createIntent_on">Показывать пункт \"Создать событие...\" в
+		контекстном меню файла</string>
+	<string name="pref_i_createIntent_off">Не показывать пункт \"Создать событие...\" в
+		контекстном меню файла</string>
 	<string name="pref_i_screenOrientation_title">Ориентация экрана</string>
 	<string name="pref_i_einkUpdateMode_title">Режим обновления экрана EInk</string>
 	<string name="pref_i_einkUpdateInterval_title">Частота полного обновления экрана EInk</string>
-	<string name="pref_i_einkUpdateInterval_sum">Как часто экран будет обновляться полностью... (обновлений)</string>
+	<string name="pref_i_einkUpdateInterval_sum">Как часто экран будет обновляться полностью...
+		(обновлений)</string>
 	<string name="pref_i_firstLineFontSizePx_title">Размер шрифта имен файлов/папок</string>
-	<string name="pref_i_firstLineFontSizePx_sum">Размер шрифта для имен файлов и папок во всех списках... px</string>
-	<string name="pref_i_secondLineFontSizePx_title">Размер шрифта дополнительных имен папок</string>
-	<string name="pref_i_secondLineFontSizePx_sum">Размер шрифта имен папок в списках \"Избранного\" и т.п... px</string>
+	<string name="pref_i_firstLineFontSizePx_sum">Размер шрифта основной строки имен файлов и папок во всех
+		списках... px</string>
+	<string name="pref_i_secondLineFontSizePx_title">Дополнительный размер шрифта имен файлов</string>
+	<string name="pref_i_secondLineFontSizePx_sum">Размер шрифта дополнительной строки имен файлов</string>
 	<string name="pref_i_firstLineIconSizePx_title">Размер иконок имен файлов/папок</string>
-	<string name="pref_i_firstLineIconSizePx_sum">Размер иконок для имен файлов и папок во всех списках... px (0 - без иконок)</string>
+	<string name="pref_i_firstLineIconSizePx_sum">Размер иконок для имен файлов и папок во всех
+		списках... px (0 - без иконок)</string>
 	<string name="pref_i_columnsDirsFiles_title">Список папок и файлов (по умолчанию)</string>
 	<string name="pref_i_columnsHomeList_title">Список Начальных папок</string>
 	<string name="pref_i_columnsLRU_title">Список Недавно открытых</string>
 	<string name="pref_i_columnsFAV_title">Список Избранного</string>
 	<string name="pref_i_columnsSearch_title">Список результатов поиска</string>
 	<string name="pref_i_columnsAlgIntensity_title">Алгоритм определения числа колонок</string>
-	<string name="pref_i_rowSeparator_title">Показывать разделитель строк в списке файлов</string>
+	<string name="pref_i_columnsAppAll_title">Все приложения</string>
+	<string name="pref_i_columnsAppFav_title">Избранные приложения</string>
+	<string name="pref_i_rowSeparator_title">Показывать разделитель строк в списке файлов
+	</string>
 	<string name="pref_i_homeButtonST_title">Одиночное нажатие кнопки \"К Началу\"</string>
 	<string name="pref_i_homeButtonDT_title">Двойное нажатие кнопки \"К Началу\"</string>
 	<string name="pref_i_homeButtonLT_title">Длительное нажатие кнопки \"К Началу\"</string>
-	<string name="pref_i_lruButtonST_title">Одиночное нажатие кнопки \"Недавно открытые\"</string>
-	<string name="pref_i_lruButtonDT_title">Двойное нажатие кнопки \"Недавно открытые\"</string>
-	<string name="pref_i_lruButtonLT_title">Длительное нажатие кнопки \"Недавно открытые\"</string>
+	<string name="pref_i_lruButtonST_title">Одиночное нажатие кнопки \"Недавно открытые\"
+	</string>
+	<string name="pref_i_lruButtonDT_title">Двойное нажатие кнопки \"Недавно открытые\"
+	</string>
+	<string name="pref_i_lruButtonLT_title">Длительное нажатие кнопки \"Недавно открытые\"
+	</string>
 	<string name="pref_i_favButtonST_title">Одиночное нажатие кнопки \"Избранное\"</string>
 	<string name="pref_i_favButtonDT_title">Двойное нажатие кнопки \"Избранное\"</string>
 	<string name="pref_i_favButtonLT_title">Длительное нажатие кнопки \"Избранное\"</string>
@@ -368,6 +415,12 @@
 	<string name="pref_i_batButtonST_title">Одиночное нажатие кнопки \"Ост.батареи\"</string>
 	<string name="pref_i_batButtonDT_title">Двойное нажатие кнопки \"Ост.батареи\"</string>
 	<string name="pref_i_batButtonLT_title">Длительное нажатие кнопки \"Ост.батареи\"</string>
+	<string name="pref_i_appFavButtonST_title">Одиночное нажатие кнопки Избранные приложения
+	</string>
+	<string name="pref_i_appFavButtonDT_title">Двойное нажатие кнопки Избранные приложения
+	</string>
+	<string name="pref_i_appFavButtonLT_title">Длительное нажатие кнопки Избранные приложения
+	</string>
 	<string name="pref_i_homeMode_title">Режим работы при вызове кнопкой Home</string>
 	<string name="pref_i_homeMode_on">Запускаться как рабочий стол</string>
 	<string name="pref_i_homeMode_off">Запускаться как обычное приложение</string>
@@ -388,45 +441,62 @@
 	<string name="pref_i_dateUS_off">"Европейский" (dd.mm.yyyy)</string>
 	<string name="pref_i_disableScrollJump_title">Запрет быстрой прокрутки кнопками</string>
 	<string name="pref_i_disableScrollJump_on">Быстрая прокрутка запрещена</string>
-	<string name="pref_i_disableScrollJump_off">Быстрая прокрутка разрешена (часто неточно!)</string>
+	<string name="pref_i_disableScrollJump_off">Быстрая прокрутка разрешена (часто неточно!)
+	</string>
 	<string name="pref_i_scrollPerc_title">Шаг "быстрой" прокрутки</string>
-	<string name="pref_i_scrollPerc_sum">Шаг "быстрой" прокрутки кнопками (проценты)</string>
+	<string name="pref_i_scrollPerc_sum">Шаг "быстрой" прокрутки кнопками (проценты)
+	</string>
 	<string name="pref_i_customScroll_title">Собственная полоса прокрутки</string>
 	<string name="pref_i_customScroll_on">Использовать собственную полосу прокрутки</string>
 	<string name="pref_i_scrollWidth_title">Ширина полосы прокрутки</string>
-	<string name="pref_i_scrollWidth_sum">Ширина собственной полосы прокрутки... (пикс.)</string>
+	<string name="pref_i_scrollWidth_sum">Ширина собственной полосы прокрутки... (пикс.)
+	</string>
 	<string name="pref_i_scrollPad_title">Отступ полосы прокрутки</string>
-	<string name="pref_i_scrollPad_sum">Левый отступ собственной полосы прокрутки... (пикс.)</string>
+	<string name="pref_i_scrollPad_sum">Левый отступ собственной полосы прокрутки...
+		(пикс.)</string>
 	<string name="pref_i_searchSize_title">Количество результатов поиска</string>
-	<string name="pref_i_searchSize_sum">Количество выдаваемых результатов поиска, не более чем... (файлов)</string>
+	<string name="pref_i_searchSize_sum">Количество выдаваемых результатов поиска, не более
+		чем... (файлов)</string>
 	<string name="pref_i_searchReport_title">Уведомление о состоянии поиска</string>
-	<string name="pref_i_searchReport_sum">Сообщать о состоянии поиска каждые... (файлов)</string>
+	<string name="pref_i_searchReport_sum">Сообщать о состоянии поиска каждые... (файлов)
+	</string>
 	<string name="pref_i_searchRoot_title">Начальные папки поиска</string>
 	<string name="pref_i_searchRoot_sum">Поиск всегда начинается с папок...</string>
 	<string name="pref_i_viewerMaxSize_title">Ограничение просмотра файлов</string>
-	<string name="pref_i_viewerMaxSize_sum">Размер просматриваемого файла не может быть больше чем... (байт)</string>
+	<string name="pref_i_viewerMaxSize_sum">Размер просматриваемого файла не может быть больше
+		чем... (байт)</string>
 	<string name="pref_i_editorMaxSize_title">Ограничение редактирования файлов</string>
-	<string name="pref_i_editorMaxSize_sum">Размер редактируемого файла не может быть больше чем... (байт)</string>
+	<string name="pref_i_editorMaxSize_sum">Размер редактируемого файла не может быть больше
+		чем... (байт)</string>
 	<string name="pref_i_lruSize_title">Недавно открытые</string>
-	<string name="pref_i_lruSize_sum">Сохранять в списке "Недавно открытых" последние... (файлов)</string>
+	<string name="pref_i_lruSize_sum">Сохранять в списке "Недавно открытых" последние...
+		(файлов)</string>
 	<string name="pref_i_favSize_title">Избранное</string>
-	<string name="pref_i_favSize_sum">Сохранять в списке "Избранного"... (файлов)</string>
+	<string name="pref_i_favSize_sum">Сохранять в списке "Избранного"... (файлов)
+	</string>
 	<string name="pref_i_appLruSize_title">Недавно запущенные приложения</string>
-	<string name="pref_i_appLruSize_sum">Сохранять в списке "Недавно запущенных приложений" последние... (приложений)</string>
+	<string name="pref_i_appLruSize_sum">Сохранять в списке "Недавно запущенных приложений"
+		последние... (приложений)</string>
 	<string name="pref_i_appFavSize_title">Избранные приложения</string>
-	<string name="pref_i_appFavSize_sum">Сохранять в списке "Избранных приложений"... (приложений)</string>
+	<string name="pref_i_appFavSize_sum">Сохранять в списке "Избранных приложений"...
+		(приложений)</string>
 	<string name="pref_i_useFileManagerFunctions_title">Использовать функции файлового менеджера</string>
 	<string name="pref_i_useFileManagerFunctions_on">Показывать пункты меню файлового менеджера</string>
-	<string name="pref_i_useFileManagerFunctions_off">Не показывать пункты меню файлового менеджера</string>
+	<string name="pref_i_useFileManagerFunctions_off">Не показывать пункты меню файлового менеджера
+	</string>
 	<string name="pref_i_confirmFileDelete_title">Подтверждение удаления файла</string>
-	<string name="pref_i_confirmFileDelete_on">Запрашивать подтверждение при удалении файла</string>
+	<string name="pref_i_confirmFileDelete_on">Запрашивать подтверждение при удалении файла
+	</string>
 	<string name="pref_i_confirmFileDelete_off">Удалять файлы без подтверждения</string>
 	<string name="pref_i_confirmDirDelete_title">Подтверждение удаления папки</string>
-	<string name="pref_i_confirmDirDelete_on">Запрашивать подтверждение при удалении папки</string>
+	<string name="pref_i_confirmDirDelete_on">Запрашивать подтверждение при удалении папки
+	</string>
 	<string name="pref_i_confirmDirDelete_off">Удалять папки без подтверждения</string>
 	<string name="pref_i_confirmNonEmptyDirDelete_title">Подтверждение удаления не пустой папки</string>
-	<string name="pref_i_confirmNonEmptyDirDelete_on">апрашивать подтверждение при рекурсивном удалении не пустой папки</string>
-	<string name="pref_i_confirmNonEmptyDirDelete_off">Рекурсивно удалять не пустые папки без подтверждения (потенциально опасное действие)</string>
+	<string name="pref_i_confirmNonEmptyDirDelete_on">Запрашивать подтверждение при рекурсивном удалении
+		не пустой папки</string>
+	<string name="pref_i_confirmNonEmptyDirDelete_off">Рекурсивно удалять не пустые папки без
+		подтверждения (потенциально опасное действие)</string>
 	<string name="pref_i_cleanupDatabase_title">Очистить кэш тегов fb2/epub</string>
 	<string name="pref_i_startMode_title">Режим запуска</string>
 	<string name="pref_i_workMode_title">Режим работы</string>
@@ -527,5 +597,12 @@
 	<string name="arr_work_mode_names_1">Режим файлового менеджера</string>
 	<string name="arr_work_mode_names_2">Режим библиотеки</string>
 	<string name="arr_work_mode_names_3">Определяется расширенными настройками</string>
+	<string name="pref_i_showFullDirPath_on">Показывать полный путь в строке заголовка</string>
+	<string name="pref_i_showFullDirPath_off">Показывать имя папки в строке заголовка</string>
+	<string name="pref_i_showFullDirPath_title">Полный путь к папке</string>
+	<string name="jv_relaunch_add_startdir">Добавить папку к Начальным папкам</string>
+	<string name="arr_appfav_button_actions_names_1">Ничего не делать</string>
+	<string name="arr_appfav_button_actions_names_2">Открыть \"Избранные приложения\"</string>
+	<string name="arr_appfav_button_actions_names_3">Выполнить приложение</string>
 
 </resources>

@@ -85,7 +85,7 @@ public class ReLaunch extends Activity {
 			+ "|.png:Intent:image/png|.pdf:Intent:application/pdf"
 			+ "|.djv,.djvu:Intent:image/vnd.djvu|.doc:Intent:application/msword"
 			+ "|.chm,.pdb,.prc,.mobi,.azw:org.coolreader%org.coolreader.CoolReader%Cool Reader"
-			+ "|.cbz,.cbr:Intent:application/x-cbz|.cbr:Intent:application/x-cbr";
+			+ "|.cbz,.cb7:Intent:application/x-cbz|.cbr:Intent:application/x-cbr";
 	final static public String defReader = "org.coolreader%org.coolreader.CoolReader%Cool Reader";
 	final static public int TYPES_ACT = 1;
 	final static public int DIR_ACT = 2;
@@ -108,6 +108,7 @@ public class ReLaunch extends Activity {
 	final static int CNTXT_MENU_MOVE_DIR = 17;
 	final static int CNTXT_MENU_SWITCH_TITLES = 18;
 	final static int CNTXT_MENU_TAGS_RENAME = 19;
+	final static int CNTXT_MENU_ADD_STARTDIR = 20;
 	final static int BROWSE_FILES = 0;
 	final static int BROWSE_TITLES = 1;
 	final static int BROWSE_COVERS = 2;
@@ -906,7 +907,7 @@ public class ReLaunch extends Activity {
 		final Button tv = (Button) findViewById(useDirViewer ? R.id.results_title
 				: R.id.title_txt);
 		final String dirAbsPath = dir.getAbsolutePath();
-		if (!prefs.getBoolean("showBookTitles", false))
+		if (!prefs.getBoolean("showFullDirPath", true))
 			tv.setText(dirAbsPath + " ("
 				+ ((allEntries == null) ? 0 : allEntries.length) + ")");
 		else
@@ -1313,6 +1314,8 @@ public class ReLaunch extends Activity {
 						}
 					}
 				} else if (menuType == 1) {
+					if ((!app.isStartDir(fullName)) && (prefs.getBoolean("showAddStartDir", false)))
+						aList.add(getString(R.string.jv_relaunch_add_startdir));
 					if (!app.contains("favorites", fullName, app.DIR_TAG))
 						aList.add(getString(R.string.jv_relaunch_add));
 					if (prefs.getBoolean("useFileManagerFunctions", true)) {
@@ -1434,6 +1437,8 @@ public class ReLaunch extends Activity {
 							onContextMenuSelected(CNTXT_MENU_MOVE_DIR, pos);
 						else if (s.equalsIgnoreCase(getString(R.string.jv_relaunch_tags_rename)))
 							onContextMenuSelected(CNTXT_MENU_TAGS_RENAME, pos);
+						else if (s.equalsIgnoreCase(getString(R.string.jv_relaunch_add_startdir)))
+							onContextMenuSelected(CNTXT_MENU_ADD_STARTDIR, pos);
 				    }
 				});
 				AlertDialog alert = builder.create();
@@ -1985,27 +1990,60 @@ public class ReLaunch extends Activity {
 						SimpleOnGestureListener {
 					@Override
 					public boolean onSingleTapConfirmed(MotionEvent e) {
-						Intent intent = new Intent(ReLaunch.this,
-								AllApplications.class);
-						intent.putExtra("list", "app_favorites");
-						// "Favorite applications"
-						intent.putExtra(
-								"title",
-								getResources().getString(
-										R.string.jv_relaunch_fav_a));
-						startActivity(intent);
+						if (prefs.getString("appFavButtonST", "RELAUNCH").equals(
+								"RELAUNCH")) {
+							Intent intent = new Intent(ReLaunch.this,
+									AllApplications.class);
+							intent.putExtra("list", "app_favorites");
+							// "Favorite applications"
+							intent.putExtra(
+									"title",
+									getResources().getString(
+											R.string.jv_relaunch_fav_a));
+							startActivity(intent);
+						} else if (prefs.getString("appFavButtonST", "RELAUNCH")
+								.equals("RUN")) {
+							actionRun(prefs.getString("appFavButtonSTapp", "%%"));
+						}
 						return true;
 					}
 
 					@Override
 					public boolean onDoubleTap(MotionEvent e) {
+						if (prefs.getString("appFavButtonDT", "RELAUNCH").equals(
+								"RELAUNCH")) {
+							Intent intent = new Intent(ReLaunch.this,
+									AllApplications.class);
+							intent.putExtra("list", "app_favorites");
+							// "Favorite applications"
+							intent.putExtra(
+									"title",
+									getResources().getString(
+											R.string.jv_relaunch_fav_a));
+							startActivity(intent);
+						} else if (prefs.getString("appFavButtonDT", "RELAUNCH")
+								.equals("RUN")) {
+							actionRun(prefs.getString("appFavButtonLTapp", "%%"));
+						}
 						return true;
 					}
 
 					@Override
 					public void onLongPress(MotionEvent e) {
-						if (fava_button.hasWindowFocus()) {
-
+						if (prefs.getString("appFavButtonLT", "RELAUNCH").equals(
+								"RELAUNCH")) {
+							Intent intent = new Intent(ReLaunch.this,
+									AllApplications.class);
+							intent.putExtra("list", "app_favorites");
+							// "Favorite applications"
+							intent.putExtra(
+									"title",
+									getResources().getString(
+											R.string.jv_relaunch_fav_a));
+							startActivity(intent);
+						} else if (prefs.getString("appFavButtonLT", "RELAUNCH")
+								.equals("RUN")) {
+							actionRun(prefs.getString("appFavButtonLTapp", "%%"));
 						}
 					}
 				}
@@ -2892,6 +2930,9 @@ public class ReLaunch extends Activity {
 		final String type = i.get("type");
 
 		switch (itemId) {
+		case CNTXT_MENU_ADD_STARTDIR:
+			app.addStartDir(fullName);
+			break;
 		case CNTXT_MENU_ADD:
 			if (type.equals("file"))
 				app.addToList("favorites", dname, fname, false);
