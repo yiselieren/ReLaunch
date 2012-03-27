@@ -85,7 +85,7 @@ public class Viewer extends Activity {
 		if (!f.exists())
 			finish();
 		final long fileSize = f.length();
-		if (fileSize > app.viewerMax) {
+		if (fileSize > app.viewerMax*1024) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			// "File too big"
 			builder.setTitle(getResources().getString(
@@ -100,7 +100,7 @@ public class Viewer extends Activity {
 					+ "\" "
 					+ getResources().getString(R.string.jv_viewer_too_big)
 					+ " ("
-					+ f.length()
+					+ f.length()/1024
 					+ " "
 					+ getResources().getString(R.string.jv_viewer_bytes)
 					+ ")\n"
@@ -124,7 +124,7 @@ public class Viewer extends Activity {
 			editBtn = (Button) findViewById(R.id.viewedit_btn);
 			editBtn.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					if (fileSize > app.editorMax) {
+					if (fileSize > app.editorMax*1024) {
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								Viewer.this);
 						// "File too big"
@@ -141,7 +141,7 @@ public class Viewer extends Activity {
 								+ getResources().getString(
 										R.string.jv_editor_too_big)
 								+ " ("
-								+ fileSize
+								+ fileSize/1024
 								+ " "
 								+ getResources().getString(
 										R.string.jv_editor_bytes)

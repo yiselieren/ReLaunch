@@ -731,6 +731,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					.setChecked(true);
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.putInt("sortMode", 0);
+					editor.putBoolean("showBookTitles", false);
+					editor.putBoolean("rowSeparator", false);
+					editor.putBoolean("useFileManagerFunctions", true);
+					editor.putBoolean("openWith", true);
+					editor.putBoolean("showFullDirPath", true);
 					editor.commit();
 					do_pref_subrequest = true;
 				} else if (value.equals("BOOKS")) {
@@ -747,6 +752,11 @@ public class PrefsActivity extends PreferenceActivity implements
 					.setChecked(false);
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.putInt("sortMode", 2);
+					editor.putBoolean("showBookTitles", true);
+					editor.putBoolean("rowSeparator", true);
+					editor.putBoolean("useFileManagerFunctions", false);
+					editor.putBoolean("openWith", false);
+					editor.putBoolean("showFullDirPath", false);
 					editor.commit();
 					do_pref_subrequest = true;
 				}

@@ -53,7 +53,6 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.view.LayoutInflater;
@@ -109,6 +108,7 @@ public class ReLaunch extends Activity {
 	final static int CNTXT_MENU_SWITCH_TITLES = 18;
 	final static int CNTXT_MENU_TAGS_RENAME = 19;
 	final static int CNTXT_MENU_ADD_STARTDIR = 20;
+	final static int CNTXT_MENU_SHOW_BOOKINFO = 21;
 	final static int BROWSE_FILES = 0;
 	final static int BROWSE_TITLES = 1;
 	final static int BROWSE_COVERS = 2;
@@ -370,7 +370,10 @@ public class ReLaunch extends Activity {
 				v.setTag(holder);
 			} else
 				holder = (ViewHolder) v.getTag();
-
+			if (prefs.getBoolean("doNotHyph", false)) {
+				holder.tv.setLines(1);
+				holder.tv2.setLines(1);
+			}
 			// known extensions
 			List<HashMap<String, String>> rc;
 			ArrayList<String> exts = new ArrayList<String>();
@@ -502,7 +505,7 @@ public class ReLaunch extends Activity {
 							String rdrName = item.get("reader");
 							if (rdrName.equals("Nope")) {
 								File f = new File(item.get("fname"));
-								if (f.length() > app.viewerMax)
+								if (f.length() > app.viewerMax*1024)
 									iv.setImageBitmap(scaleDrawableById(
 											R.drawable.file_notok,
 											Integer.parseInt(prefs
@@ -907,7 +910,7 @@ public class ReLaunch extends Activity {
 		final Button tv = (Button) findViewById(useDirViewer ? R.id.results_title
 				: R.id.title_txt);
 		final String dirAbsPath = dir.getAbsolutePath();
-		if (!prefs.getBoolean("showFullDirPath", true))
+		if (prefs.getBoolean("showFullDirPath", true))
 			tv.setText(dirAbsPath + " ("
 				+ ((allEntries == null) ? 0 : allEntries.length) + ")");
 		else
@@ -1282,7 +1285,27 @@ public class ReLaunch extends Activity {
 			}
 
 			@Override
+			public boolean onDoubleTap(MotionEvent e) {
+				int position = findViewByXY(e);
+				if (position != -1) {
+					HashMap<String, String> item = itemsArray.get(position);
+					String file = item.get("dname") + "/" + item.get("name");
+					if (file.endsWith("fb2") || file.endsWith("fb2.zip") || file.endsWith("epub")) {
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.putInt("posInFolder", gv.getFirstVisiblePosition());
+						editor.commit();
+						pushCurrentPos(gv, false);
+						showBookInfo(file);
+					}
+				}
+				return true;
+			}
+
+			
+			@Override
 			public void onLongPress(MotionEvent e) {
+				if (!ReLaunch.this.hasWindowFocus())
+					return;
 				int menuType = 0;
 				int position = findViewByXY(e);
 				HashMap<String, String> item;
@@ -1334,6 +1357,7 @@ public class ReLaunch extends Activity {
 						}
 					}
 				} else if (menuType == 2) {
+					aList.add(getString(R.string.jv_relaunch_bookinfo));
 					if (!app.contains("favorites", dr, fn)) {
 						aList.add(getString(R.string.jv_relaunch_add));
 					}
@@ -1439,6 +1463,8 @@ public class ReLaunch extends Activity {
 							onContextMenuSelected(CNTXT_MENU_TAGS_RENAME, pos);
 						else if (s.equalsIgnoreCase(getString(R.string.jv_relaunch_add_startdir)))
 							onContextMenuSelected(CNTXT_MENU_ADD_STARTDIR, pos);
+						else if (s.equalsIgnoreCase(getString(R.string.jv_relaunch_bookinfo)))
+							onContextMenuSelected(CNTXT_MENU_SHOW_BOOKINFO, pos);
 				    }
 				});
 				AlertDialog alert = builder.create();
@@ -1834,13 +1860,13 @@ public class ReLaunch extends Activity {
 			app.scrollStep = Integer.parseInt(prefs.getString("scrollPerc",
 					"10"));
 			app.viewerMax = Integer.parseInt(prefs.getString("viewerMaxSize",
-					"1048576"));
+					"1024"));
 			app.editorMax = Integer.parseInt(prefs.getString("editorMaxSize",
-					"262144"));
+					"256"));
 		} catch (NumberFormatException e) {
 			app.scrollStep = 10;
-			app.viewerMax = 1048576;
-			app.editorMax = 262144;
+			app.viewerMax = 1024;
+			app.editorMax = 256;
 		}
 		if (app.scrollStep < 1)
 			app.scrollStep = 1;
@@ -1988,68 +2014,37 @@ public class ReLaunch extends Activity {
 				final ImageButton fava_button = ((ImageButton) findViewById(R.id.app_favorites));
 				class FavaSimpleOnGestureListener extends
 						SimpleOnGestureListener {
-					@Override
-					public boolean onSingleTapConfirmed(MotionEvent e) {
-						if (prefs.getString("appFavButtonST", "RELAUNCH").equals(
-								"RELAUNCH")) {
-							Intent intent = new Intent(ReLaunch.this,
-									AllApplications.class);
+
+					private boolean processEvent(String action) {
+						if (prefs.getString(action, "RELAUNCH").equals("RELAUNCH")) {
+							Intent intent = new Intent(ReLaunch.this, AllApplications.class);
 							intent.putExtra("list", "app_favorites");
-							// "Favorite applications"
-							intent.putExtra(
-									"title",
-									getResources().getString(
-											R.string.jv_relaunch_fav_a));
+							intent.putExtra("title", getResources().getString(R.string.jv_relaunch_fav_a));
 							startActivity(intent);
-						} else if (prefs.getString("appFavButtonST", "RELAUNCH")
-								.equals("RUN")) {
-							actionRun(prefs.getString("appFavButtonSTapp", "%%"));
+						} else if (prefs.getString(action, "RELAUNCH").equals("RUN")) {
+							actionRun(prefs.getString(action + "app", "%%"));
 						}
 						return true;
+					}
+
+					@Override
+					public boolean onSingleTapConfirmed(MotionEvent e) {
+						return processEvent("appFavButtonST");
 					}
 
 					@Override
 					public boolean onDoubleTap(MotionEvent e) {
-						if (prefs.getString("appFavButtonDT", "RELAUNCH").equals(
-								"RELAUNCH")) {
-							Intent intent = new Intent(ReLaunch.this,
-									AllApplications.class);
-							intent.putExtra("list", "app_favorites");
-							// "Favorite applications"
-							intent.putExtra(
-									"title",
-									getResources().getString(
-											R.string.jv_relaunch_fav_a));
-							startActivity(intent);
-						} else if (prefs.getString("appFavButtonDT", "RELAUNCH")
-								.equals("RUN")) {
-							actionRun(prefs.getString("appFavButtonLTapp", "%%"));
-						}
-						return true;
+						return processEvent("appFavButtonDT");
 					}
 
 					@Override
 					public void onLongPress(MotionEvent e) {
-						if (prefs.getString("appFavButtonLT", "RELAUNCH").equals(
-								"RELAUNCH")) {
-							Intent intent = new Intent(ReLaunch.this,
-									AllApplications.class);
-							intent.putExtra("list", "app_favorites");
-							// "Favorite applications"
-							intent.putExtra(
-									"title",
-									getResources().getString(
-											R.string.jv_relaunch_fav_a));
-							startActivity(intent);
-						} else if (prefs.getString("appFavButtonLT", "RELAUNCH")
-								.equals("RUN")) {
-							actionRun(prefs.getString("appFavButtonLTapp", "%%"));
-						}
+						if (ReLaunch.this.hasWindowFocus())
+							processEvent("appFavButtonLT");
 					}
-				}
-				;
+				};
 				FavaSimpleOnGestureListener fava_gl = new FavaSimpleOnGestureListener();
-				final GestureDetector fava_gd = new GestureDetector(fava_gl);
+				final GestureDetector fava_gd = new GestureDetector(this, fava_gl);
 				fava_button.setOnTouchListener(new OnTouchListener() {
 					public boolean onTouch(View v, MotionEvent event) {
 						fava_gd.onTouchEvent(event);
@@ -2932,6 +2927,7 @@ public class ReLaunch extends Activity {
 		switch (itemId) {
 		case CNTXT_MENU_ADD_STARTDIR:
 			app.addStartDir(fullName);
+			drawDirectory(fullName, -1);
 			break;
 		case CNTXT_MENU_ADD:
 			if (type.equals("file"))
@@ -3543,6 +3539,10 @@ public class ReLaunch extends Activity {
 			drawDirectory(dname, currentPosition);
 			break;
 
+		case CNTXT_MENU_SHOW_BOOKINFO:
+			showBookInfo(dname + "/" + fname);
+			break;
+
 		}
 		return true;
 	}
@@ -3597,13 +3597,28 @@ public class ReLaunch extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		boolean isRoot = false;
 		if (!useHome)
 			return super.onKeyDown(keyCode, event);
 		if (keyCode == KeyEvent.KEYCODE_HOME)
 			return true;
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (prefs.getBoolean("useBackButton", true)) {
+				String[] rootDirs = prefs.getString("startDir", "/sdcard").split(",");
+				for (int i = 0; i < rootDirs.length; i++) {
+					if (rootDirs[i].equalsIgnoreCase(currentRoot))
+						isRoot = true;
+				}
+				if (currentRoot.equalsIgnoreCase("/"))
+					isRoot = true;
+				if (!isRoot) {
+					String newRoot = currentRoot.substring(0, currentRoot.lastIndexOf("/"));
+					drawDirectory(newRoot, -1);
+				}
+			}
+			if ((isRoot) || (!prefs.getBoolean("useBackButton", true))) {
 			// Ask the user if they want to quit
-			new AlertDialog.Builder(this)
+				new AlertDialog.Builder(this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					// "This is a launcher!"
 					.setTitle(
@@ -3626,7 +3641,7 @@ public class ReLaunch extends Activity {
 					.setNegativeButton(
 							getResources().getString(R.string.jv_relaunch_no),
 							null).show();
-
+			}
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);
@@ -3916,4 +3931,9 @@ public class ReLaunch extends Activity {
 		return super.dispatchKeyEvent(event);
 	}
 
+	private void showBookInfo(String file) {
+		Intent intent = new Intent(ReLaunch.this, BookInfo.class);
+		intent.putExtra("file", file);
+		startActivity(intent);
+	}
 }

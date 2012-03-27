@@ -236,6 +236,16 @@
 					android:title="@string/pref_i_showFullDirPath_title" >
 				</CheckBoxPreference>
 
+				<CheckBoxPreference
+					android:defaultValue="false"
+					android:key="doNotHyph"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_doNotHyph_off"
+					android:summaryOn="@string/pref_i_doNotHyph_on"
+					android:title="@string/pref_i_doNotHyph_title" >
+				</CheckBoxPreference>
+
 				<ListPreference
 					android:defaultValue="-1"
 					android:enabled="true"
@@ -616,7 +626,7 @@
 					android:layout="@+layout/pref_child"
 					android:persistent="true"
 					android:selectable="true"
-					android:title="@string/pref_i_appFavButtonLT_title" />
+					android:title="@string/pref_i_appFavButtonST_title" />
 				<ListPreference
 					android:defaultValue="NOTHING"
 					android:enabled="true"
@@ -626,7 +636,7 @@
 					android:layout="@+layout/pref_child"
 					android:persistent="true"
 					android:selectable="true"
-					android:title="@string/pref_i_appFavButtonLT_title" />
+					android:title="@string/pref_i_appFavButtonDT_title" />
 				<ListPreference
 					android:defaultValue="NOTHING"
 					android:enabled="true"
@@ -738,6 +748,14 @@
 					android:selectable="true"
 					android:summary="@string/pref_i_scrollPad_sum"
 					android:title="@string/pref_i_scrollPad_title" />
+				<CheckBoxPreference
+					android:defaultValue="true"
+					android:key="useBackButton"
+					android:layout="@+layout/pref_child"
+					android:persistent="true"
+					android:summaryOff="@string/pref_i_useBackButton_off"
+					android:summaryOn="@string/pref_i_useBackButton_on"
+					android:title="@string/pref_i_useBackButton_title" />
 			</PreferenceScreen>
 			<PreferenceScreen android:title="@string/pref_s_search_title" >
 				<EditTextPreference

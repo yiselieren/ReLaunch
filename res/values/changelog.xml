@@ -30,6 +30,12 @@
         </string>
     <string name="whats_new">
         &lt;b>CHANGELOG&lt;/b>&lt;br>
+        &lt;b>1.3.7&lt;/b>&lt;br>
+        - added annotation window for fb2/epub files&lt;br>
+        - Back button may be used for folder navigation&lt;br>
+        - Start Folder, selected from context menu, replaces the old ones&lt;br>
+        - single line output mode for filenames&lt;br>
+        - fixed bug, then longpress event fired after doubletap&lt;br>
         &lt;b>1.3.6&lt;/b>&lt;br>
         - updated preferences screen for SONY PRS-T1&lt;br>
         - new option \"Add start folder\" in context menu&lt;br>

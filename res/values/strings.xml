@@ -114,7 +114,7 @@
 	<string name="jv_editor_file_too_big">File too big</string>
 	<string name="jv_editor_file">File</string>
 	<string name="jv_editor_too_big">is too big for editor</string>
-	<string name="jv_editor_bytes">bytes</string>
+	<string name="jv_editor_bytes">kilobytes</string>
 	<string name="jv_editor_maximum">Maximal allowed size is</string>
 	<string name="jv_editor_ok">OK</string>
 	<string name="jv_editor_save_title">Save changes warning</string>
@@ -233,6 +233,7 @@
 	<string name="jv_relaunch_sort_file_rev">filename Z-A</string>
 	<string name="jv_relaunch_sort_title_dir">by alphabetical order A-Z</string>
 	<string name="jv_relaunch_sort_title_rev">by alphabetical order Z-A</string>
+	<string name="jv_relaunch_bookinfo">Show annotation</string>
 	<string name="jv_rla_activity">Activity</string>
 	<string name="jv_rla_not_found">not found!</string>
 	<string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Reader
@@ -301,7 +302,7 @@
 	<string name="jv_viewer_file_too_big">File too big</string>
 	<string name="jv_viewer_file">File</string>
 	<string name="jv_viewer_too_big">is too big for viewer</string>
-	<string name="jv_viewer_bytes">bytes</string>
+	<string name="jv_viewer_bytes">kilobytes</string>
 	<string name="jv_viewer_maximum">Maximal allowed size is</string>
 	<string name="jv_viewer_ok">OK</string>
 	<string name="pref_i_filterResults_title">Filter results</string>
@@ -371,6 +372,9 @@
 	<string name="pref_i_firstLineIconSizePx_sum">Icon size for files and directories... px (0 -
 		disable icon)</string>
 	<string name="pref_i_columnsDirsFiles_title">Files and directories list (default)</string>
+	<string name="pref_i_doNotHyph_off">Output filename in multi lines</string>
+	<string name="pref_i_doNotHyph_on">Output filename in single line</string>
+	<string name="pref_i_doNotHyph_title">Single line output mode</string>
 	<string name="pref_i_columnsHomeList_title">Home directories list</string>
 	<string name="pref_i_columnsLRU_title">Last recent used list</string>
 	<string name="pref_i_columnsFAV_title">Favorites list</string>
@@ -440,6 +444,9 @@
 	<string name="pref_i_scrollWidth_title">Custom scrollbar width</string>
 	<string name="pref_i_scrollWidth_sum">Scrollbar width</string>
 	<string name="pref_i_scrollPad_title">Custom scrollbar left margin</string>
+	<string name="pref_i_useBackButton_off">Press \"Back\" to terminate program</string>
+	<string name="pref_i_useBackButton_on">Press \"Back\" for exit to parent folder</string>
+	<string name="pref_i_useBackButton_title">Use button \"Back\" for navigation</string>
 	<string name="pref_i_scrollPad_sum">Scrollbar left margin</string>
 	<string name="pref_i_searchSize_title">Maximal amount of search results</string>
 	<string name="pref_i_searchSize_sum">Maximal size of search results list</string>
@@ -578,9 +585,11 @@
 	<string name="pref_i_showFullDirPath_on">Show full directory path in title</string>
 	<string name="pref_i_showFullDirPath_off">Show current directory name in title</string>
 	<string name="pref_i_showFullDirPath_title">Show full directory path in title</string>
-	<string name="jv_relaunch_add_startdir">Add path to Start folders</string>
+	<string name="jv_relaunch_add_startdir">Set folder as Start folder</string>
 	<string name="arr_appfav_button_actions_names_1">Nothing</string>
 	<string name="arr_appfav_button_actions_names_2">Open \"Favorite applications\" window</string>
 	<string name="arr_appfav_button_actions_names_3">Run application</string>
-
+	<string name="bookinfo_authors">Authors:</string>
+	<string name="bookinfo_series">Series:</string>
+		
 </resources>

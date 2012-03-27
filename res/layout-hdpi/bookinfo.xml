@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/normal_bg"
+	android:orientation="vertical"
+	android:padding="8dp" >
+
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+		android:layout_width="fill_parent"
+		android:layout_height="37dp" >
+
+		<ImageView
+			android:id="@+id/book_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:background="@color/normal_bg_gray"
+			android:src="@drawable/ci_grid" />
+
+		<TextView
+			android:id="@+id/book_title"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:background="@color/normal_bg_gray"
+			android:focusable="false"
+			android:gravity="left|center_vertical"
+			android:inputType="textMultiLine"
+			android:paddingLeft="5.3dp"
+			android:text="TextView"
+			android:textAppearance="@style/sonyTextAppearanceMedium"
+			android:textColor="@color/normal_fg"
+			android:textStyle="bold" >
+		</TextView>
+
+		<ImageButton
+			android:id="@+id/btnExit"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="center"
+			android:layout_marginLeft="2.7dp"
+			android:layout_marginRight="0.7dp"
+			android:layout_weight="2.8"
+			android:background="@drawable/main_button"
+			android:minWidth="64dp"
+			android:src="@drawable/ci_exit" >
+		</ImageButton>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/linearLayout2"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_marginTop="1.3dp"
+		android:orientation="vertical" >
+
+		<LinearLayout
+			android:id="@+id/linearLayout3"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="6.7dp" >
+
+			<ImageView
+				android:id="@+id/cover"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/arrow_down" />
+
+			<LinearLayout
+				android:id="@+id/linearLayout4"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6.7dp"
+				android:orientation="vertical" >
+
+				<TextView
+					android:id="@+id/TextView01"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="6.7dp"
+					android:text="@string/bookinfo_authors" />
+
+				<ListView
+					android:id="@+id/authors"
+					android:layout_width="wrap_content"
+					android:layout_height="fill_parent"
+					android:dividerHeight="0dp" >
+				</ListView>
+
+				<TextView
+					android:id="@+id/textView1"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="6.7dp"
+					android:text="@string/bookinfo_series" />
+
+				<TextView
+					android:id="@+id/tvSeries"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text=""
+					android:textAppearance="@style/sonyTextAppearanceLarge" />
+			</LinearLayout>
+		</LinearLayout>
+
+		<ScrollView
+			android:id="@+id/scrollView1"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_marginTop="5.3dp" >
+
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent" >
+
+				<TextView
+					android:id="@+id/tvAnnotation"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:text="TextView"
+					android:textAppearance="@style/sonyTextAppearanceMedium" />
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
+
+</LinearLayout>

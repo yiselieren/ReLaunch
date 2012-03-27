@@ -112,7 +112,7 @@
 	<string name="jv_editor_file_too_big">Файл слишком большой</string>
 	<string name="jv_editor_file">Файл</string>
 	<string name="jv_editor_too_big">слишком большой</string>
-	<string name="jv_editor_bytes">байт</string>
+	<string name="jv_editor_bytes">килобайт</string>
 	<string name="jv_editor_maximum">Максимальный размер файла</string>
 	<string name="jv_editor_ok">OK</string>
 	<string name="jv_editor_save_title">Сохранение изменений</string>
@@ -234,6 +234,7 @@
 	<string name="jv_relaunch_sort_file_rev">имени файла Я-А</string>
 	<string name="jv_relaunch_sort_title_dir">алфавиту А-Я</string>
 	<string name="jv_relaunch_sort_title_rev">алфавиту Я-А</string>
+	<string name="jv_relaunch_bookinfo">Аннотация</string>
 	<string name="jv_rla_activity">Действие</string>
 	<string name="jv_rla_not_found">не найдено!</string>
 	<string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Запуск
@@ -305,7 +306,7 @@
 	<string name="jv_viewer_file_too_big">Файл слишком большой</string>
 	<string name="jv_viewer_file">Файл</string>
 	<string name="jv_viewer_too_big">слишком большой</string>
-	<string name="jv_viewer_bytes">байт</string>
+	<string name="jv_viewer_bytes">килобайт</string>
 	<string name="jv_viewer_maximum">Максимальный размер файла</string>
 	<string name="jv_viewer_ok">OK</string>
 	<string name="pref_i_filterResults_title">Файловый фильтр</string>
@@ -381,6 +382,9 @@
 	<string name="pref_i_firstLineIconSizePx_title">Размер иконок имен файлов/папок</string>
 	<string name="pref_i_firstLineIconSizePx_sum">Размер иконок для имен файлов и папок во всех
 		списках... px (0 - без иконок)</string>
+	<string name="pref_i_doNotHyph_off">Вывод названия файла в несколько строк</string>
+	<string name="pref_i_doNotHyph_on">Вывод названия файла в одну строку</string>
+	<string name="pref_i_doNotHyph_title">Однострочный режим вывода</string>
 	<string name="pref_i_columnsDirsFiles_title">Список папок и файлов (по умолчанию)</string>
 	<string name="pref_i_columnsHomeList_title">Список Начальных папок</string>
 	<string name="pref_i_columnsLRU_title">Список Недавно открытых</string>
@@ -412,9 +416,9 @@
 	<string name="pref_i_memButtonST_title">Одиночное нажатие кнопки \"Об.памяти\"</string>
 	<string name="pref_i_memButtonDT_title">Двойное нажатие кнопки \"Об.памяти\"</string>
 	<string name="pref_i_memButtonLT_title">Длительное нажатие кнопки \"Об.памяти\"</string>
-	<string name="pref_i_batButtonST_title">Одиночное нажатие кнопки \"Ост.батареи\"</string>
-	<string name="pref_i_batButtonDT_title">Двойное нажатие кнопки \"Ост.батареи\"</string>
-	<string name="pref_i_batButtonLT_title">Длительное нажатие кнопки \"Ост.батареи\"</string>
+	<string name="pref_i_batButtonST_title">Одиночное нажатие кнопки \"Ост. батареи\"</string>
+	<string name="pref_i_batButtonDT_title">Двойное нажатие кнопки \"Ост. батареи\"</string>
+	<string name="pref_i_batButtonLT_title">Длительное нажатие кнопки \"Ост. батареи\"</string>
 	<string name="pref_i_appFavButtonST_title">Одиночное нажатие кнопки Избранные приложения
 	</string>
 	<string name="pref_i_appFavButtonDT_title">Двойное нажатие кнопки Избранные приложения
@@ -452,6 +456,9 @@
 	<string name="pref_i_scrollWidth_sum">Ширина собственной полосы прокрутки... (пикс.)
 	</string>
 	<string name="pref_i_scrollPad_title">Отступ полосы прокрутки</string>
+	<string name="pref_i_useBackButton_off">Кнопка \"Back\" завершает программу</string>
+	<string name="pref_i_useBackButton_on">Кнопка \"Back\" открывает родительскую папку</string>
+	<string name="pref_i_useBackButton_title">Использовать кнопку \"Back\" для навигации</string>
 	<string name="pref_i_scrollPad_sum">Левый отступ собственной полосы прокрутки...
 		(пикс.)</string>
 	<string name="pref_i_searchSize_title">Количество результатов поиска</string>
@@ -464,10 +471,10 @@
 	<string name="pref_i_searchRoot_sum">Поиск всегда начинается с папок...</string>
 	<string name="pref_i_viewerMaxSize_title">Ограничение просмотра файлов</string>
 	<string name="pref_i_viewerMaxSize_sum">Размер просматриваемого файла не может быть больше
-		чем... (байт)</string>
+		чем... (КБ)</string>
 	<string name="pref_i_editorMaxSize_title">Ограничение редактирования файлов</string>
 	<string name="pref_i_editorMaxSize_sum">Размер редактируемого файла не может быть больше
-		чем... (байт)</string>
+		чем... (КБ)</string>
 	<string name="pref_i_lruSize_title">Недавно открытые</string>
 	<string name="pref_i_lruSize_sum">Сохранять в списке "Недавно открытых" последние...
 		(файлов)</string>
@@ -600,9 +607,11 @@
 	<string name="pref_i_showFullDirPath_on">Показывать полный путь в строке заголовка</string>
 	<string name="pref_i_showFullDirPath_off">Показывать имя папки в строке заголовка</string>
 	<string name="pref_i_showFullDirPath_title">Полный путь к папке</string>
-	<string name="jv_relaunch_add_startdir">Добавить папку к Начальным папкам</string>
+	<string name="jv_relaunch_add_startdir">Установить папку Начальной папкой</string>
 	<string name="arr_appfav_button_actions_names_1">Ничего не делать</string>
 	<string name="arr_appfav_button_actions_names_2">Открыть \"Избранные приложения\"</string>
 	<string name="arr_appfav_button_actions_names_3">Выполнить приложение</string>
-
+	<string name="bookinfo_authors">Авторы:</string>
+	<string name="bookinfo_series">Серия:</string>
+	
 </resources>

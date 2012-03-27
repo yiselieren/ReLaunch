@@ -1,5 +1,6 @@
 package com.harasoft.relaunch;
 
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Pattern;
 import ebook.EBook;
 import ebook.Person;
@@ -11,14 +12,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class BooksBase {
 	Context context;
 	DbHelper dbHelper;
 	public static SQLiteDatabase db;
 
-//	private Pattern purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
-	private Pattern purgeBracketsPattern = Pattern.compile("\\[[\\[\\]\\s\\.\\-_]*\\]");
+	 private Pattern purgeBracketsPattern = Pattern.compile("\\[[\\s\\.\\-_]*\\]");
+//	private Pattern purgeBracketsPattern = Pattern
+//			.compile("\\[[\\[\\]\\s\\.\\-_]*\\]");
 
 	private class DbHelper extends SQLiteOpenHelper {
 		final static int VERSION = 1;
@@ -214,4 +218,5 @@ public class BooksBase {
 		db.execSQL("reindex INDEX1");
 		db.execSQL("reindex INDEX3");
 	}
+
 }
