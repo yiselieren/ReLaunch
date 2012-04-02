@@ -802,12 +802,21 @@ public class ReLaunchApp extends Application {
 		return false;
 	}
 
-	public void addStartDir(String dir) {
+	public void setStartDir(String dir) {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString("startDir", dir);
 		editor.putBoolean("showAddStartDir", false);
+		editor.commit();
+	}
+
+	public void addStartDir(String dir) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences.Editor editor = prefs.edit();
+		String oldStart = prefs.getString("startDir", "/sdcard,/media/My Files");
+		editor.putString("startDir", oldStart + "," + dir);
 		editor.commit();
 	}
 

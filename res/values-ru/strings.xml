@@ -235,6 +235,13 @@
 	<string name="jv_relaunch_sort_title_dir">алфавиту А-Я</string>
 	<string name="jv_relaunch_sort_title_rev">алфавиту Я-А</string>
 	<string name="jv_relaunch_bookinfo">Аннотация</string>
+	<string name="jv_relaunch_fileinfo">Свойства</string>
+	<string name="jv_relaunch_fileinfo_title">Свойства файла</string>
+	<string name="jv_relaunch_fileinfo_name">Имя:</string>
+	<string name="jv_relaunch_fileinfo_size">Размер:</string>
+	<string name="jv_relaunch_fileinfo_date">Дата:</string>
+	<string name="jv_relaunch_fileinfo_owner">Владелец:</string>
+	<string name="jv_relaunch_fileinfo_perm">Разрешения:</string>
 	<string name="jv_rla_activity">Действие</string>
 	<string name="jv_rla_not_found">не найдено!</string>
 	<string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Запуск
@@ -607,11 +614,13 @@
 	<string name="pref_i_showFullDirPath_on">Показывать полный путь в строке заголовка</string>
 	<string name="pref_i_showFullDirPath_off">Показывать имя папки в строке заголовка</string>
 	<string name="pref_i_showFullDirPath_title">Полный путь к папке</string>
-	<string name="jv_relaunch_add_startdir">Установить папку Начальной папкой</string>
+	<string name="jv_relaunch_add_startdir">Добавить к Начальным папкам</string>
+	<string name="jv_relaunch_set_startdir">Установить Начальной папкой</string>
 	<string name="arr_appfav_button_actions_names_1">Ничего не делать</string>
 	<string name="arr_appfav_button_actions_names_2">Открыть \"Избранные приложения\"</string>
 	<string name="arr_appfav_button_actions_names_3">Выполнить приложение</string>
 	<string name="bookinfo_authors">Авторы:</string>
 	<string name="bookinfo_series">Серия:</string>
+	<string name="bookinfo_title">Название:</string>
 	
 </resources>

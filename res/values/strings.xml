@@ -234,6 +234,13 @@
 	<string name="jv_relaunch_sort_title_dir">by alphabetical order A-Z</string>
 	<string name="jv_relaunch_sort_title_rev">by alphabetical order Z-A</string>
 	<string name="jv_relaunch_bookinfo">Show annotation</string>
+	<string name="jv_relaunch_fileinfo">Properties</string>
+	<string name="jv_relaunch_fileinfo_title">File Properties</string>
+	<string name="jv_relaunch_fileinfo_name">Name:</string>
+	<string name="jv_relaunch_fileinfo_size">Size:</string>
+	<string name="jv_relaunch_fileinfo_date">Date:</string>
+	<string name="jv_relaunch_fileinfo_owner">Owner:</string>
+	<string name="jv_relaunch_fileinfo_perm">Permissions:</string>
 	<string name="jv_rla_activity">Activity</string>
 	<string name="jv_rla_not_found">not found!</string>
 	<string name="jv_rla_about_prev">&lt;h1&gt;&lt;center&gt;ReLaunch&lt;/center&gt;&lt;/h1&gt;&lt;center&gt;&lt;b&gt;Reader
@@ -585,11 +592,13 @@
 	<string name="pref_i_showFullDirPath_on">Show full directory path in title</string>
 	<string name="pref_i_showFullDirPath_off">Show current directory name in title</string>
 	<string name="pref_i_showFullDirPath_title">Show full directory path in title</string>
-	<string name="jv_relaunch_add_startdir">Set folder as Start folder</string>
+	<string name="jv_relaunch_add_startdir">Add to Start folders</string>
+	<string name="jv_relaunch_set_startdir">Set as Start folder</string>
 	<string name="arr_appfav_button_actions_names_1">Nothing</string>
 	<string name="arr_appfav_button_actions_names_2">Open \"Favorite applications\" window</string>
 	<string name="arr_appfav_button_actions_names_3">Run application</string>
 	<string name="bookinfo_authors">Authors:</string>
 	<string name="bookinfo_series">Series:</string>
-		
+	<string name="bookinfo_title">Title:</string>
+			
 </resources>

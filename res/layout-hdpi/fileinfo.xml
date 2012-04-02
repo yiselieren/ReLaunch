@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/normal_bg"
+	android:orientation="vertical"
+	android:padding="5.7dp" >
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="13.3dp"
+		android:layout_marginRight="13.3dp"
+		android:layout_marginTop="13.3dp"
+		android:orientation="vertical" >
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/jv_relaunch_fileinfo_name"
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+
+			<TextView
+				android:id="@+id/tvName"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6.7dp"
+				android:text=""
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/llSize"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/jv_relaunch_fileinfo_size"
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+
+			<TextView
+				android:id="@+id/tvSize"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6.7dp"
+				android:text=""
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/jv_relaunch_fileinfo_date"
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+
+			<TextView
+				android:id="@+id/tvTime"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6.7dp"
+				android:text=""
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/jv_relaunch_fileinfo_owner"
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+
+			<TextView
+				android:id="@+id/tvOwner"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6.7dp"
+				android:text=""
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/jv_relaunch_fileinfo_perm"
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+
+			<TextView
+				android:id="@+id/tvPerm"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="6.7dp"
+				android:text=""
+				android:textAppearance="@style/sonyTextAppearanceMedium"
+				android:textColor="@color/normal_fg" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="13.3dp"
+			android:orientation="vertical" >
+
+			<Button
+				android:id="@+id/btnOk"
+				android:layout_width="67dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="Ok" />
+
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>
