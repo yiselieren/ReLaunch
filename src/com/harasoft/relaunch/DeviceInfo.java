@@ -36,7 +36,7 @@ public class DeviceInfo {
 				&& (MODEL.toLowerCase().startsWith("gt-i")); // AMOLED screens:
 																// GT-IXXXX
 		EINK_NOOK = MANUFACTURER.toLowerCase().contentEquals("barnesandnoble")
-				&& MODEL.contentEquals("NOOK")
+				&& (MODEL.contentEquals("NOOK")|| MODEL.contentEquals("BNRV300") || MODEL.contentEquals("BNRV350"))
 				&& DEVICE.toLowerCase().contentEquals("zoom2");
 		EINK_SONY = MANUFACTURER.toLowerCase().contentEquals("sony")
 				&& MODEL.contentEquals("PRS-T1");
